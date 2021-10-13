@@ -7,9 +7,7 @@ public class CharacterController : MonoBehaviour
 
     [SerializeField]
     float moveSpeed = 4f;
-    
     private Plane plane;
-
 
     Vector3 forward, right;
     // Start is called before the first frame update
@@ -42,15 +40,7 @@ public class CharacterController : MonoBehaviour
     {
         Vector3 rightMovement = right * moveSpeed * Time.deltaTime * Input.GetAxis("HorizontalKey");
         Vector3 upMovement = forward * moveSpeed * Time.deltaTime * Input.GetAxis("VerticalKey");
-
-        Vector3 playerMovement = rightMovement + upMovement;
-
-        if (playerMovement.magnitude > moveSpeed * Time.deltaTime)
-        {
-            playerMovement = playerMovement.normalized * moveSpeed * Time.deltaTime;
-        }
-        Debug.Log(playerMovement.magnitude);
-        transform.position += playerMovement;
-        
+        transform.position += rightMovement;
+        transform.position += upMovement;
     }
 }
