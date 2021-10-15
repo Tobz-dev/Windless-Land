@@ -11,13 +11,14 @@ public class WeaponSwing : MonoBehaviour
     public float SwingTime = 0.4f;
     public float SwingCoolDown = 2.4f;
     private bool CanSwing = true;
+    public int damage;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Enemy")
         {
             Debug.Log("Hit");
-            other.GetComponent<HealthScript>().takeDamage(50);
+            other.GetComponent<HealthScript>().takeDamage(damage);
         }
     }
 

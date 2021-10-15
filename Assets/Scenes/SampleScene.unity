@@ -1451,6 +1451,7 @@ MonoBehaviour:
   mesh: {fileID: 0}
   SwingTime: 0.4
   SwingCoolDown: 2.4
+  damage: 25
 --- !u!1 &1015488721
 GameObject:
   m_ObjectHideFlags: 0
@@ -2457,6 +2458,7 @@ GameObject:
   - component: {fileID: 1600281079}
   - component: {fileID: 1600281078}
   - component: {fileID: 1600281077}
+  - component: {fileID: 1600281081}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -2540,6 +2542,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1600281081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600281076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2890f511685fdb048901bc1a4d080b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  material: {fileID: 2100000, guid: c103ed8a6e675b5479be69ce128d0892, type: 2}
+  originalMaterial: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1 &1634428962
 GameObject:
   m_ObjectHideFlags: 0
