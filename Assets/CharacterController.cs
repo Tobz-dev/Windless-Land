@@ -24,6 +24,7 @@ public class CharacterController : MonoBehaviour
     void Update()
     {
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        plane.SetNormalAndPosition(Vector3.up, transform.position);
         if (plane.Raycast(ray, out var enter))
         {
             var hitPoint = ray.GetPoint(enter);
@@ -35,7 +36,7 @@ public class CharacterController : MonoBehaviour
             Move();
         }
     }
-
+    //test
     void Move()
     {
         Vector3 rightMovement = right * moveSpeed * Time.deltaTime * Input.GetAxis("HorizontalKey");
