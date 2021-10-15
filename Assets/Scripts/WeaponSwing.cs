@@ -17,6 +17,7 @@ public class WeaponSwing : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             Debug.Log("Hit");
+            other.GetComponent<HealthScript>().takeDamage(50);
         }
     }
 
