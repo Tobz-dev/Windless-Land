@@ -24,7 +24,6 @@ public class CharacterController : MonoBehaviour
     void Update()
     {
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        plane.SetNormalAndPosition(Vector3.up, transform.position);
         if (plane.Raycast(ray, out var enter))
         {
             var hitPoint = ray.GetPoint(enter);
