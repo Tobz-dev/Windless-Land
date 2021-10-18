@@ -57,7 +57,7 @@ public class CharacterController : MonoBehaviour
             Move();
         }
     }
-
+    //test
     void Move()
     {
         Vector3 rightMovement = right * moveSpeed * Time.deltaTime * Input.GetAxis("HorizontalKey");
