@@ -18,8 +18,11 @@ public class test : MonoBehaviour
     [SerializeField]
     private int damage = 25;
 
+    public GameObject player;
+    private CharacterController characterController;
 
-private void OnTriggerEnter(Collider other)
+
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Enemy")
         {
@@ -31,6 +34,7 @@ private void OnTriggerEnter(Collider other)
     {
         col = GetComponent<BoxCollider>();
         mesh = GetComponent<MeshRenderer>();
+        characterController = player.GetComponent<CharacterController>();
         //col.enabled = !col.enabled;
         //mesh.enabled = !mesh.enabled;
     }
@@ -43,7 +47,15 @@ private void OnTriggerEnter(Collider other)
             Debug.Log("Key Down");
             CanSwing = false;
             //disable movement
+            player.GetComponent<CharacterController>().CanMove();
             StartCoroutine(Timer(Swing, SwingDelay));
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            Debug.Log("Key Down");
+            player.GetComponent<CharacterController>().CanMove();
+
         }
     }
 
@@ -69,6 +81,7 @@ private void OnTriggerEnter(Collider other)
         Debug.Log("SwingDone");
         col.enabled = !col.enabled;
         mesh.enabled = !mesh.enabled;
+        player.GetComponent<CharacterController>().CanMove();
         //enable movement
         StartCoroutine(Timer(SwingCooldown, SwingCoolDown));
     }

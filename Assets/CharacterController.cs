@@ -8,11 +8,13 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     float moveSpeed = 4f;
     private Plane plane;
+    private bool canMove = true;
 
     Vector3 forward, right;
     // Start is called before the first frame update
     void Start()
     {
+        canMove = true;
         plane = new Plane(Vector3.up, Vector3.zero);
         forward = Camera.main.transform.forward;
         forward.y = 0;
@@ -24,16 +26,25 @@ public class CharacterController : MonoBehaviour
     void Update()
     {
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (plane.Raycast(ray, out var enter))
+        if (plane.Raycast(ray, out var enter) && canMove == true)
         {
             var hitPoint = ray.GetPoint(enter);
             var playerPositionOnPlane = plane.ClosestPointOnPlane(transform.position);
             transform.rotation = Quaternion.LookRotation(hitPoint - playerPositionOnPlane);
         }
-        if (Input.anyKey)
+        if (Input.anyKey && canMove == true)
         {
             Move();
         }
+
+        /*
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            Debug.Log("Key Down");
+            CanMove();
+
+        }
+        */
     }
 
     void Move()
@@ -42,5 +53,19 @@ public class CharacterController : MonoBehaviour
         Vector3 upMovement = forward * moveSpeed * Time.deltaTime * Input.GetAxis("VerticalKey");
         transform.position += rightMovement;
         transform.position += upMovement;
+    }
+
+    public void CanMove()
+    {
+        if(canMove == true)
+        {
+            canMove = false;
+            Debug.Log("canMove = false");
+        }
+        else
+        {
+            canMove = true;
+            Debug.Log("canMove = true");
+        }
     }
 }
