@@ -1352,6 +1352,7 @@ GameObject:
   - component: {fileID: 870172157}
   - component: {fileID: 870172156}
   - component: {fileID: 870172159}
+  - component: {fileID: 870172160}
   m_Layer: 0
   m_Name: Weapon Swing
   m_TagString: Untagged
@@ -1442,13 +1443,31 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 870172154}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d62a8d14f899713479674a3db1c81243, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   col: {fileID: 0}
   mesh: {fileID: 0}
+  SwingTime: 0.4
+  SwingCoolDown: 2.4
+  damage: 25
+--- !u!114 &870172160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 870172154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bc5032e02706d14e9aeca4116b4defd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  col: {fileID: 0}
+  mesh: {fileID: 0}
+  SwingDelay: 0.5
   SwingTime: 0.4
   SwingCoolDown: 2.4
   damage: 25
