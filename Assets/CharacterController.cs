@@ -38,6 +38,7 @@ public class CharacterController : MonoBehaviour
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (plane.Raycast(ray, out var enter))
         {
+            plane.SetNormalAndPosition(Vector3.up, transform.position);
             var hitPoint = ray.GetPoint(enter);
             var playerPositionOnPlane = plane.ClosestPointOnPlane(transform.position);
 
