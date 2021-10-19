@@ -943,7 +943,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: -50
+  near clip plane: -200
   far clip plane: 1000
   field of view: 35.142002
   orthographic: 1
@@ -1772,6 +1772,73 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6613490c425582f47a0756556416816b, type: 3}
+--- !u!1 &86797936
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 86797938}
+  - component: {fileID: 86797937}
+  m_Layer: 0
+  m_Name: Music
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &86797937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86797936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1531418961
+      Data2: 1285089351
+      Data3: 1318686353
+      Data4: -1866234688
+    Path: event:/SafeRoom
+  Event: 
+  PlayEvent: 1
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params:
+  - Name: Bass
+    Value: 0
+  - Name: Flutters
+    Value: 0
+  - Name: Main Safe
+    Value: 0
+  OverrideAttenuation: 1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 197.53
+--- !u!4 &86797938
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86797936}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 102.6, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1183267267}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &88389495
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2699,6 +2766,72 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6613490c425582f47a0756556416816b, type: 3}
+--- !u!1 &153347159
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 153347160}
+  - component: {fileID: 153347162}
+  - component: {fileID: 153347161}
+  m_Layer: 0
+  m_Name: MusicTrigger (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &153347160
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153347159}
+  m_LocalRotation: {x: -0, y: 0.0035920213, z: -0, w: 0.99999356}
+  m_LocalPosition: {x: 103.05, y: -78.53, z: 27.59}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1183267267}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0.412, z: 0}
+--- !u!65 &153347161
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153347159}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 18.062454, y: 5.6527176, z: 1}
+  m_Center: {x: -6.2637405, y: 2.3263588, z: 0}
+--- !u!114 &153347162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153347159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 744a208c85da6d04c861d81b992e4ead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Emitters:
+  - Target: {fileID: 86797937}
+    Params:
+    - Name: Bass
+      Value: 1
+    - Name: Main Safe
+      Value: 1
+  TriggerEvent: 3
 --- !u!1001 &153501247
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6550,6 +6683,76 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 396335475388835171, guid: fa087a60ee8e7fb489b33e6435d008f6, type: 3}
   m_PrefabInstance: {fileID: 1918890451}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &353850158
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 353850159}
+  - component: {fileID: 353850161}
+  - component: {fileID: 353850160}
+  m_Layer: 0
+  m_Name: MusicTrigger (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &353850159
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 353850158}
+  m_LocalRotation: {x: -0, y: 0.0035920213, z: -0, w: 0.99999356}
+  m_LocalPosition: {x: 116.01, y: -78.53, z: 17.02}
+  m_LocalScale: {x: 1.6498, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1183267267}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0.412, z: 0}
+--- !u!65 &353850160
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 353850158}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 18.062454, y: 5.6527176, z: 1}
+  m_Center: {x: -6.2637405, y: 2.3263588, z: 0}
+--- !u!114 &353850161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 353850158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 744a208c85da6d04c861d81b992e4ead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Emitters:
+  - Target: {fileID: 86797937}
+    Params:
+    - Name: Flutters
+      Value: 1
+    - Name: Drums
+      Value: 1
+    - Name: Bass
+      Value: 1
+    - Name: Main Safe
+      Value: 1
+  TriggerEvent: 3
 --- !u!1001 &354402755
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6824,6 +7027,74 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6613490c425582f47a0756556416816b, type: 3}
+--- !u!1 &378615933
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 378615936}
+  - component: {fileID: 378615935}
+  - component: {fileID: 378615934}
+  m_Layer: 0
+  m_Name: MusicTrigger (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &378615934
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378615933}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 18.062454, y: 5.6527176, z: 1}
+  m_Center: {x: -6.2637405, y: 2.3263588, z: 0}
+--- !u!114 &378615935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378615933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 744a208c85da6d04c861d81b992e4ead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Emitters:
+  - Target: {fileID: 86797937}
+    Params:
+    - Name: Bass
+      Value: 0
+    - Name: Flutters
+      Value: 0
+    - Name: Main Safe
+      Value: 1
+  TriggerEvent: 3
+--- !u!4 &378615936
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378615933}
+  m_LocalRotation: {x: -0, y: -0.7033429, z: -0, w: 0.7108508}
+  m_LocalPosition: {x: 69.935974, y: -73.24368, z: 31.93459}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1183267267}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: -89.392, z: 0}
 --- !u!1001 &382758159
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12420,6 +12691,72 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 396335475388835171, guid: fa087a60ee8e7fb489b33e6435d008f6, type: 3}
   m_PrefabInstance: {fileID: 457643311}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &668521238
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 668521241}
+  - component: {fileID: 668521240}
+  - component: {fileID: 668521239}
+  m_Layer: 0
+  m_Name: MusicTrigger (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &668521239
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668521238}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 18.062454, y: 5.6527176, z: 1}
+  m_Center: {x: -6.2637405, y: 2.3263588, z: 0}
+--- !u!114 &668521240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668521238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 744a208c85da6d04c861d81b992e4ead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Emitters:
+  - Target: {fileID: 86797937}
+    Params:
+    - Name: Bass
+      Value: 1
+    - Name: Flutters
+      Value: 1
+  TriggerEvent: 3
+--- !u!4 &668521241
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668521238}
+  m_LocalRotation: {x: -0, y: -0.7033429, z: -0, w: 0.7108508}
+  m_LocalPosition: {x: 33.75598, y: -38.533684, z: 32.31459}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1183267267}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: -89.392, z: 0}
 --- !u!1 &670180534
 GameObject:
   m_ObjectHideFlags: 0
@@ -20686,6 +21023,78 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: -50, z: 0}
+--- !u!1 &1086227162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1086227163}
+  - component: {fileID: 1086227165}
+  - component: {fileID: 1086227164}
+  m_Layer: 0
+  m_Name: MusicTrigger (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1086227163
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1086227162}
+  m_LocalRotation: {x: -0, y: -0.71075016, z: -0, w: 0.7034446}
+  m_LocalPosition: {x: 119.94, y: -87.59, z: -4.93}
+  m_LocalScale: {x: 1.0465341, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1183267267}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: -90.592, z: 0}
+--- !u!65 &1086227164
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1086227162}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 18.062454, y: 5.6527176, z: 1}
+  m_Center: {x: -6.2637405, y: 2.3263588, z: 0}
+--- !u!114 &1086227165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1086227162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 744a208c85da6d04c861d81b992e4ead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Emitters:
+  - Target: {fileID: 86797937}
+    Params:
+    - Name: Scatterer
+      Value: 1
+    - Name: Drums
+      Value: 0
+    - Name: Bass
+      Value: 0
+    - Name: Flutters
+      Value: 0
+    - Name: Main Safe
+      Value: 0
+  TriggerEvent: 3
 --- !u!1001 &1087601494
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22607,6 +23016,18 @@ Transform:
   m_Children:
   - {fileID: 1603901199}
   - {fileID: 1043512808}
+  - {fileID: 86797938}
+  - {fileID: 1608778152}
+  - {fileID: 668521241}
+  - {fileID: 378615936}
+  - {fileID: 1351833771}
+  - {fileID: 153347160}
+  - {fileID: 353850159}
+  - {fileID: 1086227163}
+  - {fileID: 1961469624}
+  - {fileID: 1291647859}
+  - {fileID: 1404873074}
+  - {fileID: 1423372254}
   m_Father: {fileID: 0}
   m_RootOrder: 39
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -24071,6 +24492,78 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 396335475388835171, guid: fa087a60ee8e7fb489b33e6435d008f6, type: 3}
   m_PrefabInstance: {fileID: 1286650085}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1291647858
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1291647859}
+  - component: {fileID: 1291647861}
+  - component: {fileID: 1291647860}
+  m_Layer: 0
+  m_Name: MusicTrigger (8)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1291647859
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291647858}
+  m_LocalRotation: {x: -0, y: -0.023097912, z: -0, w: 0.9997332}
+  m_LocalPosition: {x: 111.86, y: -87.59, z: -9.68}
+  m_LocalScale: {x: 1.5654057, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1183267267}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: -2.647, z: 0}
+--- !u!65 &1291647860
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291647858}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 18.062454, y: 5.6527176, z: 1}
+  m_Center: {x: -6.2637405, y: 2.3263588, z: 0}
+--- !u!114 &1291647861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291647858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 744a208c85da6d04c861d81b992e4ead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Emitters:
+  - Target: {fileID: 86797937}
+    Params:
+    - Name: Scatterer
+      Value: 0
+    - Name: Drums
+      Value: 0
+    - Name: Bass
+      Value: 0
+    - Name: Flutters
+      Value: 0
+    - Name: Main Safe
+      Value: 1
+  TriggerEvent: 3
 --- !u!4 &1303046317 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 396335475388835171, guid: fa087a60ee8e7fb489b33e6435d008f6, type: 3}
@@ -25106,6 +25599,72 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6613490c425582f47a0756556416816b, type: 3}
+--- !u!1 &1351833770
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1351833771}
+  - component: {fileID: 1351833773}
+  - component: {fileID: 1351833772}
+  m_Layer: 0
+  m_Name: MusicTrigger (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1351833771
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351833770}
+  m_LocalRotation: {x: -0, y: -0.7033429, z: -0, w: 0.7108508}
+  m_LocalPosition: {x: 86.35, y: -73.24368, z: 53.03}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1183267267}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: -89.392, z: 0}
+--- !u!65 &1351833772
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351833770}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 18.062454, y: 5.6527176, z: 1}
+  m_Center: {x: -6.2637405, y: 2.3263588, z: 0}
+--- !u!114 &1351833773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351833770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 744a208c85da6d04c861d81b992e4ead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Emitters:
+  - Target: {fileID: 86797937}
+    Params:
+    - Name: Bass
+      Value: 0
+    - Name: Main Safe
+      Value: 1
+  TriggerEvent: 3
 --- !u!1001 &1351970374
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26076,6 +26635,78 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1402197059}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1404873073
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1404873074}
+  - component: {fileID: 1404873076}
+  - component: {fileID: 1404873075}
+  m_Layer: 0
+  m_Name: MusicTrigger (9)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1404873074
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1404873073}
+  m_LocalRotation: {x: -0, y: 0.0035920213, z: -0, w: 0.99999356}
+  m_LocalPosition: {x: 115.94, y: -87.64, z: 7.15}
+  m_LocalScale: {x: 1.6498, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1183267267}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0.412, z: 0}
+--- !u!65 &1404873075
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1404873073}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 18.062454, y: 5.6527176, z: 1}
+  m_Center: {x: -6.2637405, y: 2.3263588, z: 0}
+--- !u!114 &1404873076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1404873073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 744a208c85da6d04c861d81b992e4ead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Emitters:
+  - Target: {fileID: 86797937}
+    Params:
+    - Name: EQ
+      Value: 0
+    - Name: Flutters
+      Value: 1
+    - Name: Drums
+      Value: 1
+    - Name: Bass
+      Value: 1
+    - Name: Main Safe
+      Value: 1
+  TriggerEvent: 3
 --- !u!1001 &1405345428
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26377,6 +27008,70 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6613490c425582f47a0756556416816b, type: 3}
+--- !u!1 &1423372253
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1423372254}
+  - component: {fileID: 1423372256}
+  - component: {fileID: 1423372255}
+  m_Layer: 0
+  m_Name: MusicTrigger (10)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1423372254
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423372253}
+  m_LocalRotation: {x: -0, y: -0.023097912, z: -0, w: 0.9997332}
+  m_LocalPosition: {x: 116.21, y: -87.59, z: -0.23}
+  m_LocalScale: {x: 1.5654057, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1183267267}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: -2.647, z: 0}
+--- !u!65 &1423372255
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423372253}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 18.062454, y: 5.6527176, z: 1}
+  m_Center: {x: -6.2637405, y: 2.3263588, z: 0}
+--- !u!114 &1423372256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423372253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 744a208c85da6d04c861d81b992e4ead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Emitters:
+  - Target: {fileID: 86797937}
+    Params:
+    - Name: EQ
+      Value: 1
+  TriggerEvent: 3
 --- !u!1 &1425178672
 GameObject:
   m_ObjectHideFlags: 0
@@ -30363,6 +31058,73 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1608531967}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1608778149
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1608778152}
+  - component: {fileID: 1608778151}
+  - component: {fileID: 1608778150}
+  m_Layer: 0
+  m_Name: MusicTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1608778150
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608778149}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 18.062454, y: 5.6527176, z: 1}
+  m_Center: {x: -6.2637405, y: 2.3263588, z: 0}
+--- !u!114 &1608778151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608778149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 744a208c85da6d04c861d81b992e4ead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Emitters:
+  - Target: {fileID: 86797937}
+    Params:
+    - Name: Scatterer
+      Value: 0
+    - Name: Bass
+      Value: 1
+  TriggerEvent: 3
+--- !u!4 &1608778152
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608778149}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 30.855972, y: -37.313683, z: 35.624588}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1639113597}
+  m_Father: {fileID: 1183267267}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1610889996
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31042,6 +31804,101 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1637534609}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1639113596
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1639113597}
+  - component: {fileID: 1639113600}
+  - component: {fileID: 1639113599}
+  - component: {fileID: 1639113598}
+  m_Layer: 0
+  m_Name: Cube (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1639113597
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639113596}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.263733, y: 3.77, z: 0}
+  m_LocalScale: {x: 5.234, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1608778152}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1639113598
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639113596}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1639113599
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639113596}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1639113600
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639113596}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1640866172
 GameObject:
@@ -36404,6 +37261,70 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 396335475388835171, guid: fa087a60ee8e7fb489b33e6435d008f6, type: 3}
   m_PrefabInstance: {fileID: 2116566638}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1961469623
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1961469624}
+  - component: {fileID: 1961469626}
+  - component: {fileID: 1961469625}
+  m_Layer: 0
+  m_Name: MusicTrigger (7)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1961469624
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961469623}
+  m_LocalRotation: {x: -0, y: 0.71266794, z: -0, w: 0.70150155}
+  m_LocalPosition: {x: 30.75, y: -37.313683, z: 47.33}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1183267267}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 90.905, z: 0}
+--- !u!65 &1961469625
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961469623}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 18.062454, y: 5.6527176, z: 1}
+  m_Center: {x: -6.2637405, y: 2.3263588, z: 0}
+--- !u!114 &1961469626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961469623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 744a208c85da6d04c861d81b992e4ead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Emitters:
+  - Target: {fileID: 86797937}
+    Params:
+    - Name: Scatterer
+      Value: 1
+  TriggerEvent: 3
 --- !u!1001 &1962617480
 PrefabInstance:
   m_ObjectHideFlags: 0
