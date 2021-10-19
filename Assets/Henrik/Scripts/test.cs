@@ -8,11 +8,15 @@ public class test : MonoBehaviour
     public BoxCollider col;
     public MeshRenderer mesh;
 
-    public float SwingDelay = 0.5f;
-    public float SwingTime = 0.4f;
-    public float SwingCoolDown = 2.4f;
+    [SerializeField]
+    private float SwingDelay = 0.5f;
+    [SerializeField]
+    private float SwingTime = 0.4f;
+    [SerializeField]
+    private float SwingCoolDown = 2.4f;
     private bool CanSwing = true;
-    public int damage;
+    [SerializeField]
+    private int damage = 25;
 
 
 private void OnTriggerEnter(Collider other)
