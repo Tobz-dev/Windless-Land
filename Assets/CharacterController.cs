@@ -12,6 +12,10 @@ public class CharacterController : MonoBehaviour
     float DodgerollDuration = 0.35f;
     float DodgerollCooldown = 0.5f;
 
+    Quaternion lookRotation;
+
+    Quaternion moveRotation;
+
     private Plane plane;
 
     bool MoveAllow = true;
@@ -35,6 +39,7 @@ public class CharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (plane.Raycast(ray, out var enter))
         {
@@ -42,93 +47,107 @@ public class CharacterController : MonoBehaviour
             var hitPoint = ray.GetPoint(enter);
             var playerPositionOnPlane = plane.ClosestPointOnPlane(transform.position);
 
-            if (MoveAllow) {
-                transform.rotation = Quaternion.LookRotation(hitPoint - playerPositionOnPlane);
+            lookRotation = Quaternion.LookRotation(hitPoint - playerPositionOnPlane);
+
+            playerRotationUpdate();
+
+           
+            DodgerollManager();
+
+            if (Input.anyKey && MoveAllow == true)
+            {
+                Move();
             }
-         
         }
+    }
 
-        if (Input.GetKeyDown(KeyCode.Space) && DodgerollOfCooldown){
-            DodgerollStart = true;
-        }
-        DodgerollManager();
-
-        if (Input.anyKey && MoveAllow == true)
+    private void playerRotationUpdate()
+    {
+       
+        if (MoveAllow && (Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
         {
-            Move();
+            transform.rotation = Quaternion.LookRotation(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
+
         }
+
     }
     //test
     void Move()
-    {
-        Vector3 rightMovement = right * moveSpeed * Time.deltaTime * Input.GetAxis("HorizontalKey");
-        Vector3 upMovement = forward * moveSpeed * Time.deltaTime * Input.GetAxis("VerticalKey");
+        {
+            Vector3 rightMovement = right * moveSpeed * Time.deltaTime * Input.GetAxis("HorizontalKey");
+            Vector3 upMovement = forward * moveSpeed * Time.deltaTime * Input.GetAxis("VerticalKey");
 
-        Vector3 playerMovement = rightMovement + upMovement;
+            Vector3 playerMovement = rightMovement + upMovement;
+       
 
         if (playerMovement.magnitude > moveSpeed * Time.deltaTime)
-        {
-            playerMovement = playerMovement.normalized * moveSpeed * Time.deltaTime;
-        }
-      
-        transform.position += playerMovement;
-
-    }
-
-
-   
-
-    void DodgerollManager()
-    {
-        if (DodgerollStart == true)
-        {
-           
-            if (DodgerollTimerRunning == true)
             {
-                if (DodgerollWaitTime(DodgerollDuration))
+                playerMovement = playerMovement.normalized * moveSpeed * Time.deltaTime;
+            }
+
+            transform.position += playerMovement;
+
+        }
+
+
+
+
+        void DodgerollManager()
+        {
+        if (Input.GetKeyDown(KeyCode.Space) && DodgerollOfCooldown)
+        {
+            DodgerollStart = true;
+        }
+
+        if (DodgerollStart == true)
+            {
+
+                if (DodgerollTimerRunning == true)
                 {
-               
-                    MoveAllow = true;
-                    Dodgerolling = false;
-                    DodgerollTimerRunning = false;
+                    if (DodgerollWaitTime(DodgerollDuration))
+                    {
+
+                        MoveAllow = true;
+                        Dodgerolling = false;
+                        DodgerollTimerRunning = false;
+                    }
+                    else
+                    {
+                        transform.position += (transform.forward + transform.right).normalized * DodgerollSpeed * Time.deltaTime;
+                        MoveAllow = false;
+                        Dodgerolling = true;
+                        DodgerollOfCooldown = false;
+
+                    }
                 }
                 else
                 {
-                    transform.position += transform.forward * DodgerollSpeed * Time.deltaTime;
-                    MoveAllow = false;
-                    Dodgerolling = true;
-                    DodgerollOfCooldown = false;
+                    if (DodgerollWaitTime(DodgerollCooldown))
+                    {
 
-                }
-            }
-            else
-            {
-                if (DodgerollWaitTime(DodgerollCooldown))
-                {
-               
-                    DodgerollStart = false;
-                    DodgerollOfCooldown = true;
-                    DodgerollTimerRunning = true;
-                   
+                        DodgerollStart = false;
+                        DodgerollOfCooldown = true;
+                        DodgerollTimerRunning = true;
+
+                    }
                 }
             }
         }
-    }
-   
-    private bool DodgerollWaitTime(float seconds)
-    {
 
-        DodgerollTimer += Time.deltaTime;
-
-        if (DodgerollTimer >= seconds)
+        private bool DodgerollWaitTime(float seconds)
         {
 
-            DodgerollTimer = 0;
-            return true;
+            DodgerollTimer += Time.deltaTime;
 
+            if (DodgerollTimer >= seconds)
+            {
+
+                DodgerollTimer = 0;
+                return true;
+
+            }
+
+            return false;
         }
 
-        return false;
     }
-    
-}
