@@ -14,9 +14,9 @@ public class EventSystemHelper : MonoBehaviour
         Debug.Log("in Event helper, setting first selected to " + newFirstSelectedObject.name);
         //eventSystem.firstSelectedGameObject = newFirstSelectedObject;
 
-        //EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(null);
 
-        //EventSystem.current.SetSelectedGameObject(newFirstSelectedObject);
+        EventSystem.current.SetSelectedGameObject(newFirstSelectedObject);
 
         //eventSystem.SetSelectedGameObject(newFirstSelectedObject);
     }
