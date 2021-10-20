@@ -7,24 +7,14 @@ public class CharacterController : MonoBehaviour
 
     [SerializeField]
     float moveSpeed = 4f;
-    float DodgerollSpeed = 18f;
-    float DodgerollTimer = 0;
-    float DodgerollDuration = 0.35f;
-    float DodgerollCooldown = 0.5f;
-
     private Plane plane;
-
-    bool MoveAllow = true;
-
-    bool DodgerollTimerRunning = true;
-    bool DodgerollStart = false;
-    bool Dodgerolling = false;
-    bool DodgerollOfCooldown = true;
+    private bool canMove = true;
 
     Vector3 forward, right;
     // Start is called before the first frame update
     void Start()
     {
+        canMove = true;
         plane = new Plane(Vector3.up, Vector3.zero);
         forward = Camera.main.transform.forward;
         forward.y = 0;
@@ -36,99 +26,47 @@ public class CharacterController : MonoBehaviour
     void Update()
     {
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (plane.Raycast(ray, out var enter))
+        if (plane.Raycast(ray, out var enter) && canMove == true)
         {
-            plane.SetNormalAndPosition(Vector3.up, transform.position);
             var hitPoint = ray.GetPoint(enter);
+            plane.SetNormalAndPosition(Vector3.up, transform.position);
             var playerPositionOnPlane = plane.ClosestPointOnPlane(transform.position);
-
-            if (MoveAllow) {
-                transform.rotation = Quaternion.LookRotation(hitPoint - playerPositionOnPlane);
-            }
-         
+            transform.rotation = Quaternion.LookRotation(hitPoint - playerPositionOnPlane);
         }
-
-        if (Input.GetKeyDown(KeyCode.Space) && DodgerollOfCooldown){
-            DodgerollStart = true;
-        }
-        DodgerollManager();
-
-        if (Input.anyKey && MoveAllow == true)
+        if (Input.anyKey && canMove == true)
         {
             Move();
         }
+
+        /*
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            Debug.Log("Key Down");
+            CanMove();
+
+        }
+        */
     }
-    //test
+
     void Move()
     {
         Vector3 rightMovement = right * moveSpeed * Time.deltaTime * Input.GetAxis("HorizontalKey");
         Vector3 upMovement = forward * moveSpeed * Time.deltaTime * Input.GetAxis("VerticalKey");
-
-        Vector3 playerMovement = rightMovement + upMovement;
-
-        if (playerMovement.magnitude > moveSpeed * Time.deltaTime)
-        {
-            playerMovement = playerMovement.normalized * moveSpeed * Time.deltaTime;
-        }
-      
-        transform.position += playerMovement;
-
+        transform.position += rightMovement;
+        transform.position += upMovement;
     }
 
-
-   
-
-    void DodgerollManager()
+    public void CanMove()
     {
-        if (DodgerollStart == true)
+        if(canMove == true)
         {
-           
-            if (DodgerollTimerRunning == true)
-            {
-                if (DodgerollWaitTime(DodgerollDuration))
-                {
-               
-                    MoveAllow = true;
-                    Dodgerolling = false;
-                    DodgerollTimerRunning = false;
-                }
-                else
-                {
-                    transform.position += transform.forward * DodgerollSpeed * Time.deltaTime;
-                    MoveAllow = false;
-                    Dodgerolling = true;
-                    DodgerollOfCooldown = false;
-
-                }
-            }
-            else
-            {
-                if (DodgerollWaitTime(DodgerollCooldown))
-                {
-               
-                    DodgerollStart = false;
-                    DodgerollOfCooldown = true;
-                    DodgerollTimerRunning = true;
-                   
-                }
-            }
+            canMove = false;
+            Debug.Log("canMove = false");
+        }
+        else
+        {
+            canMove = true;
+            Debug.Log("canMove = true");
         }
     }
-   
-    private bool DodgerollWaitTime(float seconds)
-    {
-
-        DodgerollTimer += Time.deltaTime;
-
-        if (DodgerollTimer >= seconds)
-        {
-
-            DodgerollTimer = 0;
-            return true;
-
-        }
-
-        return false;
-    }
-    
 }
