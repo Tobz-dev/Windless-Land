@@ -29,6 +29,7 @@ public class CharacterController : MonoBehaviour
         if (plane.Raycast(ray, out var enter) && canMove == true)
         {
             var hitPoint = ray.GetPoint(enter);
+            plane.SetNormalAndPosition(Vector3.up, transform.position);
             var playerPositionOnPlane = plane.ClosestPointOnPlane(transform.position);
             transform.rotation = Quaternion.LookRotation(hitPoint - playerPositionOnPlane);
         }
