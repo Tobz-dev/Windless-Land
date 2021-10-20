@@ -10,6 +10,9 @@ public class CharacterController : MonoBehaviour
     private Plane plane;
     private bool canMove = true;
 
+    [SerializeField]
+    private Animator anim;
+
     Vector3 forward, right;
     // Start is called before the first frame update
     void Start()
@@ -38,6 +41,7 @@ public class CharacterController : MonoBehaviour
             Move();
         }
 
+
         /*
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
@@ -54,6 +58,10 @@ public class CharacterController : MonoBehaviour
         Vector3 upMovement = forward * moveSpeed * Time.deltaTime * Input.GetAxis("VerticalKey");
         transform.position += rightMovement;
         transform.position += upMovement;
+
+        //some stuff to help test the animations
+        anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
+        anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
     }
 
     public void CanMove()
