@@ -42,14 +42,18 @@ public class CharacterController : MonoBehaviour
         }
 
 
-        /*
+        
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             Debug.Log("Key Down");
+            anim.SetTrigger("Attack");
             CanMove();
 
         }
-        */
+        
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            Debug.Log(anim.GetFloat("XSpeed"));
     }
 
     void Move()
