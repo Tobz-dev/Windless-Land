@@ -6,11 +6,21 @@ public class CharacterController : MonoBehaviour
 {
 
     [SerializeField]
-    float moveSpeed = 4f;
+    float moveSpeed = 8f;
     float DodgerollSpeed = 18f;
-    float DodgerollTimer = 0;
     float DodgerollDuration = 0.35f;
     float DodgerollCooldown = 0.5f;
+
+    float moveSpeedDefault;
+
+    float healthFlaskSpeedFactor = 0.2f;
+    float healthFlaskDuration = 1.5f;
+    float healthFlaskCooldown = 0.5f;
+
+    float dodgeTimer = 0;
+
+    float flaskTimer = 0;
+
 
     Quaternion lookRotation;
 
@@ -20,6 +30,14 @@ public class CharacterController : MonoBehaviour
 
     bool MoveAllow = true;
 
+    //healthFlask
+    bool healthFlaskTimerRunning = true;
+    bool healthFlaskStart = false;
+    bool healthFlasking = false;
+    bool healthFlaskOfCooldown = true;
+
+
+    //dodgeroll
     bool DodgerollTimerRunning = true;
     bool DodgerollStart = false;
     bool Dodgerolling = false;
@@ -34,6 +52,8 @@ public class CharacterController : MonoBehaviour
         forward.y = 0;
         forward = Vector3.Normalize(forward);
         right = Quaternion.Euler(new Vector3(0, 90, 0)) * forward;
+
+        moveSpeedDefault = moveSpeed;
     }
 
     // Update is called once per frame
@@ -51,7 +71,8 @@ public class CharacterController : MonoBehaviour
 
             playerRotationUpdate();
 
-           
+            healthFlaskManager();
+
             DodgerollManager();
 
             if (Input.anyKey && MoveAllow == true)
@@ -63,7 +84,7 @@ public class CharacterController : MonoBehaviour
 
     private void playerRotationUpdate()
     {
-       
+
         if (MoveAllow && (Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
         {
             transform.rotation = Quaternion.LookRotation(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
@@ -73,81 +94,161 @@ public class CharacterController : MonoBehaviour
     }
     //test
     void Move()
-        {
-            Vector3 rightMovement = right * moveSpeed * Time.deltaTime * Input.GetAxis("HorizontalKey");
-            Vector3 upMovement = forward * moveSpeed * Time.deltaTime * Input.GetAxis("VerticalKey");
+    {
+        Vector3 rightMovement = right * moveSpeed * Time.deltaTime * Input.GetAxis("HorizontalKey");
+        Vector3 upMovement = forward * moveSpeed * Time.deltaTime * Input.GetAxis("VerticalKey");
 
-            Vector3 playerMovement = rightMovement + upMovement;
-       
+        Vector3 playerMovement = rightMovement + upMovement;
+
 
         if (playerMovement.magnitude > moveSpeed * Time.deltaTime)
-            {
-                playerMovement = playerMovement.normalized * moveSpeed * Time.deltaTime;
-            }
+        {
+            playerMovement = playerMovement.normalized * moveSpeed * Time.deltaTime;
+        }
 
-            transform.position += playerMovement;
+        transform.position += playerMovement;
+
+    }
+
+    void healthFlaskManager()
+    {
+        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown)
+        {
+            healthFlaskStart = true;
 
         }
 
 
 
-
-        void DodgerollManager()
+        if (healthFlaskStart == true)
         {
+
+
+
+
+            if (healthFlaskTimerRunning == true)
+            {
+                if (FlaskWaitTimer(healthFlaskDuration))
+                {
+
+                    GetComponentInParent<HealthScript>().regainHealth(1);
+                    healthFlasking = false;
+                    healthFlaskTimerRunning = false;
+                    moveSpeed = moveSpeedDefault;
+                }
+                else
+                {
+
+
+                    healthFlasking = true;
+
+                    moveSpeed = moveSpeedDefault * healthFlaskSpeedFactor;
+
+                    healthFlaskOfCooldown = false;
+
+                }
+            }
+            else
+            {
+                if (FlaskWaitTimer(healthFlaskCooldown))
+                {
+
+                    healthFlaskStart = false;
+                    healthFlaskOfCooldown = true;
+                    healthFlaskTimerRunning = true;
+
+                }
+            }
+
+            if (DodgerollStart == true)
+            {
+
+                healthFlasking = false;
+                healthFlaskStart = false;
+                healthFlaskOfCooldown = true;
+                healthFlaskTimerRunning = true;
+                moveSpeed = moveSpeedDefault;
+                flaskTimer = 0;
+
+
+            }
+
+        }
+    }
+
+    void DodgerollManager()
+    {
         if (Input.GetKeyDown(KeyCode.Space) && DodgerollOfCooldown)
         {
             DodgerollStart = true;
         }
 
         if (DodgerollStart == true)
+        {
+
+            if (DodgerollTimerRunning == true)
             {
-
-                if (DodgerollTimerRunning == true)
+                if (DodgeWaitTimer(DodgerollDuration))
                 {
-                    if (DodgerollWaitTime(DodgerollDuration))
-                    {
 
-                        MoveAllow = true;
-                        Dodgerolling = false;
-                        DodgerollTimerRunning = false;
-                    }
-                    else
-                    {
-                        transform.position += (transform.forward + transform.right).normalized * DodgerollSpeed * Time.deltaTime;
-                        MoveAllow = false;
-                        Dodgerolling = true;
-                        DodgerollOfCooldown = false;
-
-                    }
+                    MoveAllow = true;
+                    Dodgerolling = false;
+                    DodgerollTimerRunning = false;
                 }
                 else
                 {
-                    if (DodgerollWaitTime(DodgerollCooldown))
-                    {
+                    transform.position += (transform.forward + transform.right).normalized * DodgerollSpeed * Time.deltaTime;
+                    MoveAllow = false;
+                    Dodgerolling = true;
+                    DodgerollOfCooldown = false;
 
-                        DodgerollStart = false;
-                        DodgerollOfCooldown = true;
-                        DodgerollTimerRunning = true;
+                }
+            }
+            else
+            {
+                if (DodgeWaitTimer(DodgerollCooldown))
+                {
 
-                    }
+                    DodgerollStart = false;
+                    DodgerollOfCooldown = true;
+                    DodgerollTimerRunning = true;
+
                 }
             }
         }
+    }
 
-        private bool DodgerollWaitTime(float seconds)
+    private bool DodgeWaitTimer(float seconds)
+    {
+
+        dodgeTimer += Time.deltaTime;
+
+        if (dodgeTimer >= seconds)
         {
 
-            DodgerollTimer += Time.deltaTime;
+            dodgeTimer = 0;
+            return true;
 
-            if (DodgerollTimer >= seconds)
-            {
-
-                DodgerollTimer = 0;
-                return true;
-
-            }
-
-            return false;
         }
 
+        return false;
     }
+
+    private bool FlaskWaitTimer(float seconds)
+    {
+
+        flaskTimer += Time.deltaTime;
+
+        if (flaskTimer >= seconds)
+        {
+
+            flaskTimer = 0;
+            return true;
+
+        }
+
+        return false;
+    }
+
+}
+
