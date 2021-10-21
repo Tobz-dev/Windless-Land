@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class EventSystemHelper : MonoBehaviour
 {
     // Start is called before the first frame update
-    public EventSystem eventSystem;
+    //public EventSystem eventSystem;
 
     public void Update()
     {
@@ -17,18 +17,18 @@ public class EventSystemHelper : MonoBehaviour
         }
     }
 
+
+
     public void ChangeFirstSelectedObject(GameObject newFirstSelectedObject) 
     {
         Debug.Log("in EventS helper, setting first selected to " + newFirstSelectedObject.name);
-        //eventSystem.firstSelectedGameObject = newFirstSelectedObject;
 
         EventSystem.current.SetSelectedGameObject(null);
 
         EventSystem.current.SetSelectedGameObject(newFirstSelectedObject);
 
-        //EventSystem.current.
+        Debug.Log("then " + EventSystem.current.ToString());
 
-        //eventSystem.SetSelectedGameObject(newFirstSelectedObject);
     }
 
 }
