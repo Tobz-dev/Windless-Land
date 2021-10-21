@@ -4,17 +4,25 @@ using UnityEngine;
 
 public class HealthScript : MonoBehaviour
 {
-    [SerializeField]
+ 
     private int health;
+    [SerializeField]
+    private int Maxhealth;
     [SerializeField]
     private Material material;
     [SerializeField]
     private Material originalMaterial;
 
+    private void Start()
+    {
+        health = Maxhealth;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if(health <= 0)
+     
+            if (health <= 0)
         {
             //death animation and delay
             Destroy(gameObject);
@@ -28,6 +36,20 @@ public class HealthScript : MonoBehaviour
         StartCoroutine(damagedMaterial()); 
         damagedMaterial();
         
+    }
+
+    public void regainHealth(int x) {
+        if (Maxhealth - health > 0 && x <= Maxhealth - health) {
+            health += x;
+        }
+        if (Maxhealth - health > 0 && x > Maxhealth - health)
+        {
+            health = Maxhealth;
+        }
+
+
+
+        Debug.Log("REGAINED" + x + " HEALTH,  MAX IS NOW " + health);
     }
 
     private IEnumerator damagedMaterial()
