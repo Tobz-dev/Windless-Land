@@ -13,7 +13,7 @@ public class CharacterController : MonoBehaviour
 
     float moveSpeedDefault;
 
-    float flaskUses = 5;
+    float flaskUses = 4;
     float healthFlaskSpeedFactor = 0.2f;
     float healthFlaskDuration = 1.5f;
     float healthFlaskCooldown = 0.5f;
