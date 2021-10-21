@@ -43,10 +43,13 @@ public class CharacterController : MonoBehaviour
     bool Dodgerolling = false;
     bool DodgerollOfCooldown = true;
 
+    private bool canMove = true;
+
     Vector3 forward, right;
     // Start is called before the first frame update
     void Start()
     {
+        canMove = true;
         plane = new Plane(Vector3.up, Vector3.zero);
         forward = Camera.main.transform.forward;
         forward.y = 0;
@@ -61,10 +64,10 @@ public class CharacterController : MonoBehaviour
     {
 
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (plane.Raycast(ray, out var enter))
+        if (plane.Raycast(ray, out var enter) && canMove == true)
         {
-            plane.SetNormalAndPosition(Vector3.up, transform.position);
             var hitPoint = ray.GetPoint(enter);
+            plane.SetNormalAndPosition(Vector3.up, transform.position);
             var playerPositionOnPlane = plane.ClosestPointOnPlane(transform.position);
 
             lookRotation = Quaternion.LookRotation(hitPoint - playerPositionOnPlane);
@@ -91,8 +94,23 @@ public class CharacterController : MonoBehaviour
 
         }
 
+
+        
+        if (Input.anyKey && canMove == true)
+        {
+            Move();
+        }
+
+        /*
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            Debug.Log("Key Down");
+            CanMove();
+
+        }
+        */
     }
-    //test
+
     void Move()
     {
         Vector3 rightMovement = right * moveSpeed * Time.deltaTime * Input.GetAxis("HorizontalKey");
@@ -229,9 +247,21 @@ public class CharacterController : MonoBehaviour
             dodgeTimer = 0;
             return true;
 
-        }
+   
+    }
 
-        return false;
+    public void CanMove()
+    {
+        if(canMove == true)
+        {
+            canMove = false;
+            Debug.Log("canMove = false");
+        }
+        else
+        {
+            canMove = true;
+            Debug.Log("canMove = true");
+        }
     }
 
     private bool FlaskWaitTimer(float seconds)
@@ -252,3 +282,4 @@ public class CharacterController : MonoBehaviour
 
 }
 
+}
