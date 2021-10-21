@@ -6,7 +6,7 @@ public class CharacterController : MonoBehaviour
 {
 
     [SerializeField]
-    float moveSpeed = 8f;
+    float moveSpeed = 4f;
     float DodgerollSpeed = 18f;
     float DodgerollDuration = 0.35f;
     float DodgerollCooldown = 0.5f;
@@ -247,9 +247,10 @@ public class CharacterController : MonoBehaviour
             dodgeTimer = 0;
             return true;
 
-   
-    }
 
+        }
+        return false;
+    }
     public void CanMove()
     {
         if(canMove == true)
@@ -282,4 +283,4 @@ public class CharacterController : MonoBehaviour
 
 }
 
-}
+
