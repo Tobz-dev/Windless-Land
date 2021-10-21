@@ -13,6 +13,7 @@ public class CharacterController : MonoBehaviour
 
     float moveSpeedDefault;
 
+    float flaskUses = 5;
     float healthFlaskSpeedFactor = 0.2f;
     float healthFlaskDuration = 1.5f;
     float healthFlaskCooldown = 0.5f;
@@ -130,7 +131,7 @@ public class CharacterController : MonoBehaviour
 
     void healthFlaskManager()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown)
+        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0)
         {
             healthFlaskStart = true;
 
@@ -170,7 +171,7 @@ public class CharacterController : MonoBehaviour
             {
                 if (FlaskWaitTimer(healthFlaskCooldown))
                 {
-
+                    flaskUses--;
                     healthFlaskStart = false;
                     healthFlaskOfCooldown = true;
                     healthFlaskTimerRunning = true;
@@ -180,7 +181,7 @@ public class CharacterController : MonoBehaviour
 
             if (DodgerollStart == true)
             {
-
+                
                 healthFlasking = false;
                 healthFlaskStart = false;
                 healthFlaskOfCooldown = true;
