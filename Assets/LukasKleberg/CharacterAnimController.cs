@@ -72,7 +72,7 @@ public class CharacterAnimController : MonoBehaviour
             plane.SetNormalAndPosition(Vector3.up, transform.position);
             var playerPositionOnPlane = plane.ClosestPointOnPlane(transform.position);
 
-            //lookRotation = Quaternion.LookRotation(hitPoint - playerPositionOnPlane);
+            lookRotation = Quaternion.LookRotation(hitPoint - playerPositionOnPlane);
 
             playerRotationUpdate();
 
@@ -92,7 +92,7 @@ public class CharacterAnimController : MonoBehaviour
 
         if (MoveAllow && (Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
         {
-            //transform.rotation = Quaternion.LookRotation(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
+            transform.rotation = Quaternion.LookRotation(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
 
         }
 
@@ -122,7 +122,7 @@ public class CharacterAnimController : MonoBehaviour
 
         //some stuff to help test the animations
         anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
-        //wow the rightMovement.x value is tiny
+
         //anim.SetFloat("XSpeed", rightMovement.x);
 
         anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
