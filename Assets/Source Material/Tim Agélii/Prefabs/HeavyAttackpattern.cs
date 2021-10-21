@@ -9,6 +9,8 @@ public class HeavyAttackpattern : State
 {
     SomeAgent Agent;
 
+    public Material attackIndicatorMaterial;
+    public Material startMaterial;
     public float outOfRange = 15;
     private float attackTimer = 0;
 
@@ -20,6 +22,7 @@ public class HeavyAttackpattern : State
 
     private bool allowStop = true;
 
+    
     private bool startAttack = false;
     private bool startCooldown = false;
 
@@ -33,7 +36,7 @@ public class HeavyAttackpattern : State
 
     public void Awake()
     {
-
+     
 
     }
     public override void RunUpdate()
@@ -85,13 +88,17 @@ public class HeavyAttackpattern : State
     }
 
     void Attack() {
-        if (startAttack == true) { 
-        if (AttackWaitTimer(0.4f))
-        {
-            InstantiateOneHitbox();
+        if (startAttack == true) {
+            if (AttackWaitTimer(0.4f))
+            {
+                InstantiateOneHitbox();
                 startAttack = false;
-               startCooldown = true;
-        }
+                startCooldown = true;
+                Agent.GetComponent<MeshRenderer>().material = startMaterial;
+            }
+            else {
+                Agent.transform.GetComponent<MeshRenderer>().material = attackIndicatorMaterial;
+            }
         }
     }
     void CoolDown() {

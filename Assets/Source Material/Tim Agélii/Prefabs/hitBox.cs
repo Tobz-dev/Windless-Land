@@ -11,10 +11,13 @@ public class hitBox : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player") {
-            other.gameObject.GetComponent<HealthScript>().takeDamage(damage);
-            Debug.Log("Dealt 1 damage");
+            if (other.gameObject.GetComponent<CharacterController>().GetInvisibility() == false) {
+                other.gameObject.GetComponent<HealthScript>().takeDamage(damage);
+                Debug.Log("Dealt 1 damage");
 
-           Destroy(this.gameObject);
+                Destroy(this.gameObject);
+            }
+        
         }
     }
 

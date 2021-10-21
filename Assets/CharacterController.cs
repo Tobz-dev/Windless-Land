@@ -31,6 +31,8 @@ public class CharacterController : MonoBehaviour
 
     bool MoveAllow = true;
 
+    bool invisibility = false;
+
     //healthFlask
     bool healthFlaskTimerRunning = true;
     bool healthFlaskStart = false;
@@ -213,6 +215,7 @@ public class CharacterController : MonoBehaviour
                     MoveAllow = true;
                     Dodgerolling = false;
                     DodgerollTimerRunning = false;
+                    invisibility = false;
                 }
                 else
                 {
@@ -220,6 +223,7 @@ public class CharacterController : MonoBehaviour
                     MoveAllow = false;
                     Dodgerolling = true;
                     DodgerollOfCooldown = false;
+                    invisibility = true;
 
                 }
             }
@@ -280,6 +284,10 @@ public class CharacterController : MonoBehaviour
         }
 
         return false;
+    }
+
+    public bool GetInvisibility() {
+        return invisibility;
     }
 
 }
