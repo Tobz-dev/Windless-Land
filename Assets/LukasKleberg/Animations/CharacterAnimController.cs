@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class CharacterAnimController : MonoBehaviour
 {
+
     [SerializeField]
     float moveSpeed = 4f;
     float DodgerollSpeed = 18f;
     float DodgerollDuration = 0.35f;
     float DodgerollCooldown = 0.5f;
 
-    [SerializeField]
-    private Animator anim;
-
     float moveSpeedDefault;
 
+    float flaskUses = 4;
     float healthFlaskSpeedFactor = 0.2f;
     float healthFlaskDuration = 1.5f;
     float healthFlaskCooldown = 0.5f;
@@ -32,6 +31,8 @@ public class CharacterAnimController : MonoBehaviour
 
     bool MoveAllow = true;
 
+    bool invisibility = false;
+
     //healthFlask
     bool healthFlaskTimerRunning = true;
     bool healthFlaskStart = false;
@@ -48,6 +49,9 @@ public class CharacterAnimController : MonoBehaviour
     private bool canMove = true;
 
     Vector3 forward, right;
+
+    [SerializeField]
+    private Animator anim;
     // Start is called before the first frame update
     void Start()
     {
@@ -92,8 +96,11 @@ public class CharacterAnimController : MonoBehaviour
 
         if (MoveAllow && (Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
         {
-            transform.rotation = Quaternion.LookRotation(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
+            Vector3 horizontal = (Input.GetAxis("Horizontal") * right);
+            Vector3 vertical = (Input.GetAxis("Vertical") * forward);
+            Vector3 rotation = horizontal + vertical;
 
+            transform.rotation = Quaternion.LookRotation(rotation);
         }
 
 
@@ -120,12 +127,9 @@ public class CharacterAnimController : MonoBehaviour
 
         Vector3 playerMovement = rightMovement + upMovement;
 
-        //some stuff to help test the animations
+        //anim stuff here
         anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
         anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
-
-        //anim.SetFloat("XSpeed", playerMovement.x);
-        //anim.SetFloat("XSpeed", playerMovement.y);
 
         if (playerMovement.magnitude > moveSpeed * Time.deltaTime)
         {
@@ -138,7 +142,7 @@ public class CharacterAnimController : MonoBehaviour
 
     void healthFlaskManager()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown)
+        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0)
         {
             healthFlaskStart = true;
 
@@ -178,7 +182,7 @@ public class CharacterAnimController : MonoBehaviour
             {
                 if (FlaskWaitTimer(healthFlaskCooldown))
                 {
-
+                    flaskUses--;
                     healthFlaskStart = false;
                     healthFlaskOfCooldown = true;
                     healthFlaskTimerRunning = true;
@@ -220,13 +224,15 @@ public class CharacterAnimController : MonoBehaviour
                     MoveAllow = true;
                     Dodgerolling = false;
                     DodgerollTimerRunning = false;
+                    invisibility = false;
                 }
                 else
                 {
-                    transform.position += (transform.forward + transform.right).normalized * DodgerollSpeed * Time.deltaTime;
+                    transform.position += (transform.forward).normalized * DodgerollSpeed * Time.deltaTime;
                     MoveAllow = false;
                     Dodgerolling = true;
                     DodgerollOfCooldown = false;
+                    invisibility = true;
 
                 }
             }
@@ -287,5 +293,10 @@ public class CharacterAnimController : MonoBehaviour
         }
 
         return false;
+    }
+
+    public bool GetInvisibility()
+    {
+        return invisibility;
     }
 }
