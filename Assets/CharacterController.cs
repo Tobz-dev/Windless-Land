@@ -67,7 +67,7 @@ public class CharacterController : MonoBehaviour
     {
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (plane.Raycast(ray, out var enter) && canMove == true)
+        if (plane.Raycast(ray, out float enter) && canMove == true)
         {
             Vector3 hitPoint = ray.GetPoint(enter);
             plane.SetNormalAndPosition(Vector3.up, transform.position);
