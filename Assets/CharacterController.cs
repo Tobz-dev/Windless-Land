@@ -7,9 +7,9 @@ public class CharacterController : MonoBehaviour
 
     [SerializeField]
     float moveSpeed = 4f;
-    float DodgerollSpeed = 18f;
-    float DodgerollDuration = 0.35f;
-    float DodgerollCooldown = 0.5f;
+    float dodgerollSpeed = 18f;
+    float dodgerollDuration = 0.35f;
+    float dodgerollCooldown = 0.5f;
 
     float moveSpeedDefault;
 
@@ -29,9 +29,9 @@ public class CharacterController : MonoBehaviour
 
     private Plane plane;
 
-    bool MoveAllow = true;
+    bool moveAllow = true;
 
-    bool invisibility = false;
+    bool invincibility = false;
 
     //healthFlask
     bool healthFlaskTimerRunning = true;
@@ -39,12 +39,16 @@ public class CharacterController : MonoBehaviour
     bool healthFlasking = false;
     bool healthFlaskOfCooldown = true;
 
+    //attack
+    bool startAttackCooldown = false;
+    float attackTimer = 0;
+    public GameObject attackHitbox;
 
     //dodgeroll
-    bool DodgerollTimerRunning = true;
-    bool DodgerollStart = false;
-    bool Dodgerolling = false;
-    bool DodgerollOfCooldown = true;
+    bool dodgerollTimerRunning = true;
+    bool dodgerollStart = false;
+    bool dodgerolling = false;
+    bool dodgerollOfCooldown = true;
 
     private bool canMove = true;
 
@@ -75,23 +79,25 @@ public class CharacterController : MonoBehaviour
 
             lookRotation = Quaternion.LookRotation(hitPoint - playerPositionOnPlane);
 
-            playerRotationUpdate();
+            PlayerRotationUpdate();
 
-            healthFlaskManager();
+            HealthFlaskManager();
 
             DodgerollManager();
 
-            if (Input.anyKey && MoveAllow == true)
+            AttackManager();
+
+            if (Input.anyKey && moveAllow == true)
             {
                 Move();
             }
         }
     }
 
-    private void playerRotationUpdate()
+    private void PlayerRotationUpdate()
     {
 
-        if (MoveAllow && (Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
+        if (moveAllow && (Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
         {
             Vector3 horizontal = (Input.GetAxis("Horizontal") * right);
             Vector3 vertical = (Input.GetAxis("Vertical") * forward);
@@ -102,10 +108,7 @@ public class CharacterController : MonoBehaviour
 
 
         
-        if (Input.anyKey && canMove == true)
-        {
-            Move();
-        }
+       
 
         /*
         if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -134,7 +137,7 @@ public class CharacterController : MonoBehaviour
 
     }
 
-    void healthFlaskManager()
+    void HealthFlaskManager()
     {
         if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0)
         {
@@ -184,7 +187,7 @@ public class CharacterController : MonoBehaviour
                 }
             }
 
-            if (DodgerollStart == true)
+            if (dodgerollStart == true)
             {
                 
                 healthFlasking = false;
@@ -194,50 +197,49 @@ public class CharacterController : MonoBehaviour
                 moveSpeed = moveSpeedDefault;
                 flaskTimer = 0;
 
-
             }
-
         }
     }
 
+
+
     void DodgerollManager()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && DodgerollOfCooldown)
+        if (Input.GetKeyDown(KeyCode.Space) && dodgerollOfCooldown)
         {
-            DodgerollStart = true;
+            dodgerollStart = true;
         }
 
-        if (DodgerollStart == true)
+        if (dodgerollStart == true)
         {
 
-            if (DodgerollTimerRunning == true)
+            if (dodgerollTimerRunning == true)
             {
-                if (DodgeWaitTimer(DodgerollDuration))
+                if (DodgeWaitTimer(dodgerollDuration))
                 {
 
-                    MoveAllow = true;
-                    Dodgerolling = false;
-                    DodgerollTimerRunning = false;
-                    invisibility = false;
+                    moveAllow = true;
+                    dodgerolling = false;
+                    dodgerollTimerRunning = false;
+                    invincibility = false;
                 }
                 else
                 {
-                    transform.position += (transform.forward).normalized * DodgerollSpeed * Time.deltaTime;
-                    MoveAllow = false;
-                    Dodgerolling = true;
-                    DodgerollOfCooldown = false;
-                    invisibility = true;
+                    transform.position += (transform.forward).normalized * dodgerollSpeed * Time.deltaTime;
+                    moveAllow = false;
+                    dodgerolling = true;
+                    dodgerollOfCooldown = false;
+                    invincibility = true;
 
                 }
             }
             else
             {
-                if (DodgeWaitTimer(DodgerollCooldown))
+                if (DodgeWaitTimer(dodgerollCooldown))
                 {
-
-                    DodgerollStart = false;
-                    DodgerollOfCooldown = true;
-                    DodgerollTimerRunning = true;
+                    dodgerollStart = false;
+                    dodgerollOfCooldown = true;
+                    dodgerollTimerRunning = true;
 
                 }
             }
@@ -259,6 +261,63 @@ public class CharacterController : MonoBehaviour
         }
         return false;
     }
+
+    void AttackManager() {
+        if (Input.GetKeyDown(KeyCode.Mouse0) && startAttackCooldown == false) 
+        {
+            Attack();
+           
+        }
+
+        AttackCoolDown();
+    }
+
+    void Attack()
+    {
+        transform.rotation = lookRotation;
+         InstantiateAttackHitbox();
+        startAttackCooldown = true;
+    }
+    void AttackCoolDown()
+    {
+        if (startAttackCooldown == true)
+        {
+            if (AttackWaitTimer(0.5f))
+            {
+                moveAllow = true;
+          
+                startAttackCooldown = false;
+            }
+            else {
+                moveAllow = false;
+            }
+        }
+
+    }
+
+    void InstantiateAttackHitbox()
+    {
+
+        Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 2f)), transform.rotation);
+
+
+    }
+
+    private bool AttackWaitTimer(float seconds)
+    {
+
+        attackTimer += Time.deltaTime;
+
+        if (attackTimer >= seconds)
+        {
+
+            attackTimer = 0;
+            return true;
+
+
+        }
+        return false;
+    }
     public void CanMove()
     {
         if(canMove == true)
@@ -272,6 +331,8 @@ public class CharacterController : MonoBehaviour
             Debug.Log("canMove = true");
         }
     }
+
+    
 
     private bool FlaskWaitTimer(float seconds)
     {
@@ -290,7 +351,7 @@ public class CharacterController : MonoBehaviour
     }
 
     public bool GetInvisibility() {
-        return invisibility;
+        return invincibility;
     }
 
 }
