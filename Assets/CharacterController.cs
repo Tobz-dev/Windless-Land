@@ -73,12 +73,12 @@ public class CharacterController : MonoBehaviour
     void Update()
     {
 
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (plane.Raycast(ray, out var enter) && canMove == true)
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (plane.Raycast(ray, out float enter) && canMove == true)
         {
-            var hitPoint = ray.GetPoint(enter);
+            Vector3 hitPoint = ray.GetPoint(enter);
             plane.SetNormalAndPosition(Vector3.up, transform.position);
-            var playerPositionOnPlane = plane.ClosestPointOnPlane(transform.position);
+            Vector3 playerPositionOnPlane = plane.ClosestPointOnPlane(transform.position);
 
             lookRotation = Quaternion.LookRotation(hitPoint - playerPositionOnPlane);
 
