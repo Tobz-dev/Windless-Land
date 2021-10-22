@@ -13,10 +13,7 @@ public class CharacterController : MonoBehaviour
 
     float moveSpeedDefault;
 
-    float flaskUses = 4;
-    float healthFlaskSpeedFactor = 0.2f;
-    float healthFlaskDuration = 1.5f;
-    float healthFlaskCooldown = 0.5f;
+ 
 
     float dodgeTimer = 0;
 
@@ -25,7 +22,6 @@ public class CharacterController : MonoBehaviour
 
     Quaternion lookRotation;
 
-    Quaternion moveRotation;
 
     private Plane plane;
 
@@ -33,12 +29,18 @@ public class CharacterController : MonoBehaviour
 
     bool invincibility = false;
 
+  
+
     //healthFlask
     bool healthFlaskTimerRunning = true;
     bool healthFlaskStart = false;
-    bool healthFlasking = false;
     bool healthFlaskOfCooldown = true;
 
+    float flaskUses = 4;
+    float healthFlaskSpeedFactor = 0.2f;
+    float healthFlaskDuration = 1.5f;
+    float healthFlaskCooldown = 0.5f;
+   
     //attack
     bool startAttackCooldown = false;
     float attackTimer = 0;
@@ -49,6 +51,7 @@ public class CharacterController : MonoBehaviour
     bool dodgerollStart = false;
     bool dodgerolling = false;
     bool dodgerollOfCooldown = true;
+    Vector3 inputDirection;
 
     private bool canMove = true;
 
@@ -127,6 +130,7 @@ public class CharacterController : MonoBehaviour
 
         Vector3 playerMovement = rightMovement + upMovement;
 
+        inputDirection = playerMovement.normalized;
 
         if (playerMovement.magnitude > moveSpeed * Time.deltaTime)
         {
@@ -159,7 +163,7 @@ public class CharacterController : MonoBehaviour
                 {
 
                     GetComponentInParent<HealthScript>().regainHealth(1);
-                    healthFlasking = false;
+                  
                     healthFlaskTimerRunning = false;
                     moveSpeed = moveSpeedDefault;
                 }
@@ -167,7 +171,7 @@ public class CharacterController : MonoBehaviour
                 {
 
 
-                    healthFlasking = true;
+             
 
                     moveSpeed = moveSpeedDefault * healthFlaskSpeedFactor;
 
@@ -187,10 +191,9 @@ public class CharacterController : MonoBehaviour
                 }
             }
 
-            if (dodgerollStart == true)
+            if (dodgerollStart == true || startAttackCooldown == true)
             {
                 
-                healthFlasking = false;
                 healthFlaskStart = false;
                 healthFlaskOfCooldown = true;
                 healthFlaskTimerRunning = true;
@@ -208,6 +211,7 @@ public class CharacterController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && dodgerollOfCooldown)
         {
             dodgerollStart = true;
+            dodgerollTimerRunning = true;
         }
 
         if (dodgerollStart == true)
@@ -225,6 +229,7 @@ public class CharacterController : MonoBehaviour
                 }
                 else
                 {
+                    transform.rotation = Quaternion.LookRotation(inputDirection);
                     transform.position += (transform.forward).normalized * dodgerollSpeed * Time.deltaTime;
                     moveAllow = false;
                     dodgerolling = true;
@@ -239,7 +244,7 @@ public class CharacterController : MonoBehaviour
                 {
                     dodgerollStart = false;
                     dodgerollOfCooldown = true;
-                    dodgerollTimerRunning = true;
+                    
 
                 }
             }
@@ -263,7 +268,7 @@ public class CharacterController : MonoBehaviour
     }
 
     void AttackManager() {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && startAttackCooldown == false) 
+        if (Input.GetKeyDown(KeyCode.Mouse0) && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false) 
         {
             Attack();
            
