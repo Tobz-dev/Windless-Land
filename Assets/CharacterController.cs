@@ -93,8 +93,11 @@ public class CharacterController : MonoBehaviour
 
         if (MoveAllow && (Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
         {
-            transform.rotation = Quaternion.LookRotation(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
-
+            Vector3 horizontal = (Input.GetAxis("Horizontal") * right);
+            Vector3 vertical = (Input.GetAxis("Vertical") * forward);
+            Vector3 rotation = horizontal + vertical;
+                
+            transform.rotation = Quaternion.LookRotation(rotation);
         }
 
 
@@ -219,7 +222,7 @@ public class CharacterController : MonoBehaviour
                 }
                 else
                 {
-                    transform.position += (transform.forward + transform.right).normalized * DodgerollSpeed * Time.deltaTime;
+                    transform.position += (transform.forward).normalized * DodgerollSpeed * Time.deltaTime;
                     MoveAllow = false;
                     Dodgerolling = true;
                     DodgerollOfCooldown = false;
