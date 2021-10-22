@@ -27,13 +27,13 @@ public class AiChasePlayer : State
   
         if (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) <= AttackDistance)
         {
-      
-            //StateMachine.ChangeState<AiAttack>();
+            Debug.Log("Entering AiAttackState");
+            StateMachine.ChangeState<AiAttack>();
         }   
 
         if (Physics.Linecast(Agent.transform.position, Agent.PlayerPosition, Agent.CollisionLayer))
         {
-        
+            Debug.Log("Entering AiPatrolState");
             StateMachine.ChangeState<AiPatrolState>();
         }
 
