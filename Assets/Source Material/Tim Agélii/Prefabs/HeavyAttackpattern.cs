@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 //Main Author: Tim Agélii
+//statemachine kod tagen från aiattack
 [CreateAssetMenu()]
 public class HeavyAttackpattern : State
 {
