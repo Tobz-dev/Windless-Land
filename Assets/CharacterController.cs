@@ -9,7 +9,7 @@ public class CharacterController : MonoBehaviour
     float moveSpeed = 4f;
     float dodgerollSpeed = 18f;
     float dodgerollDuration = 0.35f;
-    float dodgerollCooldown = 0.5f;
+    float dodgerollCooldown = 0.2f;
 
     float moveSpeedDefault;
 
@@ -29,7 +29,7 @@ public class CharacterController : MonoBehaviour
 
     bool invincibility = false;
 
-  
+
 
     //healthFlask
     bool healthFlaskTimerRunning = true;
@@ -47,7 +47,7 @@ public class CharacterController : MonoBehaviour
     public GameObject attackHitbox;
 
     //dodgeroll
-    bool dodgerollTimerRunning = true;
+    bool dodgerollTimerRunning = false;
     bool dodgerollStart = false;
     bool dodgerolling = false;
     bool dodgerollOfCooldown = true;
