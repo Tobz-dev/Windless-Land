@@ -19,7 +19,7 @@ public class ArrowScript : MonoBehaviour
     {
         GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPosition.position, arrowSpawnPosition.rotation);
 
-        arrow.GetComponent<Rigidbody>().velocity = gameObject.transform.forward * shootForce;
+        arrow.GetComponent<Rigidbody>().velocity = arrowSpawnPosition.transform.forward * shootForce;
 
         Destroy(arrow, 5f);
     }
