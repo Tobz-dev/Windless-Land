@@ -122,10 +122,10 @@ public class CharacterAnimController : MonoBehaviour
 
         //some stuff to help test the animations
         anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
-
-        //anim.SetFloat("XSpeed", rightMovement.x);
-
         anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
+
+        //anim.SetFloat("XSpeed", playerMovement.x);
+        //anim.SetFloat("XSpeed", playerMovement.y);
 
         if (playerMovement.magnitude > moveSpeed * Time.deltaTime)
         {
