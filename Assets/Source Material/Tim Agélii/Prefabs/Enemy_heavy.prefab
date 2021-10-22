@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 2420094738780688329}
   - component: {fileID: 2420094738780688326}
   - component: {fileID: 2420094738780688327}
+  - component: {fileID: 4985860866183711860}
+  - component: {fileID: 2998472436772787364}
   m_Layer: 0
   m_Name: Enemy_heavy
   m_TagString: Enemy
@@ -147,3 +149,34 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f13e32ad6cf2b90499e27f211aa10d21, type: 2}
   - {fileID: 11400000, guid: a4457954e9c7bec4cb525a4166feb209, type: 2}
   - {fileID: 11400000, guid: 611b8ab47de3a98449049c299a8f3d6b, type: 2}
+--- !u!114 &4985860866183711860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2420094738780688324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2890f511685fdb048901bc1a4d080b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Maxhealth: 12
+  material: {fileID: 2100000, guid: 808ae2002bfb8fc48ad40d63ab54ea5a, type: 2}
+  originalMaterial: {fileID: 2100000, guid: ba783eacf312c9e49817e5b1dfd382ae, type: 2}
+--- !u!54 &2998472436772787364
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2420094738780688324}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 32
+  m_CollisionDetection: 0
