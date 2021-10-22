@@ -55,7 +55,7 @@ public class HealthScript : MonoBehaviour
     private IEnumerator damagedMaterial()
     {
         gameObject.GetComponent<MeshRenderer>().material = material;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.3f);
         gameObject.GetComponent<MeshRenderer>().material = originalMaterial;
     }
 }
