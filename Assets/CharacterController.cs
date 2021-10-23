@@ -55,6 +55,20 @@ public class CharacterController : MonoBehaviour
 
     private bool canMove = true;
 
+
+    //hitbox variables
+    [SerializeField]
+    private int damage = 1;
+    [SerializeField]
+    private float attackCoolDown = 0.5f;
+    [SerializeField]
+    private Vector3 hitboxOffset;
+
+    public float xRotationOffset = 0f;
+    public float yRotationOffset = 0f;
+    public float zRotationOffset = 0f;
+
+
     Vector3 forward, right;
     // Start is called before the first frame update
     void Start()
@@ -287,7 +301,7 @@ public class CharacterController : MonoBehaviour
     {
         if (startAttackCooldown == true)
         {
-            if (AttackWaitTimer(0.5f))
+            if (AttackWaitTimer(attackCoolDown))
             {
                 moveAllow = true;
           
@@ -303,10 +317,21 @@ public class CharacterController : MonoBehaviour
     void InstantiateAttackHitbox()
     {
 
-        Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 2f)), transform.rotation);
+        //Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 2f)), transform.rotation);
+        //Instantiate(hitboxPrefab, location, transform.rotation * Quaternion.Euler(0f, rotation + 45f, 0f));
+
+        //GameObject hitboxClone = (GameObject)Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 2f)), transform.rotation);
+        //GameObject hitboxClone = (GameObject)Instantiate(attackHitbox, transform.position + (transform.rotation * hitboxOffset), transform.rotation);
+        GameObject hitBox = (GameObject)Instantiate(attackHitbox, transform.position + (transform.rotation * hitboxOffset), transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
 
 
-    }
+        hitBox.GetComponent<newHitbox>().SetTarget("Enemy");
+        hitBox.GetComponent<newHitbox>().SetDamage(damage);
+        hitBox.GetComponent<newHitbox>().SetSwingTime(attackCoolDown);
+
+
+
+}
 
     private bool AttackWaitTimer(float seconds)
     {
