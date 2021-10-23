@@ -19,7 +19,7 @@ public class HeavyAttackpattern : State
 
     Vector3 turnDirection;
 
-    public GameObject hitBox;
+    //public GameObject hitBox;
 
     private bool allowStop = true;
 

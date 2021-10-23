@@ -390,6 +390,13 @@ public class CharacterController : MonoBehaviour
         return invincibility;
     }
 
+
+    public void Respawn()
+    {
+        Debug.Log("Player Dead");
+        GetComponent<HealthScript>().regainHealth(100);
+    }
+
 }
 
 
