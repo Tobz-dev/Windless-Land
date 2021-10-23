@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class newHitbox : MonoBehaviour
 {
+    [SerializeField]
     private float swingTime;
-    private int damage;
+    [SerializeField]
+    private int damage = 1;
+    [SerializeField]
     private string target;
     private bool invisibility = false;
 
