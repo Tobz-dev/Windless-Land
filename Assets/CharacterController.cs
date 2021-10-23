@@ -7,15 +7,13 @@ public class CharacterController : MonoBehaviour
 
     [SerializeField]
     float moveSpeed = 4f;
-    float DodgerollSpeed = 18f;
-    float DodgerollDuration = 0.35f;
-    float DodgerollCooldown = 0.5f;
+    float dodgerollSpeed = 18f;
+    float dodgerollDuration = 0.35f;
+    float dodgerollCooldown = 0.2f;
 
     float moveSpeedDefault;
 
-    float healthFlaskSpeedFactor = 0.2f;
-    float healthFlaskDuration = 1.5f;
-    float healthFlaskCooldown = 0.5f;
+ 
 
     float dodgeTimer = 0;
 
@@ -24,26 +22,62 @@ public class CharacterController : MonoBehaviour
 
     Quaternion lookRotation;
 
-    Quaternion moveRotation;
 
     private Plane plane;
 
-    bool MoveAllow = true;
+    bool moveAllow = true;
+
+    bool invincibility = false;
+
+
 
     //healthFlask
     bool healthFlaskTimerRunning = true;
     bool healthFlaskStart = false;
-    bool healthFlasking = false;
     bool healthFlaskOfCooldown = true;
 
+    float flaskUses = 4;
+    float healthFlaskSpeedFactor = 0.2f;
+    float healthFlaskDuration = 1.5f;
+    float healthFlaskCooldown = 0.5f;
+   
+    //attack
+    bool startAttackCooldown = false;
+    float attackTimer = 0;
 
     //dodgeroll
-    bool DodgerollTimerRunning = true;
-    bool DodgerollStart = false;
-    bool Dodgerolling = false;
-    bool DodgerollOfCooldown = true;
+    bool dodgerollTimerRunning = false;
+    bool dodgerollStart = false;
+    bool dodgerolling = false;
+    bool dodgerollOfCooldown = true;
+    Vector3 inputDirection;
 
     private bool canMove = true;
+
+
+    //hitbox variables
+
+    [SerializeField]
+    private GameObject attackHitbox;
+   
+    [SerializeField]
+    private float swingTime;
+    [SerializeField]
+    private Vector3 hitboxOffset;
+
+   
+    [SerializeField]
+    private float xRotationOffset;
+    [SerializeField]
+    private float yRotationOffset;
+    [SerializeField]
+    private float zRotationOffset;
+
+
+    //
+
+    public Transform respawnPoint;
+
 
     Vector3 forward, right;
     // Start is called before the first frame update
@@ -63,43 +97,45 @@ public class CharacterController : MonoBehaviour
     void Update()
     {
 
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (plane.Raycast(ray, out var enter) && canMove == true)
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (plane.Raycast(ray, out float enter) && canMove == true)
         {
-            var hitPoint = ray.GetPoint(enter);
+            Vector3 hitPoint = ray.GetPoint(enter);
             plane.SetNormalAndPosition(Vector3.up, transform.position);
-            var playerPositionOnPlane = plane.ClosestPointOnPlane(transform.position);
+            Vector3 playerPositionOnPlane = plane.ClosestPointOnPlane(transform.position);
 
             lookRotation = Quaternion.LookRotation(hitPoint - playerPositionOnPlane);
 
-            playerRotationUpdate();
+            PlayerRotationUpdate();
 
-            healthFlaskManager();
+            HealthFlaskManager();
 
             DodgerollManager();
 
-            if (Input.anyKey && MoveAllow == true)
+            AttackManager();
+
+            if (Input.anyKey && moveAllow == true)
             {
                 Move();
             }
         }
     }
 
-    private void playerRotationUpdate()
+    private void PlayerRotationUpdate()
     {
 
-        if (MoveAllow && (Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
+        if (moveAllow && (Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
         {
-            transform.rotation = Quaternion.LookRotation(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
-
+            Vector3 horizontal = (Input.GetAxis("Horizontal") * right);
+            Vector3 vertical = (Input.GetAxis("Vertical") * forward);
+            Vector3 rotation = horizontal + vertical;
+                
+            transform.rotation = Quaternion.LookRotation(rotation);
         }
 
 
         
-        if (Input.anyKey && canMove == true)
-        {
-            Move();
-        }
+       
 
         /*
         if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -118,6 +154,7 @@ public class CharacterController : MonoBehaviour
 
         Vector3 playerMovement = rightMovement + upMovement;
 
+        inputDirection = playerMovement.normalized;
 
         if (playerMovement.magnitude > moveSpeed * Time.deltaTime)
         {
@@ -128,9 +165,9 @@ public class CharacterController : MonoBehaviour
 
     }
 
-    void healthFlaskManager()
+    void HealthFlaskManager()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown)
+        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0)
         {
             healthFlaskStart = true;
 
@@ -150,7 +187,7 @@ public class CharacterController : MonoBehaviour
                 {
 
                     GetComponentInParent<HealthScript>().regainHealth(1);
-                    healthFlasking = false;
+                  
                     healthFlaskTimerRunning = false;
                     moveSpeed = moveSpeedDefault;
                 }
@@ -158,7 +195,7 @@ public class CharacterController : MonoBehaviour
                 {
 
 
-                    healthFlasking = true;
+             
 
                     moveSpeed = moveSpeedDefault * healthFlaskSpeedFactor;
 
@@ -170,7 +207,7 @@ public class CharacterController : MonoBehaviour
             {
                 if (FlaskWaitTimer(healthFlaskCooldown))
                 {
-
+                    flaskUses--;
                     healthFlaskStart = false;
                     healthFlaskOfCooldown = true;
                     healthFlaskTimerRunning = true;
@@ -178,58 +215,60 @@ public class CharacterController : MonoBehaviour
                 }
             }
 
-            if (DodgerollStart == true)
+            if (dodgerollStart == true || startAttackCooldown == true)
             {
-
-                healthFlasking = false;
+                
                 healthFlaskStart = false;
                 healthFlaskOfCooldown = true;
                 healthFlaskTimerRunning = true;
                 moveSpeed = moveSpeedDefault;
                 flaskTimer = 0;
 
-
             }
-
         }
     }
 
+
+
     void DodgerollManager()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && DodgerollOfCooldown)
+        if (Input.GetKeyDown(KeyCode.Space) && dodgerollOfCooldown)
         {
-            DodgerollStart = true;
+            dodgerollStart = true;
+            dodgerollTimerRunning = true;
         }
 
-        if (DodgerollStart == true)
+        if (dodgerollStart == true)
         {
 
-            if (DodgerollTimerRunning == true)
+            if (dodgerollTimerRunning == true)
             {
-                if (DodgeWaitTimer(DodgerollDuration))
+                if (DodgeWaitTimer(dodgerollDuration))
                 {
 
-                    MoveAllow = true;
-                    Dodgerolling = false;
-                    DodgerollTimerRunning = false;
+                    moveAllow = true;
+                    dodgerolling = false;
+                    dodgerollTimerRunning = false;
+                    invincibility = false;
                 }
                 else
                 {
-                    transform.position += (transform.forward + transform.right).normalized * DodgerollSpeed * Time.deltaTime;
-                    MoveAllow = false;
-                    Dodgerolling = true;
-                    DodgerollOfCooldown = false;
+                    transform.rotation = Quaternion.LookRotation(inputDirection);
+                    transform.position += (transform.forward).normalized * dodgerollSpeed * Time.deltaTime;
+                    moveAllow = false;
+                    dodgerolling = true;
+                    dodgerollOfCooldown = false;
+                    invincibility = true;
 
                 }
             }
             else
             {
-                if (DodgeWaitTimer(DodgerollCooldown))
+                if (DodgeWaitTimer(dodgerollCooldown))
                 {
-
-                    DodgerollStart = false;
-                    DodgerollOfCooldown = true;
-                    DodgerollTimerRunning = true;
+                    dodgerollStart = false;
+                    dodgerollOfCooldown = true;
+                    
 
                 }
             }
@@ -251,6 +290,72 @@ public class CharacterController : MonoBehaviour
         }
         return false;
     }
+
+    void AttackManager() {
+        if (Input.GetKeyDown(KeyCode.Mouse0) && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false) 
+        {
+            Attack();
+           
+        }
+
+        AttackCoolDown();
+    }
+
+    void Attack()
+    {
+        transform.rotation = lookRotation;
+         InstantiateAttackHitbox();
+        startAttackCooldown = true;
+    }
+    void AttackCoolDown()
+    {
+        if (startAttackCooldown == true)
+        {
+            if (AttackWaitTimer(swingTime))
+            {
+                moveAllow = true;
+          
+                startAttackCooldown = false;
+            }
+            else {
+                moveAllow = false;
+            }
+        }
+
+    }
+
+    void InstantiateAttackHitbox()
+    {
+
+        Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 2f)), transform.rotation);
+        //GameObject hitBox = (GameObject)Instantiate(attackHitbox, transform.position + (transform.rotation * hitboxOffset), transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
+
+        //hitBox.transform.localScale = hitboxScale;
+
+
+        //hitBox.GetComponent<newHitbox>().SetTarget("Enemy");
+        //hitBox.GetComponent<newHitbox>().SetDamage(damage);
+        //hitBox.GetComponent<newHitbox>().SetSwingTime(swingTime);
+
+
+
+}
+
+    private bool AttackWaitTimer(float seconds)
+    {
+
+        attackTimer += Time.deltaTime;
+
+        if (attackTimer >= seconds)
+        {
+
+            attackTimer = 0;
+            return true;
+
+
+        }
+        return false;
+    }
     public void CanMove()
     {
         if(canMove == true)
@@ -264,6 +369,8 @@ public class CharacterController : MonoBehaviour
             Debug.Log("canMove = true");
         }
     }
+
+    
 
     private bool FlaskWaitTimer(float seconds)
     {
@@ -279,6 +386,18 @@ public class CharacterController : MonoBehaviour
         }
 
         return false;
+    }
+
+    public bool GetInvisibility() {
+        return invincibility;
+    }
+
+
+    public void Respawn()
+    {
+        Debug.Log("Player Dead");
+        GetComponent<HealthScript>().regainHealth(100);
+        transform.position = respawnPoint.transform.position;
     }
 
 }
