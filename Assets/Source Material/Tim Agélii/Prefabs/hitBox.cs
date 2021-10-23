@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Main Author: Tim Agélii
 public class hitBox : MonoBehaviour
 {
     [SerializeField]
