@@ -34,22 +34,18 @@ public class HeavyAttackpattern : State
 
     [SerializeField]
     private GameObject attackHitbox;
-    [SerializeField]
-    private int damage = 1;
-    [SerializeField]
-    private float swingTime = 0.5f;
+   
+    private float swingTime = 1.5f;
+   
     [SerializeField]
     private Vector3 hitboxOffset;
 
     [SerializeField]
-    private Vector3 hitboxScale;
-
+    private float xRotationOffset;
     [SerializeField]
-    private float xRotationOffset = 0f;
+    private float yRotationOffset;
     [SerializeField]
-    private float yRotationOffset = 0f;
-    [SerializeField]
-    private float zRotationOffset = 0f;
+    private float zRotationOffset;
 
 
 
@@ -129,7 +125,7 @@ public class HeavyAttackpattern : State
     }
     void CoolDown() {
         if (startCooldown == true) {
-            if (AttackWaitTimer(1.5f))
+            if (AttackWaitTimer(swingTime))
             {
                 allowStop = true;
                 lookAtPlayer = true;
@@ -144,12 +140,7 @@ public class HeavyAttackpattern : State
 
         GameObject hitBox = (GameObject)Instantiate(attackHitbox, Agent.transform.position + (Agent.transform.rotation * hitboxOffset), Agent.transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
 
-        hitBox.transform.localScale = hitboxScale;
-
-
-        hitBox.GetComponent<newHitbox>().SetTarget("Player");
-        hitBox.GetComponent<newHitbox>().SetDamage(damage);
-        hitBox.GetComponent<newHitbox>().SetSwingTime(swingTime);
+   
 
 
     }
