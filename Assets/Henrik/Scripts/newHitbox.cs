@@ -18,7 +18,7 @@ public class newHitbox : MonoBehaviour
 
         if (target == "Player")
         {
-            invisibility = other.gameObject.GetComponent<CharacterController>().GetInvisibility();
+            //invisibility = other.gameObject.GetComponent<CharacterController>().GetInvisibility();
         }
 
         if (other.gameObject.tag == target && invisibility == false)
