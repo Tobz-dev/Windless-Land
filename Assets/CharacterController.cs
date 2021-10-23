@@ -330,15 +330,15 @@ public class CharacterController : MonoBehaviour
     void InstantiateAttackHitbox()
     {
 
-        //Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 2f)), transform.rotation);
-        GameObject hitBox = (GameObject)Instantiate(attackHitbox, transform.position + (transform.rotation * hitboxOffset), transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
+        Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 2f)), transform.rotation);
+        //GameObject hitBox = (GameObject)Instantiate(attackHitbox, transform.position + (transform.rotation * hitboxOffset), transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
 
-        hitBox.transform.localScale = hitboxScale;
+        //hitBox.transform.localScale = hitboxScale;
 
 
-        hitBox.GetComponent<newHitbox>().SetTarget("Enemy");
-        hitBox.GetComponent<newHitbox>().SetDamage(damage);
-        hitBox.GetComponent<newHitbox>().SetSwingTime(swingTime);
+        //hitBox.GetComponent<newHitbox>().SetTarget("Enemy");
+        //hitBox.GetComponent<newHitbox>().SetDamage(damage);
+        //hitBox.GetComponent<newHitbox>().SetSwingTime(swingTime);
 
 
 
