@@ -59,22 +59,19 @@ public class CharacterController : MonoBehaviour
 
     [SerializeField]
     private GameObject attackHitbox;
+   
     [SerializeField]
-    private int damage = 1;
-    [SerializeField]
-    private float swingTime = 0.5f;
+    private float swingTime;
     [SerializeField]
     private Vector3 hitboxOffset;
 
+   
     [SerializeField]
-    private Vector3 hitboxScale;
-
+    private float xRotationOffset;
     [SerializeField]
-    private float xRotationOffset = 0f;
+    private float yRotationOffset;
     [SerializeField]
-    private float yRotationOffset = 0f;
-    [SerializeField]
-    private float zRotationOffset = 0f;
+    private float zRotationOffset;
 
 
     //
