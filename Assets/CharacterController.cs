@@ -44,7 +44,6 @@ public class CharacterController : MonoBehaviour
     //attack
     bool startAttackCooldown = false;
     float attackTimer = 0;
-    public GameObject attackHitbox;
 
     //dodgeroll
     bool dodgerollTimerRunning = false;
@@ -54,6 +53,34 @@ public class CharacterController : MonoBehaviour
     Vector3 inputDirection;
 
     private bool canMove = true;
+
+
+    //hitbox variables
+
+    [SerializeField]
+    private GameObject attackHitbox;
+    [SerializeField]
+    private int damage = 1;
+    [SerializeField]
+    private float swingTime = 0.5f;
+    [SerializeField]
+    private Vector3 hitboxOffset;
+
+    [SerializeField]
+    private Vector3 hitboxScale;
+
+    [SerializeField]
+    private float xRotationOffset = 0f;
+    [SerializeField]
+    private float yRotationOffset = 0f;
+    [SerializeField]
+    private float zRotationOffset = 0f;
+
+
+    //
+
+    public Transform respawnPoint;
+
 
     Vector3 forward, right;
     // Start is called before the first frame update
@@ -287,7 +314,7 @@ public class CharacterController : MonoBehaviour
     {
         if (startAttackCooldown == true)
         {
-            if (AttackWaitTimer(0.5f))
+            if (AttackWaitTimer(swingTime))
             {
                 moveAllow = true;
           
@@ -303,10 +330,19 @@ public class CharacterController : MonoBehaviour
     void InstantiateAttackHitbox()
     {
 
-        Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 2f)), transform.rotation);
+        //Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 2f)), transform.rotation);
+        GameObject hitBox = (GameObject)Instantiate(attackHitbox, transform.position + (transform.rotation * hitboxOffset), transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
+
+        hitBox.transform.localScale = hitboxScale;
 
 
-    }
+        hitBox.GetComponent<newHitbox>().SetTarget("Enemy");
+        hitBox.GetComponent<newHitbox>().SetDamage(damage);
+        hitBox.GetComponent<newHitbox>().SetSwingTime(swingTime);
+
+
+
+}
 
     private bool AttackWaitTimer(float seconds)
     {
@@ -357,6 +393,14 @@ public class CharacterController : MonoBehaviour
 
     public bool GetInvisibility() {
         return invincibility;
+    }
+
+
+    public void Respawn()
+    {
+        Debug.Log("Player Dead");
+        GetComponent<HealthScript>().regainHealth(100);
+        transform.position = respawnPoint.transform.position;
     }
 
 }

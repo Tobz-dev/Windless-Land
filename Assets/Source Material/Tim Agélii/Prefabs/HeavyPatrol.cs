@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//Main Author: Tobias Martinsson
+//Main Author: Tim Agélii
+// statemachine kod tagen från aipatrol
 [CreateAssetMenu()]
 public class HeavyPatrol : State
 {

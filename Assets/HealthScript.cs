@@ -22,10 +22,17 @@ public class HealthScript : MonoBehaviour
     void Update()
     {
      
-            if (health <= 0)
+            if (health <= 0 && gameObject.tag != "Player")
         {
             //death animation and delay
             Destroy(gameObject);
+        }
+
+        if (health <= 0 && gameObject.tag == "Player")
+        {
+            //death animation and delay
+            gameObject.GetComponent<CharacterController>().Respawn();
+            //Debug.Log("Player Dead");
         }
     }
 
