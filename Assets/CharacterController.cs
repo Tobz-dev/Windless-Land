@@ -388,7 +388,7 @@ public class CharacterController : MonoBehaviour
         return false;
     }
 
-    public bool GetInvisibility() {
+    public bool GetInvincibility() {
         return invincibility;
     }
 
