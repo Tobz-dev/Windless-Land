@@ -77,6 +77,11 @@ public class CharacterController : MonoBehaviour
     private float zRotationOffset = 0f;
 
 
+    //
+
+    public Transform respawnPoint;
+
+
     Vector3 forward, right;
     // Start is called before the first frame update
     void Start()
@@ -395,6 +400,7 @@ public class CharacterController : MonoBehaviour
     {
         Debug.Log("Player Dead");
         GetComponent<HealthScript>().regainHealth(100);
+        transform.position = respawnPoint.transform.position;
     }
 
 }
