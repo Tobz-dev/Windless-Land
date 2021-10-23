@@ -19,7 +19,7 @@ public class HeavyAttackpattern : State
 
     Vector3 turnDirection;
 
-    public GameObject hitBox;
+    //public GameObject hitBox;
 
     private bool allowStop = true;
 
@@ -28,6 +28,31 @@ public class HeavyAttackpattern : State
     private bool startCooldown = false;
 
     private bool lookAtPlayer = true;
+
+
+    //hitbox variables
+
+    [SerializeField]
+    private GameObject attackHitbox;
+    [SerializeField]
+    private int damage = 1;
+    [SerializeField]
+    private float swingTime = 0.5f;
+    [SerializeField]
+    private Vector3 hitboxOffset;
+
+    [SerializeField]
+    private Vector3 hitboxScale;
+
+    [SerializeField]
+    private float xRotationOffset = 0f;
+    [SerializeField]
+    private float yRotationOffset = 0f;
+    [SerializeField]
+    private float zRotationOffset = 0f;
+
+
+
     protected override void Initialize()
     {
         Agent = (SomeAgent)Owner;
@@ -115,11 +140,18 @@ public class HeavyAttackpattern : State
     }
 
     void InstantiateOneHitbox() {
-        
-        
-            Instantiate(hitBox, Agent.transform.position + (Agent.transform.rotation * new Vector3 (0, 0, 4f)) , Agent.transform.rotation);
-           
-        
+
+
+        GameObject hitBox = (GameObject)Instantiate(attackHitbox, Agent.transform.position + (Agent.transform.rotation * hitboxOffset), Agent.transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
+
+        hitBox.transform.localScale = hitboxScale;
+
+
+        hitBox.GetComponent<newHitbox>().SetTarget("Player");
+        hitBox.GetComponent<newHitbox>().SetDamage(damage);
+        hitBox.GetComponent<newHitbox>().SetSwingTime(swingTime);
+
+
     }
 
     
