@@ -5,23 +5,25 @@ using UnityEngine;
 
 public class newHitbox : MonoBehaviour
 {
-    [SerializeField]
-    private float swingDelay = 0.5f;
-    [SerializeField]
-    private float swingTime = 0.4f;
-    [SerializeField]
-    private int damage = 1;
-
-    public float deathTimer = 0f;
-
+    private float swingTime;
+    private int damage;
     private string target;
+    private bool invisibility = false;
+
+    private float deathTimer;
 
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == target)
+
+        if (target == "Player")
         {
-            Debug.Log("Hit");
+            invisibility = other.gameObject.GetComponent<CharacterController>().GetInvisibility();
+        }
+
+        if (other.gameObject.tag == target && invisibility == false)
+        {
+            Debug.Log("Hit " + target);
             other.GetComponent<HealthScript>().takeDamage(damage);
             Debug.Log("Dealt " + damage + " damage");
 
@@ -29,26 +31,9 @@ public class newHitbox : MonoBehaviour
         }
     }
 
-
-    /*private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log(other.tag);
-        if (other.gameObject.tag == tt)
-        {
-
-
-            other.gameObject.GetComponent<HealthScript>().takeDamage(damage);
-            Debug.Log("Dealt 1 damage");
-
-            Destroy(this.gameObject);
-
-
-        }
-    }*/
-
     private void Awake()
     {
-        deathTimer = 0;
+        deathTimer = 0f;
     }
 
 

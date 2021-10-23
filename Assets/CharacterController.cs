@@ -44,7 +44,6 @@ public class CharacterController : MonoBehaviour
     //attack
     bool startAttackCooldown = false;
     float attackTimer = 0;
-    public GameObject attackHitbox;
 
     //dodgeroll
     bool dodgerollTimerRunning = false;
@@ -57,16 +56,25 @@ public class CharacterController : MonoBehaviour
 
 
     //hitbox variables
+
+    [SerializeField]
+    private GameObject attackHitbox;
     [SerializeField]
     private int damage = 1;
     [SerializeField]
-    private float attackCoolDown = 0.5f;
+    private float swingTime = 0.5f;
     [SerializeField]
     private Vector3 hitboxOffset;
 
-    public float xRotationOffset = 0f;
-    public float yRotationOffset = 0f;
-    public float zRotationOffset = 0f;
+    [SerializeField]
+    private Vector3 hitboxScale;
+
+    [SerializeField]
+    private float xRotationOffset = 0f;
+    [SerializeField]
+    private float yRotationOffset = 0f;
+    [SerializeField]
+    private float zRotationOffset = 0f;
 
 
     Vector3 forward, right;
@@ -301,7 +309,7 @@ public class CharacterController : MonoBehaviour
     {
         if (startAttackCooldown == true)
         {
-            if (AttackWaitTimer(attackCoolDown))
+            if (AttackWaitTimer(swingTime))
             {
                 moveAllow = true;
           
@@ -318,16 +326,14 @@ public class CharacterController : MonoBehaviour
     {
 
         //Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 2f)), transform.rotation);
-        //Instantiate(hitboxPrefab, location, transform.rotation * Quaternion.Euler(0f, rotation + 45f, 0f));
-
-        //GameObject hitboxClone = (GameObject)Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 2f)), transform.rotation);
-        //GameObject hitboxClone = (GameObject)Instantiate(attackHitbox, transform.position + (transform.rotation * hitboxOffset), transform.rotation);
         GameObject hitBox = (GameObject)Instantiate(attackHitbox, transform.position + (transform.rotation * hitboxOffset), transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
+
+        hitBox.transform.localScale = hitboxScale;
 
 
         hitBox.GetComponent<newHitbox>().SetTarget("Enemy");
         hitBox.GetComponent<newHitbox>().SetDamage(damage);
-        hitBox.GetComponent<newHitbox>().SetSwingTime(attackCoolDown);
+        hitBox.GetComponent<newHitbox>().SetSwingTime(swingTime);
 
 
 
