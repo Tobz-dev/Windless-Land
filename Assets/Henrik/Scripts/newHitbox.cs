@@ -8,9 +8,10 @@ public class newHitbox : MonoBehaviour
     [SerializeField]
     private float swingTime;
     [SerializeField]
-    private int damage = 1;
+    private int damage ;
     [SerializeField]
     private string target;
+
     private bool invisibility = false;
 
     private float deathTimer;
@@ -60,20 +61,4 @@ public class newHitbox : MonoBehaviour
         }
 
     }
-
-    public void SetDamage(int x)
-    {
-        damage = x;
-    }
-
-    public void SetSwingTime(float x)
-    {
-        swingTime = x;
-    }
-
-    public void SetTarget(string x)
-    {
-        target = x;
-    }
-
 }
