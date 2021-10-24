@@ -7,6 +7,8 @@ public class hitBox : MonoBehaviour
     [SerializeField]
     private int damage = 1;
 
+   
+
     private float deathTimer = 0;
     private void OnTriggerEnter(Collider other)
     {
@@ -28,6 +30,7 @@ public class hitBox : MonoBehaviour
 
     private void Update()
     {
+      
        DeathTimer(0.5f);
     }
 

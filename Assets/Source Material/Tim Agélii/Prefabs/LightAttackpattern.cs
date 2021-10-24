@@ -6,17 +6,17 @@ using UnityEngine.SceneManagement;
 //Main Author: Tim Agélii
 //statemachine kod tagen från aiattack
 [CreateAssetMenu()]
-public class HeavyAttackpattern : State
+public class LightAttackpattern : State
 {
     SomeAgent Agent;
 
     public Material attackIndicatorMaterial;
     public Material startMaterial;
-
+   
     [SerializeField]
     public float outOfRange;
-
-
+   
+    
     private float attackTimer = 0;
 
     [SerializeField]
@@ -32,13 +32,17 @@ public class HeavyAttackpattern : State
 
     private bool startAttack = false;
     private bool startCooldown = false;
- 
+    private bool startDash = false;
 
     private bool lookAtPlayer = true;
 
 
     //hitbox variables
- 
+    [SerializeField]
+    private float dashDistanceOffset;
+    private float dashTime;
+    [SerializeField]
+    private float dashSpeed;
     [SerializeField]
     private GameObject attackHitbox;
 
@@ -60,7 +64,6 @@ public class HeavyAttackpattern : State
 
 
 
-
     protected override void Initialize()
     {
         Agent = (SomeAgent)Owner;
@@ -70,7 +73,7 @@ public class HeavyAttackpattern : State
 
     public void Awake()
     {
-     
+
 
     }
     public override void RunUpdate()
@@ -82,7 +85,7 @@ public class HeavyAttackpattern : State
         if ((Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) >= outOfRange) && allowStop)
         {
             Debug.Log(" ATTACK TO CHASE");
-            StateMachine.ChangeState<HeavyChase>();
+            StateMachine.ChangeState<LightChase>();
         }
     }
 
@@ -93,10 +96,15 @@ public class HeavyAttackpattern : State
             Agent.NavAgent.isStopped = true;
             LookAtPlayer();
         }
-        if (startAttack == true) {
+        if (startAttack == true)
+        {
             Attack();
         }
-        if (startCooldown == true) {
+        if (startDash == true) {
+            Dash();
+        }
+        if (startCooldown == true)
+        {
             CoolDown();
         }
 
@@ -104,62 +112,83 @@ public class HeavyAttackpattern : State
 
     }
 
-    void LookAtPlayer() {
+    void LookAtPlayer()
+    {
         allowStop = false;
-            if (AttackWaitTimer(attackWaitTime))
-            {
-                lookAtPlayer = false;
+        if (AttackWaitTimer(attackWaitTime))
+        {
+            lookAtPlayer = false;
             Agent.transform.rotation = Agent.transform.rotation;
-                startAttack = true;
+            startAttack = true;
 
+        }
+        else
+        {
+            turnDirection = Agent.Player.position - Agent.transform.position;
+            turnDirection.Normalize();
+            Agent.transform.rotation = Quaternion.Slerp(Agent.transform.rotation, Quaternion.LookRotation(turnDirection), turnSpeed * Time.deltaTime);
+        }
+
+    }
+
+    void Attack()
+    {
+        if (startAttack == true)
+        {
+            if (AttackWaitTimer(attackChargeTime))
+            {
+                dashTime = (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) - dashDistanceOffset) / dashSpeed;
+                startAttack = false;
+                startDash = true;
+                Agent.GetComponent<MeshRenderer>().material = startMaterial;
             }
             else
             {
-                turnDirection = Agent.Player.position - Agent.transform.position;
-                turnDirection.Normalize();
-                Agent.transform.rotation = Quaternion.Slerp(Agent.transform.rotation, Quaternion.LookRotation(turnDirection), turnSpeed * Time.deltaTime);
-            }
-        
-    }
-
-    void Attack() {
-        if (startAttack == true) {
-            if (AttackWaitTimer(attackChargeTime))
-            {
-                InstantiateOneHitbox();
-                startAttack = false;
-                startCooldown = true;
-                Agent.GetComponent<MeshRenderer>().material = startMaterial;
-            }
-            else {
                 Agent.transform.GetComponent<MeshRenderer>().material = attackIndicatorMaterial;
             }
         }
     }
-    void CoolDown() {
-        if (startCooldown == true) {
+    void CoolDown()
+    {
+        if (startCooldown == true)
+        {
             if (AttackWaitTimer(swingTime))
             {
-                Agent.NavAgent.isStopped = false;
                 allowStop = true;
                 lookAtPlayer = true;
                 startCooldown = false;
+                Agent.NavAgent.isStopped = false;
             }
         }
-        
+
     }
 
-    void InstantiateOneHitbox() {
+    void Dash()
+    {
+        if (startDash == true)
+        {
+            if (AttackWaitTimer(dashTime))
+            {
+                InstantiateOneHitbox();
+                startDash = false;
+                startCooldown = true;
+            }
+            else 
+            {
+                Agent.transform.position += Agent.transform.forward.normalized * dashSpeed * Time.deltaTime;
+            }
+        }
 
+    }
+
+    void InstantiateOneHitbox()
+    {
 
         GameObject hitBox = (GameObject)Instantiate(attackHitbox, Agent.transform.position + (Agent.transform.rotation * hitboxOffset), Agent.transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
 
-   
-
-
     }
 
-    
+
     private bool AttackWaitTimer(float seconds)
     {
 
