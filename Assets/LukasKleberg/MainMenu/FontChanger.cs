@@ -10,7 +10,7 @@ public class FontChanger : MonoBehaviour
     //it can update the children of an inactive object. but not if the inactive object is a child of the parent.
     //could solve that by having an array. for each of the menus?
     [SerializeField]
-    private GameObject parentObject;
+    private GameObject[] parentObjects;
 
     //if the text is on UI, it has to be specified on declaration
     private TextMeshProUGUI[] textMeshProUGUIarray;
@@ -38,9 +38,15 @@ public class FontChanger : MonoBehaviour
 
         //find all the TMPs in the children
         //a foreach loop if I use multiple parent objects?
-        //parentObject.Set
-        textMeshProUGUIarray = parentObject.GetComponentsInChildren<TextMeshProUGUI>();
-        Debug.Log("in font change" + textMeshProUGUIarray.Length);
+        //ok this didnt work
+        foreach (GameObject parentObject in parentObjects)
+        {
+            Debug.Log("in font change, adding objects");
+            textMeshProUGUIarray = parentObject.GetComponentsInChildren<TextMeshProUGUI>();
+            Debug.Log("in font change" + textMeshProUGUIarray.Length);
+        }
+
+
 
         //textMeshProUGUIarray.
 
@@ -48,7 +54,7 @@ public class FontChanger : MonoBehaviour
         //cloud probably also change the size as well.
         foreach (TextMeshProUGUI textMeshProUGUI in textMeshProUGUIarray) 
         {
-            Debug.Log("in font change, for each loop");
+            Debug.Log("in font change, changing fonts");
             textMeshProUGUI.font = fontToChangeTo;
         }
 
