@@ -74,7 +74,8 @@ public class CharacterController : MonoBehaviour
     private float zRotationOffset;
 
 
-    //
+    [SerializeField]
+    private Animator anim;
 
     public Transform respawnPoint;
 
@@ -118,6 +119,10 @@ public class CharacterController : MonoBehaviour
             {
                 Move();
             }
+
+            //anim stuff here. 
+            anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
+            anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
         }
     }
 
