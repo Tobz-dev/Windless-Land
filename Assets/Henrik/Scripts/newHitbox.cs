@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 //Main Author: Henrik Rudén
-
+//secondary Author: Tim Agélii
 public class newHitbox : MonoBehaviour
 {
     [SerializeField]
@@ -11,7 +11,7 @@ public class newHitbox : MonoBehaviour
     private int damage = 1;
     [SerializeField]
     private string target;
-    private bool invisibility = false;
+    private bool invincibility = false;
 
     private float deathTimer;
 
@@ -19,18 +19,27 @@ public class newHitbox : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        if (target == "Player")
+        if (other.gameObject.tag == target && target.Equals("Player"))
         {
-            //invisibility = other.gameObject.GetComponent<CharacterController>().GetInvisibility();
+
+            if (other.gameObject.GetComponent<CharacterController>().GetInvincibility() == true)
+            {
+                invincibility = true;
+            }
+
+
         }
 
-        if (other.gameObject.tag == target && invisibility == false)
+        if (other.gameObject.tag == target && invincibility == false)
         {
             Debug.Log("Hit " + target);
             other.GetComponent<HealthScript>().takeDamage(damage);
             Debug.Log("Dealt " + damage + " damage");
 
             Destroy(this.gameObject);
+        }
+        else if(invincibility == true) {
+            invincibility = false;
         }
     }
 

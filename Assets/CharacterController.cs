@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Main Authour : Tim Agélii
 public class CharacterController : MonoBehaviour
 {
 
