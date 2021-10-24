@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//Main Author: Henrik Rudén
-//secondary Author: Tim Agélii
+//Main Author: Henrik Rudï¿½n
+//secondary Author: Tim Agï¿½lii
 public class newHitbox : MonoBehaviour
 {
     [SerializeField]
     private float swingTime;
     [SerializeField]
-    private int damage = 1;
+    private int damage ;
     [SerializeField]
     private string target;
     private bool invincibility = false;
@@ -69,20 +69,4 @@ public class newHitbox : MonoBehaviour
         }
 
     }
-
-    public void SetDamage(int x)
-    {
-        damage = x;
-    }
-
-    public void SetSwingTime(float x)
-    {
-        swingTime = x;
-    }
-
-    public void SetTarget(string x)
-    {
-        target = x;
-    }
-
 }
