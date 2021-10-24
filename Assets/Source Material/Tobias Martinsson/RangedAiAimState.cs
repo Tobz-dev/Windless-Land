@@ -7,9 +7,8 @@ using UnityEngine;
 public class RangedAiAimState : State
 {
     SomeAgent Agent;
-    public float arrowSpeed;
     public float aggroDistance;
-    private float timeLeft = 1;
+    public float shootCooldown;
     private float originalTime;
     private Transform CurrentPatrol;
 
@@ -17,7 +16,7 @@ public class RangedAiAimState : State
     {
         Agent = (SomeAgent)Owner;
         Debug.Assert(Agent);
-        originalTime = timeLeft;
+        originalTime = shootCooldown;
     }
 
     public override void Enter()
@@ -39,11 +38,11 @@ public class RangedAiAimState : State
             Agent.transform.LookAt(targetPostition);
             Vector3.RotateTowards(Agent.transform.position, Agent.PlayerPosition, 2,0);
 
-            timeLeft -= Time.deltaTime;
-            if (timeLeft < 0)
+            shootCooldown -= Time.deltaTime;
+            if (shootCooldown < 0)
             {
                 Agent.GetComponent<ArrowScript>().shootArrow();
-                timeLeft = originalTime;
+                shootCooldown = originalTime;
             }
 
         }
