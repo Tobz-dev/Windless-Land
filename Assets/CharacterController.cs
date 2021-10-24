@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Main Authour : Tim Agélii
 public class CharacterController : MonoBehaviour
 {
 
@@ -74,7 +75,8 @@ public class CharacterController : MonoBehaviour
     private float zRotationOffset;
 
 
-    //
+    [SerializeField]
+    private Animator anim;
 
     public Transform respawnPoint;
 
@@ -118,6 +120,10 @@ public class CharacterController : MonoBehaviour
             {
                 Move();
             }
+
+            //anim stuff here. 
+            anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
+            anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
         }
     }
 
@@ -388,7 +394,7 @@ public class CharacterController : MonoBehaviour
         return false;
     }
 
-    public bool GetInvisibility() {
+    public bool GetInvincibility() {
         return invincibility;
     }
 

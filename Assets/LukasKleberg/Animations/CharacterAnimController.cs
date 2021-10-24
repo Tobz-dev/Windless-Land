@@ -110,6 +110,10 @@ public class CharacterAnimController : MonoBehaviour
             Move();
         }
 
+        //anim stuff here. 
+        anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
+        anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
+
         /*
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
@@ -127,10 +131,6 @@ public class CharacterAnimController : MonoBehaviour
 
         Vector3 playerMovement = rightMovement + upMovement;
 
-        //anim stuff here. TODO: make the player stop
-
-        anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
-        anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
 
         if (playerMovement.magnitude > moveSpeed * Time.deltaTime)
         {

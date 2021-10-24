@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 6243671497076304662}
   - component: {fileID: 1139387020670403177}
   - component: {fileID: 2163785911376074516}
-  - component: {fileID: 1048167890838386961}
+  - component: {fileID: -7432174579849862141}
   m_Layer: 0
-  m_Name: Hitbox
+  m_Name: Hitbox_heavy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,7 +97,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &1048167890838386961
+--- !u!114 &-7432174579849862141
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,7 +106,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2292798196766587759}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e35ed525eaa43449aeb60040d148b1a, type: 3}
+  m_Script: {fileID: 11500000, guid: 57f3f9c7e3b9e9c479144267dc988418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  swingTime: 0.5
+  damage: 2
+  target: Player
