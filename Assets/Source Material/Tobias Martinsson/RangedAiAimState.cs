@@ -11,6 +11,7 @@ public class RangedAiAimState : State
     public float aggroDistance;
     private float timeLeft = 1;
     private float originalTime;
+    private Transform CurrentPatrol;
 
     protected override void Initialize()
     {
@@ -22,6 +23,8 @@ public class RangedAiAimState : State
     public override void Enter()
     {
         Debug.Log("Entered RangedAiAimState");
+        CurrentPatrol = Agent.transform;
+        Agent.NavAgent.SetDestination(CurrentPatrol.position);
     }
 
     public override void RunUpdate()
