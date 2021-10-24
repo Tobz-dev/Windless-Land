@@ -22,10 +22,17 @@ public class HealthScript : MonoBehaviour
     void Update()
     {
      
-            if (health <= 0)
+            if (health <= 0 && gameObject.tag != "Player")
         {
             //death animation and delay
             Destroy(gameObject);
+        }
+
+        if (health <= 0 && gameObject.tag == "Player")
+        {
+            //death animation and delay
+            gameObject.GetComponent<CharacterController>().Respawn();
+            //Debug.Log("Player Dead");
         }
     }
 
@@ -55,7 +62,7 @@ public class HealthScript : MonoBehaviour
     private IEnumerator damagedMaterial()
     {
         gameObject.GetComponent<MeshRenderer>().material = material;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.3f);
         gameObject.GetComponent<MeshRenderer>().material = originalMaterial;
     }
 }

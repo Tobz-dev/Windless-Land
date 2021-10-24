@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 //Main Author: Tim Agélii
+//statemachine kod tagen från aiattack
 [CreateAssetMenu()]
 public class HeavyAttackpattern : State
 {
@@ -18,7 +19,7 @@ public class HeavyAttackpattern : State
 
     Vector3 turnDirection;
 
-    public GameObject hitBox;
+    //public GameObject hitBox;
 
     private bool allowStop = true;
 
@@ -27,6 +28,27 @@ public class HeavyAttackpattern : State
     private bool startCooldown = false;
 
     private bool lookAtPlayer = true;
+
+
+    //hitbox variables
+
+    [SerializeField]
+    private GameObject attackHitbox;
+   
+    private float swingTime = 1.5f;
+   
+    [SerializeField]
+    private Vector3 hitboxOffset;
+
+    [SerializeField]
+    private float xRotationOffset;
+    [SerializeField]
+    private float yRotationOffset;
+    [SerializeField]
+    private float zRotationOffset;
+
+
+
     protected override void Initialize()
     {
         Agent = (SomeAgent)Owner;
@@ -103,7 +125,7 @@ public class HeavyAttackpattern : State
     }
     void CoolDown() {
         if (startCooldown == true) {
-            if (AttackWaitTimer(1.5f))
+            if (AttackWaitTimer(swingTime))
             {
                 allowStop = true;
                 lookAtPlayer = true;
@@ -114,11 +136,13 @@ public class HeavyAttackpattern : State
     }
 
     void InstantiateOneHitbox() {
-        
-        
-            Instantiate(hitBox, Agent.transform.position + (Agent.transform.rotation * new Vector3 (0, 0, 4f)) , Agent.transform.rotation);
-           
-        
+
+
+        GameObject hitBox = (GameObject)Instantiate(attackHitbox, Agent.transform.position + (Agent.transform.rotation * hitboxOffset), Agent.transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
+
+   
+
+
     }
 
     
