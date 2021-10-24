@@ -17,13 +17,32 @@ public class FontChanger : MonoBehaviour
 
     //remembering fonts between play sessions would be nice.
 
+    [SerializeField]
+    private TextMeshProUGUI[] fontChoiceArray;
+
+    //save the buttons fonts on Start. and then set them back to their original font.
+    [SerializeField]
+    private TMP_FontAsset[] fontArray;
+
+    public void Start()
+    {
+        for(int i = 0; i < fontChoiceArray.Length; i++) 
+        {
+            Debug.Log("in fontchanger, Start. for loop");
+            fontArray[i] = fontChoiceArray[i].font;
+        }
+    }
 
     public void FontChange(TMP_FontAsset fontToChangeTo) 
     {
 
         //find all the TMPs in the children
+        //a foreach loop if I use multiple parent objects?
+        //parentObject.Set
         textMeshProUGUIarray = parentObject.GetComponentsInChildren<TextMeshProUGUI>();
         Debug.Log("in font change" + textMeshProUGUIarray.Length);
+
+        //textMeshProUGUIarray.
 
         //change the font for each of them. 
         //cloud probably also change the size as well.
@@ -33,6 +52,10 @@ public class FontChanger : MonoBehaviour
             textMeshProUGUI.font = fontToChangeTo;
         }
 
-        //TODO don't change the buttons that showcase the different fonts. or just change them back.
+        //then change the fonts back
+        for (int i = 0; i < fontChoiceArray.Length; i++)
+        {
+            fontChoiceArray[i].font = fontArray[i];
+        } 
     }
 }
