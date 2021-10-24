@@ -82,7 +82,7 @@ public class SurfaceController : MonoBehaviour
 
     private void PlayFootstep(int terrain)
     {
-        foosteps = FMODUnity.RuntimeManager.CreateInstance("event:/Footsteps");
+        foosteps = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Footsteps");
         foosteps.setParameterByName("Terrain", terrain);
         foosteps.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         foosteps.start();
