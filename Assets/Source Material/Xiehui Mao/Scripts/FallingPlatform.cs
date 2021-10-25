@@ -9,7 +9,7 @@ public class FallingPlatform : MonoBehaviour
 
     void OnCollisionEnter(Collision collidedWithThis)
     {
-        if (collidedWithThis.gameObject.name == "Cube")
+        if (collidedWithThis.gameObject.tag == "Player")
         {
             StartCoroutine(FallAfterDelay());
         }
