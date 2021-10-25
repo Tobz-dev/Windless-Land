@@ -137,6 +137,7 @@ public class LightAttackpattern : State
     {
         if (startAttack == true)
         {
+            
             if (AttackWaitTimer(attackChargeTime))
             {
                 Agent.animator.SetTrigger("Attack");
