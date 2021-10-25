@@ -266,6 +266,8 @@ public class CharacterController : MonoBehaviour
                     dodgerollOfCooldown = false;
                     invincibility = true;
 
+                    //more anim things
+                    anim.SetTrigger("DodgeRoll");
                 }
             }
             else
@@ -312,6 +314,9 @@ public class CharacterController : MonoBehaviour
         transform.rotation = lookRotation;
          InstantiateAttackHitbox();
         startAttackCooldown = true;
+
+        //more anim things
+        anim.SetTrigger("Attack");
     }
     void AttackCoolDown()
     {
