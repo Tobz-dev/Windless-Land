@@ -139,7 +139,7 @@ public class LightAttackpattern : State
         {
             if (AttackWaitTimer(attackChargeTime))
             {
-                enemyAnim.SetTrigger("Attack");
+                Agent.animator.SetTrigger("Attack");
                 dashTime = (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) - dashDistanceOffset) / dashSpeed;
                 startAttack = false;
                 startDash = true;
