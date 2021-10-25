@@ -32,7 +32,10 @@ public class HealthScript : MonoBehaviour
         health = Maxhealth;
         HealthSetup();
         flaskAmount = maxFlasks;
-        flaskAmountText.text = maxFlasks + "/" + maxFlasks;
+        if(gameObject.tag == "Player")
+        {
+            flaskAmountText.text = maxFlasks + "/" + maxFlasks;
+        }
     }
 
     // Update is called once per frame
@@ -98,7 +101,7 @@ public class HealthScript : MonoBehaviour
 
     private void HealthSetup()
     {
-        if (health >= 1)
+        if (health >= 1 && gameObject.tag == "Player")
         {
             //sets the EmptyHP gameobject active for amount of lost HP
             for (int i = health - 1; i <= Maxhealth - 1; i++)
