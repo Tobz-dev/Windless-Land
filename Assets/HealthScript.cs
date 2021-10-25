@@ -148,4 +148,9 @@ public class HealthScript : MonoBehaviour
         }
        
     }
+
+    public float GetHealth() {
+
+        return health;
+    }
 }
