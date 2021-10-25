@@ -9,8 +9,6 @@ public class SomeAgent : MonoBehaviour
     public NavMeshAgent NavAgent;
     public Transform Player;
     public LayerMask CollisionLayer;
-    public Vector3 point1;
-    public Vector3 point2;
 
     public Transform agentTransform;
 
@@ -27,13 +25,10 @@ public class SomeAgent : MonoBehaviour
     {
         collider = GetComponent<BoxCollider>();
         NavAgent = GetComponent<NavMeshAgent>();
+        
         StateMachine = new StateMachine(this, States);
 
-        agentTransform = GetComponent<Transform>();
-
         Player = GameObject.FindGameObjectWithTag("Player").transform;
-
-
     }
 
     private void Update()
