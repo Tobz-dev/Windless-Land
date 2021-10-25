@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class DartTrap : MonoBehaviour
 {
-
-    private float timeLeft = 1;
+    [SerializeField]
+    private float shootCooldown = 1;
     private float originalTime;
     // Start is called before the first frame update
     void Start()
     {
-        originalTime = timeLeft;
+        originalTime = shootCooldown;
     }
 
     // Update is called once per frame
     void Update()
     {
-        timeLeft -= Time.deltaTime;
-        if (timeLeft < 0)
+        shootCooldown -= Time.deltaTime;
+        if (shootCooldown < 0)
         {
             GetComponent<ArrowScript>().shootArrow();
-            timeLeft = originalTime;
+            shootCooldown = originalTime;
         }
     }
 }
