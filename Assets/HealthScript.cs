@@ -20,6 +20,12 @@ public class HealthScript : MonoBehaviour
     [SerializeField]
     private int maxFlasks = 4;
     private int flaskAmount;
+    private bool startInvincibilityTimer = false;
+    private bool damageIsOnCooldown = false;
+    private float invincibilityTimer = 0;
+
+    [SerializeField]
+    private float playerInvincibilityTime;
 
     private void Start()
     {
@@ -45,18 +51,33 @@ public class HealthScript : MonoBehaviour
             gameObject.GetComponent<CharacterController>().Respawn();
             //Debug.Log("Player Dead");
         }
+
+        if (startInvincibilityTimer == true) { 
+      if(DamageCooldown(playerInvincibilityTime))
+            {
+                damageIsOnCooldown = false;
+                startInvincibilityTimer = false;
+            }
+        }
     }
 
     //damage handler
     public void takeDamage(int x)
     {
-        health -= x;
-        StartCoroutine(damagedMaterial()); 
-        damagedMaterial();
+        if (damageIsOnCooldown == false){
+            health -= x;
+
+            StartCoroutine(damagedMaterial());
+            damagedMaterial();
+        }
+       
+       
         //update UI healthbar to current player health
         if (gameObject.tag == "Player")
         {
             HealthSetup();
+            damageIsOnCooldown = true;
+            startInvincibilityTimer = true;
         }
     }
 
@@ -101,6 +122,22 @@ public class HealthScript : MonoBehaviour
         }
     }
 
+    private bool DamageCooldown(float seconds)
+    {
+
+        invincibilityTimer += Time.deltaTime;
+
+        if (invincibilityTimer >= seconds)
+        {
+
+            invincibilityTimer = 0;
+            return true;
+
+        }
+
+        return false;
+    }
+
     private IEnumerator damagedMaterial()
     {
         if(gameObject.tag != "Player")
@@ -110,5 +147,10 @@ public class HealthScript : MonoBehaviour
             gameObject.GetComponent<MeshRenderer>().material = originalMaterial;
         }
        
+    }
+
+    public float GetHealth() {
+
+        return health;
     }
 }
