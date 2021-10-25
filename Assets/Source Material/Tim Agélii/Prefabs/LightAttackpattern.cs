@@ -62,8 +62,6 @@ public class LightAttackpattern : State
     [SerializeField]
     private float zRotationOffset;
 
-    [SerializeField]
-    private Animator enemyAnim;
 
 
     protected override void Initialize()
@@ -137,10 +135,8 @@ public class LightAttackpattern : State
     {
         if (startAttack == true)
         {
-            
             if (AttackWaitTimer(attackChargeTime))
             {
-                Agent.animator.SetTrigger("Attack");
                 dashTime = (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) - dashDistanceOffset) / dashSpeed;
                 startAttack = false;
                 startDash = true;

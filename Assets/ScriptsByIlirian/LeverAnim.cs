@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 
 public class LeverAnim : MonoBehaviour
 {
@@ -12,11 +11,6 @@ public class LeverAnim : MonoBehaviour
     [SerializeField] private Text pressText;
     [SerializeField] private GameObject panel;
     private Collider trigger;
-    private Animator anim2;
-    [Header("Triggers")]
-    public UnityEvent TriggerEvent;
-
-
 
 
     void Start()
@@ -24,7 +18,6 @@ public class LeverAnim : MonoBehaviour
         anim = GetComponent<Animator>();
         panel.SetActive(false);
         trigger = GetComponent<BoxCollider>();
-        anim2 = GetComponentInChildren<Animator>();
         
     }
 
@@ -44,8 +37,6 @@ public class LeverAnim : MonoBehaviour
         anim.SetBool("Open", true);
         leverPulled = true;
         trigger.enabled = false;
-        anim2.SetBool("Open", true);
-        TriggerEvent.Invoke();
         if (leverPulled)
         {
             panel.SetActive(false);
