@@ -242,6 +242,10 @@ public class CharacterController : MonoBehaviour
         {
             dodgerollStart = true;
             dodgerollTimerRunning = true;
+
+            //more anim things
+            Debug.Log("in player Dodgeroll");
+            anim.SetTrigger("DodgeRoll");
         }
 
         if (dodgerollStart == true)
@@ -265,6 +269,7 @@ public class CharacterController : MonoBehaviour
                     dodgerolling = true;
                     dodgerollOfCooldown = false;
                     invincibility = true;
+
 
                 }
             }
@@ -312,6 +317,10 @@ public class CharacterController : MonoBehaviour
         transform.rotation = lookRotation;
          InstantiateAttackHitbox();
         startAttackCooldown = true;
+
+        //more anim things
+        //Debug.Log("in player attack");
+        anim.SetTrigger("Attack");
     }
     void AttackCoolDown()
     {
@@ -404,6 +413,11 @@ public class CharacterController : MonoBehaviour
         Debug.Log("Player Dead");
         GetComponent<HealthScript>().regainHealth(100);
         transform.position = respawnPoint.transform.position;
+    }
+
+    public float GetFlaskUses() {
+
+        return flaskUses;
     }
 
 }
