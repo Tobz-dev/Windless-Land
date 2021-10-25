@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 123771138}
-  - component: {fileID: 123771139}
   m_Layer: 5
   m_Name: HealthPotions
   m_TagString: Untagged
@@ -38,21 +37,6 @@ RectTransform:
   m_AnchoredPosition: {x: 210.79602, y: -132.0898}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &123771139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 123771137}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 948c3d5f872261e4a97d5176b9b21ff8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movableObject: {fileID: 123771138}
-  scalableObjects: []
-  scaleSlider: {fileID: 0}
 --- !u!1 &638303952
 GameObject:
   m_ObjectHideFlags: 0
@@ -558,7 +542,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1624896405, guid: 2e4e966fc0e905a4dadc141ef9a4a765, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2e4e966fc0e905a4dadc141ef9a4a765, type: 3}
 --- !u!224 &4409074025403225096 stripped
 RectTransform:
