@@ -415,7 +415,7 @@ public class CharacterController : MonoBehaviour
         transform.position = respawnPoint.transform.position;
     }
 
-    public float getFlaskUses() {
+    public float GetFlaskUses() {
 
         return flaskUses;
     }
