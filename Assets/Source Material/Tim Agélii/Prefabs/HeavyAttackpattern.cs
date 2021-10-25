@@ -12,31 +12,42 @@ public class HeavyAttackpattern : State
 
     public Material attackIndicatorMaterial;
     public Material startMaterial;
-    public float outOfRange = 15;
+
+    [SerializeField]
+    public float outOfRange;
+
+
     private float attackTimer = 0;
 
-    private float turnSpeed = 5f;
-
+    [SerializeField]
+    private float turnSpeed;
+    [SerializeField]
+    private float attackChargeTime;
     Vector3 turnDirection;
 
     //public GameObject hitBox;
 
     private bool allowStop = true;
 
-    
+
     private bool startAttack = false;
     private bool startCooldown = false;
+ 
 
     private bool lookAtPlayer = true;
 
 
     //hitbox variables
-
+ 
     [SerializeField]
     private GameObject attackHitbox;
-   
-    private float swingTime = 1.5f;
-   
+
+    [SerializeField]
+    private float swingTime;
+
+    [SerializeField]
+    private float attackWaitTime;
+
     [SerializeField]
     private Vector3 hitboxOffset;
 
@@ -46,6 +57,7 @@ public class HeavyAttackpattern : State
     private float yRotationOffset;
     [SerializeField]
     private float zRotationOffset;
+
 
 
 
@@ -78,6 +90,7 @@ public class HeavyAttackpattern : State
     {
         if (lookAtPlayer == true)
         {
+            Agent.NavAgent.isStopped = true;
             LookAtPlayer();
         }
         if (startAttack == true) {
@@ -93,7 +106,7 @@ public class HeavyAttackpattern : State
 
     void LookAtPlayer() {
         allowStop = false;
-            if (AttackWaitTimer(1f))
+            if (AttackWaitTimer(attackWaitTime))
             {
                 lookAtPlayer = false;
             Agent.transform.rotation = Agent.transform.rotation;
@@ -111,7 +124,7 @@ public class HeavyAttackpattern : State
 
     void Attack() {
         if (startAttack == true) {
-            if (AttackWaitTimer(0.4f))
+            if (AttackWaitTimer(attackChargeTime))
             {
                 InstantiateOneHitbox();
                 startAttack = false;
@@ -127,6 +140,7 @@ public class HeavyAttackpattern : State
         if (startCooldown == true) {
             if (AttackWaitTimer(swingTime))
             {
+                Agent.NavAgent.isStopped = false;
                 allowStop = true;
                 lookAtPlayer = true;
                 startCooldown = false;
