@@ -628,7 +628,7 @@ GameObject:
   - component: {fileID: 8899394423204546919}
   m_Layer: 0
   m_Name: Enemy_light 1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -677,12 +677,12 @@ NavMeshAgent:
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 360
-  m_StoppingDistance: 5
+  m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1
-  m_BaseOffset: 0.5
+  m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &2750288061924280763
@@ -702,8 +702,6 @@ MonoBehaviour:
   CollisionLayer:
     serializedVersion: 2
     m_Bits: 0
-  point1: {x: 0, y: 0, z: 0}
-  point2: {x: 0, y: 0, z: 0}
   agentTransform: {fileID: 0}
   PatrolPoints:
   - {fileID: 0}
@@ -728,6 +726,10 @@ MonoBehaviour:
   Maxhealth: 6
   material: {fileID: 2100000, guid: 808ae2002bfb8fc48ad40d63ab54ea5a, type: 2}
   originalMaterial: {fileID: 2100000, guid: 2c6f5ab601d22834883d3c7e18f8be41, type: 2}
+  hpSlots: []
+  flaskAmountText: {fileID: 0}
+  maxFlasks: 4
+  playerInvincibilityTime: 0
 --- !u!54 &2750288061924280760
 Rigidbody:
   m_ObjectHideFlags: 0
