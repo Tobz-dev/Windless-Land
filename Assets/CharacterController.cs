@@ -242,6 +242,10 @@ public class CharacterController : MonoBehaviour
         {
             dodgerollStart = true;
             dodgerollTimerRunning = true;
+
+            //more anim things
+            Debug.Log("in player Dodgeroll");
+            anim.SetTrigger("DodgeRoll");
         }
 
         if (dodgerollStart == true)
@@ -266,8 +270,7 @@ public class CharacterController : MonoBehaviour
                     dodgerollOfCooldown = false;
                     invincibility = true;
 
-                    //more anim things
-                    anim.SetTrigger("DodgeRoll");
+
                 }
             }
             else
@@ -316,6 +319,7 @@ public class CharacterController : MonoBehaviour
         startAttackCooldown = true;
 
         //more anim things
+        //Debug.Log("in player attack");
         anim.SetTrigger("Attack");
     }
     void AttackCoolDown()
