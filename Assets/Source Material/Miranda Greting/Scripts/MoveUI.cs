@@ -17,7 +17,10 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     [SerializeField] private GameObject[] scalableObjects;
     [SerializeField] private Slider scaleSlider;
     [SerializeField] private GameObject rebindingMenu;
+    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject uiMenu;
     [SerializeField] private InputAction pause;
+    [SerializeField] private GameObject editModePanel;
 
 
     private void OnEnable()
@@ -38,7 +41,10 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         previousPositions.Add(currentPos);
         scaleSlider.onValueChanged.AddListener(delegate { ScaleUI(); });
         rebindingMenu.SetActive(false);
-        pause.performed += _ => ToggleMenu();
+        pause.performed += _ => TogglePauseMenu();
+        editModePanel.SetActive(false);
+        pauseMenu.SetActive(false);
+        uiMenu.SetActive(false);
     }
 
     // Update is called once per frame
@@ -97,6 +103,11 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         Debug.Log("AddedPosCurrent");
     }
 
+    public void ActivateEditMode()
+    {
+        editModePanel.SetActive(true);
+    }
+
     private void ScaleUI()
     {
         foreach(GameObject gameObject in scalableObjects)
@@ -134,19 +145,45 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         }
     }
 
-    private void ToggleMenu()
+    public void ToggleRebindMenu()
     {
         if (rebindingMenu.activeInHierarchy)
         {
             rebindingMenu.SetActive(false);
-            Time.timeScale = 1;
         }
         else
         {
             rebindingMenu.SetActive(true);
-            Time.timeScale = 0;
         }
         //rebindingMenu.SetActive(true);
+    }
+
+    public void TogglePauseMenu()
+    {
+        if (pauseMenu.activeInHierarchy)
+        {
+            pauseMenu.SetActive(false);
+            Time.timeScale = 1;
+        }
+        else
+        {
+            pauseMenu.SetActive(true);
+            Time.timeScale = 0;
+        }
+    }
+
+    public void ToggleUIMenu()
+    {
+        if (uiMenu.activeInHierarchy)
+        {
+            uiMenu.SetActive(false);
+            editModePanel.SetActive(false);
+        }
+        else
+        {
+            uiMenu.SetActive(true);
+            editModePanel.SetActive(true);
+        }
     }
 
 }
