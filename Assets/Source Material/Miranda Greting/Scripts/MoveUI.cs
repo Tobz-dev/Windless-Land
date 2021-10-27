@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -15,7 +16,19 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     private List <Vector2> previousPositions;
     [SerializeField] private GameObject[] scalableObjects;
     [SerializeField] private Slider scaleSlider;
+    [SerializeField] private GameObject rebindingMenu;
+    [SerializeField] private InputAction pause;
 
+
+    private void OnEnable()
+    {
+        pause.Enable();
+    }
+
+    private void OnDisable()
+    {
+        pause.Disable();
+    }
 
     void Start()
     {
@@ -24,6 +37,8 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         previousPositions = new List<Vector2>();
         previousPositions.Add(currentPos);
         scaleSlider.onValueChanged.AddListener(delegate { ScaleUI(); });
+        rebindingMenu.SetActive(false);
+        pause.performed += _ => ToggleMenu();
     }
 
     // Update is called once per frame
@@ -38,6 +53,11 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.Z))
         {
             UndoTransform();
+        }
+
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            //ToggleMenu();
         }
 
     }
@@ -112,6 +132,21 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             rectTransform.pivot = rectMinMax;
 
         }
+    }
+
+    private void ToggleMenu()
+    {
+        if (rebindingMenu.activeInHierarchy)
+        {
+            rebindingMenu.SetActive(false);
+            Time.timeScale = 1;
+        }
+        else
+        {
+            rebindingMenu.SetActive(true);
+            Time.timeScale = 0;
+        }
+        //rebindingMenu.SetActive(true);
     }
 
 }
