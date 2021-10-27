@@ -8,6 +8,7 @@ public class FallingPlatform : MonoBehaviour
     private Rigidbody rbd;
     private BoxCollider boxcollider;
 
+
     public float fallplat;
 
     public float fallplaton;
