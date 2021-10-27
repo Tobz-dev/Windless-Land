@@ -8,24 +8,24 @@ public class FontChangeTest : MonoBehaviour
 
     GameObject[] textObjects;
     private List<TextMeshProUGUI> textMeshProUGUIList = new List<TextMeshProUGUI>();
-    [SerializeField] private GameObject[] ObjectsToDisableOnStart;
+    [SerializeField] private GameObject[] ObjectsToGetTextFrom;
 
     // Start is called before the first frame update
     void Start()
     {
+
         textObjects = GameObject.FindGameObjectsWithTag("Text");
         for (int i = 0; i <= textObjects.Length - 1; i++)
         {
             textMeshProUGUIList.Add(textObjects[i].GetComponent<TextMeshProUGUI>());
-            Debug.Log("textMeshProUGUIList count is" + textMeshProUGUIList.Count);
+            //Debug.Log("textMeshProUGUIList count is" + textMeshProUGUIList.Count);
         }
 
-        //optionsMenu.SetActive(false);
-        //array of menus to set inactive
-        for (int i = 0; i <= ObjectsToDisableOnStart.Length - 1; i++)
+        //this turns off the options menu if it is not active when starting the program. thats bad.
+        for (int i = 0; i <= ObjectsToGetTextFrom.Length - 1; i++)
         {
-            ObjectsToDisableOnStart[i].SetActive(false);
-            Debug.Log("in fontchange test. inactive object loop");
+            //ObjectsToGetTextFrom[i].SetActive(false);
+            //Debug.Log("in fontchange test. inactive object loop");
         }
     }
 
