@@ -15,7 +15,12 @@ public class newHitbox : MonoBehaviour
 
     private float deathTimer;
 
+    private Collider hitboxCollider;
 
+    private void Start()
+    {
+        hitboxCollider = GetComponent<Collider>();
+    }
     private void OnTriggerEnter(Collider other)
     {
 
@@ -36,7 +41,7 @@ public class newHitbox : MonoBehaviour
             other.GetComponent<HealthScript>().takeDamage(damage);
             Debug.Log("Dealt " + damage + " damage");
 
-            Destroy(this.gameObject);
+            hitboxCollider.enabled = false;
         }
         else if(invincibility == true) {
             invincibility = false;
