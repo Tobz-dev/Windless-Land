@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class HealthScript : MonoBehaviour
 {
- 
+
+    private int chilldrenAmount;
+
     private int health;
     [SerializeField]
     private int Maxhealth;
@@ -29,6 +31,7 @@ public class HealthScript : MonoBehaviour
 
     private void Start()
     {
+        chilldrenAmount = transform.childCount;
         health = Maxhealth;
         HealthSetup();
         flaskAmount = maxFlasks;
@@ -145,9 +148,27 @@ public class HealthScript : MonoBehaviour
     {
         if(gameObject.tag != "Player")
         {
-            gameObject.GetComponent<MeshRenderer>().material = material;
+            for (int i = 0; i < chilldrenAmount; i++)
+            {
+
+                GameObject child = transform.GetChild(i).gameObject;
+                if (child.TryGetComponent(out Renderer renderer) == true)
+                {
+                    renderer.material = material;
+                }
+
+            }
             yield return new WaitForSeconds(0.3f);
-            gameObject.GetComponent<MeshRenderer>().material = originalMaterial;
+            for (int i = 0; i < chilldrenAmount; i++)
+            {
+
+                GameObject child = transform.GetChild(i).gameObject;
+                if (child.TryGetComponent(out Renderer renderer) == true)
+                {
+                    renderer.material = originalMaterial;
+                }
+
+            }
         }
        
     }
