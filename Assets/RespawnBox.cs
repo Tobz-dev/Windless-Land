@@ -19,6 +19,7 @@ public class RespawnBox : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log(collision.gameObject.name);
         if(collision.gameObject.tag == "Player")
         {
             SceneManager.LoadScene("Level 1 pt.1");
