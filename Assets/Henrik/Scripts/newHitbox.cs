@@ -1,36 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//Main Author: Henrik Rudén
-
+//Main Author: Henrik Rudï¿½n
+//secondary Author: Tim Agï¿½lii
 public class newHitbox : MonoBehaviour
 {
     [SerializeField]
     private float swingTime;
     [SerializeField]
-    private int damage = 1;
+    private int damage ;
     [SerializeField]
     private string target;
-    private bool invisibility = false;
+    private bool invincibility = false;
 
     private float deathTimer;
 
+    private Collider hitboxCollider;
 
+    private void Start()
+    {
+        hitboxCollider = GetComponent<Collider>();
+    }
     private void OnTriggerEnter(Collider other)
     {
 
-        if (target == "Player")
+        if (other.gameObject.tag == target && target.Equals("Player"))
         {
-            //invisibility = other.gameObject.GetComponent<CharacterController>().GetInvisibility();
+
+            if (other.gameObject.GetComponent<CharacterController>().GetInvincibility() == true)
+            {
+                invincibility = true;
+            }
+
+
         }
 
-        if (other.gameObject.tag == target && invisibility == false)
+        if (other.gameObject.tag == target && invincibility == false)
         {
             Debug.Log("Hit " + target);
             other.GetComponent<HealthScript>().takeDamage(damage);
             Debug.Log("Dealt " + damage + " damage");
 
-            Destroy(this.gameObject);
+            hitboxCollider.enabled = false;
+        }
+        else if(invincibility == true) {
+            invincibility = false;
         }
     }
 
@@ -60,20 +74,4 @@ public class newHitbox : MonoBehaviour
         }
 
     }
-
-    public void SetDamage(int x)
-    {
-        damage = x;
-    }
-
-    public void SetSwingTime(float x)
-    {
-        swingTime = x;
-    }
-
-    public void SetTarget(string x)
-    {
-        target = x;
-    }
-
 }
