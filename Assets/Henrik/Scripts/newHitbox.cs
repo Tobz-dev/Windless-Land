@@ -37,9 +37,9 @@ public class newHitbox : MonoBehaviour
 
         if (other.gameObject.tag == target && invincibility == false)
         {
-            Debug.Log("Hit " + target);
+            //Debug.Log("Hit " + target);
             other.GetComponent<HealthScript>().takeDamage(damage);
-            Debug.Log("Dealt " + damage + " damage");
+            //Debug.Log("Dealt " + damage + " damage");
 
             hitboxCollider.enabled = false;
         }
