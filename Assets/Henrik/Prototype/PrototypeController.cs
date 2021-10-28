@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PrototypeController : MonoBehaviour
 {
@@ -17,11 +18,10 @@ public class PrototypeController : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            Debug.Log("TEST P KEY");
-            //GameObject.Find("other_object_name").GetComponent(B).enabled = false;
-            //GameObject.Find("other_object_name").GetComponent(B).enabled = false;
+            Debug.Log("RightArrow");
+            SceneManager.LoadScene("HenrikPrototyp");
         }
 
 
