@@ -6,14 +6,14 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class ScriptSave : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] private RectTransform movableObject;
     private Vector3 offset;
     private float zCoord;
     private Vector2 startPos;
     private Vector2 currentPos;
-    private List <Vector2> previousPositions;
+    private List<Vector2> previousPositions;
     [SerializeField] private GameObject[] scalableObjects;
     [SerializeField] private Slider scaleSlider;
     [SerializeField] private GameObject rebindingMenu;
@@ -46,7 +46,8 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         editModePanel.SetActive(false);
         pauseMenu.SetActive(false);
         uiMenu.SetActive(false);
-        for (int i = 0; i <= scalableObjects.Length - 1; i++) 
+        anchorOffsets = new Vector2[scalableObjects.Length];
+        for (int i = 0; i <= scalableObjects.Length - 1; i++)
         {
             RectTransform rectTransform = scalableObjects[i].GetComponent<RectTransform>();
             anchorOffsets[i] = new Vector2(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y);
@@ -87,7 +88,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             movableObject.anchoredPosition = previousPositions[previousPositions.Count - 1];
             currentPos = previousPositions[previousPositions.Count - 1];
         }
-        
+
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -95,12 +96,12 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         movableObject.anchoredPosition += eventData.delta;
     }
 
-    
+
     public void OnBeginDrag(PointerEventData eventData)
     {
 
     }
-    
+
 
     public void OnEndDrag(PointerEventData eventData)
     {
@@ -116,7 +117,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     private void ScaleUI()
     {
-        foreach(GameObject gameObject in scalableObjects)
+        foreach (GameObject gameObject in scalableObjects)
         {
             gameObject.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, 1);
         }
@@ -124,7 +125,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     public void ChangeAnchoredPos(string buttonPos)
     {
-        for (int i = 0; i <= scalableObjects.Length-1; i++)
+        for (int i = 0; i <= scalableObjects.Length - 1; i++)
         {
             RectTransform rectTransform = scalableObjects[i].GetComponent<RectTransform>();
             Vector2 rectMinMax = rectTransform.anchorMin;
