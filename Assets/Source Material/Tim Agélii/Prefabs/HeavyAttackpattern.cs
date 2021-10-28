@@ -136,10 +136,7 @@ public class HeavyAttackpattern : State
                 for (int i = 0; i < chilldrenAmount; i++) {
 
                     GameObject child = Agent.transform.GetChild(i).gameObject;
-                    if (child.TryGetComponent(out Renderer renderer) == true)
-                    {
-                        renderer.material = startMaterial;
-                    }
+                    child.GetComponent<Renderer>().material = startMaterial;
                 }
             
             }
@@ -148,10 +145,7 @@ public class HeavyAttackpattern : State
                 {
 
                     GameObject child = Agent.transform.GetChild(i).gameObject;
-                    if (child.TryGetComponent(out Renderer renderer) == true)
-                    {
-                        renderer.material = attackIndicatorMaterial;
-                    }
+                    child.GetComponent<Renderer>().material = attackIndicatorMaterial;
                 }
      
             }

@@ -11,26 +11,23 @@ public class EventSystemHelper : MonoBehaviour
 
     public void Update()
     {
-        if (Input.anyKey) 
-        {         
-            //Debug.Log("in EventS helper");
+        if (Input.GetKeyDown(KeyCode.A)) 
+        {
+            Debug.Log("in EventS helper");
         }
-
     }
 
 
 
     public void ChangeFirstSelectedObject(GameObject newFirstSelectedObject) 
     {
-        //Debug.Log("in EventS helper, setting first selected to " + newFirstSelectedObject.name);
-
-        EventSystem.current.firstSelectedGameObject = newFirstSelectedObject;
+        Debug.Log("in EventS helper, setting first selected to " + newFirstSelectedObject.name);
 
         EventSystem.current.SetSelectedGameObject(null);
 
         EventSystem.current.SetSelectedGameObject(newFirstSelectedObject);
 
-        //Debug.Log("then " + EventSystem.current.ToString());
+        Debug.Log("then " + EventSystem.current.ToString());
 
     }
 

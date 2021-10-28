@@ -17,7 +17,7 @@ public class RespawnBox : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider collision)
+    private void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision.gameObject.name);
         if(collision.gameObject.tag == "Player")

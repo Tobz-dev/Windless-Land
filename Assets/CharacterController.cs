@@ -244,7 +244,7 @@ public class CharacterController : MonoBehaviour
             dodgerollTimerRunning = true;
 
             //more anim things
-            //Debug.Log("in player Dodgeroll");
+            Debug.Log("in player Dodgeroll");
             anim.SetTrigger("DodgeRoll");
         }
 
