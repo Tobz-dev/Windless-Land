@@ -3509,9 +3509,17 @@ PrefabInstance:
       value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1427691672052367342, guid: 88452f2814ba9584ca4e7b2a38114a19, type: 3}
+      propertyPath: material
+      value: 
+      objectReference: {fileID: 2100000, guid: c103ed8a6e675b5479be69ce128d0892, type: 2}
+    - target: {fileID: 1427691672052367342, guid: 88452f2814ba9584ca4e7b2a38114a19, type: 3}
       propertyPath: flaskAmountText
       value: 
       objectReference: {fileID: 1779409268}
+    - target: {fileID: 1427691672052367342, guid: 88452f2814ba9584ca4e7b2a38114a19, type: 3}
+      propertyPath: originalMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 808ae2002bfb8fc48ad40d63ab54ea5a, type: 2}
     - target: {fileID: 1427691672052367342, guid: 88452f2814ba9584ca4e7b2a38114a19, type: 3}
       propertyPath: hpSlots.Array.data[0]
       value: 
@@ -3576,6 +3584,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1427691672052367346, guid: 88452f2814ba9584ca4e7b2a38114a19, type: 3}
+      propertyPath: material
+      value: 
+      objectReference: {fileID: 2100000, guid: c103ed8a6e675b5479be69ce128d0892, type: 2}
+    - target: {fileID: 1427691672052367346, guid: 88452f2814ba9584ca4e7b2a38114a19, type: 3}
+      propertyPath: originalMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 808ae2002bfb8fc48ad40d63ab54ea5a, type: 2}
     - target: {fileID: 1427691672052367348, guid: 88452f2814ba9584ca4e7b2a38114a19, type: 3}
       propertyPath: m_Name
       value: Player
@@ -30075,6 +30091,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 8
+  material: {fileID: 0}
+  originalMaterial: {fileID: 0}
   attackHitbox: {fileID: 8341296124936379303, guid: 25a1424dc2e8d3d4392443b3dd9c9b62, type: 3}
   swingTime: 0.5
   hitboxOffset: {x: 0, y: 0, z: 0}
