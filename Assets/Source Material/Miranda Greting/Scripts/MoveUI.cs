@@ -71,6 +71,8 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             RectTransform rectTransform = scalableObjects[i].GetComponent<RectTransform>();
             anchorOffsets[i] = new Vector2(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y);
         }
+
+        dropDown.value = 1;
     }
 
     // Update is called once per frame
@@ -260,6 +262,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         {
             uiMenu.SetActive(false);
             editModePanel.SetActive(false);
+            pauseMenu.SetActive(true);
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(uiMenuCloseSelected);
 
@@ -268,6 +271,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         {
             uiMenu.SetActive(true);
             editModePanel.SetActive(true);
+            pauseMenu.SetActive(false);
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(uiMenuFirstSelected);
         }
