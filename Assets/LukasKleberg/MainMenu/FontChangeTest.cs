@@ -13,6 +13,13 @@ public class FontChangeTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //this turns off the options menu if it is not active when starting the program. thats bad.
+        for (int i = 0; i <= ObjectsToGetTextFrom.Length - 1; i++)
+        {
+            ObjectsToGetTextFrom[i].SetActive(true);
+            //Debug.Log("in fontchange test. activate object loop");
+        }
+
 
         textObjects = GameObject.FindGameObjectsWithTag("Text");
         for (int i = 0; i <= textObjects.Length - 1; i++)
@@ -22,9 +29,9 @@ public class FontChangeTest : MonoBehaviour
         }
 
         //this turns off the options menu if it is not active when starting the program. thats bad.
-        for (int i = 0; i <= ObjectsToGetTextFrom.Length - 1; i++)
+        for (int i = 1; i <= ObjectsToGetTextFrom.Length - 1; i++)
         {
-            //ObjectsToGetTextFrom[i].SetActive(false);
+            ObjectsToGetTextFrom[i].SetActive(false);
             //Debug.Log("in fontchange test. inactive object loop");
         }
     }
@@ -35,13 +42,18 @@ public class FontChangeTest : MonoBehaviour
         
     }
 
-    public void ChangeFont(TMP_FontAsset font)
+    public void ChangeFont(TMP_FontAsset fontToChangeTo)
     {
-        Debug.Log(textMeshProUGUIList.Count);
+        //TMP_FontAsset testFont = fontToChangeTo;
+        Debug.Log("in ChangeFont. TextList is " + textMeshProUGUIList.Count);
         foreach (TextMeshProUGUI textMeshProUGUI in textMeshProUGUIList)
         {
-            Debug.Log("in font change test, changing fonts");
-            textMeshProUGUI.font = font;
+            if (textMeshProUGUI != null) 
+            {
+                Debug.Log("in font change test " + textMeshProUGUI.name);
+                textMeshProUGUI.font = fontToChangeTo;
+            }
+
         }
 
 
