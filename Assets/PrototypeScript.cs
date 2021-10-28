@@ -7,6 +7,7 @@ public class PrototypeScript : MonoBehaviour
     public GameObject smallEnemy;
     public GameObject bigEnemy;
     public GameObject rangedEnemy;
+    public float slowRate;
 
     private bool slowMotion = false;
     // Start is called before the first frame update
@@ -50,5 +51,11 @@ public class PrototypeScript : MonoBehaviour
             
         }
         
+    }
+
+    public void ChangeTimeScale(float x)
+    {
+        Time.timeScale = x;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
 }
