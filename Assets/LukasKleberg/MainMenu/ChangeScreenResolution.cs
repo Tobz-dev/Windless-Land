@@ -45,12 +45,13 @@ public class ChangeScreenResolution : MonoBehaviour
 
 
 
-        //check if the game starts in fullscreen
+        //check if the game starts in fullscreen. 
+        //this is reversed because the button says "toggle windowed", so if it shouldn't be checkeed if the game is fullscreen
         if (Screen.fullScreen == true)
         {
             Debug.Log("ChangeScreenResolution. on start set to fullscreen");
-            inFullscreen = true;
-            checkBoxImage.enabled = true;
+            inFullscreen = false;
+            checkBoxImage.enabled = false;
         }
     }
 
@@ -63,7 +64,7 @@ public class ChangeScreenResolution : MonoBehaviour
     public void ToggleWindow()
     {
 
-        if (inFullscreen)
+        if (Screen.fullScreen == true)
         {
             Debug.Log("ChangeScreenResolution. set to windowed");
             Screen.fullScreen = false;
