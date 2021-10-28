@@ -14,7 +14,7 @@ public class CharacterController : MonoBehaviour
 
     float moveSpeedDefault;
 
- 
+
 
     float dodgeTimer = 0;
 
@@ -31,6 +31,11 @@ public class CharacterController : MonoBehaviour
     bool invincibility = false;
 
 
+    //prototyp
+    float extraInputTime = 0.3f;
+    bool queueAttack = false;
+    bool queueDodge = false;
+
 
     //healthFlask
     bool healthFlaskTimerRunning = true;
@@ -41,7 +46,7 @@ public class CharacterController : MonoBehaviour
     float healthFlaskSpeedFactor = 0.2f;
     float healthFlaskDuration = 1.5f;
     float healthFlaskCooldown = 0.5f;
-   
+
     //attack
     bool startAttackCooldown = false;
     float attackTimer = 0;
@@ -53,6 +58,8 @@ public class CharacterController : MonoBehaviour
     bool dodgerollOfCooldown = true;
     Vector3 inputDirection;
 
+    Vector3 playerMovement;
+
     private bool canMove = true;
 
 
@@ -60,13 +67,13 @@ public class CharacterController : MonoBehaviour
 
     [SerializeField]
     private GameObject attackHitbox;
-   
+
     [SerializeField]
     private float swingTime;
     [SerializeField]
     private Vector3 hitboxOffset;
 
-   
+
     [SerializeField]
     private float xRotationOffset;
     [SerializeField]
@@ -116,6 +123,8 @@ public class CharacterController : MonoBehaviour
 
             AttackManager();
 
+            UpdateMoveInput();
+
             if (Input.anyKey && moveAllow == true)
             {
                 Move();
@@ -135,13 +144,13 @@ public class CharacterController : MonoBehaviour
             Vector3 horizontal = (Input.GetAxis("Horizontal") * right);
             Vector3 vertical = (Input.GetAxis("Vertical") * forward);
             Vector3 rotation = horizontal + vertical;
-                
+
             transform.rotation = Quaternion.LookRotation(rotation);
         }
 
 
-        
-       
+
+
 
         /*
         if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -153,12 +162,11 @@ public class CharacterController : MonoBehaviour
         */
     }
 
-    void Move()
-    {
+    void UpdateMoveInput() {
         Vector3 rightMovement = right * moveSpeed * Time.deltaTime * Input.GetAxis("HorizontalKey");
         Vector3 upMovement = forward * moveSpeed * Time.deltaTime * Input.GetAxis("VerticalKey");
 
-        Vector3 playerMovement = rightMovement + upMovement;
+       playerMovement = rightMovement + upMovement;
 
         inputDirection = playerMovement.normalized;
 
@@ -166,6 +174,11 @@ public class CharacterController : MonoBehaviour
         {
             playerMovement = playerMovement.normalized * moveSpeed * Time.deltaTime;
         }
+    }
+
+    void Move()
+    {
+     
 
         transform.position += playerMovement;
 
@@ -234,20 +247,29 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-
-
-    void DodgerollManager()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && dodgerollOfCooldown)
-        {
+    void StartDodgeroll() {
+        
             dodgerollStart = true;
             dodgerollTimerRunning = true;
 
             //more anim things
             Debug.Log("in player Dodgeroll");
             anim.SetTrigger("DodgeRoll");
-        }
 
+        transform.rotation = Quaternion.LookRotation(inputDirection);
+        moveAllow = false;
+
+        dodgerolling = true;
+        dodgerollOfCooldown = false;
+        invincibility = true;
+    }
+
+    void DodgerollManager()
+    {
+    if (Input.GetKeyDown(KeyCode.Space) && dodgerollOfCooldown && startAttackCooldown == false)
+    {
+        StartDodgeroll();
+        }
         if (dodgerollStart == true)
         {
 
@@ -263,14 +285,9 @@ public class CharacterController : MonoBehaviour
                 }
                 else
                 {
-                    transform.rotation = Quaternion.LookRotation(inputDirection);
+                  
                     transform.position += (transform.forward).normalized * dodgerollSpeed * Time.deltaTime;
-                    moveAllow = false;
-                    dodgerolling = true;
-                    dodgerollOfCooldown = false;
-                    invincibility = true;
-
-
+                 
                 }
             }
             else
@@ -305,6 +322,8 @@ public class CharacterController : MonoBehaviour
     void AttackManager() {
         if (Input.GetKeyDown(KeyCode.Mouse0) && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false) 
         {
+
+
             Attack();
            
         }
@@ -331,9 +350,27 @@ public class CharacterController : MonoBehaviour
                 moveAllow = true;
           
                 startAttackCooldown = false;
+
+                if (queueAttack == true) {
+                    queueAttack = false;
+                    Attack();
+                }
+                if (queueDodge == true) {
+                    queueDodge = false;
+                    StartDodgeroll();
+                }
             }
             else {
                 moveAllow = false;
+                if (attackTimer >= (swingTime - extraInputTime) && Input.GetKeyDown(KeyCode.Mouse0)) {
+                    queueAttack = true;
+                    queueDodge = false;
+                }
+                if (attackTimer >= (swingTime - extraInputTime) && Input.GetKeyDown(KeyCode.Space))
+                {
+                    queueAttack = false;
+                    queueDodge = true;
+                }
             }
         }
 
