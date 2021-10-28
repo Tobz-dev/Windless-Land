@@ -60,7 +60,7 @@ public class FallingPlatform : MonoBehaviour
 
     private void OnTriggerEnter(Collider col)
     {
-        if (col.tag == "Death")
+        if (col.tag == "Reset")
 
         {
             rbd.isKinematic = true;
