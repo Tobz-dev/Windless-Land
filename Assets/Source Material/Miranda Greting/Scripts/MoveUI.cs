@@ -18,13 +18,18 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     [SerializeField] private Slider scaleSlider;
     [SerializeField] private GameObject rebindingMenu;
     [SerializeField] private GameObject rebindingMenuFirstSelected;
+    [SerializeField] private GameObject rebindCloseSelected;
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject pauseFirstSelected;
     [SerializeField] private GameObject uiMenu;
     [SerializeField] private GameObject uiMenuFirstSelected;
+    [SerializeField] private GameObject uiMenuCloseSelected;
     [SerializeField] private InputAction pause;
     [SerializeField] private GameObject editModePanel;
+    [SerializeField] private TMP_Dropdown dropDown;
     private Vector2[] anchorOffsets;
+    private GameObject[] textObjects;
+    private List<TextMeshProUGUI> textMeshProUGUIList = new List<TextMeshProUGUI>();
 
 
     private void OnEnable()
@@ -46,8 +51,19 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         scaleSlider.onValueChanged.AddListener(delegate { ScaleUI(); });
         rebindingMenu.SetActive(false);
         pause.performed += _ => TogglePauseMenu();
+
+        pauseMenu.SetActive(true);
+        uiMenu.SetActive(true);
+        rebindingMenu.SetActive(true);
+        textObjects = GameObject.FindGameObjectsWithTag("Text");
+        for (int i = 0; i <= textObjects.Length - 1; i++)
+        {
+            textMeshProUGUIList.Add(textObjects[i].GetComponent<TextMeshProUGUI>());
+        }
+
         editModePanel.SetActive(false);
         pauseMenu.SetActive(false);
+        rebindingMenu.SetActive(false);
         uiMenu.SetActive(false);
         anchorOffsets = new Vector2[scalableObjects.Length];
         for (int i = 0; i <= scalableObjects.Length - 1; i++)
@@ -207,10 +223,14 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         if (rebindingMenu.activeInHierarchy)
         {
             rebindingMenu.SetActive(false);
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(rebindCloseSelected);
         }
         else
         {
             rebindingMenu.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(rebindingMenuFirstSelected);
         }
         //rebindingMenu.SetActive(true);
     }
@@ -240,11 +260,35 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         {
             uiMenu.SetActive(false);
             editModePanel.SetActive(false);
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(uiMenuCloseSelected);
+
         }
         else
         {
             uiMenu.SetActive(true);
             editModePanel.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(uiMenuFirstSelected);
+        }
+    }
+
+    public void ChangeFontSize(int selection)
+    {
+        foreach(TextMeshProUGUI textObject in textMeshProUGUIList)
+        {
+            if(dropDown.value == 0)
+            {
+                textObject.fontSize = 20;
+            }
+            if (dropDown.value == 1)
+            {
+                textObject.fontSize = 30;
+            }
+            if (dropDown.value == 2)
+            {
+                textObject.fontSize = 40;
+            }
         }
     }
 
