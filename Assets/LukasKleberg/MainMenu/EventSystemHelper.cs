@@ -11,10 +11,11 @@ public class EventSystemHelper : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A)) 
-        {
+        if (Input.anyKey) 
+        {         
             //Debug.Log("in EventS helper");
         }
+
     }
 
 
