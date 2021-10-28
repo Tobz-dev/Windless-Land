@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -11,6 +13,9 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     private Vector2 startPos;
     private Vector2 currentPos;
     private List <Vector2> previousPositions;
+    [SerializeField] private GameObject[] scalableObjects;
+    [SerializeField] private Slider scaleSlider;
+
 
     void Start()
     {
@@ -18,6 +23,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         currentPos = startPos;
         previousPositions = new List<Vector2>();
         previousPositions.Add(currentPos);
+        scaleSlider.onValueChanged.AddListener(delegate { ScaleUI(); });
     }
 
     // Update is called once per frame
@@ -43,23 +49,6 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     private void UndoTransform()
     {
-        /*
-        for (int i = previousPositions.Count - 1; i >= 0; i--)
-        {
-            //movableObject.anchoredPosition = previousPositions[previousPositions.Count - 2];
-            if (previousPositions[i] == currentPos && currentPos != previousPositions[0])
-            {
-                Debug.Log("PosFound");
-                movableObject.anchoredPosition = previousPositions[i - 1];
-            }
-            else if (currentPos == previousPositions[0])
-            {
-                Debug.Log("EndReach");
-            }
-        }
-        currentPos = movableObject.anchoredPosition;
-        */
-        
         if (currentPos == previousPositions[previousPositions.Count - 1] && currentPos != previousPositions[0])
         {
             previousPositions.RemoveAt(previousPositions.Count - 1);
@@ -77,21 +66,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     
     public void OnBeginDrag(PointerEventData eventData)
     {
-        /*
-        for(int i = previousPositions.Count-1; i >= 0; i--)
-        {
-            if(previousPositions[i] == currentPos)
-            {
-                if (i < previousPositions.Count - 1)
-                {
-                    for (int y = previousPositions.Count - 1; y > i; i--)
-                    {
-                        previousPositions.RemoveAt(y);
-                    }
-                }
-            }
-        }
-        */
+
     }
     
 
@@ -100,6 +75,43 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         currentPos = movableObject.anchoredPosition;
         previousPositions.Add(currentPos);
         Debug.Log("AddedPosCurrent");
+    }
+
+    private void ScaleUI()
+    {
+        foreach(GameObject gameObject in scalableObjects)
+        {
+            gameObject.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, 1);
+        }
+    }
+
+    public void ChangeAnchoredPos(string buttonPos)
+    {
+        foreach (GameObject gameObject in scalableObjects)
+        {
+            RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
+            Vector2 rectMinMax = rectTransform.anchorMin;
+
+
+            if (buttonPos.Equals("UpLeft"))
+            {
+                rectMinMax = new Vector2(0, 1);
+            }
+            else if (buttonPos.Equals("UpMid"))
+            {
+                rectMinMax = new Vector2(0.5f, 1);
+            }
+            else if(buttonPos.Equals("UpRight"))
+            {
+                rectMinMax = new Vector2(1, 1);
+                rectTransform.anchoredPosition = new Vector2(-rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y);
+            }
+
+            rectTransform.anchorMin = rectMinMax;
+            rectTransform.anchorMax = rectMinMax;
+            rectTransform.pivot = rectMinMax;
+
+        }
     }
 
 }

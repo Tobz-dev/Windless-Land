@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Main Authour : Tim Agélii
 public class CharacterController : MonoBehaviour
 {
 
     [SerializeField]
-    float moveSpeed = 4f;
-    float dodgerollSpeed = 18f;
-    float dodgerollDuration = 0.35f;
+    float moveSpeed;
+    float dodgerollSpeed = 10f;
+    float dodgerollDuration = 0.5f;
     float dodgerollCooldown = 0.2f;
 
     float moveSpeedDefault;
@@ -74,7 +75,8 @@ public class CharacterController : MonoBehaviour
     private float zRotationOffset;
 
 
-    //
+    [SerializeField]
+    private Animator anim;
 
     public Transform respawnPoint;
 
@@ -118,6 +120,10 @@ public class CharacterController : MonoBehaviour
             {
                 Move();
             }
+
+            //anim stuff here. 
+            anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
+            anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
         }
     }
 
@@ -236,6 +242,10 @@ public class CharacterController : MonoBehaviour
         {
             dodgerollStart = true;
             dodgerollTimerRunning = true;
+
+            //more anim things
+            Debug.Log("in player Dodgeroll");
+            anim.SetTrigger("DodgeRoll");
         }
 
         if (dodgerollStart == true)
@@ -259,6 +269,7 @@ public class CharacterController : MonoBehaviour
                     dodgerolling = true;
                     dodgerollOfCooldown = false;
                     invincibility = true;
+
 
                 }
             }
@@ -306,6 +317,10 @@ public class CharacterController : MonoBehaviour
         transform.rotation = lookRotation;
          InstantiateAttackHitbox();
         startAttackCooldown = true;
+
+        //more anim things
+        //Debug.Log("in player attack");
+        anim.SetTrigger("Attack");
     }
     void AttackCoolDown()
     {
@@ -388,7 +403,7 @@ public class CharacterController : MonoBehaviour
         return false;
     }
 
-    public bool GetInvisibility() {
+    public bool GetInvincibility() {
         return invincibility;
     }
 
@@ -398,6 +413,11 @@ public class CharacterController : MonoBehaviour
         Debug.Log("Player Dead");
         GetComponent<HealthScript>().regainHealth(100);
         transform.position = respawnPoint.transform.position;
+    }
+
+    public float GetFlaskUses() {
+
+        return flaskUses;
     }
 
 }
