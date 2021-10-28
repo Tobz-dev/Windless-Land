@@ -121,7 +121,7 @@ public class HealthScript : MonoBehaviour
             //sets the NormalHP gameobject active for the amount of remaining HP
             for (int i = 0; i <= health - 2; i++)
             {
-                Debug.Log("yeet");
+                //Debug.Log("yeet");
                 hpSlots[i].transform.GetChild(0).gameObject.SetActive(false);
                 hpSlots[i].transform.GetChild(1).gameObject.SetActive(false);
                 hpSlots[i].transform.GetChild(2).gameObject.SetActive(true);
