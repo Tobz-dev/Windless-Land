@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 9025568673749608118}
   - component: {fileID: 2682246686895106227}
   - component: {fileID: 8958593653265072588}
+  - component: {fileID: 7898175552572347569}
   - component: {fileID: -2219625209881212416}
-  - component: {fileID: 276570227851898778}
   m_Layer: 0
   m_Name: Hitbox_light
   m_TagString: Untagged
@@ -83,6 +83,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &7898175552572347569
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7803925391982377162}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5000001
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!114 &-2219625209881212416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,17 +112,3 @@ MonoBehaviour:
   swingTime: 0.5
   damage: 1
   target: Player
---- !u!64 &276570227851898778
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7803925391982377162}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}

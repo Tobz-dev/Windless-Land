@@ -2,13 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class HealthScript : MonoBehaviour
 {
-
-    private int chilldrenAmount;
-
+ 
     private int health;
     [SerializeField]
     private int Maxhealth;
@@ -27,15 +24,11 @@ public class HealthScript : MonoBehaviour
     private bool damageIsOnCooldown = false;
     private float invincibilityTimer = 0;
 
-    Scene scene;
-
     [SerializeField]
     private float playerInvincibilityTime;
 
     private void Start()
     {
-        scene = SceneManager.GetActiveScene();
-        chilldrenAmount = transform.childCount;
         health = Maxhealth;
         HealthSetup();
         flaskAmount = maxFlasks;
@@ -58,7 +51,6 @@ public class HealthScript : MonoBehaviour
         if (health <= 0 && gameObject.tag == "Player")
         {
             //death animation and delay
-            SceneManager.LoadScene(scene.name);
             gameObject.GetComponent<CharacterController>().Respawn();
             //Debug.Log("Player Dead");
         }
@@ -153,27 +145,9 @@ public class HealthScript : MonoBehaviour
     {
         if(gameObject.tag != "Player")
         {
-            for (int i = 0; i < chilldrenAmount; i++)
-            {
-
-                GameObject child = transform.GetChild(i).gameObject;
-                if (child.TryGetComponent(out Renderer renderer) == true)
-                {
-                    renderer.material = material;
-                }
-
-            }
+            gameObject.GetComponent<MeshRenderer>().material = material;
             yield return new WaitForSeconds(0.3f);
-            for (int i = 0; i < chilldrenAmount; i++)
-            {
-
-                GameObject child = transform.GetChild(i).gameObject;
-                if (child.TryGetComponent(out Renderer renderer) == true)
-                {
-                    renderer.material = originalMaterial;
-                }
-
-            }
+            gameObject.GetComponent<MeshRenderer>().material = originalMaterial;
         }
        
     }

@@ -8,19 +8,14 @@ public class newHitbox : MonoBehaviour
     [SerializeField]
     private float swingTime;
     [SerializeField]
-    private int damage;
+    private int damage ;
     [SerializeField]
     private string target;
     private bool invincibility = false;
 
     private float deathTimer;
 
-    private Collider hitboxCollider;
 
-    private void Start()
-    {
-        hitboxCollider = GetComponent<Collider>();
-    }
     private void OnTriggerEnter(Collider other)
     {
 
@@ -41,7 +36,7 @@ public class newHitbox : MonoBehaviour
             other.GetComponent<HealthScript>().takeDamage(damage);
             Debug.Log("Dealt " + damage + " damage");
 
-            hitboxCollider.enabled = false;
+            Destroy(this.gameObject);
         }
         else if(invincibility == true) {
             invincibility = false;
