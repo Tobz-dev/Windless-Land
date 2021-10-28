@@ -351,14 +351,20 @@ public class CharacterController : MonoBehaviour
 
         if (startAttackCooldown == true)
         {
+
+
             if (AttackWaitTimer(swingTime))
             {
                 moveAllow = true;
           
                 startAttackCooldown = false;
+
+                StartCoroutine(damagedMaterial());
+                damagedMaterial();
             }
             else {
                 moveAllow = false;
+               
             }
         }
 
