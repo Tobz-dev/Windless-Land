@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HealthScript : MonoBehaviour
 {
@@ -26,11 +27,14 @@ public class HealthScript : MonoBehaviour
     private bool damageIsOnCooldown = false;
     private float invincibilityTimer = 0;
 
+    Scene scene;
+
     [SerializeField]
     private float playerInvincibilityTime;
 
     private void Start()
     {
+        scene = SceneManager.GetActiveScene();
         chilldrenAmount = transform.childCount;
         health = Maxhealth;
         HealthSetup();
@@ -54,6 +58,7 @@ public class HealthScript : MonoBehaviour
         if (health <= 0 && gameObject.tag == "Player")
         {
             //death animation and delay
+            SceneManager.LoadScene(scene.name);
             gameObject.GetComponent<CharacterController>().Respawn();
             //Debug.Log("Player Dead");
         }

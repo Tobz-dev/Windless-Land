@@ -8,7 +8,7 @@ public class newHitbox : MonoBehaviour
     [SerializeField]
     private float swingTime;
     [SerializeField]
-    private int damage ;
+    private int damage;
     [SerializeField]
     private string target;
     private bool invincibility = false;
