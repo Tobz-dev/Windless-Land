@@ -7,9 +7,9 @@ public class CharacterController : MonoBehaviour
 {
 
     [SerializeField]
-    float moveSpeed = 4f;
-    float dodgerollSpeed = 18f;
-    float dodgerollDuration = 0.35f;
+    float moveSpeed;
+    float dodgerollSpeed = 10f;
+    float dodgerollDuration = 0.5f;
     float dodgerollCooldown = 0.2f;
 
     float moveSpeedDefault;
@@ -244,7 +244,7 @@ public class CharacterController : MonoBehaviour
             dodgerollTimerRunning = true;
 
             //more anim things
-            Debug.Log("in player Dodgeroll");
+            //Debug.Log("in player Dodgeroll");
             anim.SetTrigger("DodgeRoll");
         }
 
