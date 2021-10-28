@@ -7,6 +7,7 @@ public class ArrowScript : MonoBehaviour
     public GameObject arrowPrefab;
     public Transform arrowSpawnPosition;
     public float shootForce = 10f;
+    public float arrowLifeTime;
 
 
 
@@ -21,6 +22,6 @@ public class ArrowScript : MonoBehaviour
 
         arrow.GetComponent<Rigidbody>().velocity = arrowSpawnPosition.transform.forward * shootForce;
 
-        Destroy(arrow, 5f);
+        Destroy(arrow, arrowLifeTime);
     }
 }
