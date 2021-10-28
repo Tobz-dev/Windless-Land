@@ -133,15 +133,6 @@ public class CharacterController : MonoBehaviour
                 Move();
             }
 
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                Debug.Log("Press T");
-
-                StartCoroutine(damagedMaterial());
-                damagedMaterial();
-
-
-            }
 
 
             //anim stuff here. 

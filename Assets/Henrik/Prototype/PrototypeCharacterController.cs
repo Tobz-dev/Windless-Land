@@ -14,7 +14,12 @@ public class PrototypeCharacterController : MonoBehaviour
 
     float moveSpeedDefault;
 
+    private int chilldrenAmount;
 
+    [SerializeField]
+    private Material material;
+    [SerializeField]
+    private Material originalMaterial;
 
     float dodgeTimer = 0;
 
@@ -85,6 +90,8 @@ public class PrototypeCharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        chilldrenAmount = transform.childCount;
+
         canMove = true;
         plane = new Plane(Vector3.up, Vector3.zero);
         forward = Camera.main.transform.forward;
@@ -332,6 +339,9 @@ public class PrototypeCharacterController : MonoBehaviour
                 moveAllow = true;
 
                 startAttackCooldown = false;
+
+                StartCoroutine(damagedMaterial());
+                damagedMaterial();
             }
             else
             {
@@ -422,6 +432,36 @@ public class PrototypeCharacterController : MonoBehaviour
     {
 
         return flaskUses;
+    }
+
+
+    private IEnumerator damagedMaterial()
+    {
+        if (gameObject.tag == "Player")
+        {
+            for (int i = 0; i < chilldrenAmount; i++)
+            {
+
+                GameObject child = transform.GetChild(i).gameObject;
+                if (child.TryGetComponent(out Renderer renderer) == true)
+                {
+                    renderer.material = material;
+                }
+
+            }
+            yield return new WaitForSeconds(0.3f);
+            for (int i = 0; i < chilldrenAmount; i++)
+            {
+
+                GameObject child = transform.GetChild(i).gameObject;
+                if (child.TryGetComponent(out Renderer renderer) == true)
+                {
+                    renderer.material = originalMaterial;
+                }
+
+            }
+        }
+
     }
 
 }
