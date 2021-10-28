@@ -12,10 +12,4 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene(nameOfNewScene);
     }
 
-    public void QuitGame() 
-    {
-        Debug.Log("in SceneLoader. Quiting game");
-        Application.Quit();
-    }
-
 }
