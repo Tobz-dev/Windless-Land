@@ -279,15 +279,15 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         {
             if(dropDown.value == 0)
             {
-                textObject.fontSize = 20;
+                textObject.fontSize = 30;
             }
             if (dropDown.value == 1)
             {
-                textObject.fontSize = 30;
+                textObject.fontSize = 40;
             }
             if (dropDown.value == 2)
             {
-                textObject.fontSize = 40;
+                textObject.fontSize = 50;
             }
         }
     }

@@ -160,6 +160,7 @@ public class CharacterControllerRemapTest : MonoBehaviour
 
     void Move()
     {
+        /*
         int horizontalMovement = 0;
         int verticalMovement = 0;
         if (playerInput.actions["Move Up"].triggered)
@@ -178,9 +179,10 @@ public class CharacterControllerRemapTest : MonoBehaviour
         {
             horizontalMovement = -1;
         }
+        */
 
-        Vector3 rightMovement = right * moveSpeed * Time.deltaTime * horizontalMovement /*Input.GetAxis("HorizontalKey"*/;
-        Vector3 upMovement = forward * moveSpeed * Time.deltaTime * verticalMovement /*Input.GetAxis("VerticalKey")*/;
+        Vector3 rightMovement = right * moveSpeed * Time.deltaTime * Input.GetAxis("HorizontalKey");
+        Vector3 upMovement = forward * moveSpeed * Time.deltaTime * Input.GetAxis("VerticalKey");
 
         Vector3 playerMovement = rightMovement + upMovement;
 
