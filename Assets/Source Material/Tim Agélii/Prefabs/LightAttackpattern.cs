@@ -10,6 +10,8 @@ public class LightAttackpattern : State
 {
     SomeAgent Agent;
 
+    private int chilldrenAmount;
+
     public Material attackIndicatorMaterial;
     public Material startMaterial;
    
@@ -71,10 +73,14 @@ public class LightAttackpattern : State
         Agent = (SomeAgent)Owner;
         Debug.Assert(Agent);
 
+
+       
+        chilldrenAmount = Agent.transform.childCount;
     }
 
     public void Awake()
     {
+      
 
 
     }
@@ -137,18 +143,36 @@ public class LightAttackpattern : State
     {
         if (startAttack == true)
         {
-            
+
             if (AttackWaitTimer(attackChargeTime))
             {
                 Agent.animator.SetTrigger("Attack");
                 dashTime = (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) - dashDistanceOffset) / dashSpeed;
                 startAttack = false;
                 startDash = true;
-                Agent.GetComponent<MeshRenderer>().material = startMaterial;
+                for (int i = 0; i < chilldrenAmount; i++)
+                {
+
+                    GameObject child = Agent.transform.GetChild(i).gameObject;
+                    if (child.TryGetComponent(out Renderer renderer) == true){
+                        renderer.material = startMaterial;
+                    }
+                    
+                }
+
             }
             else
             {
-                Agent.transform.GetComponent<MeshRenderer>().material = attackIndicatorMaterial;
+                for (int i = 0; i < chilldrenAmount; i++)
+                {
+
+                    GameObject child = Agent.transform.GetChild(i).gameObject;
+                    if (child.TryGetComponent(out Renderer renderer) == true)
+                    {
+                        renderer.material = attackIndicatorMaterial;
+                    }
+
+                }
             }
         }
     }
