@@ -11,6 +11,6 @@ public class OptionsButtonHandler : MonoBehaviour
     {
         //makes the checkbox active if it was inactive, and vice versa
         checkBoxImage.enabled = !checkBoxImage.enabled;
-        Debug.Log("reached OnButtonPress");
+        //Debug.Log("reached OnButtonPress");
     }
 }

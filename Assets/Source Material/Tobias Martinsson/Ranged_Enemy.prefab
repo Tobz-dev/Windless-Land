@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1416510089500677865}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.297, z: 1.99}
+  m_LocalPosition: {x: 0, y: 0.87, z: 0.761}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1416510089587851938}
@@ -63,7 +63,7 @@ Transform:
   m_GameObject: {fileID: 1416510089587851944}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -65.52, y: 1.92, z: -61.73448}
-  m_LocalScale: {x: 1, y: 3.405092, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1416510089500677870}
   m_Father: {fileID: 0}
@@ -76,7 +76,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1416510089587851944}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 7336033297182201316, guid: ea6f4f828be5eb34489adf521b7122c9, type: 3}
 --- !u!23 &1416510089587851948
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -129,8 +129,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.5123123, y: 2.0109558, z: 1.1434739}
+  m_Center: {x: 0.01569873, y: 0.9722712, z: -0.071737476}
 --- !u!195 &1416510089587851950
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -150,7 +150,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1
-  m_BaseOffset: 0.5
+  m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &1416510089587851945
@@ -170,8 +170,6 @@ MonoBehaviour:
   CollisionLayer:
     serializedVersion: 2
     m_Bits: 0
-  point1: {x: 0, y: 0, z: 0}
-  point2: {x: 0, y: 0, z: 0}
   agentTransform: {fileID: 0}
   PatrolPoints:
   - {fileID: 0}
@@ -180,6 +178,7 @@ MonoBehaviour:
   States:
   - {fileID: 11400000, guid: fa1711cb2fcfe1247a3752270a0e756a, type: 2}
   - {fileID: 11400000, guid: 5a497ccfc4fdfee439e5fe788ed25b0a, type: 2}
+  animator: {fileID: 0}
 --- !u!54 &1416510089587851937
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -192,7 +191,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -211,6 +210,10 @@ MonoBehaviour:
   Maxhealth: 3
   material: {fileID: 2100000, guid: c103ed8a6e675b5479be69ce128d0892, type: 2}
   originalMaterial: {fileID: 2100000, guid: 808ae2002bfb8fc48ad40d63ab54ea5a, type: 2}
+  hpSlots: []
+  flaskAmountText: {fileID: 0}
+  maxFlasks: 4
+  playerInvincibilityTime: 0
 --- !u!114 &4470007493786541334
 MonoBehaviour:
   m_ObjectHideFlags: 0
