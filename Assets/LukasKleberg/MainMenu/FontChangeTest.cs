@@ -48,8 +48,12 @@ public class FontChangeTest : MonoBehaviour
         Debug.Log("in ChangeFont. TextList is " + textMeshProUGUIList.Count);
         foreach (TextMeshProUGUI textMeshProUGUI in textMeshProUGUIList)
         {
-            Debug.Log("in font change test " + textMeshProUGUI.name);
-            textMeshProUGUI.font = fontToChangeTo;
+            if (textMeshProUGUI != null) 
+            {
+                Debug.Log("in font change test " + textMeshProUGUI.name);
+                textMeshProUGUI.font = fontToChangeTo;
+            }
+
         }
 
 
