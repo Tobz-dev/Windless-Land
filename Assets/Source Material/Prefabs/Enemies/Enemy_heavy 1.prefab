@@ -2317,7 +2317,7 @@ GameObject:
   - component: {fileID: 7320430286777435473}
   m_Layer: 0
   m_Name: Enemy_heavy 1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2366,12 +2366,12 @@ NavMeshAgent:
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 360
-  m_StoppingDistance: 5
+  m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1
-  m_BaseOffset: 0.5
+  m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &7320430286777435470
@@ -2397,9 +2397,9 @@ MonoBehaviour:
   - {fileID: 0}
   collider: {fileID: 0}
   States:
-  - {fileID: 11400000, guid: a9e73f5804c839a4aa8edb54c6b9d06a, type: 2}
-  - {fileID: 11400000, guid: 5efcd793ae1cd7a4991576a8b0ed83ea, type: 2}
-  - {fileID: 11400000, guid: 32a5a5abfcb7d26498291e4df70e4825, type: 2}
+  - {fileID: 11400000, guid: f13e32ad6cf2b90499e27f211aa10d21, type: 2}
+  - {fileID: 11400000, guid: a4457954e9c7bec4cb525a4166feb209, type: 2}
+  - {fileID: 11400000, guid: 611b8ab47de3a98449049c299a8f3d6b, type: 2}
   animator: {fileID: 0}
 --- !u!114 &7320430286777435471
 MonoBehaviour:
@@ -2414,8 +2414,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Maxhealth: 12
-  material: {fileID: 2100000, guid: 808ae2002bfb8fc48ad40d63ab54ea5a, type: 2}
-  originalMaterial: {fileID: -1360991219368177298, guid: ea6f4f828be5eb34489adf521b7122c9, type: 3}
+  material: {fileID: 2100000, guid: c103ed8a6e675b5479be69ce128d0892, type: 2}
+  originalMaterial: {fileID: 2100000, guid: 808ae2002bfb8fc48ad40d63ab54ea5a, type: 2}
   hpSlots: []
   flaskAmountText: {fileID: 0}
   maxFlasks: 4
