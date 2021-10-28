@@ -21,6 +21,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     [SerializeField] private GameObject uiMenu;
     [SerializeField] private InputAction pause;
     [SerializeField] private GameObject editModePanel;
+    private Vector2[] anchorOffsets;
 
 
     private void OnEnable()
@@ -45,6 +46,11 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         editModePanel.SetActive(false);
         pauseMenu.SetActive(false);
         uiMenu.SetActive(false);
+        for (int i = 0; i <= scalableObjects.Length - 1; i++) 
+        {
+            RectTransform rectTransform = scalableObjects[i].GetComponent<RectTransform>();
+            anchorOffsets[i] = new Vector2(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y);
+        }
     }
 
     // Update is called once per frame
@@ -118,30 +124,57 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     public void ChangeAnchoredPos(string buttonPos)
     {
-        foreach (GameObject gameObject in scalableObjects)
+        for (int i = 0; i <= scalableObjects.Length-1; i++)
         {
-            RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
+            RectTransform rectTransform = scalableObjects[i].GetComponent<RectTransform>();
             Vector2 rectMinMax = rectTransform.anchorMin;
-
 
             if (buttonPos.Equals("UpLeft"))
             {
                 rectMinMax = new Vector2(0, 1);
+                rectTransform.anchoredPosition = new Vector2(anchorOffsets[i].x, anchorOffsets[i].y);
             }
             else if (buttonPos.Equals("UpMid"))
             {
                 rectMinMax = new Vector2(0.5f, 1);
+                rectTransform.anchoredPosition = new Vector2(0, anchorOffsets[i].y);
+
             }
             else if(buttonPos.Equals("UpRight"))
             {
                 rectMinMax = new Vector2(1, 1);
+                rectTransform.anchoredPosition = new Vector2(-anchorOffsets[i].x, anchorOffsets[i].y);
+
+            }
+            else if (buttonPos.Equals("MidLeft"))
+            {
+                rectMinMax = new Vector2(0, 0.5f);
+                rectTransform.anchoredPosition = new Vector2(-rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y);
+            }
+            else if (buttonPos.Equals("MidRight"))
+            {
+                rectMinMax = new Vector2(1, 0.5f);
+                rectTransform.anchoredPosition = new Vector2(-rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y);
+            }
+            else if (buttonPos.Equals("DownLeft"))
+            {
+                rectMinMax = new Vector2(0, 0);
+                rectTransform.anchoredPosition = new Vector2(-rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y);
+            }
+            else if (buttonPos.Equals("DownMid"))
+            {
+                rectMinMax = new Vector2(0.5f, 0);
+                rectTransform.anchoredPosition = new Vector2(-rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y);
+            }
+            else if (buttonPos.Equals("DownRight"))
+            {
+                rectMinMax = new Vector2(1, 0);
                 rectTransform.anchoredPosition = new Vector2(-rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y);
             }
 
             rectTransform.anchorMin = rectMinMax;
             rectTransform.anchorMax = rectMinMax;
             rectTransform.pivot = rectMinMax;
-
         }
     }
 
