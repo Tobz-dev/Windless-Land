@@ -10,16 +10,18 @@ public class PickUpManager : MonoBehaviour
 
 
     [SerializeField] private GameObject panel;
-    //[SerializeField] private GameObject logPanel;
+    [SerializeField] private GameObject logPanel;
     private bool pickUpAllowed;
     //private bool insideArea;
-    //private bool readLog;
+    private bool readLog;
     //private bool hasOpenedDoor;
     //private bool canPushLever;
     private GameObject key;
     [SerializeField] private Text pressText;
     //[SerializeField] private Text logText;
     private int hasKey;
+    private GameObject[] logs;
+    private Toggle toggle;
 
 
 
@@ -28,13 +30,20 @@ public class PickUpManager : MonoBehaviour
     {
         //panel.SetActive(false);
         hasKey = 0;
-        //logPanel.SetActive(false);
+        logPanel.SetActive(false);
+        logs = GameObject.FindGameObjectsWithTag("Logs");
+        foreach (GameObject tagged in logs)
+        {
+            tagged.GetComponentInChildren<Renderer>().sharedMaterial.color = Color.white;
+        }
+
+        toggle = GameObject.Find("Prototype").GetComponent<Toggle>();
     }
 
     private void Update()
     {
 
-        if(pickUpAllowed && Input.GetKeyDown(KeyCode.E))
+        if (pickUpAllowed && Input.GetKeyDown(KeyCode.E))
         {
             key.SetActive(false);
             panel.SetActive(false);
@@ -43,33 +52,13 @@ public class PickUpManager : MonoBehaviour
             pickUpAllowed = false;
         }
 
-        
-        /*if(pickUpAllowed && !hasKey && Input.GetKeyDown(KeyCode.E))
-        {
-            key.SetActive(false);
-            panel.SetActive(false);
-            hasKey = true;
-            Debug.Log("HAS KEY");
-        }*/
-
-       /* if (insideArea && hasKey == 1 && Input.GetKeyDown(KeyCode.E))
-        {
-            anim.openDoor();
-            hasKey = 0;
-            Debug.Log("No longer have key");
-            insideArea = false;
-            panel.SetActive(false);
-            hasOpenedDoor = true;
-
-            if (hasOpenedDoor)
-            {
-                panel.SetActive(false);
-            }
 
 
 
 
-        }
+
+
+
         if (readLog && Input.GetKeyDown(KeyCode.E))
         {
             logPanel.SetActive(true);
@@ -80,7 +69,7 @@ public class PickUpManager : MonoBehaviour
             }
         }
 
-        if (canPushLever && Input.GetKeyDown(KeyCode.E))
+        /*if (canPushLever && Input.GetKeyDown(KeyCode.E))
         {
             panel.SetActive(false);
             leveranim.pullLever();
@@ -97,7 +86,7 @@ public class PickUpManager : MonoBehaviour
             panel.SetActive(true);
             pressText.text = "Press E to pick up key!";
 
-            
+
             //panel.SetActive(true);
             //pickUpAllowed = true;
             //hasKey++;
@@ -121,14 +110,14 @@ public class PickUpManager : MonoBehaviour
             }
 
         }*/
-        /*if (other.gameObject.CompareTag("Logs"))
+        if (other.gameObject.CompareTag("Logs"))
         {
             panel.SetActive(true);
             pressText.text = "Press E to read Log";
             readLog = true;
         }
 
-        if (other.gameObject.CompareTag("Lever"))
+        /*if (other.gameObject.CompareTag("Lever"))
         {
             panel.SetActive(true);
             pressText.text = "press E to pull lever!";
@@ -145,38 +134,28 @@ public class PickUpManager : MonoBehaviour
             pickUpAllowed = false;
             panel.SetActive(false);
         }
-        /*if (other.gameObject.CompareTag("Key"))
-        {
-            panel.SetActive(false);
-            pickUpAllowed = false;
-        }*/
-        /*if (other.gameObject.CompareTag("Door"))
-        {
-            panel.SetActive(false);
-            insideArea = false;
-        }
+
+
+
         if (other.gameObject.CompareTag("Logs"))
         {
             panel.SetActive(false);
             readLog = false;
         }
-        if (other.gameObject.CompareTag("Lever"))
-        {
-            panel.SetActive(false);
-            canPushLever = false;
-        }*/
+
     }
 
 
 
-    /*public void closeLogPanel()
+
+    public void closeLogPanel()
     {
         logPanel.SetActive(false);
         if (readLog)
         {
             panel.SetActive(true);
         }
-    }*/
+    }
 
     public int getKey()
     {
@@ -188,4 +167,25 @@ public class PickUpManager : MonoBehaviour
         hasKey = 0;
     }
 
+
+
+    public void changeLogColor()
+    {
+
+        if (toggle.isOn)
+        {
+            foreach (GameObject tagged in logs)
+            {
+                tagged.GetComponentInChildren<Renderer>().material.color = Color.yellow;
+            }
+        }
+        if (toggle.isOn == false)
+        {
+            foreach (GameObject tagged in logs)
+            {
+                tagged.GetComponentInChildren<Renderer>().material.color = Color.white;
+            }
+        }
+
+    }
 }
