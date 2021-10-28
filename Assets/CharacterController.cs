@@ -80,9 +80,6 @@ public class CharacterController : MonoBehaviour
 
     public Transform respawnPoint;
 
-    private FMOD.Studio.EventInstance HealthRefill;
-    private FMOD.Studio.EventInstance Dead;
-
 
     Vector3 forward, right;
     // Start is called before the first frame update
@@ -179,10 +176,6 @@ public class CharacterController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0)
         {
             healthFlaskStart = true;
-            HealthRefill = FMODUnity.RuntimeManager.CreateInstance("event:/Game/HealthRefill");
-            HealthRefill.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
-            HealthRefill.start();
-            HealthRefill.release();
 
         }
 
@@ -419,10 +412,6 @@ public class CharacterController : MonoBehaviour
     {
         Debug.Log("Player Dead");
         GetComponent<HealthScript>().regainHealth(100);
-        Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
-        Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
-        Dead.start();
-        Dead.release();
         transform.position = respawnPoint.transform.position;
     }
 

@@ -9,7 +9,7 @@ public class ArrowScript : MonoBehaviour
     public float shootForce = 10f;
     public float arrowLifeTime;
 
-    private FMOD.Studio.EventInstance ArrowShot;
+
 
     // Update is called once per frame
     void Update()
@@ -21,11 +21,6 @@ public class ArrowScript : MonoBehaviour
         GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPosition.position, arrowSpawnPosition.rotation);
 
         arrow.GetComponent<Rigidbody>().velocity = arrowSpawnPosition.transform.forward * shootForce;
-
-        ArrowShot = FMODUnity.RuntimeManager.CreateInstance("event:/Objects/ArrowShot");
-        ArrowShot.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
-        ArrowShot.start();
-        ArrowShot.release();
 
         Destroy(arrow, arrowLifeTime);
     }
