@@ -4,12 +4,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChangeScreenResolution : MonoBehaviour
+public class ChangeScreenResolutionDropdown : MonoBehaviour
 {
 
     private bool inFullscreen;
-    public Image checkBoxImage;
+    public Image windowedCheckBoxImage;
 
+    [SerializeField]
     private Resolution[] resolutionsArray;
 
     [SerializeField]
@@ -46,12 +47,12 @@ public class ChangeScreenResolution : MonoBehaviour
 
 
         //check if the game starts in fullscreen. 
-        //this is reversed because the button says "toggle windowed", so if it shouldn't be checkeed if the game is fullscreen
+        //this is reversed because the button says "toggle windowed", so if it shouldn't be changed if the game is fullscreen
         if (Screen.fullScreen == true)
         {
             Debug.Log("ChangeScreenResolution. on start set to fullscreen");
             inFullscreen = false;
-            checkBoxImage.enabled = false;
+            windowedCheckBoxImage.enabled = false;
         }
     }
 
