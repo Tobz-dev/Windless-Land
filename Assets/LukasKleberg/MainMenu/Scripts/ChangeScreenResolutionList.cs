@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,8 +15,11 @@ public class ChangeScreenResolutionList : MonoBehaviour
 
     private Resolution[] resolutionArray;
 
+    //private Resolution resolution
+
     private int currentResolutionIndex = 0;
 
+    public Text text1, text2;
 
     private bool inFullscreen;
     public Image windowedCheckBoxImage;
@@ -23,9 +27,18 @@ public class ChangeScreenResolutionList : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        resolutionArray = Screen.resolutions;
+        //on build Unity gets repeat values for resolutions
+        //this solves the problem, but this keeps the refresh rate stuck at 60Hz. (I've tried tons of other solutions).
 
-        currentResolutionIndex = PlayerPrefs.GetInt("ResolutionPrefKey", 0);
+        Resolution[] tempResolutionArray = Screen.resolutions.Distinct().ToArray();
+        var resolutions = Screen.resolutions.Select(resolution => new Resolution { width = resolution.width, height = resolution.height }).Distinct();
+
+        resolutionArray = resolutions.ToArray();
+
+        text2.text = resolutionArray.Length.ToString();
+
+        //get the previous resolution or set to the highest avilable value
+        currentResolutionIndex = PlayerPrefs.GetInt("ResolutionPrefKey", resolutionArray.Length - 1);
 
         SetResolutionText(resolutionArray[currentResolutionIndex]);
 
@@ -38,7 +51,6 @@ public class ChangeScreenResolutionList : MonoBehaviour
             windowedCheckBoxImage.enabled = false;
         }
     }
-
 
     private void SetResolutionText(Resolution resolution) 
     {
