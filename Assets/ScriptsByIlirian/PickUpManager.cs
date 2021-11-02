@@ -21,7 +21,7 @@ public class PickUpManager : MonoBehaviour
     //[SerializeField] private Text logText;
     private int hasKey;
 
-
+    private FMOD.Studio.EventInstance KeyPickUp;
 
 
     void Start()
@@ -41,6 +41,11 @@ public class PickUpManager : MonoBehaviour
             hasKey++;
             Debug.Log("GOT KEY");
             pickUpAllowed = false;
+
+            KeyPickUp = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/KeyPickUp");
+            KeyPickUp.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+            KeyPickUp.start();
+            KeyPickUp.release();
         }
 
         
