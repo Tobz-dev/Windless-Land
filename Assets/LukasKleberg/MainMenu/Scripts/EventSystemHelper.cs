@@ -6,14 +6,15 @@ using UnityEngine.UI;
 
 public class EventSystemHelper : MonoBehaviour
 {
+    private GameObject currentSelectedGameObject;
+    private bool isKeyBoardActive = false;
+    private bool shouldSetToStartObject = false;
+    
+
     public void Start()
     {
         currentSelectedGameObject = EventSystem.current.firstSelectedGameObject;
     }
-
-    private GameObject currentSelectedGameObject;
-    private bool isKeyBoardActive = false;
-    private bool shouldSetToStartObject = false;
 
     public void Update()
     {

@@ -10,7 +10,8 @@ public class PauseMenu : MonoBehaviour
     private GameObject pauseMenuBackground;
     [SerializeField]
     private GameObject pauseMenuUI;
-
+    [SerializeField]
+    private GameObject eventSystemHelper;
 
 
     private void Start()
@@ -45,6 +46,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1.0f;
         gameIsPaused = false;
+        eventSystemHelper.SetActive(false);
     }
 
     public void Pause()
@@ -53,6 +55,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0.0f;
         gameIsPaused = true;
+        eventSystemHelper.SetActive(true);
     }
 
     public void LoadScene(string sceneToLoad) 
