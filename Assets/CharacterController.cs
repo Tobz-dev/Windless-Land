@@ -263,7 +263,7 @@ public class CharacterController : MonoBehaviour
                 }
                 else
                 {
-                    transform.rotation = Quaternion.LookRotation(inputDirection);
+                    //transform.rotation = Quaternion.LookRotation(inputDirection);
                     transform.position += (transform.forward).normalized * dodgerollSpeed * Time.deltaTime;
                     moveAllow = false;
                     dodgerolling = true;
