@@ -8,10 +8,8 @@ public class CharacterController : MonoBehaviour
 
     [SerializeField]
     float moveSpeed;
-    float dodgerollSpeed = 10f;
-    float dodgerollDuration = 0.7f;
-    float dodgerollCooldown = 0.2f;
 
+  
     float moveSpeedDefault;
 
    
@@ -52,6 +50,16 @@ public class CharacterController : MonoBehaviour
     float attackTimer = 0;
 
     //dodgeroll
+    [SerializeField]
+    float dodgerollDuration = 0.7f;
+    [SerializeField]
+    float dodgerollCooldown = 0.2f;
+
+
+    [SerializeField]
+    float dodgerollSpeed = 11f;
+    [SerializeField]
+    float dodgerollDropSpeed = 3f;
     bool dodgerollTimerRunning = false;
     bool dodgerollStart = false;
     bool dodgerolling = false;
@@ -62,7 +70,8 @@ public class CharacterController : MonoBehaviour
 
     private bool canMove = true;
 
-
+    [SerializeField]
+    private float dodgeDropOffTime;
     //hitbox variables
 
     [SerializeField]
@@ -304,12 +313,19 @@ public class CharacterController : MonoBehaviour
                     moveAllow = true;
                     dodgerolling = false;
                     dodgerollTimerRunning = false;
-                    invincibility = false;
+                   
                 }
                 else
                 {
-                  
-                    transform.position += (transform.forward).normalized * dodgerollSpeed * Time.deltaTime;
+                    if (dodgeTimer < dodgeDropOffTime)
+                    {
+                        transform.position += (transform.forward).normalized * dodgerollSpeed * Time.deltaTime;
+                    }
+                    else {
+                        invincibility = false;
+                        transform.position += (transform.forward).normalized * dodgerollDropSpeed * Time.deltaTime;
+                    }
+                   
                  
                 }
             }
