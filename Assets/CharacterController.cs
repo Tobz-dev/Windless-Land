@@ -7,9 +7,9 @@ public class CharacterController : MonoBehaviour
 {
 
     [SerializeField]
-    float moveSpeed = 4f;
-    float dodgerollSpeed = 18f;
-    float dodgerollDuration = 0.35f;
+    float moveSpeed;
+    float dodgerollSpeed = 10f;
+    float dodgerollDuration = 0.5f;
     float dodgerollCooldown = 0.2f;
 
     float moveSpeedDefault;
@@ -79,6 +79,9 @@ public class CharacterController : MonoBehaviour
     private Animator anim;
 
     public Transform respawnPoint;
+
+    private FMOD.Studio.EventInstance HealthRefill;
+    private FMOD.Studio.EventInstance Dead;
 
 
     Vector3 forward, right;
@@ -176,6 +179,10 @@ public class CharacterController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0)
         {
             healthFlaskStart = true;
+            HealthRefill = FMODUnity.RuntimeManager.CreateInstance("event:/Game/HealthRefill");
+            HealthRefill.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+            HealthRefill.start();
+            HealthRefill.release();
 
         }
 
@@ -244,7 +251,7 @@ public class CharacterController : MonoBehaviour
             dodgerollTimerRunning = true;
 
             //more anim things
-            Debug.Log("in player Dodgeroll");
+            //Debug.Log("in player Dodgeroll");
             anim.SetTrigger("DodgeRoll");
         }
 
@@ -412,6 +419,10 @@ public class CharacterController : MonoBehaviour
     {
         Debug.Log("Player Dead");
         GetComponent<HealthScript>().regainHealth(100);
+        Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
+        Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        Dead.start();
+        Dead.release();
         transform.position = respawnPoint.transform.position;
     }
 

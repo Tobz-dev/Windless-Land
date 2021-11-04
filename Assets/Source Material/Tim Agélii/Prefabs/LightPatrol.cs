@@ -31,11 +31,14 @@ public class LightPatrol : State
         {
             CurrentPatrol = Agent.GetPatrolPoint;
             Agent.NavAgent.SetDestination(CurrentPatrol.position);
+            Agent.animator.SetFloat("XSpeed", 0);
+            Agent.animator.SetFloat("YSpeed", 1);
         }
-
+        Color color = new Color(0.0f, 0.0f, 1.0f);
+        Debug.DrawLine(Agent.transform.position, Agent.PlayerPosition, color);
         if (!Physics.Linecast(Agent.transform.position, Agent.PlayerPosition, Agent.CollisionLayer) && (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) < chaseDistance))
         {
-
+            Debug.Log("Chasing State");
             StateMachine.ChangeState<LightChase>();
         }
     }
