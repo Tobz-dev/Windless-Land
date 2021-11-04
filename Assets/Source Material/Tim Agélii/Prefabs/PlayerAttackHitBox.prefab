@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2401757964492143669}
   - component: {fileID: 8731566953650467376}
   - component: {fileID: 2325776819570531151}
-  - component: {fileID: 3570919196550630962}
   - component: {fileID: -3295577869258495092}
+  - component: {fileID: 7127789586002902535}
   m_Layer: 0
   m_Name: PlayerAttackHitBox
   m_TagString: Untagged
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 3483705884616122953}
   m_LocalRotation: {x: -0.00075287314, y: 0.70710635, z: -0.00075287314, w: 0.70710635}
   m_LocalPosition: {x: -31.953999, y: 0.2646923, z: -48.996643}
-  m_LocalScale: {x: 5.626111, y: 0.2468389, z: 5.836193}
+  m_LocalScale: {x: 3.5176125, y: 0.2468389, z: 3.8614624}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -83,20 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &3570919196550630962
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3483705884616122953}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!114 &-3295577869258495092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,3 +98,17 @@ MonoBehaviour:
   swingTime: 0.3
   damage: 1
   target: Enemy
+--- !u!64 &7127789586002902535
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483705884616122953}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
