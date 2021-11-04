@@ -9,17 +9,18 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     float moveSpeed;
     float dodgerollSpeed = 10f;
-    float dodgerollDuration = 0.5f;
+    float dodgerollDuration = 0.7f;
     float dodgerollCooldown = 0.2f;
 
     float moveSpeedDefault;
 
-
+   
 
     float dodgeTimer = 0;
 
     float flaskTimer = 0;
 
+    Vector3 rotationOffset = new Vector3(90, 0, 0);
 
     Quaternion lookRotation;
 
@@ -28,13 +29,12 @@ public class CharacterController : MonoBehaviour
 
     bool moveAllow = true;
 
+    bool rotationAllow = true;
+
     bool invincibility = false;
 
 
-    //prototyp
-    float extraInputTime = 0.3f;
-    bool queueAttack = false;
-    bool queueDodge = false;
+   
 
 
     //healthFlask
@@ -69,7 +69,21 @@ public class CharacterController : MonoBehaviour
     private GameObject attackHitbox;
 
     [SerializeField]
-    private float swingTime;
+    private float timeToNextSwing;
+
+    private bool startAttackDelay = false;
+    
+    [SerializeField]
+    private float attackDelay;
+
+    [SerializeField]
+    private float swingCooldown = 0.6f;
+
+    //prototyp
+    float extraInputTimeDelay = 0.05f;
+    bool queueAttack = false;
+    bool queueDodge = false;
+
     [SerializeField]
     private Vector3 hitboxOffset;
 
@@ -142,7 +156,7 @@ public class CharacterController : MonoBehaviour
     private void PlayerRotationUpdate()
     {
 
-        if (moveAllow && (Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
+        if (moveAllow && rotationAllow && (Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
         {
             Vector3 horizontal = (Input.GetAxis("Horizontal") * right);
             Vector3 vertical = (Input.GetAxis("Vertical") * forward);
@@ -189,7 +203,7 @@ public class CharacterController : MonoBehaviour
 
     void HealthFlaskManager()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0)
+        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0 && startAttackDelay == false && startAttackCooldown == false)
         {
             healthFlaskStart = true;
             HealthRefill = FMODUnity.RuntimeManager.CreateInstance("event:/Game/HealthRefill");
@@ -241,7 +255,7 @@ public class CharacterController : MonoBehaviour
                 }
             }
 
-            if (dodgerollStart == true || startAttackCooldown == true)
+            if (dodgerollStart == true)
             {
                 
                 healthFlaskStart = false;
@@ -263,6 +277,8 @@ public class CharacterController : MonoBehaviour
             //Debug.Log("in player Dodgeroll");
             anim.SetTrigger("DodgeRoll");
 
+
+
         transform.rotation = Quaternion.LookRotation(inputDirection);
         moveAllow = false;
 
@@ -273,7 +289,7 @@ public class CharacterController : MonoBehaviour
 
     void DodgerollManager()
     {
-    if (Input.GetKeyDown(KeyCode.Space) && dodgerollOfCooldown && startAttackCooldown == false)
+    if (Input.GetKeyDown(KeyCode.Space) && dodgerollOfCooldown && startAttackDelay == false && startAttackCooldown == false)
     {
         StartDodgeroll();
         }
@@ -327,7 +343,7 @@ public class CharacterController : MonoBehaviour
     }
 
     void AttackManager() {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false) 
+        if (Input.GetKeyDown(KeyCode.Mouse0) && startAttackDelay == false && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false) 
         {
 
 
@@ -335,58 +351,118 @@ public class CharacterController : MonoBehaviour
            
         }
 
+        HitboxDelay();
+
         AttackCoolDown();
     }
 
     void Attack()
     {
-        transform.rotation = lookRotation;
-         InstantiateAttackHitbox();
-        startAttackCooldown = true;
 
+
+       
         //more anim things
         //Debug.Log("in player attack");
         anim.SetTrigger("Attack");
+
+        moveAllow = false;
+        transform.rotation = lookRotation;
+        startAttackDelay = true;
+
     }
     void AttackCoolDown()
     {
         if (startAttackCooldown == true)
         {
-            if (AttackWaitTimer(swingTime))
+            if (AttackWaitTimer(swingCooldown))
             {
-                moveAllow = true;
-          
+               moveAllow = true;
+
                 startAttackCooldown = false;
 
-                if (queueAttack == true) {
-                    queueAttack = false;
-                    Attack();
-                }
-                if (queueDodge == true) {
-                    queueDodge = false;
-                    StartDodgeroll();
-                }
+                anim.SetTrigger("StopAttack");
+
             }
-            else {
-                moveAllow = false;
-                if (attackTimer >= (swingTime - extraInputTime) && Input.GetKeyDown(KeyCode.Mouse0)) {
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    Debug.Log("ATACK");
                     queueAttack = true;
                     queueDodge = false;
                 }
-                if (attackTimer >= (swingTime - extraInputTime) && Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
+                    Debug.Log("DODGE");
                     queueAttack = false;
                     queueDodge = true;
                 }
+
+                if (attackTimer >= timeToNextSwing)
+                {
+
+                    if (queueAttack == true)
+                    {
+
+                        startAttackCooldown = false;
+                        queueAttack = false;
+                        attackTimer = 0;
+                        anim.SetTrigger("StopAttack");
+                        Attack();
+                    }
+                    if (queueDodge == true)
+                    {
+                        startAttackCooldown = false;
+                        queueDodge = false;
+                        attackTimer = 0;
+                        anim.SetTrigger("StopAttack");
+                        StartDodgeroll();
+                    }
+                }
             }
         }
+    }
+    void HitboxDelay()
+    {
+        if (startAttackDelay == true)
+        {
+            if (AttackWaitTimer(attackDelay))
+            {
 
+                InstantiateAttackHitbox();
+                startAttackDelay = false;
+                startAttackCooldown = true;
+
+
+            }
+            else
+            {
+                
+                transform.position += (transform.forward).normalized * 2f * Time.deltaTime;
+                if (attackTimer >= extraInputTimeDelay && Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    Debug.Log("ATACK");
+                    queueAttack = true;
+                    queueDodge = false;
+                }
+                if (attackTimer >= (extraInputTimeDelay) && Input.GetKeyDown(KeyCode.Space))
+                {
+                    Debug.Log("DODGE");
+                    queueAttack = false;
+                    queueDodge = true;
+                }
+
+
+            }
+        }
+     
     }
 
     void InstantiateAttackHitbox()
     {
+        var newHitbox = Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 1.2f)), transform.rotation);
 
-        Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 2f)), transform.rotation);
+        newHitbox.transform.parent = gameObject.transform;
         //GameObject hitBox = (GameObject)Instantiate(attackHitbox, transform.position + (transform.rotation * hitboxOffset), transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
 
         //hitBox.transform.localScale = hitboxScale;
@@ -398,7 +474,7 @@ public class CharacterController : MonoBehaviour
 
 
 
-}
+    }
 
     private bool AttackWaitTimer(float seconds)
     {

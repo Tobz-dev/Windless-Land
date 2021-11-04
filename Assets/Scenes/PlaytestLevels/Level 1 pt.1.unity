@@ -2929,22 +2929,6 @@ PrefabInstance:
       value: -1.15
       objectReference: {fileID: 0}
     - target: {fileID: 1427691672052367343, guid: 88452f2814ba9584ca4e7b2a38114a19, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1427691672052367343, guid: 88452f2814ba9584ca4e7b2a38114a19, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1427691672052367343, guid: 88452f2814ba9584ca4e7b2a38114a19, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1427691672052367343, guid: 88452f2814ba9584ca4e7b2a38114a19, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1427691672052367343, guid: 88452f2814ba9584ca4e7b2a38114a19, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -2957,8 +2941,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1427691672052367346, guid: 88452f2814ba9584ca4e7b2a38114a19, type: 3}
-      propertyPath: yRotationOffset
-      value: 0
+      propertyPath: moveSpeed
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1427691672052367348, guid: 88452f2814ba9584ca4e7b2a38114a19, type: 3}
       propertyPath: m_Name
@@ -30213,7 +30197,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 8
   attackHitbox: {fileID: 8341296124936379303, guid: 25a1424dc2e8d3d4392443b3dd9c9b62, type: 3}
-  swingTime: 0.5
+  timeToNextSwing: 0
+  attackDelay: 0
+  swingCooldown: 0.6
   hitboxOffset: {x: 0, y: 0, z: 0}
   xRotationOffset: 0
   yRotationOffset: 0
