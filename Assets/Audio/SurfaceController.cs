@@ -11,6 +11,8 @@ public class SurfaceController : MonoBehaviour
     private CURRENT_TERRAIN currentTerrain;
 
     private FMOD.Studio.EventInstance foosteps;
+    private FMOD.Studio.EventInstance EnemyFootsteps;
+    private FMOD.Studio.EventInstance EnemyAttack;
 
     private void Update()
     {
@@ -88,5 +90,141 @@ public class SurfaceController : MonoBehaviour
         foosteps.start();
         foosteps.release();
     }
+
+    public void SelectAndPlayRoll()
+    {
+        switch (currentTerrain)
+        {
+            case CURRENT_TERRAIN.GRAVEL:
+                PlayRoll(1);
+                break;
+
+            case CURRENT_TERRAIN.GRASS:
+                PlayRoll(0);
+                break;
+
+            case CURRENT_TERRAIN.WOOD:
+                PlayRoll(2);
+                break;
+
+            case CURRENT_TERRAIN.STONE:
+                PlayRoll(3);
+                break;
+
+            case CURRENT_TERRAIN.DIRT:
+                PlayRoll(4);
+                break;
+
+            default:
+                PlayRoll(0);
+                break;
+        }
+    }
+
+    private void PlayRoll(int terrain)
+    {
+        foosteps = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Roll");
+        foosteps.setParameterByName("Terrain", terrain);
+        foosteps.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        foosteps.start();
+        foosteps.release();
+    }
+
+    public void SelectAndPlayRollLand()
+    {
+        switch (currentTerrain)
+        {
+            case CURRENT_TERRAIN.GRAVEL:
+                PlayRollLand(1);
+                break;
+
+            case CURRENT_TERRAIN.GRASS:
+                PlayRollLand(0);
+                break;
+
+            case CURRENT_TERRAIN.WOOD:
+                PlayRollLand(2);
+                break;
+
+            case CURRENT_TERRAIN.STONE:
+                PlayRollLand(3);
+                break;
+
+            case CURRENT_TERRAIN.DIRT:
+                PlayRollLand(4);
+                break;
+
+            default:
+                PlayRollLand(0);
+                break;
+        }
+    }
+
+    private void PlayRollLand(int terrain)
+    {
+        foosteps = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Roll Land");
+        foosteps.setParameterByName("Terrain", terrain);
+        foosteps.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        foosteps.start();
+        foosteps.release();
+    }
+
+    public void PlayAttack()
+    {
+        foosteps = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Attack");
+        foosteps.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        foosteps.start();
+        foosteps.release();
+
+    }
+
+    public void SelectAndPlayEnemyFootstep()
+    {
+        switch (currentTerrain)
+        {
+            case CURRENT_TERRAIN.GRAVEL:
+                PlayEnemyFootstep(1);
+                break;
+
+            case CURRENT_TERRAIN.GRASS:
+                PlayEnemyFootstep(0);
+                break;
+
+            case CURRENT_TERRAIN.WOOD:
+                PlayEnemyFootstep(2);
+                break;
+
+            case CURRENT_TERRAIN.STONE:
+                PlayEnemyFootstep(3);
+                break;
+
+            case CURRENT_TERRAIN.DIRT:
+                PlayEnemyFootstep(4);
+                break;
+
+            default:
+                PlayEnemyFootstep(0);
+                break;
+        }
+    }
+
+    private void PlayEnemyFootstep(int terrain)
+    {
+        EnemyFootsteps = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Small Enemy/SmallEnemyFootsteps");
+        EnemyFootsteps.setParameterByName("Terrain", terrain);
+        EnemyFootsteps.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        EnemyFootsteps.start();
+        EnemyFootsteps.release();
+    }
+
+    public void PlayEnemyAttack()
+    {
+        EnemyAttack = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Small Enemy/SmallEnemyAttack");
+        EnemyAttack.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        EnemyAttack.start();
+        EnemyAttack.release();
+
+    }
+
 }
 

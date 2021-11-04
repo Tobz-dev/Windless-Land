@@ -6,12 +6,18 @@ public class FallingPlatform : MonoBehaviour
 {
 
     public float fallDelay = 2.0f;
+    private FMOD.Studio.EventInstance PlatformFalling;
 
     void OnCollisionEnter(Collision collidedWithThis)
     {
-        if (collidedWithThis.gameObject.name == "Cube")
+        if (collidedWithThis.gameObject.tag == "Player")
         {
             StartCoroutine(FallAfterDelay());
+            PlatformFalling = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/FallingPlatform");
+            PlatformFalling.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+            PlatformFalling.start();
+            PlatformFalling.release();
+
         }
     }
 
