@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class FontChangeTest : MonoBehaviour
+public class FontChange : MonoBehaviour
 {
 
     GameObject[] textObjects;
