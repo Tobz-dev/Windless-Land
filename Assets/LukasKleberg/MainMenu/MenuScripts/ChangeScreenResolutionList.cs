@@ -19,8 +19,6 @@ public class ChangeScreenResolutionList : MonoBehaviour
 
     private int currentResolutionIndex = 0;
 
-    public Text text1, text2;
-
     private bool inFullscreen;
     public Image windowedCheckBoxImage;
 
@@ -34,8 +32,6 @@ public class ChangeScreenResolutionList : MonoBehaviour
         var resolutions = Screen.resolutions.Select(resolution => new Resolution { width = resolution.width, height = resolution.height }).Distinct();
 
         resolutionArray = resolutions.ToArray();
-
-        text2.text = resolutionArray.Length.ToString();
 
         //get the previous resolution or set to the highest avilable value
         currentResolutionIndex = PlayerPrefs.GetInt("ResolutionPrefKey", resolutionArray.Length - 1);
