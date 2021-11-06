@@ -50,7 +50,7 @@ public class EventSystemHelper : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Mouse1))
             {
                 //if it is a mouse press do nothing.
-                Debug.Log("left mouse click");
+                //Debug.Log("left mouse click");
                 //ApplyCurrentSelectedGameObject();
                 return;
             }
