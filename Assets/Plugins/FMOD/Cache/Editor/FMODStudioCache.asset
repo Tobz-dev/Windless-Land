@@ -1,5 +1,63 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9183705788650667095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/SmallEnemyFootsteps/Terrain
+  m_EditorClassIdentifier: 
+  Name: Terrain
+  StudioPath: 
+  Min: 0
+  Max: 4
+  Default: 3
+  ID:
+    data1: 0
+    data2: 0
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Grass
+  - Gravel
+  - Wood
+  - Stone
+  - Dirt
+  Exists: 1
+--- !u!114 &-9158785357224620339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Roll Land/Terrain
+  m_EditorClassIdentifier: 
+  Name: Terrain
+  StudioPath: 
+  Min: 0
+  Max: 4
+  Default: 3
+  ID:
+    data1: 0
+    data2: 0
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Grass
+  - Gravel
+  - Wood
+  - Stone
+  - Dirt
+  Exists: 1
 --- !u!114 &-9078373617597570266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50,6 +108,35 @@ MonoBehaviour:
   Type: 0
   IsGlobal: 0
   Labels: []
+  Exists: 1
+--- !u!114 &-9015474253458247811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/RangedEnemyFootsteps/Terrain
+  m_EditorClassIdentifier: 
+  Name: Terrain
+  StudioPath: 
+  Min: 0
+  Max: 4
+  Default: 3
+  ID:
+    data1: 0
+    data2: 0
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Grass
+  - Gravel
+  - Wood
+  - Stone
+  - Dirt
   Exists: 1
 --- !u!114 &-8815087604482490289
 MonoBehaviour:
@@ -180,6 +267,30 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 0
+--- !u!114 &-7757673918521240592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/AmbienceExterior/Fade
+  m_EditorClassIdentifier: 
+  Name: Fade
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-7733983726164308311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,7 +371,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 262780045359130}
+  - {fileID: -9158785357224620339}
   MinDistance: 1
   MaxDistance: 20
   Length: 1650
@@ -322,6 +433,30 @@ MonoBehaviour:
   - Stone
   - Dirt
   Exists: 0
+--- !u!114 &-7147468839361889713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/SafeRoom/Bass
+  m_EditorClassIdentifier: 
+  Name: Bass
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-6913110354151692645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,6 +510,30 @@ MonoBehaviour:
   - Stone
   - Dirt
   Exists: 1
+--- !u!114 &-6772268242303890424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/SafeRoom/Whoom
+  m_EditorClassIdentifier: 
+  Name: Whoom
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-6325262656904328835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,6 +563,30 @@ MonoBehaviour:
   - Stone
   - Dirt
   Exists: 1
+--- !u!114 &-6125653735745311965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/AmbienceInterior/Fade
+  m_EditorClassIdentifier: 
+  Name: Fade
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-5935950847752990382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,6 +614,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1750
+--- !u!114 &-5855419271845356808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/SafeRoom/Flutters
+  m_EditorClassIdentifier: 
+  Name: Flutters
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-5836476389816313257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -481,7 +688,7 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: -8815087604482490289}
+  - {fileID: -6125653735745311965}
   MinDistance: 0
   MaxDistance: 4400
   Length: 80000
@@ -644,6 +851,32 @@ MonoBehaviour:
   - Stone
   - Dirt
   Exists: 1
+--- !u!114 &-4965337394005455468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/AmbienceParameterTest/Environment
+  m_EditorClassIdentifier: 
+  Name: Environment
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Exterior
+  - Interior
+  Exists: 1
 --- !u!114 &-4841317397468195674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -774,6 +1007,35 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &-4268404302648414349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Roll/Terrain
+  m_EditorClassIdentifier: 
+  Name: Terrain
+  StudioPath: 
+  Min: 0
+  Max: 4
+  Default: 3
+  ID:
+    data1: 0
+    data2: 0
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Grass
+  - Gravel
+  - Wood
+  - Stone
+  - Dirt
+  Exists: 1
 --- !u!114 &-4245687009088634605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -789,10 +1051,34 @@ MonoBehaviour:
   Path: Assets/Audio/FMOD Banks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637718225086108647
+  lastModified: 637718999799218795
   FileSizes:
   - Name: 
     Value: 2662
+  Exists: 1
+--- !u!114 &-4069816893631998577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/SafeRoom/EQ
+  m_EditorClassIdentifier: 
+  Name: EQ
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 1
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Labels: []
   Exists: 1
 --- !u!114 &-4015906718793622732
 MonoBehaviour:
@@ -842,7 +1128,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: -4817074584234284635}
+  - {fileID: -9015474253458247811}
   MinDistance: 1
   MaxDistance: 20
   Length: 1650
@@ -1001,7 +1287,7 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: -1242090881315689509}
+  - {fileID: -4965337394005455468}
   MinDistance: 1
   MaxDistance: 20
   Length: 65430
@@ -1155,13 +1441,13 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: -5109515100420506887}
-  - {fileID: -2968136816417257644}
-  - {fileID: 3955999398457833601}
-  - {fileID: 5427201593155308920}
-  - {fileID: 1122035629069568934}
-  - {fileID: 6348871576840977428}
-  - {fileID: 7418359716413269149}
+  - {fileID: -6772268242303890424}
+  - {fileID: -7147468839361889713}
+  - {fileID: 2015256207891675115}
+  - {fileID: -4069816893631998577}
+  - {fileID: -476868390287145558}
+  - {fileID: -5855419271845356808}
+  - {fileID: 4683772165891132656}
   MinDistance: 1
   MaxDistance: 20
   Length: 40000
@@ -1343,6 +1629,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 10000
   Length: 2000
+--- !u!114 &-476868390287145558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/SafeRoom/Main Safe
+  m_EditorClassIdentifier: 
+  Name: Main Safe
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1397,7 +1707,7 @@ MonoBehaviour:
   - {fileID: 5207805247277386219}
   StringsBanks:
   - {fileID: -4245687009088634605}
-  cacheTime: 637718225086108647
+  cacheTime: 637718999799218795
   cacheVersion: 9
 --- !u!114 &262780045359130
 MonoBehaviour:
@@ -1452,7 +1762,7 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: -4015906718793622732}
+  - {fileID: 8074090039791068617}
   MinDistance: 0
   MaxDistance: 4400
   Length: 65430
@@ -1817,6 +2127,30 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 0
+--- !u!114 &2015256207891675115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/SafeRoom/Drums
+  m_EditorClassIdentifier: 
+  Name: Drums
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &2079199009622095481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1841,10 +2175,39 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: -1247482694560491030}
+  - {fileID: 2586048558523145849}
   MinDistance: 1
   MaxDistance: 20
   Length: 1650
+--- !u!114 &2586048558523145849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Footsteps/Terrain
+  m_EditorClassIdentifier: 
+  Name: Terrain
+  StudioPath: 
+  Min: 0
+  Max: 4
+  Default: 3
+  ID:
+    data1: 0
+    data2: 0
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Grass
+  - Gravel
+  - Wood
+  - Stone
+  - Dirt
+  Exists: 1
 --- !u!114 &2666637738908547421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2080,10 +2443,34 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: -2106000817291080822}
+  - {fileID: -7757673918521240592}
   MinDistance: 0
   MaxDistance: 4400
   Length: 65430
+--- !u!114 &4683772165891132656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/SafeRoom/Scatterer
+  m_EditorClassIdentifier: 
+  Name: Scatterer
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &5010659014036297636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2108,7 +2495,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 3028760924152846595}
+  - {fileID: -4268404302648414349}
   MinDistance: 1
   MaxDistance: 20
   Length: 1650
@@ -2151,7 +2538,7 @@ MonoBehaviour:
   Path: Assets/Audio/FMOD Banks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637718225086098645
+  lastModified: 637718999799208795
   FileSizes: []
   Exists: 1
 --- !u!114 &5288872104660005371
@@ -2491,6 +2878,30 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 0
+--- !u!114 &8074090039791068617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Ambience/Fade
+  m_EditorClassIdentifier: 
+  Name: Fade
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &8134505517625931166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2515,7 +2926,7 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: -4973972202200960408}
+  - {fileID: -9183705788650667095}
   MinDistance: 1
   MaxDistance: 10000
   Length: 1650
