@@ -32,7 +32,7 @@ public class PlayerAttackHitbox : MonoBehaviour
 
     private void Update()
     {
-        DeathTimer(0.4f);
+        DeathTimer(0.3f);
     }
 
 

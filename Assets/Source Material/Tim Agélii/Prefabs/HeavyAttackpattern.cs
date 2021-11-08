@@ -10,33 +10,47 @@ public class HeavyAttackpattern : State
 {
     SomeAgent Agent;
 
+    private int chilldrenAmount;
+
+
     public Material attackIndicatorMaterial;
     public Material startMaterial;
-    public float outOfRange = 15;
+
+    [SerializeField]
+    public float outOfRange;
+
+
     private float attackTimer = 0;
 
-    private float turnSpeed = 5f;
-
+    [SerializeField]
+    private float turnSpeed;
+    [SerializeField]
+    private float attackChargeTime;
     Vector3 turnDirection;
 
     //public GameObject hitBox;
 
     private bool allowStop = true;
 
-    
+
     private bool startAttack = false;
     private bool startCooldown = false;
+ 
 
     private bool lookAtPlayer = true;
 
 
     //hitbox variables
-
+ 
     [SerializeField]
     private GameObject attackHitbox;
-   
-    private float swingTime = 1.5f;
-   
+
+    [SerializeField]
+    private float swingTime;
+
+    [SerializeField]
+    private float attackWaitTime;
+
     [SerializeField]
     private Vector3 hitboxOffset;
 
@@ -49,16 +63,18 @@ public class HeavyAttackpattern : State
 
 
 
+
     protected override void Initialize()
     {
         Agent = (SomeAgent)Owner;
         Debug.Assert(Agent);
+        chilldrenAmount = Agent.transform.childCount;
 
     }
 
     public void Awake()
     {
-     
+       
 
     }
     public override void RunUpdate()
@@ -78,6 +94,7 @@ public class HeavyAttackpattern : State
     {
         if (lookAtPlayer == true)
         {
+            Agent.NavAgent.isStopped = true;
             LookAtPlayer();
         }
         if (startAttack == true) {
@@ -93,7 +110,7 @@ public class HeavyAttackpattern : State
 
     void LookAtPlayer() {
         allowStop = false;
-            if (AttackWaitTimer(1f))
+            if (AttackWaitTimer(attackWaitTime))
             {
                 lookAtPlayer = false;
             Agent.transform.rotation = Agent.transform.rotation;
@@ -111,15 +128,32 @@ public class HeavyAttackpattern : State
 
     void Attack() {
         if (startAttack == true) {
-            if (AttackWaitTimer(0.4f))
+            if (AttackWaitTimer(attackChargeTime))
             {
                 InstantiateOneHitbox();
                 startAttack = false;
                 startCooldown = true;
-                Agent.GetComponent<MeshRenderer>().material = startMaterial;
+                for (int i = 0; i < chilldrenAmount; i++) {
+
+                    GameObject child = Agent.transform.GetChild(i).gameObject;
+                    if (child.TryGetComponent(out Renderer renderer) == true)
+                    {
+                        renderer.material = startMaterial;
+                    }
+                }
+            
             }
             else {
-                Agent.transform.GetComponent<MeshRenderer>().material = attackIndicatorMaterial;
+                for (int i = 0; i < chilldrenAmount; i++)
+                {
+
+                    GameObject child = Agent.transform.GetChild(i).gameObject;
+                    if (child.TryGetComponent(out Renderer renderer) == true)
+                    {
+                        renderer.material = attackIndicatorMaterial;
+                    }
+                }
+     
             }
         }
     }
@@ -127,6 +161,7 @@ public class HeavyAttackpattern : State
         if (startCooldown == true) {
             if (AttackWaitTimer(swingTime))
             {
+                Agent.NavAgent.isStopped = false;
                 allowStop = true;
                 lookAtPlayer = true;
                 startCooldown = false;
