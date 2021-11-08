@@ -7,12 +7,8 @@ using UnityEngine;
 public class BossChooseAttackState : State
 {
     SomeAgent Agent;
-    public GameObject arrowPrefab;
     public float attackCooldown;
     private float originalTime;
-    private Transform CurrentPatrol;
-
-
 
     protected override void Initialize()
     {
@@ -31,11 +27,14 @@ public class BossChooseAttackState : State
         if (attackCooldown < 0)
         {
             int randomAttackStateIndex = Random.Range(2, Agent.States.Length);
-            Debug.Log(randomAttackStateIndex);
+            //Debug.Log(randomAttackStateIndex);
             switch (randomAttackStateIndex)
             {
                 case 2:
                     StateMachine.ChangeState<BossFloorAttackState>();
+                    break;
+                case 3:
+                    StateMachine.ChangeState<BossShootingState>();
                     break;
                 default:
                     break;

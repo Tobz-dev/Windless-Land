@@ -7,7 +7,6 @@ using UnityEngine;
 public class BossFloorAttackState : State
 {
     SomeAgent Agent;
-    public GameObject arrowPrefab;
     private float originalTime;
 
     protected override void Initialize()
@@ -18,12 +17,26 @@ public class BossFloorAttackState : State
 
     public override void Enter()
     {
-        Debug.Log("Attack #1. Floor attack.");
+        //Debug.Log("Attack #1. Floor attack.");
+        int rand = randomNumber();
+        Debug.Log(rand);
+        if (rand == 0)
+        {
+            Agent.GetComponent<BossMechanicsScript>().FadeIn(Agent.GetComponent<BossMechanicsScript>().leftFloor);
+        }
+        else if(rand == 1)
+        {
+            Agent.GetComponent<BossMechanicsScript>().FadeIn(Agent.GetComponent<BossMechanicsScript>().rightFloor);
+        }
     }
     public override void RunUpdate()
     {
-    
-        Agent.GetComponent<BossMechanicsScript>().fadeIn(Agent.GetComponent<BossMechanicsScript>().leftFloor);
-       
+
+        StateMachine.ChangeState<BossChooseAttackState>();
+    }
+
+    public int randomNumber()
+    {
+        return Random.Range(0, 2);
     }
 }
