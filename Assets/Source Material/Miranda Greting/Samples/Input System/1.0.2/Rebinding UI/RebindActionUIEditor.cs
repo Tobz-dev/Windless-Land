@@ -1,6 +1,9 @@
 #if UNITY_EDITOR
 using System.Linq;
 using UnityEditor;
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 ////TODO: support multi-object editing
 

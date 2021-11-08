@@ -1,17 +1,15 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Events;
 using UnityEngine.InputSystem.Utilities;
 using UnityEngine.UI;
-using UnityEngine;
-//using TMPro;
 
 ////TODO: localization support
 
 ////TODO: deal with composites that have parts bound in different control schemes
 
+/*
 namespace UnityEngine.InputSystem.Samples.RebindUI
 {
     /// <summary>
@@ -39,10 +37,10 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         /// <seealso cref="InputBinding.id"/>
         public string bindingId
         {
-            get => m_BindingId.ToUpper();
+            get => m_BindingId;
             set
             {
-                m_BindingId = value.ToUpper();
+                m_BindingId = value;
                 UpdateBindingDisplay();
             }
         }
@@ -60,7 +58,6 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         /// <summary>
         /// Text component that receives the name of the action. Optional.
         /// </summary>
-        //public TextMeshProUGUI actionLabel
         public Text actionLabel
         {
             get => m_ActionLabel;
@@ -75,14 +72,12 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         /// Text component that receives the display string of the binding. Can be <c>null</c> in which
         /// case the component entirely relies on <see cref="updateBindingUIEvent"/>.
         /// </summary>
-        //public TextMeshProUGUI bindingText
         public Text bindingText
         {
             get => m_BindingText;
             set
             {
                 m_BindingText = value;
-                //m_BindingText.text = m_BindingText.text.ToUpper();
                 UpdateBindingDisplay();
             }
         }
@@ -199,19 +194,14 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             var displayString = string.Empty;
             var deviceLayoutName = default(string);
             var controlPath = default(string);
-            
 
             // Get display string from action.
             var action = m_Action?.action;
             if (action != null)
             {
-
                 var bindingIndex = action.bindings.IndexOf(x => x.id.ToString() == m_BindingId);
                 if (bindingIndex != -1)
-                    //controlPath = action.activeControl.displayName.ToUpper();
-                    displayString = action.GetBindingDisplayString(bindingIndex, out deviceLayoutName, out controlPath, displayStringOptions).ToUpper();
-                    //displayString = action.GetBindingDisplayString(bindingIndex);
-                    //controlPath = action.activeControl.displayName.ToUpper();
+                    displayString = action.GetBindingDisplayString(bindingIndex, out deviceLayoutName, out controlPath, displayStringOptions);
             }
 
             // Set on label (if any).
@@ -512,3 +502,4 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         }
     }
 }
+*/
