@@ -8351,6 +8351,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d1f909a932ad194583dd3005730de2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  VcaName: Music
+  vcaVolume: 0
 --- !u!114 &800676677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9088,6 +9090,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d1f909a932ad194583dd3005730de2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  VcaName: Enemy SFX
+  vcaVolume: 0
 --- !u!114 &856502276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9488,8 +9492,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.1, y: -31.154}
-  m_SizeDelta: {x: 228.723, y: 16.987}
+  m_AnchoredPosition: {x: -0.853, y: 1.072}
+  m_SizeDelta: {x: 328.358, y: 89.702}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &907635322
 MonoBehaviour:
@@ -9511,7 +9515,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4c4ac2d8dd9fda04787330a86520ab2f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f8489165380034f4eb3af31b82fa4e15, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9928,6 +9932,7 @@ GameObject:
   - component: {fileID: 996870037}
   - component: {fileID: 996870036}
   - component: {fileID: 996870035}
+  - component: {fileID: 996870039}
   m_Layer: 5
   m_Name: Button (2)
   m_TagString: Untagged
@@ -10063,6 +10068,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 996870033}
   m_CullTransparentMesh: 1
+--- !u!114 &996870039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996870033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5843c7bb11e6a63499fb6a1b0f8b56b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 1384795470}
 --- !u!1 &998001848
 GameObject:
   m_ObjectHideFlags: 0
@@ -10138,6 +10156,101 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 998001848}
   m_CullTransparentMesh: 1
+--- !u!1 &1025384189
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1025384193}
+  - component: {fileID: 1025384192}
+  - component: {fileID: 1025384191}
+  - component: {fileID: 1025384190}
+  m_Layer: 0
+  m_Name: AmbienceExterior
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1025384190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025384189}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 744a208c85da6d04c861d81b992e4ead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: Player
+  Emitters:
+  - Target: {fileID: 1025384192}
+    Params:
+    - Name: Fade
+      Value: 1
+  TriggerEvent: 3
+--- !u!65 &1025384191
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025384189}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 6.6616516, y: 5.3049774, z: 1}
+  m_Center: {x: -0.13018417, y: 0.7591554, z: 0}
+--- !u!114 &1025384192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025384189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: Player
+  EventReference:
+    Guid:
+      Data1: 507452817
+      Data2: 1104418789
+      Data3: 756802706
+      Data4: 668785467
+    Path: event:/Environment/AmbienceExterior
+  Event: 
+  PlayEvent: 1
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 0
+  OverrideMaxDistance: 55.623264
+--- !u!4 &1025384193
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025384189}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.0012665, y: 1.6099911, z: 4.838879}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1040207194
 GameObject:
   m_ObjectHideFlags: 0
@@ -10803,6 +10916,7 @@ GameObject:
   - component: {fileID: 1076661538}
   - component: {fileID: 1076661537}
   - component: {fileID: 1076661536}
+  - component: {fileID: 1076661540}
   m_Layer: 5
   m_Name: Button (3)
   m_TagString: Untagged
@@ -10938,6 +11052,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1076661534}
   m_CullTransparentMesh: 1
+--- !u!114 &1076661540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076661534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5843c7bb11e6a63499fb6a1b0f8b56b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 1234934463}
 --- !u!1 &1109904869
 GameObject:
   m_ObjectHideFlags: 0
@@ -11442,6 +11569,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d1f909a932ad194583dd3005730de2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  VcaName: SFX
+  vcaVolume: 0
 --- !u!114 &1167540204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12863,6 +12992,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d1f909a932ad194583dd3005730de2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  VcaName: Player SFX
+  vcaVolume: 0
 --- !u!114 &1234934463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12939,6 +13070,7 @@ GameObject:
   - component: {fileID: 1240913659}
   - component: {fileID: 1240913658}
   - component: {fileID: 1240913661}
+  - component: {fileID: 1240913662}
   m_Layer: 5
   m_Name: Button (3)
   m_TagString: Untagged
@@ -13074,6 +13206,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkBoxImage: {fileID: 1703176214}
+--- !u!114 &1240913662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240913656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5843c7bb11e6a63499fb6a1b0f8b56b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 1167540204}
 --- !u!1 &1242213516
 GameObject:
   m_ObjectHideFlags: 0
@@ -13589,6 +13734,7 @@ GameObject:
   - component: {fileID: 1275812115}
   - component: {fileID: 1275812114}
   - component: {fileID: 1275812113}
+  - component: {fileID: 1275812117}
   m_Layer: 5
   m_Name: Button (3)
   m_TagString: Untagged
@@ -13724,6 +13870,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1275812111}
   m_CullTransparentMesh: 1
+--- !u!114 &1275812117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275812111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5843c7bb11e6a63499fb6a1b0f8b56b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 856502276}
 --- !u!1 &1278850750
 GameObject:
   m_ObjectHideFlags: 0
@@ -13928,7 +14087,7 @@ GameObject:
   - component: {fileID: 1291377429}
   - component: {fileID: 1291377428}
   m_Layer: 5
-  m_Name: UI SFX
+  m_Name: MuteUI
   m_TagString: Text
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13974,7 +14133,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: UI SFX
+  m_text: Mute UI
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 814b4169af3b09842abae37b8f85fbad, type: 2}
   m_sharedMaterial: {fileID: -8124943007681638659, guid: 814b4169af3b09842abae37b8f85fbad, type: 2}
@@ -14100,6 +14259,7 @@ GameObject:
   - component: {fileID: 1320719436}
   - component: {fileID: 1320719435}
   - component: {fileID: 1320719434}
+  - component: {fileID: 1320719438}
   m_Layer: 5
   m_Name: Button (3)
   m_TagString: Untagged
@@ -14235,6 +14395,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1320719432}
   m_CullTransparentMesh: 1
+--- !u!114 &1320719438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320719432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5843c7bb11e6a63499fb6a1b0f8b56b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 2144062644}
 --- !u!1 &1335401039
 GameObject:
   m_ObjectHideFlags: 0
@@ -14824,6 +14997,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d1f909a932ad194583dd3005730de2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  VcaName: Ambience
+  vcaVolume: 0
 --- !u!114 &1384795470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15194,7 +15369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5843c7bb11e6a63499fb6a1b0f8b56b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 0}
+  slider: {fileID: 1872317444}
 --- !u!1 &1426489669
 GameObject:
   m_ObjectHideFlags: 0
@@ -15356,7 +15531,7 @@ GameObject:
   - component: {fileID: 1483760789}
   - component: {fileID: 1483760788}
   m_Layer: 5
-  m_Name: Enemy SFX
+  m_Name: Mute Enemy SFX
   m_TagString: Text
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18873,6 +19048,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d1f909a932ad194583dd3005730de2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  VcaName: Master
+  vcaVolume: 0
 --- !u!114 &1872317444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19195,6 +19372,7 @@ GameObject:
   - component: {fileID: 1899836181}
   - component: {fileID: 1899836180}
   - component: {fileID: 1899836183}
+  - component: {fileID: 1899836184}
   m_Layer: 5
   m_Name: Button (2)
   m_TagString: Untagged
@@ -19330,6 +19508,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkBoxImage: {fileID: 1426489671}
+--- !u!114 &1899836184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1899836178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5843c7bb11e6a63499fb6a1b0f8b56b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 800676677}
 --- !u!1 &1903136116
 GameObject:
   m_ObjectHideFlags: 0
@@ -21003,7 +21194,7 @@ GameObject:
   - component: {fileID: 2086536128}
   - component: {fileID: 2086536127}
   m_Layer: 5
-  m_Name: Mute SFX (1)
+  m_Name: Mute Player SFX (1)
   m_TagString: Text
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21602,6 +21793,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d1f909a932ad194583dd3005730de2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  VcaName: UI
+  vcaVolume: 0
 --- !u!114 &2144062644
 MonoBehaviour:
   m_ObjectHideFlags: 0
