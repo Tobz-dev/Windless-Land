@@ -189,7 +189,7 @@ public class LightAttackpattern : State
             {
                 startSecondSwing = true;
                 startCooldown = false;
-
+                Agent.animator.SetTrigger("StopAttack");
                 Agent.animator.SetTrigger("StartAttack");
             }
         }
@@ -224,7 +224,7 @@ public class LightAttackpattern : State
                 InstantiateOneHitbox();
                 startSwing = false;
                 startCooldown = true;
-                Agent.animator.SetTrigger("StopAttack");
+              
 
             }
             else 
