@@ -83,10 +83,23 @@ public class CharacterController : MonoBehaviour
     private bool startAttackDelay = false;
     
     [SerializeField]
+    private float lightAttackDelay;
+
+
     private float attackDelay;
 
+
+
     [SerializeField]
-    private float swingCooldown = 0.6f;
+    private float lightSwingCooldown = 0.6f;
+
+    private float swingCooldown;
+
+    [SerializeField]
+    private float heavySwingCooldown;
+    [SerializeField]
+    private float heavyAttackDelay;
+
 
     //prototyp
     float extraInputTimeDelay = 0.05f;
@@ -364,13 +377,22 @@ public class CharacterController : MonoBehaviour
         return false;
     }
 
-    void AttackManager() {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && startAttackDelay == false && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false) 
+    void AttackManager()
+    {
+        if ( startAttackDelay == false && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false) 
         {
+            if (Input.GetKeyDown(KeyCode.Mouse0)) {
+                ResetAttackAni();
 
-            ResetAttackAni();
-            Attack();
-           
+                Attack();
+            }
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                ResetAttackAni();
+
+                HeavyAttack();
+            }
+
         }
 
         HitboxDelay();
@@ -380,17 +402,33 @@ public class CharacterController : MonoBehaviour
 
     void Attack()
     {
+        attackDelay = lightAttackDelay;
+
+        swingCooldown = lightSwingCooldown;
 
 
-       
-        //more anim things
-        //Debug.Log("in player attack");
-        anim.SetTrigger(currentAttackTrigger);
+    //more anim things
+    //Debug.Log("in player attack");
+    anim.SetTrigger(currentAttackTrigger);
 
         moveAllow = false;
         transform.rotation = lookRotation;
         startAttackDelay = true;
 
+    }
+
+    void HeavyAttack() {
+
+        attackDelay = heavyAttackDelay;
+
+        swingCooldown = heavySwingCooldown;
+
+
+        anim.SetTrigger("HeavyAttack");
+
+        moveAllow = false;
+        transform.rotation = lookRotation;
+        startAttackDelay = true;
     }
 
     void QueueNextAttackAni() {
