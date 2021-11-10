@@ -107,6 +107,9 @@ public class CharacterController : MonoBehaviour
 
     [SerializeField]
     private Animator anim;
+    int attackComboLenght = 3;
+    int currentAttack = 1;
+    string currentAttackTrigger;
 
     public Transform respawnPoint;
 
@@ -118,6 +121,7 @@ public class CharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         canMove = true;
         plane = new Plane(Vector3.up, Vector3.zero);
         forward = Camera.main.transform.forward;
@@ -126,6 +130,8 @@ public class CharacterController : MonoBehaviour
         right = Quaternion.Euler(new Vector3(0, 90, 0)) * forward;
 
         moveSpeedDefault = moveSpeed;
+
+        currentAttackTrigger = "Attack1";
     }
 
     // Update is called once per frame
@@ -362,7 +368,7 @@ public class CharacterController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0) && startAttackDelay == false && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false) 
         {
 
-
+            ResetAttackAni();
             Attack();
            
         }
@@ -379,12 +385,27 @@ public class CharacterController : MonoBehaviour
        
         //more anim things
         //Debug.Log("in player attack");
-        anim.SetTrigger("Attack");
+        anim.SetTrigger(currentAttackTrigger);
 
         moveAllow = false;
         transform.rotation = lookRotation;
         startAttackDelay = true;
 
+    }
+
+    void QueueNextAttackAni() {
+        currentAttack++;
+        if (currentAttack <= attackComboLenght) {
+            currentAttackTrigger = "Attack" + currentAttack;
+        }
+      
+      
+        Debug.Log(currentAttack);
+    }
+    void ResetAttackAni() {
+        currentAttack = 1;
+        currentAttackTrigger = "Attack" + currentAttack;
+        Debug.Log(currentAttack);
     }
     void AttackCoolDown()
     {
@@ -393,7 +414,7 @@ public class CharacterController : MonoBehaviour
             if (AttackWaitTimer(swingCooldown))
             {
                moveAllow = true;
-
+              
                 startAttackCooldown = false;
 
                 anim.SetTrigger("StopAttack");
@@ -420,11 +441,16 @@ public class CharacterController : MonoBehaviour
                     if (queueAttack == true)
                     {
 
-                        startAttackCooldown = false;
-                        queueAttack = false;
-                        attackTimer = 0;
-                        anim.SetTrigger("StopAttack");
-                        Attack();
+                        QueueNextAttackAni();
+                        if (currentAttack <= attackComboLenght) {
+                            startAttackCooldown = false;
+                            queueAttack = false;
+                            attackTimer = 0;
+                            anim.SetTrigger("StopAttack");
+
+                            Attack();
+                        }
+                    
                     }
                     if (queueDodge == true)
                     {
