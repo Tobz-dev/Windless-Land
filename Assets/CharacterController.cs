@@ -32,7 +32,7 @@ public class CharacterController : MonoBehaviour
     bool invincibility = false;
 
 
-   
+    public CameraFollow cameraFollow;
 
 
     //healthFlask
@@ -159,6 +159,14 @@ public class CharacterController : MonoBehaviour
             //anim stuff here. 
             anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
             anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            Debug.Log("Camera Test");
+            //StartCoroutine(cameraFollow.ShakeCamera(.15f, .4f));
+            cameraFollow.StartShake();
         }
     }
 
