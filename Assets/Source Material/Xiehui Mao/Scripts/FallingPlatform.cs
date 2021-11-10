@@ -7,7 +7,6 @@ public class FallingPlatform : MonoBehaviour
 
     private Rigidbody rbd;
     private BoxCollider boxcollider;
-    private MeshCollider meshcollider;
     private FMOD.Studio.EventInstance PlatformFalling;
 
     public float fallplat;
@@ -33,7 +32,6 @@ public class FallingPlatform : MonoBehaviour
     {
         rbd = GetComponent<Rigidbody>();
         boxcollider = GetComponent<BoxCollider>();
-        meshcollider = GetComponent<MeshCollider>();
     }
 
     private void Start()
@@ -45,7 +43,6 @@ public class FallingPlatform : MonoBehaviour
     {
         rbd.isKinematic = false;
         boxcollider.isTrigger = true;
-        meshcollider.isTrigger = true;
         isFalling = true;
     }
 
@@ -60,7 +57,6 @@ public class FallingPlatform : MonoBehaviour
         isFalling = false;
         rbd.isKinematic = true;
         boxcollider.isTrigger = false;
-        meshcollider.isTrigger = false;
         transform.position = initialposition;
         rbd.velocity = Vector3.zero;
     }
@@ -72,7 +68,6 @@ public class FallingPlatform : MonoBehaviour
         {
             rbd.isKinematic = true;
             boxcollider.isTrigger = false;
-            meshcollider.isTrigger = false;
             isFalling = false;
             respawn();
         }
