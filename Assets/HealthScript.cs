@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class HealthScript : MonoBehaviour
 {
 
     private int chilldrenAmount;
 
-    private int health;
+    public int health;
     [SerializeField]
     private int Maxhealth;
     [SerializeField]
@@ -22,10 +23,19 @@ public class HealthScript : MonoBehaviour
     private TextMeshProUGUI flaskAmountText;
     [SerializeField]
     private int maxFlasks = 4;
+    [SerializeField]
+    private Slider healthSlider;
+    [SerializeField]
+    private CameraFollow cameraFollow;
+
     private int flaskAmount;
     private bool startInvincibilityTimer = false;
     private bool damageIsOnCooldown = false;
     private float invincibilityTimer = 0;
+
+    private FMOD.Studio.EventInstance PlayerHurt;
+    private FMOD.Studio.EventInstance EnemyHurt;
+    private FMOD.Studio.EventInstance EnemyDead;
 
     Scene scene;
 
@@ -34,6 +44,7 @@ public class HealthScript : MonoBehaviour
 
     private void Start()
     {
+
         scene = SceneManager.GetActiveScene();
         chilldrenAmount = transform.childCount;
         health = Maxhealth;
@@ -43,15 +54,29 @@ public class HealthScript : MonoBehaviour
         {
             flaskAmountText.text = maxFlasks + "/" + maxFlasks;
         }
+
+        if (gameObject.tag != "Player")
+        {
+            healthSlider.value = GetHealthPercentage();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-     
-            if (health <= 0 && gameObject.tag != "Player")
+
+        if (gameObject.tag != "Player")
+        {
+            healthSlider.value = GetHealthPercentage();
+        }
+
+        if (health <= 0 && gameObject.tag != "Player")
         {
             //death animation and delay
+            EnemyDead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Small Enemy/SmallEnemyDead");
+            EnemyDead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+            EnemyDead.start();
+            EnemyDead.release();
             Destroy(gameObject);
         }
 
@@ -80,6 +105,18 @@ public class HealthScript : MonoBehaviour
 
             StartCoroutine(damagedMaterial());
             damagedMaterial();
+
+            if (gameObject.tag == "Player")
+            PlayerHurt = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Hurt");
+            PlayerHurt.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+            PlayerHurt.start();
+            PlayerHurt.release();
+            if (gameObject.tag != "Player")
+            EnemyHurt = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Small Enemy/SmallEnemyHurt");
+            EnemyHurt.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+            EnemyHurt.start();
+            EnemyHurt.release();
+
         }
        
        
@@ -89,6 +126,8 @@ public class HealthScript : MonoBehaviour
             HealthSetup();
             damageIsOnCooldown = true;
             startInvincibilityTimer = true;
+
+            cameraFollow.StartShake();
         }
     }
 
@@ -121,7 +160,7 @@ public class HealthScript : MonoBehaviour
             //sets the NormalHP gameobject active for the amount of remaining HP
             for (int i = 0; i <= health - 2; i++)
             {
-                Debug.Log("yeet");
+                //Debug.Log("yeet");
                 hpSlots[i].transform.GetChild(0).gameObject.SetActive(false);
                 hpSlots[i].transform.GetChild(1).gameObject.SetActive(false);
                 hpSlots[i].transform.GetChild(2).gameObject.SetActive(true);
@@ -181,5 +220,10 @@ public class HealthScript : MonoBehaviour
     public float GetHealth() {
 
         return health;
+    }
+
+    float GetHealthPercentage()
+    {
+        return (float)health / (float)Maxhealth;
     }
 }
