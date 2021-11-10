@@ -130,6 +130,7 @@ public class HeavyAttackpattern : State
         if (startAttack == true) {
             if (AttackWaitTimer(attackChargeTime))
             {
+                Agent.animator.SetTrigger("Attack");
                 InstantiateOneHitbox();
                 startAttack = false;
                 startCooldown = true;
