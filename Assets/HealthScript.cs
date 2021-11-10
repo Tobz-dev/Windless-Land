@@ -25,6 +25,8 @@ public class HealthScript : MonoBehaviour
     private int maxFlasks = 4;
     [SerializeField]
     private Slider healthSlider;
+    [SerializeField]
+    private CameraFollow cameraFollow;
 
     private int flaskAmount;
     private bool startInvincibilityTimer = false;
@@ -124,6 +126,8 @@ public class HealthScript : MonoBehaviour
             HealthSetup();
             damageIsOnCooldown = true;
             startInvincibilityTimer = true;
+
+            cameraFollow.StartShake();
         }
     }
 
