@@ -333,7 +333,12 @@ public class PrototypeCharacterController : MonoBehaviour
 
     void Attack()
     {
-        transform.rotation = lookRotation;
+
+        closestEnemy = FindClosestEnemy();
+        objectToFace = closestEnemy.transform;
+        transform.LookAt(objectToFace);
+
+        //transform.rotation = lookRotation;
         InstantiateAttackHitbox();
         startAttackCooldown = true;
 
