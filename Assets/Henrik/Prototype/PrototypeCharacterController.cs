@@ -85,6 +85,8 @@ public class PrototypeCharacterController : MonoBehaviour
 
     public Transform respawnPoint;
 
+    private Transform objectToFace;
+    private GameObject closestEnemy;
 
     Vector3 forward, right;
     // Start is called before the first frame update
@@ -131,6 +133,15 @@ public class PrototypeCharacterController : MonoBehaviour
             //anim stuff here. 
             anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
             anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
+
+
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                Debug.Log("TTTTTTT");
+                closestEnemy = FindClosestEnemy();
+                objectToFace = closestEnemy.transform;
+                transform.LookAt(objectToFace);
+            }
         }
     }
 
