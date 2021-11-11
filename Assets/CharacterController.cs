@@ -81,6 +81,11 @@ public class CharacterController : MonoBehaviour
 
     [SerializeField]
     private float timeToNextSwing;
+   
+    [SerializeField]
+    private float timeToNextSwingLight;
+    [SerializeField]
+    private float timeToNextSwingHeavy;
 
     private bool startAttackDelay = false;
     
@@ -133,10 +138,24 @@ public class CharacterController : MonoBehaviour
 
 
     Vector3 forward, right;
+
+
+    [SerializeField]
+    private GameObject bow;
+    [SerializeField]
+    private GameObject sword;
+
+    [SerializeField]
+    private float bowChargeTime;
+    [SerializeField]
+    private GameObject arrow;
+    private bool bowIsLoading = false;
+    private bool bowIsFinishedLoading = false;
+
     // Start is called before the first frame update
     void Start()
     {
-       
+        bow.SetActive(false);
         canMove = true;
         plane = new Plane(Vector3.up, Vector3.zero);
         forward = Camera.main.transform.forward;
@@ -171,6 +190,10 @@ public class CharacterController : MonoBehaviour
             AttackManager();
 
             UpdateMoveInput();
+
+            EquipManager();
+
+          //  BowManager();
 
             if (Input.anyKey && moveAllow == true)
             {
@@ -230,6 +253,86 @@ public class CharacterController : MonoBehaviour
         transform.position += playerMovement;
 
     }
+
+    void EquipManager() {
+        if (Input.GetKeyDown(KeyCode.Alpha2)){
+            bow.SetActive(true);
+            sword.SetActive(false);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            bow.SetActive(false);
+            sword.SetActive(true);
+        }
+
+
+
+    }
+
+    void BowManager() {
+        if (bow.activeSelf == true && startAttackDelay == false && startAttackDelay == false &&  startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false)
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                StartBowLoad();
+
+            }
+
+            if (bowIsLoading) {
+                BowLoading();
+            }
+
+            if (Input.GetKeyUp(KeyCode.Mouse0) && bowIsFinishedLoading == true) {
+                BowFire();
+            }
+            if (Input.GetKeyUp(KeyCode.Mouse0) && bowIsFinishedLoading == false)
+            {
+                BowCancel();
+            }
+
+
+        }
+
+        HitboxDelay();
+
+        AttackCoolDown();
+    
+}
+    void StartBowLoad() {
+
+        anim.SetTrigger("LoadBow");
+
+        moveAllow = false;
+
+        bowIsLoading = true;
+    }
+
+    void BowLoading()
+    {
+        transform.rotation = lookRotation;
+
+        if (AttackWaitTimer(bowChargeTime))
+        {
+            bowIsFinishedLoading = true;
+            bowIsLoading = false;
+        }
+        else
+        {
+
+        }
+    }
+
+    void BowFire() { 
+     anim.SetTrigger("StopBow");
+     anim.SetTrigger("FireBow");
+
+
+
+    }
+    void BowCancel() {
+        anim.SetTrigger("StopBow");
+    }
+
 
     void HealthFlaskManager()
     {
@@ -381,7 +484,7 @@ public class CharacterController : MonoBehaviour
 
     void AttackManager()
     {
-        if ( startAttackDelay == false && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false) 
+        if (sword.activeSelf == true && startAttackDelay == false && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false) 
         {
             if (Input.GetKeyDown(KeyCode.Mouse0)) {
                 ResetAttackAni();
@@ -410,6 +513,7 @@ public class CharacterController : MonoBehaviour
 
         swingCooldown = lightSwingCooldown;
 
+        timeToNextSwing = timeToNextSwingLight;
 
         //more anim things
         //Debug.Log("in player attack");
@@ -428,6 +532,8 @@ public class CharacterController : MonoBehaviour
         attackDelay = heavyAttackDelay;
 
         swingCooldown = heavySwingCooldown;
+
+        timeToNextSwing = timeToNextSwingHeavy;
 
 
         anim.SetTrigger("HeavyAttack");
