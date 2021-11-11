@@ -707,7 +707,7 @@ RectTransform:
   - {fileID: 1586461352}
   - {fileID: 39691249}
   m_Father: {fileID: 709158873}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1301,7 +1301,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: dbb4c40c019f83740b2cc3b87399907e, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 6e9766c8ae61a7c4ba8f130a09bcbfa1, type: 2}
 --- !u!4 &61810647
 Transform:
   m_ObjectHideFlags: 0
@@ -7794,7 +7794,7 @@ GameObject:
   - component: {fileID: 379759827}
   - component: {fileID: 379759826}
   m_Layer: 5
-  m_Name: Actions (1)
+  m_Name: Title
   m_TagString: Text
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7811,8 +7811,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.79999995, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 709158873}
-  m_RootOrder: 5
+  m_Father: {fileID: 1758207917}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -12424,7 +12424,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: W
+  m_Text: ALT
 --- !u!114 &677313943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17228,7 +17228,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: D
+  m_Text: F4
 --- !u!114 &700673631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17496,8 +17496,7 @@ RectTransform:
   - {fileID: 1712574895}
   - {fileID: 934868307}
   - {fileID: 330469314}
-  - {fileID: 379759825}
-  - {fileID: 1933323042}
+  - {fileID: 1758207917}
   - {fileID: 1542589349}
   - {fileID: 26970756}
   m_Father: {fileID: 8760275423470876926}
@@ -18019,7 +18018,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\xC1"
+  m_Text: '`'
 --- !u!114 &762614524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22160,7 +22159,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: BLANKSTEG
+  m_Text: SPACE
 --- !u!114 &1012837907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25361,6 +25360,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 2028427696}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 8760275423322868386}
+        m_TargetAssemblyTypeName: MoveUI, Assembly-CSharp
+        m_MethodName: ActivateEditMode
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -30215,7 +30226,7 @@ RectTransform:
   - {fileID: 1275053271}
   - {fileID: 269006050}
   m_Father: {fileID: 709158873}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -34457,6 +34468,43 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1752697951}
   m_CullTransparentMesh: 1
+--- !u!1 &1758207916
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1758207917}
+  m_Layer: 5
+  m_Name: Presets
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1758207917
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758207916}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1933323042}
+  - {fileID: 379759825}
+  m_Father: {fileID: 709158873}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1768940379
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37187,8 +37235,8 @@ RectTransform:
   m_Children:
   - {fileID: 1994386159}
   - {fileID: 1538811916}
-  m_Father: {fileID: 709158873}
-  m_RootOrder: 6
+  m_Father: {fileID: 1758207917}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -43568,6 +43616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2890f511685fdb048901bc1a4d080b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
   Maxhealth: 5
   material: {fileID: 2100000, guid: 808ae2002bfb8fc48ad40d63ab54ea5a, type: 2}
   originalMaterial: {fileID: 2100000, guid: c103ed8a6e675b5479be69ce128d0892, type: 2}
@@ -43579,6 +43628,8 @@ MonoBehaviour:
   - {fileID: 2062007534662920027}
   flaskAmountText: {fileID: 2713165026671672463}
   maxFlasks: 4
+  healthSlider: {fileID: 0}
+  cameraFollow: {fileID: 0}
   playerInvincibilityTime: 0
 --- !u!23 &6574917300011758199
 MeshRenderer:
@@ -43807,7 +43858,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: BLANKSTEG
+  m_Text: SPACE
 --- !u!114 &8313462501984540693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59996,6 +60047,7 @@ MonoBehaviour:
   editModePanel: {fileID: 8760275422258739672}
   dropDown: {fileID: 1215484896}
   mouseToggle: {fileID: 0}
+  playerInput: {fileID: 0}
 --- !u!114 &8760275423322868397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61065,10 +61117,13 @@ MonoBehaviour:
   dodgerollSpeed: 11
   dodgerollDropSpeed: 3
   dodgeDropOffTime: 0
-  attackHitbox: {fileID: 0}
+  lightAttackHitbox: {fileID: 0}
+  heavyAttackHitbox: {fileID: 0}
   timeToNextSwing: 0
-  attackDelay: 0
-  swingCooldown: 0.6
+  lightAttackDelay: 0
+  lightSwingCooldown: 0.6
+  heavySwingCooldown: 0
+  heavyAttackDelay: 0
   hitboxOffset: {x: 0, y: 0, z: 0}
   xRotationOffset: 0
   yRotationOffset: 0
