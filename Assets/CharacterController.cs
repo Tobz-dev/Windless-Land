@@ -544,13 +544,18 @@ public class CharacterController : MonoBehaviour
     public void Respawn()
     {
         Debug.Log("Player Dead");
-        //GetComponent<HealthScript>().regainHealth(100);
-        GetComponent<HealthScript>().takeDamage(100);
+        GetComponent<HealthScript>().regainHealth(100);
         Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
         Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         Dead.start();
         Dead.release();
         transform.position = respawnPoint.transform.position;
+    }
+
+    public void SetRespawnPoint(Vector3 position)
+    {
+        Debug.Log("Respawnpoint Set");
+        respawnPoint.transform.position = position;
     }
 
     public float GetFlaskUses() {

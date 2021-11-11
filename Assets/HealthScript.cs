@@ -83,7 +83,7 @@ public class HealthScript : MonoBehaviour
         if (health <= 0 && gameObject.tag == "Player")
         {
             //death animation and delay
-            SceneManager.LoadScene(scene.name);
+            //SceneManager.LoadScene(scene.name);
             gameObject.GetComponent<CharacterController>().Respawn();
             //Debug.Log("Player Dead");
         }
