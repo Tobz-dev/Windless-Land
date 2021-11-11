@@ -181,6 +181,7 @@ public class CharacterController : MonoBehaviour
         moveSpeedDefault = moveSpeed;
 
         currentAttackTrigger = "Attack1";
+        gameObject.GetComponent<ArrowUI>().UpdateAmmo(arrowAmmo, arrowAmmoMax);
     }
 
     // Update is called once per frame
@@ -404,6 +405,7 @@ public class CharacterController : MonoBehaviour
     void BowFire() {
         InstantiateArrow();
         arrowAmmo--;
+        gameObject.GetComponent<ArrowUI>().UpdateAmmo(arrowAmmo, arrowAmmoMax);
      bowIsFinishedLoading = false;
      anim.SetTrigger("StopBow");
      anim.SetTrigger("BowRecoil");
@@ -865,6 +867,7 @@ public class CharacterController : MonoBehaviour
         if (arrowAmmo > arrowAmmoMax) {
             arrowAmmo = arrowAmmoMax;
         }
+        gameObject.GetComponent<ArrowUI>().UpdateAmmo(arrowAmmo, arrowAmmoMax);
     }
 
     public float GetFlaskUses() {
