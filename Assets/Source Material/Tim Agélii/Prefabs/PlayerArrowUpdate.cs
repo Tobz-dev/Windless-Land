@@ -6,7 +6,7 @@ public class PlayerArrowUpdate : MonoBehaviour
 {
     private Rigidbody ArrowRgb;
 
-    private float speed = 25f;
+    private float speed = 30f;
     // Start is called before the first frame update
     void Start()
     {
