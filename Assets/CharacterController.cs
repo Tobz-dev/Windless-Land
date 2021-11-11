@@ -32,9 +32,6 @@ public class CharacterController : MonoBehaviour
     bool invincibility = false;
 
 
-   
-
-
     //healthFlask
     bool healthFlaskTimerRunning = true;
     bool healthFlaskStart = false;
@@ -627,6 +624,12 @@ public class CharacterController : MonoBehaviour
         Dead.start();
         Dead.release();
         transform.position = respawnPoint.transform.position;
+    }
+
+    public void SetRespawnPoint(Vector3 position)
+    {
+        Debug.Log("Respawnpoint Set");
+        respawnPoint.transform.position = position;
     }
 
     public float GetFlaskUses() {

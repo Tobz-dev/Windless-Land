@@ -20,6 +20,7 @@ public class SpikeScript : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
+            collision.gameObject.GetComponent<HealthScript>().takeDamage(100);
             collision.gameObject.GetComponent<CharacterController>().Respawn();
         }
     }

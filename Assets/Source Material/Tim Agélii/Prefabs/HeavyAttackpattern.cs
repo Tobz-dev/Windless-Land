@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-//Main Author: Tim Agélii
-//statemachine kod tagen från aiattack
+//Main Author: Tim Agï¿½lii
+//statemachine kod tagen frï¿½n aiattack
 [CreateAssetMenu()]
 public class HeavyAttackpattern : State
 {
@@ -134,6 +134,7 @@ public class HeavyAttackpattern : State
             if (AttackWaitTimer(attackChargeTime))
             {
                 lookAtPlayer = false;
+                Agent.animator.SetTrigger("Attack");
                 InstantiateOneHitbox();
                 startAttack = false;
                 startCooldown = true;

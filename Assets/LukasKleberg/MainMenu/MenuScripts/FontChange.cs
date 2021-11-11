@@ -44,18 +44,33 @@ public class FontChange : MonoBehaviour
 
     public void ChangeFont(TMP_FontAsset fontToChangeTo)
     {
+        //TODO set a player pref. so that other scenes can access the new font
+
         //TMP_FontAsset testFont = fontToChangeTo;
         Debug.Log("in ChangeFont. TextList is " + textMeshProUGUIList.Count);
         foreach (TextMeshProUGUI textMeshProUGUI in textMeshProUGUIList)
         {
             if (textMeshProUGUI != null) 
             {
-                Debug.Log("in font change test " + textMeshProUGUI.name);
+                //Debug.Log("in ChangeFont " + textMeshProUGUI.name);
                 textMeshProUGUI.font = fontToChangeTo;
             }
-
         }
 
+    }
 
+    public void ChangeFontSize(int fontSize) 
+    {
+        //TODO set a player pref. so that other scenes can access the new font size
+
+        Debug.Log("in ChangeFontSize. TextList is " + textMeshProUGUIList.Count);
+        foreach (TextMeshProUGUI textMeshProUGUI in textMeshProUGUIList)
+        {
+            if (textMeshProUGUI != null)
+            {
+                //Debug.Log("in ChangeFontSize " + textMeshProUGUI.name);
+                textMeshProUGUI.fontSize = fontSize;
+            }
+        }
     }
 }
