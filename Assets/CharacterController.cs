@@ -63,6 +63,8 @@ public class CharacterController : MonoBehaviour
     bool dodgerollOfCooldown = true;
     Vector3 inputDirection;
 
+    private bool playerInputActive = false;
+
     Vector3 playerMovement;
 
     private bool canMove = true;
@@ -252,6 +254,14 @@ public class CharacterController : MonoBehaviour
        playerMovement = rightMovement + upMovement;
 
         inputDirection = playerMovement.normalized;
+
+        if (inputDirection.magnitude == 0)
+        {
+            playerInputActive = false;
+        }
+        else {
+            playerInputActive = true;
+        }
 
         if (playerMovement.magnitude > moveSpeed * Time.deltaTime)
         {
@@ -510,9 +520,15 @@ public class CharacterController : MonoBehaviour
             anim.SetTrigger("DodgeRoll");
 
 
-
-        transform.rotation = Quaternion.LookRotation(inputDirection);
+      
         moveAllow = false;
+
+        if (playerInputActive)
+        {
+            transform.rotation = Quaternion.LookRotation(inputDirection);
+        }
+        
+  
 
         dodgerolling = true;
         dodgerollOfCooldown = false;
