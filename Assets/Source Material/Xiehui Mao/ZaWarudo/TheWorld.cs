@@ -1,10 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using DG.Tweening;
 using System.Collections;
-using UnityEditor.Rendering.PostProcessing;
-using UnityEngine.Rendering.PostProcessing;
 
 namespace UnityStandardAssets.ImageEffects
 {
