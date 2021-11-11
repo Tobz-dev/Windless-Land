@@ -83,7 +83,7 @@ public class HealthScript : MonoBehaviour
         if (health <= 0 && gameObject.tag == "Player")
         {
             //death animation and delay
-            SceneManager.LoadScene(scene.name);
+            //SceneManager.LoadScene(scene.name);
             gameObject.GetComponent<CharacterController>().Respawn();
             //Debug.Log("Player Dead");
         }
@@ -107,27 +107,32 @@ public class HealthScript : MonoBehaviour
             damagedMaterial();
 
             if (gameObject.tag == "Player")
-            PlayerHurt = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Hurt");
-            PlayerHurt.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
-            PlayerHurt.start();
-            PlayerHurt.release();
-            if (gameObject.tag != "Player")
-            EnemyHurt = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Small Enemy/SmallEnemyHurt");
-            EnemyHurt.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
-            EnemyHurt.start();
-            EnemyHurt.release();
+            {
+                HealthSetup();
+                damageIsOnCooldown = true;
+                startInvincibilityTimer = true;
 
+                cameraFollow.StartShake();
+
+                PlayerHurt = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Hurt");
+                PlayerHurt.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+                PlayerHurt.start();
+                PlayerHurt.release();
+            }
+            if (gameObject.tag != "Player")
+            {
+                EnemyHurt = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Small Enemy/SmallEnemyHurt");
+                EnemyHurt.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+                EnemyHurt.start();
+                EnemyHurt.release();
+            }
         }
        
        
         //update UI healthbar to current player health
         if (gameObject.tag == "Player")
         {
-            HealthSetup();
-            damageIsOnCooldown = true;
-            startInvincibilityTimer = true;
-
-            cameraFollow.StartShake();
+         
         }
     }
 
