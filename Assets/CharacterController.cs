@@ -856,6 +856,14 @@ public class CharacterController : MonoBehaviour
         return flaskUses;
     }
 
+    public int GetArrowAmmo() {
+        return arrowAmmo;
+    }
+
+    public int GetArrowAmmoMax() {
+        return arrowAmmoMax;
+    }
+
     public void SetFlaskUses(int x)
     {
         flaskUses = x;

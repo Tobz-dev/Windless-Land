@@ -241,6 +241,8 @@ public class HealthScript : MonoBehaviour
         return health;
     }
 
+    
+
     public void ResetPotions()
     {
         flaskAmount = 4;
