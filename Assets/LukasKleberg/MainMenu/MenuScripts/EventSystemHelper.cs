@@ -7,15 +7,17 @@ using UnityEngine.UI;
 public class EventSystemHelper : MonoBehaviour
 {
     private GameObject currentSelectedGameObject;
-    private bool isKeyBoardActive = false;
+    private bool isKeyBoardActive = true;
     private bool shouldSetToStartObject = false;
-    
+     
 
     public void Start()
     {
         currentSelectedGameObject = EventSystem.current.firstSelectedGameObject;
     }
 
+
+    //so something is making the keyboard selection stay unless you first give a keyboard input.
     public void Update()
     {
 

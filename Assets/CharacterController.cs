@@ -75,7 +75,12 @@ public class CharacterController : MonoBehaviour
     //hitbox variables
 
     [SerializeField]
+    private GameObject lightAttackHitbox;
+
     private GameObject attackHitbox;
+    
+    [SerializeField]
+    private GameObject heavyAttackHitbox;
 
     [SerializeField]
     private float timeToNextSwing;
@@ -83,10 +88,23 @@ public class CharacterController : MonoBehaviour
     private bool startAttackDelay = false;
     
     [SerializeField]
+    private float lightAttackDelay;
+
+
     private float attackDelay;
 
+
+
     [SerializeField]
-    private float swingCooldown = 0.6f;
+    private float lightSwingCooldown = 0.6f;
+
+    private float swingCooldown;
+
+    [SerializeField]
+    private float heavySwingCooldown;
+    [SerializeField]
+    private float heavyAttackDelay;
+
 
     //prototyp
     float extraInputTimeDelay = 0.05f;
@@ -107,6 +125,9 @@ public class CharacterController : MonoBehaviour
 
     [SerializeField]
     private Animator anim;
+    int attackComboLenght = 3;
+    int currentAttack = 1;
+    string currentAttackTrigger;
 
     public Transform respawnPoint;
 
@@ -118,6 +139,7 @@ public class CharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       
         canMove = true;
         plane = new Plane(Vector3.up, Vector3.zero);
         forward = Camera.main.transform.forward;
@@ -126,6 +148,8 @@ public class CharacterController : MonoBehaviour
         right = Quaternion.Euler(new Vector3(0, 90, 0)) * forward;
 
         moveSpeedDefault = moveSpeed;
+
+        currentAttackTrigger = "Attack1";
     }
 
     // Update is called once per frame
@@ -358,13 +382,22 @@ public class CharacterController : MonoBehaviour
         return false;
     }
 
-    void AttackManager() {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && startAttackDelay == false && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false) 
+    void AttackManager()
+    {
+        if ( startAttackDelay == false && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false) 
         {
+            if (Input.GetKeyDown(KeyCode.Mouse0)) {
+                ResetAttackAni();
 
+                Attack();
+            }
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                ResetAttackAni();
 
-            Attack();
-           
+                HeavyAttack();
+            }
+
         }
 
         HitboxDelay();
@@ -374,17 +407,53 @@ public class CharacterController : MonoBehaviour
 
     void Attack()
     {
+        attackHitbox = lightAttackHitbox;
+
+        attackDelay = lightAttackDelay;
+
+        swingCooldown = lightSwingCooldown;
 
 
-       
         //more anim things
         //Debug.Log("in player attack");
-        anim.SetTrigger("Attack");
+        anim.SetTrigger(currentAttackTrigger);
 
         moveAllow = false;
         transform.rotation = lookRotation;
         startAttackDelay = true;
 
+    }
+
+    void HeavyAttack() {
+
+        attackHitbox = heavyAttackHitbox;
+
+        attackDelay = heavyAttackDelay;
+
+        swingCooldown = heavySwingCooldown;
+
+
+        anim.SetTrigger("HeavyAttack");
+
+        moveAllow = false;
+        transform.rotation = lookRotation;
+        startAttackDelay = true;
+
+    }
+
+    void QueueNextAttackAni() {
+        currentAttack++;
+        if (currentAttack <= attackComboLenght) {
+            currentAttackTrigger = "Attack" + currentAttack;
+        }
+      
+      
+        Debug.Log(currentAttack);
+    }
+    void ResetAttackAni() {
+        currentAttack = 1;
+        currentAttackTrigger = "Attack" + currentAttack;
+        Debug.Log(currentAttack);
     }
     void AttackCoolDown()
     {
@@ -393,7 +462,7 @@ public class CharacterController : MonoBehaviour
             if (AttackWaitTimer(swingCooldown))
             {
                moveAllow = true;
-
+              
                 startAttackCooldown = false;
 
                 anim.SetTrigger("StopAttack");
@@ -417,14 +486,19 @@ public class CharacterController : MonoBehaviour
                 if (attackTimer >= timeToNextSwing)
                 {
 
-                    if (queueAttack == true)
+                    if (queueAttack == true && attackDelay == lightAttackDelay)
                     {
 
-                        startAttackCooldown = false;
-                        queueAttack = false;
-                        attackTimer = 0;
-                        anim.SetTrigger("StopAttack");
-                        Attack();
+                        QueueNextAttackAni();
+                        if (currentAttack <= attackComboLenght) {
+                            startAttackCooldown = false;
+                            queueAttack = false;
+                            attackTimer = 0;
+                            anim.SetTrigger("StopAttack");
+
+                            Attack();
+                        }
+                    
                     }
                     if (queueDodge == true)
                     {
@@ -476,7 +550,7 @@ public class CharacterController : MonoBehaviour
 
     void InstantiateAttackHitbox()
     {
-        var newHitbox = Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 1.2f)), transform.rotation);
+        var newHitbox = Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 2f)), transform.rotation);
 
         newHitbox.transform.parent = gameObject.transform;
         //GameObject hitBox = (GameObject)Instantiate(attackHitbox, transform.position + (transform.rotation * hitboxOffset), transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
@@ -552,7 +626,14 @@ public class CharacterController : MonoBehaviour
         Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         Dead.start();
         Dead.release();
+        gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
         transform.position = respawnPoint.transform.position;
+    }
+
+    public void SetRespawnPoint(Vector3 position)
+    {
+        Debug.Log("Respawnpoint Set");
+        respawnPoint.transform.position = new Vector3(position.x, position.y + 2f, position.z);
     }
 
     public float GetFlaskUses() {

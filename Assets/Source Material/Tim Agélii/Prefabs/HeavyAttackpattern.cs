@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-//Main Author: Tim Agélii
-//statemachine kod tagen från aiattack
+//Main Author: Tim Agï¿½lii
+//statemachine kod tagen frï¿½n aiattack
 [CreateAssetMenu()]
 public class HeavyAttackpattern : State
 {
@@ -95,10 +95,12 @@ public class HeavyAttackpattern : State
         if (lookAtPlayer == true)
         {
             Agent.NavAgent.isStopped = true;
+            AttackChargeUp();
             LookAtPlayer();
         }
         if (startAttack == true) {
             Attack();
+            LookAtPlayer();
         }
         if (startCooldown == true) {
             CoolDown();
@@ -108,28 +110,31 @@ public class HeavyAttackpattern : State
 
     }
 
-    void LookAtPlayer() {
+    void AttackChargeUp()
+    {
         allowStop = false;
-            if (AttackWaitTimer(attackWaitTime))
-            {
-                lookAtPlayer = false;
-            Agent.transform.rotation = Agent.transform.rotation;
-                startAttack = true;
+        if (AttackWaitTimer(attackWaitTime))
+        {
 
-            }
-            else
-            {
-                turnDirection = Agent.Player.position - Agent.transform.position;
-                turnDirection.Normalize();
-                Agent.transform.rotation = Quaternion.Slerp(Agent.transform.rotation, Quaternion.LookRotation(turnDirection), turnSpeed * Time.deltaTime);
-            }
-        
+            startAttack = true;
+
+        }
+    }
+      
+
+    void LookAtPlayer() {
+
+        turnDirection = Agent.Player.position - Agent.transform.position;
+        turnDirection.Normalize();
+        Agent.transform.rotation = Quaternion.Slerp(Agent.transform.rotation, Quaternion.LookRotation(turnDirection), turnSpeed * Time.deltaTime);
     }
 
     void Attack() {
         if (startAttack == true) {
             if (AttackWaitTimer(attackChargeTime))
             {
+                lookAtPlayer = false;
+                Agent.animator.SetTrigger("Attack");
                 InstantiateOneHitbox();
                 startAttack = false;
                 startCooldown = true;
@@ -146,7 +151,7 @@ public class HeavyAttackpattern : State
             else {
                 for (int i = 0; i < chilldrenAmount; i++)
                 {
-
+                 
                     GameObject child = Agent.transform.GetChild(i).gameObject;
                     if (child.TryGetComponent(out Renderer renderer) == true)
                     {
