@@ -151,10 +151,23 @@ public class CharacterController : MonoBehaviour
     private GameObject arrow;
     private bool bowIsLoading = false;
     private bool bowIsFinishedLoading = false;
+    private bool startBowCooldown = false;
+    private bool drawBow = false;
+    [SerializeField]
+    private float bowCooldownTime;
+    [SerializeField]
+    private float bowDrawTime;
+    private bool queueBowCancel = false;
+    private bool bowIsActive = false;
+   
+    private int arrowAmmo;
+    [SerializeField]
+    private int arrowAmmoMax;
 
     // Start is called before the first frame update
     void Start()
     {
+        arrowAmmo = arrowAmmoMax;
         bow.SetActive(false);
         canMove = true;
         plane = new Plane(Vector3.up, Vector3.zero);
@@ -193,7 +206,7 @@ public class CharacterController : MonoBehaviour
 
             EquipManager();
 
-          //  BowManager();
+            BowManager();
 
             if (Input.anyKey && moveAllow == true)
             {
@@ -255,61 +268,117 @@ public class CharacterController : MonoBehaviour
     }
 
     void EquipManager() {
-        if (Input.GetKeyDown(KeyCode.Alpha2)){
-            bow.SetActive(true);
-            sword.SetActive(false);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (bowIsActive == false && startAttackDelay == false && startAttackCooldown == false)
         {
-            bow.SetActive(false);
-            sword.SetActive(true);
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                bow.SetActive(true);
+                sword.SetActive(false);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                bow.SetActive(false);
+                sword.SetActive(true);
+            }
+
         }
-
-
 
     }
 
     void BowManager() {
-        if (bow.activeSelf == true && startAttackDelay == false && startAttackDelay == false &&  startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false)
+       if (bow.activeSelf == true && dodgerollTimerRunning == false && healthFlaskStart == false)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (bowIsActive == false && arrowAmmo > 0) {
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    StartBowDraw();
+
+                }
+
+            }
+
+            if (bowIsActive == true)
             {
-                StartBowLoad();
+                if (drawBow)
+                {
+                    transform.rotation = lookRotation;
+                    DrawBow();
+                }
 
+                if (bowIsLoading)
+                {
+                    transform.rotation = lookRotation;
+
+                    BowLoading();
+
+                }
+                if (bowIsFinishedLoading)
+                {
+
+                    transform.rotation = lookRotation;
+                }
+
+                if (Input.GetKeyUp(KeyCode.Mouse0) && bowIsFinishedLoading == true)
+                {
+
+                    BowFire();
+                }
+
+                if (startBowCooldown)
+                {
+                    BowCooldown();
+
+                }
+
+                if ((Input.GetKeyUp(KeyCode.Mouse0) && drawBow == false && bowIsFinishedLoading == false && startBowCooldown == false && drawBow == false) || drawBow == false && queueBowCancel == true)
+                {
+
+                    BowCancel();
+                }
             }
-
-            if (bowIsLoading) {
-                BowLoading();
-            }
-
-            if (Input.GetKeyUp(KeyCode.Mouse0) && bowIsFinishedLoading == true) {
-                BowFire();
-            }
-            if (Input.GetKeyUp(KeyCode.Mouse0) && bowIsFinishedLoading == false)
-            {
-                BowCancel();
-            }
-
-
         }
 
-        HitboxDelay();
 
-        AttackCoolDown();
-    
-}
-    void StartBowLoad() {
+   
 
-        anim.SetTrigger("LoadBow");
+    }
+    void StartBowDraw() {
 
-        moveAllow = false;
+        bowIsActive = true;
+            anim.SetTrigger("DrawBow");
 
-        bowIsLoading = true;
+            moveAllow = false;
+
+            drawBow = true;
+        
+    }
+    void DrawBow() {
+        if (AttackWaitTimer(bowDrawTime))
+        {
+            
+            
+            drawBow = false;
+
+            if (queueBowCancel == false) {
+                bowIsLoading = true;
+            anim.SetTrigger("StopBow");
+            anim.SetTrigger("BowAim");
+            }
+        }
+        else
+        {
+            if (Input.GetKeyUp(KeyCode.Mouse0)){
+                queueBowCancel = true;
+            }
+          
+        }
+
     }
 
     void BowLoading()
     {
-        transform.rotation = lookRotation;
+      
 
         if (AttackWaitTimer(bowChargeTime))
         {
@@ -318,25 +387,55 @@ public class CharacterController : MonoBehaviour
         }
         else
         {
-
+           
         }
     }
 
-    void BowFire() { 
+    void BowFire() {
+        InstantiateArrow();
+        arrowAmmo--;
+     bowIsFinishedLoading = false;
      anim.SetTrigger("StopBow");
-     anim.SetTrigger("FireBow");
+     anim.SetTrigger("BowRecoil");
 
-
-
+        startBowCooldown = true;
+     
     }
     void BowCancel() {
         anim.SetTrigger("StopBow");
+        moveAllow = true;
+        queueBowCancel = false;
+        attackTimer = 0;
+        drawBow = false;
+        bowIsLoading = false;
+        bowIsFinishedLoading = false;
+        startBowCooldown = false;
+
+        bowIsActive = false;
+     
     }
+
+    
+
+    void BowCooldown() {
+        if (AttackWaitTimer(bowCooldownTime))
+        {
+            moveAllow = true;
+            startBowCooldown = false;
+            bowIsActive = false;
+            anim.SetTrigger("StopBow");
+
+        }
+        else { 
+        
+        }
+    }
+
 
 
     void HealthFlaskManager()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0 && startAttackDelay == false && startAttackCooldown == false && dodgerolling == false)
+        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0 && startAttackDelay == false && startAttackCooldown == false && dodgerolling == false && bowIsActive == false)
         {
             healthFlaskStart = true;
             HealthRefill = FMODUnity.RuntimeManager.CreateInstance("event:/Game/HealthRefill");
@@ -422,7 +521,7 @@ public class CharacterController : MonoBehaviour
 
     void DodgerollManager()
     {
-    if (Input.GetKeyDown(KeyCode.Space) && dodgerollOfCooldown && startAttackDelay == false && startAttackCooldown == false)
+    if (Input.GetKeyDown(KeyCode.Space) && dodgerollOfCooldown && startAttackDelay == false && startAttackCooldown == false && bowIsActive == false)
     {
         StartDodgeroll();
         }
@@ -651,6 +750,11 @@ public class CharacterController : MonoBehaviour
      
     }
 
+    void InstantiateArrow() { 
+    GameObject arrowPrefab = Instantiate(arrow, transform.position + (transform.rotation * new Vector3(0, 1.5f, 1.5f)), transform.rotation);
+    }
+
+
     void InstantiateAttackHitbox()
     {
         var newHitbox = Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 2f)), transform.rotation);
@@ -736,6 +840,13 @@ public class CharacterController : MonoBehaviour
     {
         Debug.Log("Respawnpoint Set");
         respawnPoint.transform.position = position;
+    }
+
+    public void addArrowAmmo(int i) {
+        arrowAmmo = arrowAmmo + i;
+        if (arrowAmmo > arrowAmmoMax) {
+            arrowAmmo = arrowAmmoMax;
+        }
     }
 
     public float GetFlaskUses() {
