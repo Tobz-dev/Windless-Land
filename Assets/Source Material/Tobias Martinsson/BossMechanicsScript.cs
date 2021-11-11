@@ -8,6 +8,7 @@ public class BossMechanicsScript : MonoBehaviour
     public GameObject rightFloor, leftFloor;
     public float aggroRange;
     public GameObject fallingPlatform1, fallingPlatform2, fallingPlatform3;
+    public Transform adSpawnPoint1, adSpawnPoint2;
     // Start is called before the first frame update
 
     public void FadeIn(GameObject floor) 

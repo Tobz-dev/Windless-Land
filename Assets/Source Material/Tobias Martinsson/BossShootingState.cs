@@ -12,6 +12,7 @@ public class BossShootingState : State
     public float arrowAmount;
     private float totalArrows;
     private float aggroDistance;
+    public GameObject addEnemy;
 
     protected override void Initialize()
     {
@@ -24,12 +25,18 @@ public class BossShootingState : State
     public override void Enter()
     {
         totalArrows = arrowAmount;
+        GameObject add = Instantiate(addEnemy);
+        add.transform.position = Agent.GetComponent<BossMechanicsScript>().adSpawnPoint1.transform.position;
+        GameObject add2 = Instantiate(addEnemy);
+        add2.transform.position = Agent.GetComponent<BossMechanicsScript>().adSpawnPoint2.transform.position;
     }
 
     public override void RunUpdate()
     {
         if (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) <= aggroDistance)
         {
+            
+
             if (totalArrows > 0)
             {
                 Agent.NavAgent.updateRotation = false;
