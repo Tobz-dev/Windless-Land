@@ -8,12 +8,11 @@ public class BossFloorAttackState : State
 {
     SomeAgent Agent;
     private float originalTime;
-    public float aggroDistance;
+
 
     protected override void Initialize()
     {
         Agent = (SomeAgent)Owner;
-        aggroDistance = Agent.GetComponent<BossMechanicsScript>().aggroRange;
         Debug.Assert(Agent);
     }
 

@@ -63,6 +63,8 @@ public class CharacterController : MonoBehaviour
     bool dodgerollOfCooldown = true;
     Vector3 inputDirection;
 
+    private bool playerInputActive = false;
+
     Vector3 playerMovement;
 
     private bool canMove = true;
@@ -179,6 +181,7 @@ public class CharacterController : MonoBehaviour
         moveSpeedDefault = moveSpeed;
 
         currentAttackTrigger = "Attack1";
+        gameObject.GetComponent<ArrowUI>().UpdateAmmo(arrowAmmo, arrowAmmoMax);
     }
 
     // Update is called once per frame
@@ -252,6 +255,14 @@ public class CharacterController : MonoBehaviour
        playerMovement = rightMovement + upMovement;
 
         inputDirection = playerMovement.normalized;
+
+        if (inputDirection.magnitude == 0)
+        {
+            playerInputActive = false;
+        }
+        else {
+            playerInputActive = true;
+        }
 
         if (playerMovement.magnitude > moveSpeed * Time.deltaTime)
         {
@@ -394,6 +405,7 @@ public class CharacterController : MonoBehaviour
     void BowFire() {
         InstantiateArrow();
         arrowAmmo--;
+        gameObject.GetComponent<ArrowUI>().UpdateAmmo(arrowAmmo, arrowAmmoMax);
      bowIsFinishedLoading = false;
      anim.SetTrigger("StopBow");
      anim.SetTrigger("BowRecoil");
@@ -510,9 +522,15 @@ public class CharacterController : MonoBehaviour
             anim.SetTrigger("DodgeRoll");
 
 
-
-        transform.rotation = Quaternion.LookRotation(inputDirection);
+      
         moveAllow = false;
+
+        if (playerInputActive)
+        {
+            transform.rotation = Quaternion.LookRotation(inputDirection);
+        }
+        
+  
 
         dodgerolling = true;
         dodgerollOfCooldown = false;
@@ -757,7 +775,7 @@ public class CharacterController : MonoBehaviour
 
     void InstantiateAttackHitbox()
     {
-        var newHitbox = Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 2f)), transform.rotation);
+        var newHitbox = Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0.5f, 1.7f)), transform.rotation);
 
         newHitbox.transform.parent = gameObject.transform;
         //GameObject hitBox = (GameObject)Instantiate(attackHitbox, transform.position + (transform.rotation * hitboxOffset), transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
@@ -829,6 +847,7 @@ public class CharacterController : MonoBehaviour
     {
         Debug.Log("Player Dead");
         GetComponent<HealthScript>().regainHealth(100);
+        GetComponent<HealthScript>().ResetPotions();
         Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
         Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         Dead.start();
@@ -848,11 +867,25 @@ public class CharacterController : MonoBehaviour
         if (arrowAmmo > arrowAmmoMax) {
             arrowAmmo = arrowAmmoMax;
         }
+        gameObject.GetComponent<ArrowUI>().UpdateAmmo(arrowAmmo, arrowAmmoMax);
     }
 
     public float GetFlaskUses() {
 
         return flaskUses;
+    }
+
+    public int GetArrowAmmo() {
+        return arrowAmmo;
+    }
+
+    public int GetArrowAmmoMax() {
+        return arrowAmmoMax;
+    }
+
+    public void SetFlaskUses(int x)
+    {
+        flaskUses = x;
     }
 
 }
