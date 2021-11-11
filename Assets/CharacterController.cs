@@ -773,7 +773,7 @@ public class CharacterController : MonoBehaviour
 
     void InstantiateAttackHitbox()
     {
-        var newHitbox = Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 2f)), transform.rotation);
+        var newHitbox = Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0.5f, 1.7f)), transform.rotation);
 
         newHitbox.transform.parent = gameObject.transform;
         //GameObject hitBox = (GameObject)Instantiate(attackHitbox, transform.position + (transform.rotation * hitboxOffset), transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
