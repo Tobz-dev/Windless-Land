@@ -833,13 +833,14 @@ public class CharacterController : MonoBehaviour
         Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         Dead.start();
         Dead.release();
+        gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
         transform.position = respawnPoint.transform.position;
     }
 
     public void SetRespawnPoint(Vector3 position)
     {
         Debug.Log("Respawnpoint Set");
-        respawnPoint.transform.position = position;
+        respawnPoint.transform.position = new Vector3(position.x, position.y + 2f, position.z);
     }
 
     public void addArrowAmmo(int i) {

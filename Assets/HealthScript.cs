@@ -15,7 +15,6 @@ public class HealthScript : MonoBehaviour
     private int Maxhealth;
     [SerializeField]
     private Material material;
-    [SerializeField]
     private Material originalMaterial;
     [SerializeField]
     private GameObject[] hpSlots;
@@ -44,7 +43,11 @@ public class HealthScript : MonoBehaviour
 
     private void Start()
     {
-
+        if(gameObject.GetComponent<MeshRenderer>() != null)
+        {
+            originalMaterial = gameObject.GetComponent<MeshRenderer>().material;
+        }
+        
         scene = SceneManager.GetActiveScene();
         chilldrenAmount = transform.childCount;
         health = Maxhealth;
@@ -120,6 +123,11 @@ public class HealthScript : MonoBehaviour
                 PlayerHurt.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
                 PlayerHurt.start();
                 PlayerHurt.release();
+
+                FMODUnity.RuntimeManager.StudioSystem.setParameterByName("TakeDamageEffect", 1);
+
+
+
             }
             if (gameObject.tag != "Player")
             {
@@ -188,7 +196,11 @@ public class HealthScript : MonoBehaviour
         {
 
             invincibilityTimer = 0;
+
+            FMODUnity.RuntimeManager.StudioSystem.setParameterByName("TakeDamageEffect", 0);
+
             return true;
+
 
         }
 

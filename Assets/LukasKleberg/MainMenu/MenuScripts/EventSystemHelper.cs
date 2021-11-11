@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class EventSystemHelper : MonoBehaviour
 {
     private GameObject currentSelectedGameObject;
-    private bool isKeyBoardActive = false;
+    private bool isKeyBoardActive = true;
     private bool shouldSetToStartObject = false;
      
 

@@ -6,6 +6,7 @@ public class BossMechanicsScript : MonoBehaviour
 {
 
     public GameObject rightFloor, leftFloor;
+    public float aggroRange;
     // Start is called before the first frame update
 
     public void FadeIn(GameObject floor) 

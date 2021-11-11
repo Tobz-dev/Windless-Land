@@ -10,6 +10,7 @@ public class BossChooseAttackState : State
     public float attackCooldown;
     private float originalTime;
     private Quaternion originalRotation;
+    private float aggroDistance;
 
     protected override void Initialize()
     {
@@ -17,6 +18,7 @@ public class BossChooseAttackState : State
         Debug.Assert(Agent);
         originalTime = attackCooldown;
         originalRotation = Agent.transform.rotation;
+        aggroDistance = Agent.GetComponent<BossMechanicsScript>().aggroRange;
     }
 
     public override void Enter()
@@ -27,24 +29,33 @@ public class BossChooseAttackState : State
     public override void RunUpdate()
     {
         attackCooldown -= Time.deltaTime;
-        if (attackCooldown < 0)
+        if (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) <= aggroDistance)
         {
-            int randomAttackStateIndex = Random.Range(2, Agent.States.Length);
-            //Debug.Log(randomAttackStateIndex);
-            switch (randomAttackStateIndex)
+            if (attackCooldown < 0)
             {
-                case 2:
-                    StateMachine.ChangeState<BossFloorAttackState>();
-                    break;
-                case 3:
-                    StateMachine.ChangeState<BossShootingState>();
-                    break;
-                default:
-                    break;
+                int randomAttackStateIndex = Random.Range(2, Agent.States.Length);
+                //Debug.Log(randomAttackStateIndex);
+                switch (randomAttackStateIndex)
+                {
+                    case 2:
+                        StateMachine.ChangeState<BossFloorAttackState>();
+                        break;
+                    case 3:
+                        StateMachine.ChangeState<BossShootingState>();
+                        break;
+                    default:
+                        break;
+                }
+                //StateMachine.ChangeState<randomAttackState>();
+                attackCooldown = originalTime;
             }
-            //StateMachine.ChangeState<randomAttackState>();
-            attackCooldown = originalTime;
         }
+        else
+        {
+            StateMachine.ChangeState<BossIdleScript>();
+
+        }
+        
 
         //Agent.GetComponent<BossMechanicsScript>().fadeIn(Agent.GetComponent<BossMechanicsScript>().leftFloor);
         //Shoots arrows continuously at player.
