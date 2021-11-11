@@ -35,8 +35,11 @@ public class PlayerHealthUI : MonoBehaviour
         flaskAmountText.text = maxFlasks + "/" + maxFlasks;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
+        //Update health flask amount
+        flaskAmountText.text = (int)flaskScript.GetFlaskUses() + "/" + maxFlasks;
+
         //check for health value change
         health = (int)hpScript.GetHealth();
         if (health != previousHealth)
@@ -44,19 +47,6 @@ public class PlayerHealthUI : MonoBehaviour
             HealthSetup();
         }
         previousHealth = health;
-
-        flaskAmountText.text = (int)flaskScript.GetFlaskUses() + "/" + maxFlasks;
-
-        //check for flask value change
-        /*
-        flaskAmount = (int)flaskScript.GetFlaskUses();
-        if(flaskAmount != previousFlaskAmt)
-        {
-            flaskAmountText.text = flaskAmount + "/" + maxFlasks;
-        }
-        previousFlaskAmt = flaskAmount;
-        */
-
     }
 
     public void FlaskUsage()
