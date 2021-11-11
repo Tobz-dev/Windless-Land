@@ -15,7 +15,6 @@ public class HealthScript : MonoBehaviour
     private int Maxhealth;
     [SerializeField]
     private Material material;
-    [SerializeField]
     private Material originalMaterial;
     [SerializeField]
     private GameObject[] hpSlots;
@@ -44,7 +43,11 @@ public class HealthScript : MonoBehaviour
 
     private void Start()
     {
-
+        if(gameObject.GetComponent<MeshRenderer>() != null)
+        {
+            originalMaterial = gameObject.GetComponent<MeshRenderer>().material;
+        }
+        
         scene = SceneManager.GetActiveScene();
         chilldrenAmount = transform.childCount;
         health = Maxhealth;
