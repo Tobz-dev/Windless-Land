@@ -75,7 +75,12 @@ public class CharacterController : MonoBehaviour
     //hitbox variables
 
     [SerializeField]
+    private GameObject lightAttackHitbox;
+
     private GameObject attackHitbox;
+    
+    [SerializeField]
+    private GameObject heavyAttackHitbox;
 
     [SerializeField]
     private float timeToNextSwing;
@@ -134,7 +139,7 @@ public class CharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+       
         canMove = true;
         plane = new Plane(Vector3.up, Vector3.zero);
         forward = Camera.main.transform.forward;
@@ -402,14 +407,16 @@ public class CharacterController : MonoBehaviour
 
     void Attack()
     {
+        attackHitbox = lightAttackHitbox;
+
         attackDelay = lightAttackDelay;
 
         swingCooldown = lightSwingCooldown;
 
 
-    //more anim things
-    //Debug.Log("in player attack");
-    anim.SetTrigger(currentAttackTrigger);
+        //more anim things
+        //Debug.Log("in player attack");
+        anim.SetTrigger(currentAttackTrigger);
 
         moveAllow = false;
         transform.rotation = lookRotation;
@@ -418,6 +425,8 @@ public class CharacterController : MonoBehaviour
     }
 
     void HeavyAttack() {
+
+        attackHitbox = heavyAttackHitbox;
 
         attackDelay = heavyAttackDelay;
 
@@ -429,6 +438,7 @@ public class CharacterController : MonoBehaviour
         moveAllow = false;
         transform.rotation = lookRotation;
         startAttackDelay = true;
+
     }
 
     void QueueNextAttackAni() {
@@ -476,7 +486,7 @@ public class CharacterController : MonoBehaviour
                 if (attackTimer >= timeToNextSwing)
                 {
 
-                    if (queueAttack == true)
+                    if (queueAttack == true && attackDelay == lightAttackDelay)
                     {
 
                         QueueNextAttackAni();
@@ -540,7 +550,7 @@ public class CharacterController : MonoBehaviour
 
     void InstantiateAttackHitbox()
     {
-        var newHitbox = Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 1.2f)), transform.rotation);
+        var newHitbox = Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 2f)), transform.rotation);
 
         newHitbox.transform.parent = gameObject.transform;
         //GameObject hitBox = (GameObject)Instantiate(attackHitbox, transform.position + (transform.rotation * hitboxOffset), transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
