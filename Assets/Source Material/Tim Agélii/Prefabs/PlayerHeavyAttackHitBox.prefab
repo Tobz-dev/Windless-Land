@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8016316332685132803
+--- !u!1 &3483705884616122953
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7238548592383516345}
-  - component: {fileID: 6042605855325770012}
-  - component: {fileID: 8376503215813010902}
-  - component: {fileID: 4068679188931079655}
-  - component: {fileID: 1277079182}
+  - component: {fileID: 2401757964492143669}
+  - component: {fileID: 8731566953650467376}
+  - component: {fileID: 2325776819570531151}
+  - component: {fileID: -3295577869258495092}
+  - component: {fileID: 7127789586002902535}
   m_Layer: 0
-  m_Name: Spike
+  m_Name: PlayerHeavyAttackHitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7238548592383516345
+--- !u!4 &2401757964492143669
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8016316332685132803}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 64.000015, y: -1.1, z: 3.9999883}
-  m_LocalScale: {x: 4, y: 1, z: 4}
+  m_GameObject: {fileID: 3483705884616122953}
+  m_LocalRotation: {x: -0.00075287314, y: 0.70710635, z: -0.00075287314, w: 0.70710635}
+  m_LocalPosition: {x: -31.953999, y: 0.2646923, z: -48.996643}
+  m_LocalScale: {x: 6.11907, y: 0.2468389, z: 4.8511553}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6042605855325770012
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: -0.122}
+--- !u!33 &8731566953650467376
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8016316332685132803}
-  m_Mesh: {fileID: -1291710161511281072, guid: feb11f94b9659f3408e652fbe42c6ea2, type: 3}
---- !u!23 &8376503215813010902
+  m_GameObject: {fileID: 3483705884616122953}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &2325776819570531151
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8016316332685132803}
+  m_GameObject: {fileID: 3483705884616122953}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: abfea73c72378f744a700514b994e2af, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,28 +83,32 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4068679188931079655
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8016316332685132803}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4, y: 1, z: 4}
-  m_Center: {x: 2, y: 0.5, z: 2}
---- !u!114 &1277079182
+--- !u!114 &-3295577869258495092
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8016316332685132803}
+  m_GameObject: {fileID: 3483705884616122953}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54f3a42ba2c2c7a48b6439ae0e801bdd, type: 3}
+  m_Script: {fileID: 11500000, guid: 57f3f9c7e3b9e9c479144267dc988418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swingTime: 0.2
+  damage: 2
+  target: Enemy
+--- !u!64 &7127789586002902535
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483705884616122953}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}

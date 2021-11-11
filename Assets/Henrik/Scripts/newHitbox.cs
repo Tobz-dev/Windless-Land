@@ -26,7 +26,7 @@ public class newHitbox : MonoBehaviour
 
         if (other.gameObject.tag == target && target.Equals("Player"))
         {
-
+            hitboxCollider.enabled = false;
             if (other.gameObject.GetComponent<CharacterController>().GetInvincibility() == true)
             {
                 invincibility = true;
@@ -41,7 +41,7 @@ public class newHitbox : MonoBehaviour
             other.GetComponent<HealthScript>().takeDamage(damage);
             Debug.Log("Dealt " + damage + " damage");
 
-            hitboxCollider.enabled = false;
+           
         }
         else if(invincibility == true) {
             invincibility = false;
