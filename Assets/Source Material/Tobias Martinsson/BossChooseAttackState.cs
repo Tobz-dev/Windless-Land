@@ -53,6 +53,7 @@ public class BossChooseAttackState : State
         else
         {
             StateMachine.ChangeState<BossIdleScript>();
+
         }
         
 
