@@ -10,11 +10,6 @@ public class HeavyAttackpattern : State
 {
     SomeAgent Agent;
 
-    private int chilldrenAmount;
-
-
-    public Material attackIndicatorMaterial;
-    public Material startMaterial;
 
     [SerializeField]
     public float outOfRange;
@@ -37,7 +32,7 @@ public class HeavyAttackpattern : State
     private bool startCooldown = false;
  
 
-    private bool lookAtPlayer = true;
+    private bool PrepareAttack = true;
 
 
     //hitbox variables
@@ -68,7 +63,7 @@ public class HeavyAttackpattern : State
     {
         Agent = (SomeAgent)Owner;
         Debug.Assert(Agent);
-        chilldrenAmount = Agent.transform.childCount;
+    
 
     }
 
@@ -92,7 +87,7 @@ public class HeavyAttackpattern : State
 
     void AttackPattern()
     {
-        if (lookAtPlayer == true)
+        if (PrepareAttack == true)
         {
             Agent.NavAgent.isStopped = true;
             AttackChargeUp();
@@ -115,8 +110,9 @@ public class HeavyAttackpattern : State
         allowStop = false;
         if (AttackWaitTimer(attackWaitTime))
         {
-
+            Agent.animator.SetTrigger("Attack");
             startAttack = true;
+            PrepareAttack = false;
 
         }
     }
@@ -133,33 +129,15 @@ public class HeavyAttackpattern : State
         if (startAttack == true) {
             if (AttackWaitTimer(attackChargeTime))
             {
-                lookAtPlayer = false;
-                Agent.animator.SetTrigger("Attack");
+                
+            
                 InstantiateOneHitbox();
                 startAttack = false;
                 startCooldown = true;
-                for (int i = 0; i < chilldrenAmount; i++) {
-
-                    GameObject child = Agent.transform.GetChild(i).gameObject;
-                    if (child.TryGetComponent(out Renderer renderer) == true)
-                    {
-                        renderer.material = startMaterial;
-                    }
-                }
+             
             
             }
-            else {
-                for (int i = 0; i < chilldrenAmount; i++)
-                {
-                 
-                    GameObject child = Agent.transform.GetChild(i).gameObject;
-                    if (child.TryGetComponent(out Renderer renderer) == true)
-                    {
-                        renderer.material = attackIndicatorMaterial;
-                    }
-                }
-     
-            }
+           
         }
     }
     void CoolDown() {
@@ -168,7 +146,7 @@ public class HeavyAttackpattern : State
             {
                 Agent.NavAgent.isStopped = false;
                 allowStop = true;
-                lookAtPlayer = true;
+                PrepareAttack = true;
                 startCooldown = false;
             }
         }

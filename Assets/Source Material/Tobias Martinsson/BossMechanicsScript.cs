@@ -7,6 +7,10 @@ public class BossMechanicsScript : MonoBehaviour
 
     public GameObject rightFloor, leftFloor;
     public float aggroRange;
+    public GameObject fallingPlatform1, fallingPlatform2, fallingPlatform3;
+    public Transform adSpawnPoint1, adSpawnPoint2;
+    public GameObject attackHitboxRight;
+    public GameObject attackHitboxLeft;
     // Start is called before the first frame update
 
     public void FadeIn(GameObject floor) 
@@ -27,6 +31,16 @@ public class BossMechanicsScript : MonoBehaviour
             yield return null;
         }
         //Debug.Log("Faded in");
+
+        if(floor.name == "BossDangerFloorRight")
+        {
+            Instantiate(attackHitboxRight);
+        }
+        else if(floor.name == "BossDangerFloorLeft")
+        {
+           Instantiate(attackHitboxLeft);
+        }
+
         StartCoroutine(FadeOut(0.0f, aTime / 4, floor));
     }
 

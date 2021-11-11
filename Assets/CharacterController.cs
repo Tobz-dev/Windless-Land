@@ -66,6 +66,8 @@ public class CharacterController : MonoBehaviour
     bool dodgerollOfCooldown = true;
     Vector3 inputDirection;
 
+    private bool playerInputActive = false;
+
     Vector3 playerMovement;
 
     private bool canMove = true;
@@ -84,6 +86,11 @@ public class CharacterController : MonoBehaviour
 
     [SerializeField]
     private float timeToNextSwing;
+   
+    [SerializeField]
+    private float timeToNextSwingLight;
+    [SerializeField]
+    private float timeToNextSwingHeavy;
 
     private bool startAttackDelay = false;
     
@@ -136,10 +143,37 @@ public class CharacterController : MonoBehaviour
 
 
     Vector3 forward, right;
+
+
+    [SerializeField]
+    private GameObject bow;
+    [SerializeField]
+    private GameObject sword;
+
+    [SerializeField]
+    private float bowChargeTime;
+    [SerializeField]
+    private GameObject arrow;
+    private bool bowIsLoading = false;
+    private bool bowIsFinishedLoading = false;
+    private bool startBowCooldown = false;
+    private bool drawBow = false;
+    [SerializeField]
+    private float bowCooldownTime;
+    [SerializeField]
+    private float bowDrawTime;
+    private bool queueBowCancel = false;
+    private bool bowIsActive = false;
+   
+    private int arrowAmmo;
+    [SerializeField]
+    private int arrowAmmoMax;
+
     // Start is called before the first frame update
     void Start()
     {
-       
+        arrowAmmo = arrowAmmoMax;
+        bow.SetActive(false);
         canMove = true;
         plane = new Plane(Vector3.up, Vector3.zero);
         forward = Camera.main.transform.forward;
@@ -150,6 +184,7 @@ public class CharacterController : MonoBehaviour
         moveSpeedDefault = moveSpeed;
 
         currentAttackTrigger = "Attack1";
+        gameObject.GetComponent<ArrowUI>().UpdateAmmo(arrowAmmo, arrowAmmoMax);
     }
 
     // Update is called once per frame
@@ -174,6 +209,10 @@ public class CharacterController : MonoBehaviour
             AttackManager();
 
             UpdateMoveInput();
+
+            EquipManager();
+
+            BowManager();
 
             if (Input.anyKey && moveAllow == true)
             {
@@ -220,6 +259,14 @@ public class CharacterController : MonoBehaviour
 
         inputDirection = playerMovement.normalized;
 
+        if (inputDirection.magnitude == 0)
+        {
+            playerInputActive = false;
+        }
+        else {
+            playerInputActive = true;
+        }
+
         if (playerMovement.magnitude > moveSpeed * Time.deltaTime)
         {
             playerMovement = playerMovement.normalized * moveSpeed * Time.deltaTime;
@@ -234,9 +281,176 @@ public class CharacterController : MonoBehaviour
 
     }
 
+    void EquipManager() {
+        if (bowIsActive == false && startAttackDelay == false && startAttackCooldown == false)
+        {
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                bow.SetActive(true);
+                sword.SetActive(false);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                bow.SetActive(false);
+                sword.SetActive(true);
+            }
+
+        }
+
+    }
+
+    void BowManager() {
+       if (bow.activeSelf == true && dodgerollTimerRunning == false && healthFlaskStart == false)
+        {
+            if (bowIsActive == false && arrowAmmo > 0) {
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    StartBowDraw();
+
+                }
+
+            }
+
+            if (bowIsActive == true)
+            {
+                if (drawBow)
+                {
+                    transform.rotation = lookRotation;
+                    DrawBow();
+                }
+
+                if (bowIsLoading)
+                {
+                    transform.rotation = lookRotation;
+
+                    BowLoading();
+
+                }
+                if (bowIsFinishedLoading)
+                {
+
+                    transform.rotation = lookRotation;
+                }
+
+                if (Input.GetKeyUp(KeyCode.Mouse0) && bowIsFinishedLoading == true)
+                {
+
+                    BowFire();
+                }
+
+                if (startBowCooldown)
+                {
+                    BowCooldown();
+
+                }
+
+                if ((Input.GetKeyUp(KeyCode.Mouse0) && drawBow == false && bowIsFinishedLoading == false && startBowCooldown == false && drawBow == false) || drawBow == false && queueBowCancel == true)
+                {
+
+                    BowCancel();
+                }
+            }
+        }
+
+
+   
+
+    }
+    void StartBowDraw() {
+
+        bowIsActive = true;
+            anim.SetTrigger("DrawBow");
+
+            moveAllow = false;
+
+            drawBow = true;
+        
+    }
+    void DrawBow() {
+        if (AttackWaitTimer(bowDrawTime))
+        {
+            
+            
+            drawBow = false;
+
+            if (queueBowCancel == false) {
+                bowIsLoading = true;
+            anim.SetTrigger("StopBow");
+            anim.SetTrigger("BowAim");
+            }
+        }
+        else
+        {
+            if (Input.GetKeyUp(KeyCode.Mouse0)){
+                queueBowCancel = true;
+            }
+          
+        }
+
+    }
+
+    void BowLoading()
+    {
+      
+
+        if (AttackWaitTimer(bowChargeTime))
+        {
+            bowIsFinishedLoading = true;
+            bowIsLoading = false;
+        }
+        else
+        {
+           
+        }
+    }
+
+    void BowFire() {
+        InstantiateArrow();
+        arrowAmmo--;
+        gameObject.GetComponent<ArrowUI>().UpdateAmmo(arrowAmmo, arrowAmmoMax);
+     bowIsFinishedLoading = false;
+     anim.SetTrigger("StopBow");
+     anim.SetTrigger("BowRecoil");
+
+        startBowCooldown = true;
+     
+    }
+    void BowCancel() {
+        anim.SetTrigger("StopBow");
+        moveAllow = true;
+        queueBowCancel = false;
+        attackTimer = 0;
+        drawBow = false;
+        bowIsLoading = false;
+        bowIsFinishedLoading = false;
+        startBowCooldown = false;
+
+        bowIsActive = false;
+     
+    }
+
+    
+
+    void BowCooldown() {
+        if (AttackWaitTimer(bowCooldownTime))
+        {
+            moveAllow = true;
+            startBowCooldown = false;
+            bowIsActive = false;
+            anim.SetTrigger("StopBow");
+
+        }
+        else { 
+        
+        }
+    }
+
+
+
     void HealthFlaskManager()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0 && startAttackDelay == false && startAttackCooldown == false && dodgerolling == false)
+        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0 && startAttackDelay == false && startAttackCooldown == false && dodgerolling == false && bowIsActive == false)
         {
             healthFlaskStart = true;
             HealthRefill = FMODUnity.RuntimeManager.CreateInstance("event:/Game/HealthRefill");
@@ -311,9 +525,15 @@ public class CharacterController : MonoBehaviour
             anim.SetTrigger("DodgeRoll");
 
 
-
-        transform.rotation = Quaternion.LookRotation(inputDirection);
+      
         moveAllow = false;
+
+        if (playerInputActive)
+        {
+            transform.rotation = Quaternion.LookRotation(inputDirection);
+        }
+        
+  
 
         dodgerolling = true;
         dodgerollOfCooldown = false;
@@ -322,7 +542,7 @@ public class CharacterController : MonoBehaviour
 
     void DodgerollManager()
     {
-    if (Input.GetKeyDown(KeyCode.Space) && dodgerollOfCooldown && startAttackDelay == false && startAttackCooldown == false)
+    if (Input.GetKeyDown(KeyCode.Space) && dodgerollOfCooldown && startAttackDelay == false && startAttackCooldown == false && bowIsActive == false)
     {
         StartDodgeroll();
         }
@@ -384,7 +604,7 @@ public class CharacterController : MonoBehaviour
 
     void AttackManager()
     {
-        if ( startAttackDelay == false && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false) 
+        if (sword.activeSelf == true && startAttackDelay == false && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false) 
         {
             if (Input.GetKeyDown(KeyCode.Mouse0)) {
                 ResetAttackAni();
@@ -413,6 +633,7 @@ public class CharacterController : MonoBehaviour
 
         swingCooldown = lightSwingCooldown;
 
+        timeToNextSwing = timeToNextSwingLight;
 
         //more anim things
         //Debug.Log("in player attack");
@@ -431,6 +652,8 @@ public class CharacterController : MonoBehaviour
         attackDelay = heavyAttackDelay;
 
         swingCooldown = heavySwingCooldown;
+
+        timeToNextSwing = timeToNextSwingHeavy;
 
 
         anim.SetTrigger("HeavyAttack");
@@ -548,9 +771,14 @@ public class CharacterController : MonoBehaviour
      
     }
 
+    void InstantiateArrow() { 
+    GameObject arrowPrefab = Instantiate(arrow, transform.position + (transform.rotation * new Vector3(0, 1.5f, 1.5f)), transform.rotation);
+    }
+
+
     void InstantiateAttackHitbox()
     {
-        var newHitbox = Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 2f)), transform.rotation);
+        var newHitbox = Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0.5f, 1.7f)), transform.rotation);
 
         newHitbox.transform.parent = gameObject.transform;
         //GameObject hitBox = (GameObject)Instantiate(attackHitbox, transform.position + (transform.rotation * hitboxOffset), transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
@@ -622,6 +850,7 @@ public class CharacterController : MonoBehaviour
     {
         Debug.Log("Player Dead");
         GetComponent<HealthScript>().regainHealth(100);
+        GetComponent<HealthScript>().ResetPotions();
         Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
         Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         Dead.start();
@@ -636,9 +865,30 @@ public class CharacterController : MonoBehaviour
         respawnPoint.transform.position = new Vector3(position.x, position.y + 2f, position.z);
     }
 
+    public void addArrowAmmo(int i) {
+        arrowAmmo = arrowAmmo + i;
+        if (arrowAmmo > arrowAmmoMax) {
+            arrowAmmo = arrowAmmoMax;
+        }
+        gameObject.GetComponent<ArrowUI>().UpdateAmmo(arrowAmmo, arrowAmmoMax);
+    }
+
     public float GetFlaskUses() {
 
         return flaskUses;
+    }
+
+    public int GetArrowAmmo() {
+        return arrowAmmo;
+    }
+
+    public int GetArrowAmmoMax() {
+        return arrowAmmoMax;
+    }
+
+    public void SetFlaskUses(int x)
+    {
+        flaskUses = x;
     }
 
 }
