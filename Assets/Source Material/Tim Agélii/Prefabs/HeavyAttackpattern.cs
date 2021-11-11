@@ -37,7 +37,7 @@ public class HeavyAttackpattern : State
     private bool startCooldown = false;
  
 
-    private bool lookAtPlayer = true;
+    private bool PrepareAttack = true;
 
 
     //hitbox variables
@@ -92,7 +92,7 @@ public class HeavyAttackpattern : State
 
     void AttackPattern()
     {
-        if (lookAtPlayer == true)
+        if (PrepareAttack == true)
         {
             Agent.NavAgent.isStopped = true;
             AttackChargeUp();
@@ -117,6 +117,7 @@ public class HeavyAttackpattern : State
         {
 
             startAttack = true;
+            PrepareAttack = false;
 
         }
     }
@@ -133,7 +134,7 @@ public class HeavyAttackpattern : State
         if (startAttack == true) {
             if (AttackWaitTimer(attackChargeTime))
             {
-                lookAtPlayer = false;
+                
                 Agent.animator.SetTrigger("Attack");
                 InstantiateOneHitbox();
                 startAttack = false;
@@ -168,7 +169,7 @@ public class HeavyAttackpattern : State
             {
                 Agent.NavAgent.isStopped = false;
                 allowStop = true;
-                lookAtPlayer = true;
+                PrepareAttack = true;
                 startCooldown = false;
             }
         }
