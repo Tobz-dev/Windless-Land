@@ -207,12 +207,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2890f511685fdb048901bc1a4d080b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
   Maxhealth: 3
   material: {fileID: 2100000, guid: c103ed8a6e675b5479be69ce128d0892, type: 2}
-  originalMaterial: {fileID: 2100000, guid: 808ae2002bfb8fc48ad40d63ab54ea5a, type: 2}
   hpSlots: []
   flaskAmountText: {fileID: 0}
   maxFlasks: 4
+  healthSlider: {fileID: 0}
+  cameraFollow: {fileID: 0}
   playerInvincibilityTime: 0
 --- !u!114 &4470007493786541334
 MonoBehaviour:
@@ -228,4 +230,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 4306732365073514678, guid: bc431a83e440ad24695725aac3ad75e3, type: 3}
   arrowSpawnPosition: {fileID: 1416510089500677870}
-  shootForce: 10
+  shootForce: 30
+  arrowLifeTime: 0
