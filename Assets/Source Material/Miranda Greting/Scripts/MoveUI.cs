@@ -9,27 +9,29 @@ using UnityEngine.InputSystem;
 public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] private RectTransform movableObject;
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject UIManager;
+    [SerializeField] private Canvas canvas;
     private Vector3 offset;
     private float zCoord;
     private Vector2 startPos;
     private Vector2 currentPos;
     private List <Vector2> previousPositions;
     [SerializeField] private GameObject[] scalableObjects;
+    [SerializeField] private GameObject[] menus;
     [SerializeField] private Slider scaleSlider;
-    [SerializeField] private GameObject rebindingMenu;
-    [SerializeField] private GameObject rebindingMenuFirstSelected;
-    [SerializeField] private GameObject rebindCloseSelected;
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject pauseFirstSelected;
-    [SerializeField] private GameObject uiMenu;
-    [SerializeField] private GameObject uiMenuFirstSelected;
-    [SerializeField] private GameObject uiMenuCloseSelected;
     [SerializeField] private InputAction pause;
     [SerializeField] private GameObject editModePanel;
     [SerializeField] private TMP_Dropdown dropDown;
+    [SerializeField] private Toggle mouseToggle;
     private Vector2[] anchorOffsets;
     private GameObject[] textObjects;
     private List<TextMeshProUGUI> textMeshProUGUIList = new List<TextMeshProUGUI>();
+
+    private bool editMode;
+    public PlayerInput playerInput;
 
 
     private void OnEnable()
@@ -49,22 +51,26 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         previousPositions = new List<Vector2>();
         previousPositions.Add(currentPos);
         scaleSlider.onValueChanged.AddListener(delegate { ScaleUI(); });
-        rebindingMenu.SetActive(false);
         pause.performed += _ => TogglePauseMenu();
 
-        pauseMenu.SetActive(true);
-        uiMenu.SetActive(true);
-        rebindingMenu.SetActive(true);
+        foreach (GameObject menu in menus)
+        {
+            menu.SetActive(false);
+        }
+
         textObjects = GameObject.FindGameObjectsWithTag("Text");
         for (int i = 0; i <= textObjects.Length - 1; i++)
         {
             textMeshProUGUIList.Add(textObjects[i].GetComponent<TextMeshProUGUI>());
         }
 
+        foreach (GameObject menu in menus)
+        {
+            menu.SetActive(false);
+        }
+
         editModePanel.SetActive(false);
-        pauseMenu.SetActive(false);
-        rebindingMenu.SetActive(false);
-        uiMenu.SetActive(false);
+        
         anchorOffsets = new Vector2[scalableObjects.Length];
         for (int i = 0; i <= scalableObjects.Length - 1; i++)
         {
@@ -89,11 +95,22 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             UndoTransform();
         }
 
-        if (Input.GetKey(KeyCode.Escape))
-        {
-            //ToggleMenu();
-        }
+    }
 
+    public void SetRemapPreset(string preset)
+    {
+        if(preset.Equals("leftHand"))
+        {
+
+        }
+        if (preset.Equals("rightHand"))
+        {
+            //reset bindings from ActionEvent in script
+            playerInput.actions["Interact"].ApplyBindingOverride("<Keyboard>/#(i)");
+            playerInput.actions["Health Refill"].ApplyBindingOverride("<Keyboard>/#(o)");
+            playerInput.actions["Dodgeroll"].ApplyBindingOverride("<Keyboard>/#(LShift)");
+            playerInput.actions["Dodgeroll"].ApplyBindingOverride("<Keyboard>/#(LShift)");
+        }
     }
 
     private void ResetTransform()
@@ -112,9 +129,54 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     }
 
+    public void MoveUIElement()
+    {
+        RectTransform rectTransform = movableObject.GetComponent<RectTransform>();
+        RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+
+        float minX = (canvasRect.sizeDelta.x - rectTransform.sizeDelta.x) * -rectTransform.anchorMin.x;
+        float maxX = (canvasRect.sizeDelta.x - rectTransform.sizeDelta.x) * rectTransform.anchorMax.x;
+        float minY = (canvasRect.sizeDelta.y - rectTransform.sizeDelta.y) * -rectTransform.anchorMin.y;
+        float maxY = (canvasRect.sizeDelta.y - rectTransform.sizeDelta.y) * rectTransform.anchorMin.y;
+
+        /*
+        Vector2 anchorPos = rectTransform.anchoredPosition;
+        float xpos = anchorPos.x;
+        float ypos = anchorPos.y;
+        xpos = Mathf.Clamp(xpos, minX, maxX);
+        ypos = Mathf.Clamp(ypos, minY, maxY);
+        anchorPos.x = xpos;
+        anchorPos.y = ypos;
+        rectTransform.anchoredPosition = anchorPos;
+        */
+
+        Vector3[] cornersCache = new Vector3[4];
+        canvasRect.GetWorldCorners(cornersCache);
+        Vector3 canvasLowLeft = cornersCache[0], canvasTopRight = cornersCache[2];
+        var containerSize = canvasTopRight - canvasLowLeft;
+        movableObject.GetWorldCorners(cornersCache);
+        Vector3 movableLowLeft = cornersCache[0], movableTopRight = cornersCache[2];
+        var movableSize = movableTopRight - movableLowLeft;
+
+        var position = movableObject.position;
+        Vector3 deltaLowLeft = position - movableLowLeft, deltaTopRight = movableTopRight - position;
+        position.x = movableSize.x < containerSize.x
+            ? Mathf.Clamp(position.x, canvasLowLeft.x + deltaLowLeft.x, canvasTopRight.x - deltaTopRight.x)
+            : Mathf.Clamp(position.x, canvasTopRight.x - deltaTopRight.x, canvasLowLeft.x + deltaLowLeft.x);
+        position.y = movableSize.y < containerSize.y
+            ? Mathf.Clamp(position.y, canvasLowLeft.y + deltaLowLeft.y, canvasTopRight.y - deltaTopRight.y)
+            : Mathf.Clamp(position.y, canvasTopRight.y - deltaTopRight.y, canvasLowLeft.y + deltaLowLeft.y);
+        movableObject.position = position;
+    }
+
     public void OnDrag(PointerEventData eventData)
     {
-        movableObject.anchoredPosition += eventData.delta;
+        if (editMode)
+        {
+            movableObject.anchoredPosition += eventData.delta;
+            MoveUIElement();
+        }
+
     }
 
 
@@ -126,14 +188,26 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        currentPos = movableObject.anchoredPosition;
-        previousPositions.Add(currentPos);
-        Debug.Log("AddedPosCurrent");
+        if (editMode)
+        {
+            currentPos = movableObject.anchoredPosition;
+            previousPositions.Add(currentPos);
+            Debug.Log("AddedPosCurrent");
+        }
     }
 
     public void ActivateEditMode()
     {
-        editModePanel.SetActive(true);
+        if (!editModePanel.activeInHierarchy)
+        {
+            editMode = true;
+            editModePanel.SetActive(true);
+        }
+        else
+        {
+            editMode = false;
+            editModePanel.SetActive(false);
+        }
     }
 
     private void ScaleUI()
@@ -141,6 +215,13 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         foreach (GameObject gameObject in scalableObjects)
         {
             gameObject.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, 1);
+            RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
+            Vector2 anchorPos = rectTransform.anchoredPosition;
+            float xpos = anchorPos.x;
+            xpos = Mathf.Clamp(xpos, 0, Screen.width - rectTransform.sizeDelta.x);
+            anchorPos.x = xpos;
+            rectTransform.anchoredPosition = anchorPos;
+
         }
     }
 
@@ -220,35 +301,27 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         }
     }
 
-    public void ToggleRebindMenu()
-    {
-        if (rebindingMenu.activeInHierarchy)
-        {
-            rebindingMenu.SetActive(false);
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(rebindCloseSelected);
-        }
-        else
-        {
-            rebindingMenu.SetActive(true);
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(rebindingMenuFirstSelected);
-        }
-        //rebindingMenu.SetActive(true);
-    }
-
     public void TogglePauseMenu()
     {
         if (pauseMenu.activeInHierarchy)
         {
+            foreach (GameObject menu in menus)
+            {
+                menu.SetActive(false);
+            }
             pauseMenu.SetActive(false);
-            rebindingMenu.SetActive(false);
-            uiMenu.SetActive(false);
+            player.GetComponent<CharacterControllerRemapTest>().SetMoveAllow(true);
             Time.timeScale = 1;
         }
         else
         {
+            foreach(GameObject menu in menus)
+            {
+                menu.SetActive(false);
+            }
             pauseMenu.SetActive(true);
+            player.GetComponent<CharacterControllerRemapTest>().SetMoveAllow(false);
+
             Time.timeScale = 0;
 
             EventSystem.current.SetSelectedGameObject(null);
@@ -256,25 +329,9 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         }
     }
 
-    public void ToggleUIMenu()
+    public void SetTimeScale(int scale)
     {
-        if (uiMenu.activeInHierarchy)
-        {
-            uiMenu.SetActive(false);
-            editModePanel.SetActive(false);
-            pauseMenu.SetActive(true);
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(uiMenuCloseSelected);
-
-        }
-        else
-        {
-            uiMenu.SetActive(true);
-            editModePanel.SetActive(true);
-            pauseMenu.SetActive(false);
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(uiMenuFirstSelected);
-        }
+        Time.timeScale = scale;
     }
 
     public void ChangeFontSize(int selection)
@@ -295,5 +352,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             }
         }
     }
+
+
 
 }

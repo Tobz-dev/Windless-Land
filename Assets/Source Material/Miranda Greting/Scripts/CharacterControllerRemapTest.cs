@@ -17,6 +17,12 @@ public class CharacterControllerRemapTest : MonoBehaviour
 
     float moveSpeedDefault;
 
+    float horizontalMovement = 0;
+    float verticalMovement = 0;
+    bool moveUp = false;
+    bool moveDown = false;
+    bool moveRight = false;
+    bool moveLeft = false;
 
 
     float dodgeTimer = 0;
@@ -127,18 +133,18 @@ public class CharacterControllerRemapTest : MonoBehaviour
             }
 
             //anim stuff here. 
-            anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
-            anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
+                anim.SetFloat("XSpeed", horizontalMovement);//Input.GetAxis("HorizontalKey"));
+                anim.SetFloat("YSpeed", verticalMovement);// Input.GetAxis("VerticalKey"));
         }
     }
 
     private void PlayerRotationUpdate()
     {
 
-        if (moveAllow && (Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
+        if (moveAllow && (Mathf.Abs(horizontalMovement + verticalMovement) != 0)) //Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
         {
-            Vector3 horizontal = (Input.GetAxis("Horizontal") * right);
-            Vector3 vertical = (Input.GetAxis("Vertical") * forward);
+            Vector3 horizontal = (horizontalMovement * right);//Input.GetAxis("Horizontal") * right);
+            Vector3 vertical = (verticalMovement * forward);//Input.GetAxis("Vertical") * forward);
             Vector3 rotation = horizontal + vertical;
 
             transform.rotation = Quaternion.LookRotation(rotation);
@@ -160,29 +166,49 @@ public class CharacterControllerRemapTest : MonoBehaviour
 
     void Move()
     {
-        /*
-        int horizontalMovement = 0;
-        int verticalMovement = 0;
-        if (playerInput.actions["Move Up"].triggered)
+
+
+        if (!moveRight && !moveLeft)
         {
-            verticalMovement = 1;
+            horizontalMovement = 0;
         }
-        else if (playerInput.actions["Move Down"].triggered)
-        {
-            verticalMovement = -1;
-        }
-        if (playerInput.actions["Move Right"].triggered)
+        else if (moveRight)
         {
             horizontalMovement = 1;
         }
-        else if (playerInput.actions["Move Left"].triggered)
+        else if (moveLeft)
         {
             horizontalMovement = -1;
         }
-        */
 
-        Vector3 rightMovement = right * moveSpeed * Time.deltaTime * Input.GetAxis("HorizontalKey");
-        Vector3 upMovement = forward * moveSpeed * Time.deltaTime * Input.GetAxis("VerticalKey");
+        if (!moveUp && !moveDown)
+        {
+            verticalMovement = 0;
+        }
+        else if(moveUp)
+        {
+            verticalMovement = 1;
+        }
+        else if (moveDown)
+        {
+            verticalMovement = -1;
+        }
+      
+        playerInput.actions["Move Up"].started += _ => moveUp = true;
+        playerInput.actions["Move Up"].canceled += _ => moveUp = false;
+
+
+        playerInput.actions["Move Down"].started += _ => moveDown = true;
+        playerInput.actions["Move Down"].canceled += _ => moveDown = false;
+
+        playerInput.actions["Move Right"].started += _ => moveRight = true;
+        playerInput.actions["Move Right"].canceled += _ => moveRight = false;
+
+        playerInput.actions["Move Left"].started += _ => moveLeft = true;
+        playerInput.actions["Move Left"].canceled += _ => moveLeft = false;
+
+        Vector3 rightMovement = right * moveSpeed * Time.deltaTime * horizontalMovement;//Input.GetAxis("HorizontalKey");
+        Vector3 upMovement = forward * moveSpeed * Time.deltaTime * verticalMovement;//Input.GetAxis("VerticalKey");
 
         Vector3 playerMovement = rightMovement + upMovement;
 
@@ -449,6 +475,16 @@ public class CharacterControllerRemapTest : MonoBehaviour
     {
 
         return flaskUses;
+    }
+
+    public bool GetMoveAllow()
+    {
+        return moveAllow;
+    }
+
+    public void SetMoveAllow(bool moveAllowance)
+    {
+         moveAllow = moveAllowance;
     }
 
 }

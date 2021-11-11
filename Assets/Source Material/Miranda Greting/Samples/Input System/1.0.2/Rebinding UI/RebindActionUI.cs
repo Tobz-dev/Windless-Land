@@ -199,7 +199,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             var displayString = string.Empty;
             var deviceLayoutName = default(string);
             var controlPath = default(string);
-            
+
 
             // Get display string from action.
             var action = m_Action?.action;
@@ -210,8 +210,8 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 if (bindingIndex != -1)
                     //controlPath = action.activeControl.displayName.ToUpper();
                     displayString = action.GetBindingDisplayString(bindingIndex, out deviceLayoutName, out controlPath, displayStringOptions).ToUpper();
-                    //displayString = action.GetBindingDisplayString(bindingIndex);
-                    //controlPath = action.activeControl.displayName.ToUpper();
+                //displayString = action.GetBindingDisplayString(bindingIndex);
+                //controlPath = action.activeControl.displayName.ToUpper();
             }
 
             // Set on label (if any).
@@ -349,28 +349,32 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             m_RebindOperation.Start();
         }
 
-        private bool  CheckDuplicateBindings(InputAction action, int bindingIndex, bool allCompositeParts = false)
+        private bool CheckDuplicateBindings(InputAction action, int bindingIndex, bool allCompositeParts = false)
         {
             InputBinding newBinding = action.bindings[bindingIndex];
-            foreach(InputBinding binding in action.actionMap.bindings)
+            foreach (InputBinding binding in action.actionMap.bindings)
             {
-                if(binding.action == newBinding.action)
+                if (binding.action == newBinding.action)
                 {
                     continue;
                 }
-                if(binding.effectivePath == newBinding.effectivePath)
+                if (binding.effectivePath == newBinding.effectivePath)
                 {
                     Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
+                    rebindOverlay.transform.GetChild(2).gameObject.SetActive(true);
+                    StartCoroutine(DelayInactivation(3));
                     return true;
                 }
             }
             //Check for duplicate composite bindings
             if (allCompositeParts)
             {
-                for(int i = 1; i < bindingIndex; i++)
+                for (int i = 1; i < bindingIndex; i++)
                 {
-                    if(action.bindings[i].effectivePath == newBinding.effectivePath)
+                    if (action.bindings[i].effectivePath == newBinding.effectivePath)
                     {
+                        rebindOverlay.transform.GetChild(2).gameObject.SetActive(true);
+                        StartCoroutine(DelayInactivation(2f));
                         Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
                         return true;
                     }
@@ -378,6 +382,18 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             }
 
             return false;
+        }
+
+        private IEnumerator DelayInactivation(float waitTime)
+        {
+            Debug.Log("Started");
+            float startTime = Time.realtimeSinceStartup;
+            while(Time.realtimeSinceStartup < startTime + waitTime)
+            {
+                yield return null;
+            }
+            rebindOverlay.transform.GetChild(2).gameObject.SetActive(false);
+            Debug.Log("setactivefalse");
         }
 
         protected void OnEnable()
@@ -477,7 +493,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
         // We want the label for the action name to update in edit mode, too, so
         // we kick that off from here.
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         protected void OnValidate()
         {
             UpdateActionLabel();

@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3092168407338272591}
   - component: {fileID: 3092168407338272590}
+  - component: {fileID: 8760275422266279414}
+  - component: {fileID: 8760275422266279415}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -38,7 +40,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3092168407338272589}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6ae922e819ed414bbb629a16b373df4, type: 3}
   m_Name: 
@@ -51,3 +53,30 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   flaskAmountText: {fileID: 0}
+  maxFlasks: 0
+--- !u!114 &8760275422266279414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3092168407338272589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd1d9c47024c4ad42b01aa22995f58bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputActions: {fileID: -944628639613478452, guid: 7dead05c54ca85b4681351aafd8bd03a, type: 3}
+--- !u!114 &8760275422266279415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3092168407338272589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f2dd3e4fff6ca3468cae8ace650a33b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions: {fileID: -944628639613478452, guid: 7dead05c54ca85b4681351aafd8bd03a, type: 3}
