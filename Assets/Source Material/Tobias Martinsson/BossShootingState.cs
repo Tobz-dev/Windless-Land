@@ -11,11 +11,14 @@ public class BossShootingState : State
     private float originalTime;
     public float arrowAmount;
     private float totalArrows;
+    private float aggroDistance;
+
     protected override void Initialize()
     {
         Agent = (SomeAgent)Owner;
         Debug.Assert(Agent);
         originalTime = attackCooldown;
+        aggroDistance = Agent.GetComponent<BossMechanicsScript>().aggroRange;
     }
 
     public override void Enter()
@@ -25,26 +28,33 @@ public class BossShootingState : State
 
     public override void RunUpdate()
     {
-        if(totalArrows > 0)
+        if (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) <= aggroDistance)
         {
-            Agent.NavAgent.updateRotation = false;
-            Vector3 targetPostition = new Vector3(Agent.Player.position.x,
-                                        Agent.transform.position.y,
-                                        Agent.Player.position.z);
-            Agent.transform.LookAt(targetPostition);
-            Vector3.RotateTowards(Agent.transform.position, Agent.PlayerPosition, 2, 0);
-
-            attackCooldown -= Time.deltaTime;
-            if (attackCooldown < 0)
+            if (totalArrows > 0)
             {
-                Agent.GetComponent<ArrowScript>().shootArrow();
-                totalArrows--;
-                attackCooldown = originalTime;
+                Agent.NavAgent.updateRotation = false;
+                Vector3 targetPostition = new Vector3(Agent.Player.position.x,
+                                            Agent.transform.position.y,
+                                            Agent.Player.position.z);
+                Agent.transform.LookAt(targetPostition);
+                Vector3.RotateTowards(Agent.transform.position, Agent.PlayerPosition, 2, 0);
+
+                attackCooldown -= Time.deltaTime;
+                if (attackCooldown < 0)
+                {
+                    Agent.GetComponent<ArrowScript>().shootArrow();
+                    totalArrows--;
+                    attackCooldown = originalTime;
+                }
+            }
+            else if (totalArrows == 0)
+            {
+                StateMachine.ChangeState<BossChooseAttackState>();
             }
         }
-        else if (totalArrows == 0)
+        else
         {
-            StateMachine.ChangeState<BossChooseAttackState>();
+            StateMachine.ChangeState<BossIdleScript>();
         }
         
     }
