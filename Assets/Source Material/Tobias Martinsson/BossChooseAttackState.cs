@@ -9,17 +9,20 @@ public class BossChooseAttackState : State
     SomeAgent Agent;
     public float attackCooldown;
     private float originalTime;
+    private Quaternion originalRotation;
 
     protected override void Initialize()
     {
         Agent = (SomeAgent)Owner;
         Debug.Assert(Agent);
         originalTime = attackCooldown;
+        originalRotation = Agent.transform.rotation;
     }
 
     public override void Enter()
     {
         Debug.Log("Choosing attack.");
+        Agent.transform.rotation = originalRotation;
     }
     public override void RunUpdate()
     {
