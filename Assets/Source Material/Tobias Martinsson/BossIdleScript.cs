@@ -19,7 +19,7 @@ public class BossIdleScript : State
 
     public override void Enter()
     {
-
+        Agent.GetComponent<HealthScript>().regainHealth(100);
     }
     public override void RunUpdate()
     {
