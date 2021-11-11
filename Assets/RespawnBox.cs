@@ -21,7 +21,7 @@ public class RespawnBox : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            SceneManager.LoadScene("Level 1 pt.1");
+            collision.gameObject.GetComponent<CharacterController>().Respawn();
         }
     }
 }
