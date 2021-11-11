@@ -24,7 +24,15 @@ public class LightChase : State
 
     public override void RunUpdate()
     {
-        Agent.NavAgent.SetDestination(Agent.PlayerPosition);
+        if(PrototypeScript.allowedMove == true)
+        {
+            Agent.NavAgent.SetDestination(Agent.PlayerPosition);
+        }
+        else
+        {
+            Agent.NavAgent.SetDestination(Agent.transform.position);
+        }
+        
 
         if (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) <= AttackDistance)
         {

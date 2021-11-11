@@ -28,8 +28,15 @@ public class RangedAiPatrol : State
     {
         if (Agent.NavAgent.remainingDistance < 2.0f)
         {
-            CurrentPatrol = Agent.GetPatrolPoint;
-            Agent.NavAgent.SetDestination(CurrentPatrol.position);
+            if (PrototypeScript.allowedMove == true)
+            {
+                CurrentPatrol = Agent.GetPatrolPoint;
+                Agent.NavAgent.SetDestination(CurrentPatrol.position);
+            }
+            else
+            {
+                Agent.NavAgent.SetDestination(Agent.transform.position);
+            }
         }
 
         if (!Physics.Linecast(Agent.transform.position, Agent.PlayerPosition, Agent.CollisionLayer) && (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) < aggroDistance))

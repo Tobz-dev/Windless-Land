@@ -29,10 +29,18 @@ public class LightPatrol : State
     {
         if (Agent.NavAgent.remainingDistance < 2.0f)
         {
-            CurrentPatrol = Agent.GetPatrolPoint;
-            Agent.NavAgent.SetDestination(CurrentPatrol.position);
-            Agent.animator.SetFloat("XSpeed", 0);
-            Agent.animator.SetFloat("YSpeed", 1);
+            if(PrototypeScript.allowedMove == true)
+            {
+                CurrentPatrol = Agent.GetPatrolPoint;
+                Agent.NavAgent.SetDestination(CurrentPatrol.position);
+                Agent.animator.SetFloat("XSpeed", 0);
+                Agent.animator.SetFloat("YSpeed", 1);
+            }
+            else
+            {
+                Agent.NavAgent.SetDestination(Agent.transform.position);
+            }
+            
         }
         Color color = new Color(0.0f, 0.0f, 1.0f);
         Debug.DrawLine(Agent.transform.position, Agent.PlayerPosition, color);

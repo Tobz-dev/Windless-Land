@@ -29,10 +29,18 @@ public class HeavyPatrol : State
     {
         if (Agent.NavAgent.remainingDistance < 2.0f)
         {
-            CurrentPatrol = Agent.GetPatrolPoint;
-            Agent.NavAgent.SetDestination(CurrentPatrol.position);
-            Agent.animator.SetFloat("XSpeed", 0);
-            Agent.animator.SetFloat("YSpeed", 1);
+            if(PrototypeScript.allowedMove == true)
+            {
+                CurrentPatrol = Agent.GetPatrolPoint;
+                Agent.NavAgent.SetDestination(CurrentPatrol.position);
+                Agent.animator.SetFloat("XSpeed", 0);
+                Agent.animator.SetFloat("YSpeed", 1);
+            }
+            else
+            {
+                Agent.NavAgent.SetDestination(Agent.transform.position);
+            }
+
         }
 
         if (!Physics.Linecast(Agent.transform.position, Agent.PlayerPosition, Agent.CollisionLayer) && (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) < chaseDistance))
