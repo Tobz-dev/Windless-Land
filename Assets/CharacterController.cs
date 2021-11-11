@@ -619,6 +619,7 @@ public class CharacterController : MonoBehaviour
     {
         Debug.Log("Player Dead");
         GetComponent<HealthScript>().regainHealth(100);
+        GetComponent<HealthScript>().ResetPotions();
         Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
         Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         Dead.start();
@@ -636,6 +637,11 @@ public class CharacterController : MonoBehaviour
     public float GetFlaskUses() {
 
         return flaskUses;
+    }
+
+    public void SetFlaskUses(int x)
+    {
+        flaskUses = x;
     }
 
 }

@@ -239,6 +239,13 @@ public class HealthScript : MonoBehaviour
         return health;
     }
 
+    public void ResetPotions()
+    {
+        flaskAmount = 4;
+        GetComponent<CharacterController>().SetFlaskUses(4);
+        flaskAmountText.text = flaskAmount + "/" + maxFlasks;
+    }
+
     float GetHealthPercentage()
     {
         return (float)health / (float)Maxhealth;
