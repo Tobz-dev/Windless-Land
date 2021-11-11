@@ -49,7 +49,7 @@ public class FallingPlatform : MonoBehaviour
         isFalling = true;
     }
 
-    void respawn()
+    public void respawn()
     {
         StartCoroutine(respawnco());
     }
