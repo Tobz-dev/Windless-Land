@@ -67,6 +67,13 @@ public class PickUpManager : MonoBehaviour
             {
                 panel.SetActive(false);
             }
+
+          
+        }
+
+        if (logPanel == isActiveAndEnabled && Input.GetKeyDown(KeyCode.Escape))
+        {
+            logPanel.SetActive(false);
         }
 
         /*if (canPushLever && Input.GetKeyDown(KeyCode.E))
