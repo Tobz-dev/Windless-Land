@@ -1509,13 +1509,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1427691671556103984}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.079892136, y: -0.028230647, z: -0.006267043}
-  m_LocalScale: {x: 2.0052, y: 1.8156, z: 1.3937}
+  m_LocalRotation: {x: -0.15066159, y: 0.12271612, z: 0.074961126, w: 0.9780709}
+  m_LocalPosition: {x: 0.101, y: -0.011, z: -0.001}
+  m_LocalScale: {x: 1.7770282, y: 1.8156, z: 1.3937}
   m_Children: []
   m_Father: {fileID: 1427691670726788078}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -18.247, y: 13.237, z: 6.63}
 --- !u!1 &1427691671591770874
 GameObject:
   m_ObjectHideFlags: 0
@@ -1964,6 +1964,7 @@ GameObject:
   - component: {fileID: 1427691672052367342}
   - component: {fileID: 1427691672052367347}
   - component: {fileID: 8156951210086529455}
+  - component: {fileID: 4950615091010454670}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2036,16 +2037,28 @@ MonoBehaviour:
   dodgerollSpeed: 10
   dodgerollDropSpeed: 5
   dodgeDropOffTime: 0.4
-  attackHitbox: {fileID: 3483705884616122953, guid: 4e7239f0fd86c2e4c96d38353dfb8412, type: 3}
-  timeToNextSwing: 0.3
-  attackDelay: 0.3
-  swingCooldown: 0.35
+  lightAttackHitbox: {fileID: 3483705884616122953, guid: 4e7239f0fd86c2e4c96d38353dfb8412, type: 3}
+  heavyAttackHitbox: {fileID: 3483705884616122953, guid: 64b24f8498a572547a2d8e587a50b698, type: 3}
+  timeToNextSwing: 0.2
+  timeToNextSwingLight: 0.2
+  timeToNextSwingHeavy: 0.4
+  lightAttackDelay: 0.2
+  lightSwingCooldown: 0.6
+  heavySwingCooldown: 0.6
+  heavyAttackDelay: 0.6
   hitboxOffset: {x: 0, y: 0, z: 0}
   xRotationOffset: 0
   yRotationOffset: 0
   zRotationOffset: 0
   anim: {fileID: 1427691672052367347}
   respawnPoint: {fileID: 1427691672052367343}
+  bow: {fileID: 6585166769836526205}
+  sword: {fileID: 1427691672213526296}
+  bowChargeTime: 0.4
+  arrow: {fileID: 4306732365073514678, guid: 99fa6afae87d804489c67d053cc03e27, type: 3}
+  bowCooldownTime: 0.3
+  bowDrawTime: 0.3
+  arrowAmmoMax: 3
 --- !u!114 &1427691672052367342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2058,9 +2071,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2890f511685fdb048901bc1a4d080b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
   Maxhealth: 5
   material: {fileID: 2100000, guid: 808ae2002bfb8fc48ad40d63ab54ea5a, type: 2}
-  originalMaterial: {fileID: 2100000, guid: c103ed8a6e675b5479be69ce128d0892, type: 2}
   hpSlots:
   - {fileID: 0}
   - {fileID: 0}
@@ -2069,6 +2082,8 @@ MonoBehaviour:
   - {fileID: 0}
   flaskAmountText: {fileID: 0}
   maxFlasks: 4
+  healthSlider: {fileID: 0}
+  cameraFollow: {fileID: 0}
   playerInvincibilityTime: 0.5
 --- !u!95 &1427691672052367347
 Animator:
@@ -2102,6 +2117,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTerrain: 3
+--- !u!114 &4950615091010454670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427691672052367348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53f91881c30f9854c9914b0c14cb05b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrowAmtText: {fileID: 0}
 --- !u!1 &1427691672057429491
 GameObject:
   m_ObjectHideFlags: 0
@@ -2157,9 +2185,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1427691672060440948}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.1468061, y: 0.060436804, z: 0.0039736056}
+  m_LocalPosition: {x: -0.003, y: 0.146, z: -0.326}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4249826731793757068}
   m_Father: {fileID: 1427691670282073544}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2536,3 +2565,84 @@ Transform:
   m_Father: {fileID: 1427691671950274873}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6585166769836526205
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4249826731793757068}
+  - component: {fileID: 2527944955922511222}
+  - component: {fileID: 6684639689641184934}
+  m_Layer: 0
+  m_Name: Bow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4249826731793757068
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6585166769836526205}
+  m_LocalRotation: {x: 0.5043563, y: 0.46996692, z: 0.4606692, w: 0.5590525}
+  m_LocalPosition: {x: -0.74211276, y: -0.16295573, z: 0.46935183}
+  m_LocalScale: {x: 0.42784, y: 1, z: 0.73477}
+  m_Children: []
+  m_Father: {fileID: 1427691672060440947}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 7.523, y: 87.137, z: 86.135}
+--- !u!33 &2527944955922511222
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6585166769836526205}
+  m_Mesh: {fileID: 6937701791748013656, guid: a314b94712a4f3d47b009db435809e9f, type: 3}
+--- !u!23 &6684639689641184934
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6585166769836526205}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: -5744621664681488574, guid: 91d100dae9413444cbfd0795d57f8571, type: 3}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}

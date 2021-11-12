@@ -15,7 +15,6 @@ public class HealthScript : MonoBehaviour
     private int Maxhealth;
     [SerializeField]
     private Material material;
-    [SerializeField]
     private Material originalMaterial;
     [SerializeField]
     private GameObject[] hpSlots;
@@ -44,7 +43,11 @@ public class HealthScript : MonoBehaviour
 
     private void Start()
     {
-
+        if(gameObject.GetComponent<MeshRenderer>() != null)
+        {
+            originalMaterial = gameObject.GetComponent<MeshRenderer>().material;
+        }
+        
         scene = SceneManager.GetActiveScene();
         chilldrenAmount = transform.childCount;
         health = Maxhealth;
@@ -78,12 +81,14 @@ public class HealthScript : MonoBehaviour
             EnemyDead.start();
             EnemyDead.release();
             Destroy(gameObject);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>().addArrowAmmo(1);
+
         }
 
         if (health <= 0 && gameObject.tag == "Player")
         {
             //death animation and delay
-            SceneManager.LoadScene(scene.name);
+            //SceneManager.LoadScene(scene.name);
             gameObject.GetComponent<CharacterController>().Respawn();
             //Debug.Log("Player Dead");
         }
@@ -107,27 +112,37 @@ public class HealthScript : MonoBehaviour
             damagedMaterial();
 
             if (gameObject.tag == "Player")
-            PlayerHurt = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Hurt");
-            PlayerHurt.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
-            PlayerHurt.start();
-            PlayerHurt.release();
-            if (gameObject.tag != "Player")
-            EnemyHurt = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Small Enemy/SmallEnemyHurt");
-            EnemyHurt.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
-            EnemyHurt.start();
-            EnemyHurt.release();
+            {
+                HealthSetup();
+                damageIsOnCooldown = true;
+                startInvincibilityTimer = true;
 
+                cameraFollow.StartShake();
+
+                PlayerHurt = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Hurt");
+                PlayerHurt.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+                PlayerHurt.start();
+                PlayerHurt.release();
+
+                FMODUnity.RuntimeManager.StudioSystem.setParameterByName("TakeDamageEffect", 1);
+
+
+
+            }
+            if (gameObject.tag != "Player")
+            {
+                EnemyHurt = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Small Enemy/SmallEnemyHurt");
+                EnemyHurt.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+                EnemyHurt.start();
+                EnemyHurt.release();
+            }
         }
        
        
         //update UI healthbar to current player health
         if (gameObject.tag == "Player")
         {
-            HealthSetup();
-            damageIsOnCooldown = true;
-            startInvincibilityTimer = true;
-
-            cameraFollow.StartShake();
+         
         }
     }
 
@@ -181,7 +196,11 @@ public class HealthScript : MonoBehaviour
         {
 
             invincibilityTimer = 0;
+
+            FMODUnity.RuntimeManager.StudioSystem.setParameterByName("TakeDamageEffect", 0);
+
             return true;
+
 
         }
 
@@ -220,6 +239,15 @@ public class HealthScript : MonoBehaviour
     public float GetHealth() {
 
         return health;
+    }
+
+    
+
+    public void ResetPotions()
+    {
+        flaskAmount = 4;
+        GetComponent<CharacterController>().SetFlaskUses(4);
+        flaskAmountText.text = flaskAmount + "/" + maxFlasks;
     }
 
     float GetHealthPercentage()

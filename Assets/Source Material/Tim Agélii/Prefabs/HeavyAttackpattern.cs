@@ -3,18 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-//Main Author: Tim Agélii
-//statemachine kod tagen från aiattack
+//Main Author: Tim Agï¿½lii
+//statemachine kod tagen frï¿½n aiattack
 [CreateAssetMenu()]
 public class HeavyAttackpattern : State
 {
     SomeAgent Agent;
 
-    private int chilldrenAmount;
-
-
-    public Material attackIndicatorMaterial;
-    public Material startMaterial;
 
     [SerializeField]
     public float outOfRange;
@@ -37,7 +32,7 @@ public class HeavyAttackpattern : State
     private bool startCooldown = false;
  
 
-    private bool lookAtPlayer = true;
+    private bool PrepareAttack = true;
 
 
     //hitbox variables
@@ -68,7 +63,7 @@ public class HeavyAttackpattern : State
     {
         Agent = (SomeAgent)Owner;
         Debug.Assert(Agent);
-        chilldrenAmount = Agent.transform.childCount;
+    
 
     }
 
@@ -92,13 +87,15 @@ public class HeavyAttackpattern : State
 
     void AttackPattern()
     {
-        if (lookAtPlayer == true)
+        if (PrepareAttack == true)
         {
             Agent.NavAgent.isStopped = true;
+            AttackChargeUp();
             LookAtPlayer();
         }
         if (startAttack == true) {
             Attack();
+            LookAtPlayer();
         }
         if (startCooldown == true) {
             CoolDown();
@@ -108,54 +105,39 @@ public class HeavyAttackpattern : State
 
     }
 
-    void LookAtPlayer() {
+    void AttackChargeUp()
+    {
         allowStop = false;
-            if (AttackWaitTimer(attackWaitTime))
-            {
-                lookAtPlayer = false;
-            Agent.transform.rotation = Agent.transform.rotation;
-                startAttack = true;
+        if (AttackWaitTimer(attackWaitTime))
+        {
+            Agent.animator.SetTrigger("Attack");
+            startAttack = true;
+            PrepareAttack = false;
 
-            }
-            else
-            {
-                turnDirection = Agent.Player.position - Agent.transform.position;
-                turnDirection.Normalize();
-                Agent.transform.rotation = Quaternion.Slerp(Agent.transform.rotation, Quaternion.LookRotation(turnDirection), turnSpeed * Time.deltaTime);
-            }
-        
+        }
+    }
+      
+
+    void LookAtPlayer() {
+
+        turnDirection = Agent.Player.position - Agent.transform.position;
+        turnDirection.Normalize();
+        Agent.transform.rotation = Quaternion.Slerp(Agent.transform.rotation, Quaternion.LookRotation(turnDirection), turnSpeed * Time.deltaTime);
     }
 
     void Attack() {
         if (startAttack == true) {
             if (AttackWaitTimer(attackChargeTime))
             {
-                Agent.animator.SetTrigger("Attack");
+                
+            
                 InstantiateOneHitbox();
                 startAttack = false;
                 startCooldown = true;
-                for (int i = 0; i < chilldrenAmount; i++) {
-
-                    GameObject child = Agent.transform.GetChild(i).gameObject;
-                    if (child.TryGetComponent(out Renderer renderer) == true)
-                    {
-                        renderer.material = startMaterial;
-                    }
-                }
+             
             
             }
-            else {
-                for (int i = 0; i < chilldrenAmount; i++)
-                {
-
-                    GameObject child = Agent.transform.GetChild(i).gameObject;
-                    if (child.TryGetComponent(out Renderer renderer) == true)
-                    {
-                        renderer.material = attackIndicatorMaterial;
-                    }
-                }
-     
-            }
+           
         }
     }
     void CoolDown() {
@@ -164,7 +146,7 @@ public class HeavyAttackpattern : State
             {
                 Agent.NavAgent.isStopped = false;
                 allowStop = true;
-                lookAtPlayer = true;
+                PrepareAttack = true;
                 startCooldown = false;
             }
         }
