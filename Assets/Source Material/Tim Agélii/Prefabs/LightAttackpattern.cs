@@ -22,50 +22,34 @@ public class LightAttackpattern : State
 
     [SerializeField]
     private float turnSpeed;
-    [SerializeField]
-    private float attackChargeTime;
+  
+ 
     Vector3 turnDirection;
 
     //public GameObject hitBox;
 
     private bool allowStop = true;
 
-    private bool startLastCooldown = false;
+
     private bool startReset = false;
     private bool startAttack = false;
     private bool startCooldown = false;
-    private bool startSwing = false;
-    private bool startSecondSwing = false;
+
     private bool waitToAttack = true;
 
 
     //hitbox variables
    
-    [SerializeField]
-    private float swingDuration;
-    [SerializeField]
-    private float swingMovespeed;
-    [SerializeField]
-    private GameObject attackHitbox;
+ 
 
     [SerializeField]
     private float swingCooldownTime;
 
-    [SerializeField]
-    private float patternCooldownTime;
+
     [SerializeField]
     private float attackWaitTime;
 
-    [SerializeField]
-    private Vector3 hitboxOffset;
-
-    [SerializeField]
-    private float xRotationOffset;
-    [SerializeField]
-    private float yRotationOffset;
-    [SerializeField]
-    private float zRotationOffset;
-
+ 
     [SerializeField]
     private Animator enemyAnim;
 
@@ -112,19 +96,13 @@ public class LightAttackpattern : State
             Attack();
             LookAtPlayer();
         }
-        if (startSwing == true) {
-            Swing();
-        }
-        if (startSecondSwing) {
-            SecondSwing();
-        }
+      
+     
         if (startCooldown == true)
         {
             CoolDown();
         }
-        if (startLastCooldown == true) {
-            LastCooldown();
-        }
+       
         if (startReset) {
             ResetPattern();
         }
@@ -168,16 +146,14 @@ public class LightAttackpattern : State
         if (startAttack == true)
         {
 
-            if (AttackWaitTimer(attackChargeTime))
-            {
-              
+          
            
                 startAttack = false;
-                startSwing = true;
+                startCooldown = true;
                 Agent.animator.SetTrigger("StartAttack");
 
 
-            }
+            
 
         }
     }
@@ -187,25 +163,14 @@ public class LightAttackpattern : State
         {
             if (AttackWaitTimer(swingCooldownTime))
             {
-                startSecondSwing = true;
-                startCooldown = false;
-                Agent.animator.SetTrigger("StopAttack");
-                Agent.animator.SetTrigger("StartAttack");
+                ResetPattern();
+            
+          
             }
         }
 
     }
 
-    void LastCooldown() {
-        if (startLastCooldown == true)
-        {
-            if (AttackWaitTimer(patternCooldownTime))
-            {
-                startReset = true;
-                startLastCooldown = false;
-            }
-        }
-    }
     void ResetPattern() {
         startReset = false;
         allowStop = true;
@@ -215,49 +180,8 @@ public class LightAttackpattern : State
         Agent.animator.SetTrigger("StopAttack");
     }
 
-    void Swing()
-    {
-        if (startSwing == true)
-        {
-            if (AttackWaitTimer(swingDuration))
-            {
-                InstantiateOneHitbox();
-                startSwing = false;
-                startCooldown = true;
-              
-
-            }
-            else 
-            {
-                LookAtPlayer();
-                Agent.transform.position += Agent.transform.forward.normalized * swingMovespeed * Time.deltaTime;
-            }
-        }
-
-    }
-
-    void SecondSwing() {
-        if (startSecondSwing == true)
-        {
-            if (AttackWaitTimer(swingDuration))
-            {
-                InstantiateOneHitbox();
-                startSecondSwing = false;
-                startLastCooldown = true;
-            }
-            else
-            {
-                LookAtPlayer();
-                Agent.transform.position += Agent.transform.forward.normalized * swingMovespeed * Time.deltaTime;
-            }
-        }
-    }
-    void InstantiateOneHitbox()
-    {
-
-        GameObject hitBox = (GameObject)Instantiate(attackHitbox, Agent.transform.position + (Agent.transform.rotation * hitboxOffset), Agent.transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
-
-    }
+   
+   
 
 
     private bool AttackWaitTimer(float seconds)
