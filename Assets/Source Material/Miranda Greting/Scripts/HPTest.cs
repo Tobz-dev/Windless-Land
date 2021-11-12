@@ -44,7 +44,8 @@ public class HPTest : MonoBehaviour
     {
         scene = SceneManager.GetActiveScene();
         chilldrenAmount = transform.childCount;
-        health = Maxhealth;
+        health = Maxhealth = 5;
+        health = 4;
         HealthSetup();
         flaskAmount = maxFlasks;
         if (gameObject.tag == "Player")

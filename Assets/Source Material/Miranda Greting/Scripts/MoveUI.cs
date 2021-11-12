@@ -15,11 +15,13 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     private Vector3 offset;
     private float zCoord;
     private Vector2 startPos;
+    private Vector2[] startPositions;
     private Vector2 currentPos;
     private List <Vector2> previousPositions;
     [SerializeField] private GameObject[] scalableObjects;
     [SerializeField] private GameObject[] menus;
     [SerializeField] private Slider scaleSlider;
+    [SerializeField] private Slider fontScaleSlider;
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject pauseFirstSelected;
     [SerializeField] private InputAction pause;
@@ -72,10 +74,12 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         editModePanel.SetActive(false);
         
         anchorOffsets = new Vector2[scalableObjects.Length];
+        startPositions = new Vector2[scalableObjects.Length];
         for (int i = 0; i <= scalableObjects.Length - 1; i++)
         {
             RectTransform rectTransform = scalableObjects[i].GetComponent<RectTransform>();
             anchorOffsets[i] = new Vector2(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y);
+            startPositions[i] = rectTransform.anchoredPosition;
         }
 
         dropDown.value = 1;
@@ -113,9 +117,14 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         }
     }
 
-    private void ResetTransform()
+    public void ResetTransform()
     {
         movableObject.anchoredPosition = startPos;
+        for (int i = 0; i <= scalableObjects.Length - 1; i++)
+        {
+            RectTransform rectTransform = scalableObjects[i].GetComponent<RectTransform>();
+            rectTransform.anchoredPosition = startPositions[i];
+        }
     }
 
     private void UndoTransform()
@@ -129,10 +138,24 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     }
 
-    public void MoveUIElement()
+    public void MoveUIElement(GameObject movedObject)
     {
         RectTransform rectTransform = movableObject.GetComponent<RectTransform>();
+        RectTransform movingObject = movableObject;
+
+        /*
+        for (int i = 0; i <= scalableObjects.Length - 1; i++)
+        {
+            if (movedObject.name.Equals(scalableObjects[i]))
+            {
+                rectTransform = scalableObjects[i].GetComponent<RectTransform>();
+            }
+            
+        }
+        */
         RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+
+        
 
         float minX = (canvasRect.sizeDelta.x - rectTransform.sizeDelta.x) * -rectTransform.anchorMin.x;
         float maxX = (canvasRect.sizeDelta.x - rectTransform.sizeDelta.x) * rectTransform.anchorMax.x;
@@ -154,11 +177,11 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         canvasRect.GetWorldCorners(cornersCache);
         Vector3 canvasLowLeft = cornersCache[0], canvasTopRight = cornersCache[2];
         var containerSize = canvasTopRight - canvasLowLeft;
-        movableObject.GetWorldCorners(cornersCache);
+        movingObject.GetWorldCorners(cornersCache);
         Vector3 movableLowLeft = cornersCache[0], movableTopRight = cornersCache[2];
         var movableSize = movableTopRight - movableLowLeft;
 
-        var position = movableObject.position;
+        var position = movingObject.position;
         Vector3 deltaLowLeft = position - movableLowLeft, deltaTopRight = movableTopRight - position;
         position.x = movableSize.x < containerSize.x
             ? Mathf.Clamp(position.x, canvasLowLeft.x + deltaLowLeft.x, canvasTopRight.x - deltaTopRight.x)
@@ -166,15 +189,26 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         position.y = movableSize.y < containerSize.y
             ? Mathf.Clamp(position.y, canvasLowLeft.y + deltaLowLeft.y, canvasTopRight.y - deltaTopRight.y)
             : Mathf.Clamp(position.y, canvasTopRight.y - deltaTopRight.y, canvasLowLeft.y + deltaLowLeft.y);
-        movableObject.position = position;
+        movingObject.position = position;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         if (editMode)
         {
-            movableObject.anchoredPosition += eventData.delta;
-            MoveUIElement();
+            RectTransform movedObject = movableObject;
+            /*for (int i = 0; i <= scalableObjects.Length - 1; i++)
+            {
+                if (movedObject.name.Equals(scalableObjects[i]))
+                {
+                    movedObject = scalableObjects[i].GetComponent<RectTransform>();
+                }
+            }
+            */
+            
+
+            movedObject.anchoredPosition += eventData.delta;
+            MoveUIElement(eventData.selectedObject);
         }
 
     }
@@ -222,6 +256,31 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             anchorPos.x = xpos;
             rectTransform.anchoredPosition = anchorPos;
 
+        }
+    }
+
+    public void ChangeFontSize()
+    {
+        foreach (TextMeshProUGUI textObject in textMeshProUGUIList)
+        {
+            if (textObject.GetComponent<TMP_FontAsset>() != null)
+            {
+                textObject.fontSize = fontScaleSlider.value;
+            }
+
+            /*if (dropDown.value == 0)
+            {
+                textObject.fontSize = 30;
+            }
+            if (dropDown.value == 1)
+            {
+                textObject.fontSize = 40;
+            }
+            if (dropDown.value == 2)
+            {
+                textObject.fontSize = 50;
+            }*/
+            
         }
     }
 
@@ -310,6 +369,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
                 menu.SetActive(false);
             }
             pauseMenu.SetActive(false);
+            movableObject.gameObject.SetActive(true);
             player.GetComponent<CharacterControllerRemapTest>().SetMoveAllow(true);
             Time.timeScale = 1;
         }
@@ -320,6 +380,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
                 menu.SetActive(false);
             }
             pauseMenu.SetActive(true);
+            movableObject.gameObject.SetActive(false);
             player.GetComponent<CharacterControllerRemapTest>().SetMoveAllow(false);
 
             Time.timeScale = 0;
@@ -334,24 +395,6 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         Time.timeScale = scale;
     }
 
-    public void ChangeFontSize(int selection)
-    {
-        foreach(TextMeshProUGUI textObject in textMeshProUGUIList)
-        {
-            if(dropDown.value == 0)
-            {
-                textObject.fontSize = 30;
-            }
-            if (dropDown.value == 1)
-            {
-                textObject.fontSize = 40;
-            }
-            if (dropDown.value == 2)
-            {
-                textObject.fontSize = 50;
-            }
-        }
-    }
 
 
 
