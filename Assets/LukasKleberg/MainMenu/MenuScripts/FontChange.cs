@@ -62,6 +62,8 @@ public class FontChange : MonoBehaviour
     public void ChangeFontSize(int fontSize) 
     {
         //TODO set a player pref. so that other scenes can access the new font size
+        //have it go textMeshProUGUI.fontSize += 5 or -=5. so that text size remains relative.
+        //also have a limit so it can only go max 10 bigger or smaller, so the text fits
 
         Debug.Log("in ChangeFontSize. TextList is " + textMeshProUGUIList.Count);
         foreach (TextMeshProUGUI textMeshProUGUI in textMeshProUGUIList)
