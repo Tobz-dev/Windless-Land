@@ -8,7 +8,8 @@ public class FontChange : MonoBehaviour
 
     GameObject[] textObjects;
     private List<TextMeshProUGUI> textMeshProUGUIList = new List<TextMeshProUGUI>();
-    [SerializeField] private GameObject[] ObjectsToGetTextFrom;
+    [SerializeField] private GameObject[] objectsToGetTextFrom;
+    [SerializeField] private TMP_FontAsset[] fontsArray;
 
     //goes from 45 (min) to 60 (max) in increments of 5. 50 being default
     private int currentFontSize = 50;
@@ -17,9 +18,9 @@ public class FontChange : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i <= ObjectsToGetTextFrom.Length - 1; i++)
+        for (int i = 0; i <= objectsToGetTextFrom.Length - 1; i++)
         {
-            ObjectsToGetTextFrom[i].SetActive(true);
+            objectsToGetTextFrom[i].SetActive(true);
             //Debug.Log("in fontchange test. activate object loop");
         }
 
@@ -31,30 +32,30 @@ public class FontChange : MonoBehaviour
             //Debug.Log("textMeshProUGUIList count is" + textMeshProUGUIList.Count);
         }
 
-        for (int i = 1; i <= ObjectsToGetTextFrom.Length - 1; i++)
+        for (int i = 1; i <= objectsToGetTextFrom.Length - 1; i++)
         {
-            ObjectsToGetTextFrom[i].SetActive(false);
+            objectsToGetTextFrom[i].SetActive(false);
             //Debug.Log("in fontchange test. inactive object loop");
         }
 
         //get the currentFontSize from a playerpref
-        savedFontSize = PlayerPrefs.GetInt("FontSize");
-        ChangeFontSize(savedFontSize);
+        ChangeFontSize(PlayerPrefs.GetInt("FontSize", 50));
 
-        //PlayerPrefs.SetInt("FontSize", 50);
-        //adjust it based on the value.
-        //SetFontSize();
+        ChangeFont(PlayerPrefs.GetInt("FontIndex", 0));
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
+         
     }
 
-    public void ChangeFont(TMP_FontAsset fontToChangeTo)
+    public void ChangeFont(int fontIndex)
     {
         //TODO set a player pref. so that other scenes can access the new font
+        TMP_FontAsset fontToChangeTo = fontsArray[fontIndex];
+        PlayerPrefs.SetInt("FontIndex", fontIndex);
 
         //TMP_FontAsset testFont = fontToChangeTo;
         Debug.Log("in ChangeFont. TextList is " + textMeshProUGUIList.Count);
