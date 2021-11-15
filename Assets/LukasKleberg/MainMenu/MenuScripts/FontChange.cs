@@ -10,10 +10,13 @@ public class FontChange : MonoBehaviour
     private List<TextMeshProUGUI> textMeshProUGUIList = new List<TextMeshProUGUI>();
     [SerializeField] private GameObject[] ObjectsToGetTextFrom;
 
+    //goes from 45 (min) to 60 (max) in increments of 5. 50 being default
+    private int currentFontSize = 50;
+    private int savedFontSize;
+
     // Start is called before the first frame update
     void Start()
     {
-        //this turns off the options menu if it is not active when starting the program. thats bad.
         for (int i = 0; i <= ObjectsToGetTextFrom.Length - 1; i++)
         {
             ObjectsToGetTextFrom[i].SetActive(true);
@@ -28,18 +31,25 @@ public class FontChange : MonoBehaviour
             //Debug.Log("textMeshProUGUIList count is" + textMeshProUGUIList.Count);
         }
 
-        //this turns off the options menu if it is not active when starting the program. thats bad.
         for (int i = 1; i <= ObjectsToGetTextFrom.Length - 1; i++)
         {
             ObjectsToGetTextFrom[i].SetActive(false);
             //Debug.Log("in fontchange test. inactive object loop");
         }
+
+        //get the currentFontSize from a playerpref
+        savedFontSize = PlayerPrefs.GetInt("FontSize");
+        ChangeFontSize(savedFontSize);
+
+        //PlayerPrefs.SetInt("FontSize", 50);
+        //adjust it based on the value.
+        //SetFontSize();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void ChangeFont(TMP_FontAsset fontToChangeTo)
@@ -50,7 +60,7 @@ public class FontChange : MonoBehaviour
         Debug.Log("in ChangeFont. TextList is " + textMeshProUGUIList.Count);
         foreach (TextMeshProUGUI textMeshProUGUI in textMeshProUGUIList)
         {
-            if (textMeshProUGUI != null) 
+            if (textMeshProUGUI != null)
             {
                 //Debug.Log("in ChangeFont " + textMeshProUGUI.name);
                 textMeshProUGUI.font = fontToChangeTo;
@@ -59,19 +69,27 @@ public class FontChange : MonoBehaviour
 
     }
 
-    public void ChangeFontSize(int fontSize) 
+    public void ChangeFontSize(int newFontSize) 
     {
-        //TODO set a player pref. so that other scenes can access the new font size
-        //have it go textMeshProUGUI.fontSize += 5 or -=5. so that text size remains relative.
-        //also have a limit so it can only go max 10 bigger or smaller, so the text fits
 
-        Debug.Log("in ChangeFontSize. TextList is " + textMeshProUGUIList.Count);
+        Debug.Log("in ChangeFontSize. newFontSize is " + newFontSize);
+        Debug.Log("in ChangeFontSize. currentFontSize is " + currentFontSize);
+
+        int fontSizeDifference = newFontSize - currentFontSize;
+
+        currentFontSize = newFontSize;
+
+        PlayerPrefs.SetInt("FontSize", currentFontSize);
+
+
+        Debug.Log("in ChangeFontSize. size differnece is " + fontSizeDifference);
+        //Debug.Log("in ChangeFontSize. new font size is" + currentFontSize);
+
         foreach (TextMeshProUGUI textMeshProUGUI in textMeshProUGUIList)
         {
             if (textMeshProUGUI != null)
             {
-                //Debug.Log("in ChangeFontSize " + textMeshProUGUI.name);
-                textMeshProUGUI.fontSize = fontSize;
+                textMeshProUGUI.fontSize += fontSizeDifference;
             }
         }
     }
