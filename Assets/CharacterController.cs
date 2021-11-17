@@ -12,6 +12,7 @@ public class CharacterController : MonoBehaviour
   
     float moveSpeedDefault;
 
+    private Rigidbody playerRgb;
    
 
     float dodgeTimer = 0;
@@ -68,6 +69,7 @@ public class CharacterController : MonoBehaviour
     Vector3 playerMovement;
 
     private bool canMove = true;
+    private bool moveInput = false;
 
     [SerializeField]
     private float dodgeDropOffTime;
@@ -169,6 +171,7 @@ public class CharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerRgb = transform.GetComponent<Rigidbody>();
         arrowAmmo = arrowAmmoMax;
         bow.SetActive(false);
         canMove = true;
@@ -211,15 +214,26 @@ public class CharacterController : MonoBehaviour
 
             BowManager();
 
-            if (Input.anyKey && moveAllow == true)
+            if (moveAllow == true && playerInputActive == true)
             {
-                Move();
+                moveInput = true;
+            }else{
+                moveInput = false;
             }
-
+        
             //anim stuff here. 
             anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
             anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
         }
+    }
+    private void FixedUpdate()
+    {
+        if (moveInput == true)
+        {
+            Move();
+        }
+
+
     }
 
     private void PlayerRotationUpdate()
@@ -249,10 +263,10 @@ public class CharacterController : MonoBehaviour
     }
 
     void UpdateMoveInput() {
-        Vector3 rightMovement = right * moveSpeed * Time.deltaTime * Input.GetAxis("HorizontalKey");
-        Vector3 upMovement = forward * moveSpeed * Time.deltaTime * Input.GetAxis("VerticalKey");
+        Vector3 rightMovement = right * moveSpeed *  Input.GetAxis("HorizontalKey");
+        Vector3 upMovement = forward * moveSpeed * Input.GetAxis("VerticalKey");
 
-       playerMovement = rightMovement + upMovement;
+       playerMovement = rightMovement + upMovement + new Vector3(0, playerRgb.velocity.y,0);
 
         inputDirection = playerMovement.normalized;
 
@@ -264,9 +278,12 @@ public class CharacterController : MonoBehaviour
             playerInputActive = true;
         }
 
-        if (playerMovement.magnitude > moveSpeed * Time.deltaTime)
+        if (playerMovement.magnitude > moveSpeed)
         {
-            playerMovement = playerMovement.normalized * moveSpeed * Time.deltaTime;
+            playerMovement = playerMovement.normalized * moveSpeed;
+        }
+        if (playerInputActive == false) {
+            playerRgb.velocity = new Vector3(0,playerRgb.velocity.y,0);
         }
     }
 
@@ -274,7 +291,8 @@ public class CharacterController : MonoBehaviour
     {
      
 
-        transform.position += playerMovement;
+        playerRgb.velocity = playerMovement;
+        
 
     }
 
