@@ -13,17 +13,21 @@ public class LightAttackpattern : State
 
     public Material attackIndicatorMaterial;
     public Material startMaterial;
-   
+    private bool stopAttack = false;
+
     [SerializeField]
-    public float outOfRange;
-   
-    
+    private float outOfRange;
+
+
     private float attackTimer = 0;
 
     [SerializeField]
     private float turnSpeed;
-  
- 
+
+    private float moveSpeed = 0;
+
+    private float stoppingDistance = 2f;
+
     Vector3 turnDirection;
 
     //public GameObject hitBox;
@@ -33,14 +37,15 @@ public class LightAttackpattern : State
 
     private bool startReset = false;
     private bool startAttack = false;
-    private bool startCooldown = false;
+
 
     private bool waitToAttack = true;
 
+    
 
     //hitbox variables
-   
- 
+
+
 
     [SerializeField]
     private float swingCooldownTime;
@@ -49,10 +54,11 @@ public class LightAttackpattern : State
     [SerializeField]
     private float attackWaitTime;
 
- 
+
     [SerializeField]
     private Animator enemyAnim;
 
+    
 
     protected override void Initialize()
     {
@@ -60,8 +66,8 @@ public class LightAttackpattern : State
         Debug.Assert(Agent);
 
 
-       
-       
+
+
     }
 
     public void Awake()
@@ -72,38 +78,53 @@ public class LightAttackpattern : State
     }
     public override void RunUpdate()
     {
+      
+           
+         moveSpeed = getSpeed();
+        Agent.NavAgent.SetDestination(Agent.PlayerPosition);
+
+        stopAttack = getStopAttack();
+    
+      
 
         AttackPattern();
-
-
+        
         if ((Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) >= outOfRange) && allowStop)
         {
-            
+
             StateMachine.ChangeState<LightChase>();
+
         }
+    }
+
+    float getSpeed(){
+        return Agent.transform.GetComponentInParent<LightAttackEvent>().GetEnemySpeed();
+    }
+
+    bool getStopAttack() {
+        return Agent.transform.GetComponentInParent<LightAttackEvent>().GetStopAttack();
+    }
+    void SetStopAttackFalse()
+    {
+         Agent.transform.GetComponentInParent<LightAttackEvent>().SetStopAttack(false);
     }
 
     void AttackPattern()
     {
         if (waitToAttack == true)
         {
-            Agent.NavAgent.isStopped = true;
+         //   Agent.NavAgent.isStopped = true;
             WaitToAttack();
-            LookAtPlayer();
+        //   LookAtPlayer();
         }
         if (startAttack == true)
         {
             Attack();
-            LookAtPlayer();
+       //    LookAtPlayer();
         }
       
      
-        if (startCooldown == true)
-        {
-            CoolDown();
-        }
-       
-        if (startReset) {
+        if (stopAttack == true) {
             ResetPattern();
         }
 
@@ -117,16 +138,11 @@ public class LightAttackpattern : State
         if (AttackWaitTimer(attackWaitTime))
         {
             waitToAttack = false;
-            Agent.transform.rotation = Agent.transform.rotation;
+         
             startAttack = true;
 
         }
-        else
-        {
-            turnDirection = Agent.Player.position - Agent.transform.position;
-            turnDirection.Normalize();
-            Agent.transform.rotation = Quaternion.Slerp(Agent.transform.rotation, Quaternion.LookRotation(turnDirection), turnSpeed * Time.deltaTime);
-        }
+     
 
     }
 
@@ -149,7 +165,7 @@ public class LightAttackpattern : State
           
            
                 startAttack = false;
-                startCooldown = true;
+              
                 Agent.animator.SetTrigger("StartAttack");
 
 
@@ -157,26 +173,15 @@ public class LightAttackpattern : State
 
         }
     }
-    void CoolDown()
-    {
-        if (startCooldown == true)
-        {
-            if (AttackWaitTimer(swingCooldownTime))
-            {
-                ResetPattern();
-            
-          
-            }
-        }
+   
 
-    }
+    
 
     void ResetPattern() {
-        startReset = false;
         allowStop = true;
         waitToAttack = true;
-        startCooldown = false;
-        Agent.NavAgent.isStopped = false;
+        //Agent.NavAgent.isStopped = false;
+        SetStopAttackFalse();
         Agent.animator.SetTrigger("StopAttack");
     }
 
