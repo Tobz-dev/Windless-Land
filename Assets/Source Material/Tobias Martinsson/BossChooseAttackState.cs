@@ -41,7 +41,6 @@ public class BossChooseAttackState : State
         {
             enrageCounter++;
             StateMachine.ChangeState<BossShootingState>();
-
         }
         else if (Agent.GetComponent<HealthScript>().health < Agent.GetComponent<HealthScript>().Maxhealth * 0.5 && enrageCounter == 1)
         {
