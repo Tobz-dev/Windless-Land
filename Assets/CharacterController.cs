@@ -28,8 +28,6 @@ public class CharacterController : MonoBehaviour
 
     bool moveAllow = true;
 
-    bool rotationAllow = true;
-
     bool invincibility = false;
 
 
@@ -69,7 +67,7 @@ public class CharacterController : MonoBehaviour
     Vector3 playerMovement;
 
     private bool canMove = true;
-    private bool moveInput = false;
+  
 
     [SerializeField]
     private float dodgeDropOffTime;
@@ -214,13 +212,9 @@ public class CharacterController : MonoBehaviour
 
             BowManager();
 
-            if (moveAllow == true && playerInputActive == true)
-            {
-                moveInput = true;
-            }else{
-                moveInput = false;
-            }
-        
+       
+         
+
             //anim stuff here. 
             anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
             anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
@@ -228,18 +222,14 @@ public class CharacterController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (moveInput == true)
-        {
-            Move();
-        }
-
+      
 
     }
 
     private void PlayerRotationUpdate()
     {
 
-        if (moveAllow && rotationAllow && (Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
+        if (moveAllow && Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey")) != 0)
         {
             Vector3 horizontal = (Input.GetAxis("Horizontal") * right);
             Vector3 vertical = (Input.GetAxis("Vertical") * forward);
@@ -266,11 +256,23 @@ public class CharacterController : MonoBehaviour
         Vector3 rightMovement = right * moveSpeed *  Input.GetAxis("HorizontalKey");
         Vector3 upMovement = forward * moveSpeed * Input.GetAxis("VerticalKey");
 
-       playerMovement = rightMovement + upMovement + new Vector3(0, playerRgb.velocity.y,0);
+        playerMovement = rightMovement + upMovement;
 
         inputDirection = playerMovement.normalized;
+        Debug.Log(playerMovement.magnitude);
 
-        if (inputDirection.magnitude == 0)
+
+        if (playerMovement.magnitude > moveSpeed)
+        {
+            playerMovement = playerMovement.normalized * moveSpeed;
+        }
+
+        if (moveAllow == true)
+        {
+            Move();
+        }
+
+        if (playerMovement.magnitude == 0)
         {
             playerInputActive = false;
         }
@@ -278,22 +280,16 @@ public class CharacterController : MonoBehaviour
             playerInputActive = true;
         }
 
-        if (playerMovement.magnitude > moveSpeed)
-        {
-            playerMovement = playerMovement.normalized * moveSpeed;
-        }
-        if (playerInputActive == false) {
-            playerRgb.velocity = new Vector3(0,playerRgb.velocity.y,0);
-        }
-    }
 
+      
+    }
+    
     void Move()
     {
      
-
-        playerRgb.velocity = playerMovement;
-        
-
+        playerRgb.velocity = playerMovement + new Vector3(0, playerRgb.velocity.y,0);
+   
+  
     }
 
     void EquipManager() {
@@ -578,11 +574,11 @@ public class CharacterController : MonoBehaviour
                 {
                     if (dodgeTimer < dodgeDropOffTime)
                     {
-                        transform.position += (transform.forward).normalized * dodgerollSpeed * Time.deltaTime;
+                        playerRgb.velocity = ((transform.forward).normalized * dodgerollSpeed ) +new Vector3(0, playerRgb.velocity.y, 0); ;
                     }
                     else {
                         invincibility = false;
-                        transform.position += (transform.forward).normalized * dodgerollDropSpeed * Time.deltaTime;
+                        playerRgb.velocity = ((transform.forward).normalized * dodgerollDropSpeed) + new Vector3 (0,playerRgb.velocity.y,0);
                     }
                    
                  
@@ -766,7 +762,7 @@ public class CharacterController : MonoBehaviour
             else
             {
                 
-                transform.position += (transform.forward).normalized * 2f * Time.deltaTime;
+                playerRgb.velocity = ((transform.forward).normalized * 2f ) +new Vector3(0, playerRgb.velocity.y, 0); ;
                 if (attackTimer >= extraInputTimeDelay && Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     Debug.Log("ATACK");
