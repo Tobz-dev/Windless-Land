@@ -19,11 +19,10 @@ public class ChangeScreenResolutionList : MonoBehaviour
 
     private int currentResolutionIndex = 0;
 
-    private bool inFullscreen;
     public Image windowedCheckBoxImage;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         //on build Unity gets repeat values for resolutions
         //this solves the problem, but this keeps the refresh rate stuck at 60Hz. (I've tried tons of other solutions).
@@ -38,14 +37,9 @@ public class ChangeScreenResolutionList : MonoBehaviour
 
         SetResolutionText(resolutionArray[currentResolutionIndex]);
 
-        //check if the game starts in fullscreen. TODO: playerpref that remembers this setting
-        //this is reversed because the button says "toggle windowed", so if it shouldn't be changed if the game is fullscreen
-        if (Screen.fullScreen == true)
-        {
-            Debug.Log("ChangeScreenResolution. on start set to fullscreen");
-            inFullscreen = false;
-            windowedCheckBoxImage.enabled = false;
-        }
+        //wow, bad cheat. so the problem is that the game just doesn't properly recognize if it is in windowed mode when starting. 
+        //so I'm setting it to fullscreen to get around that.
+        Screen.fullScreen = true;
     }
 
     private void SetResolutionText(Resolution resolution) 
@@ -103,13 +97,13 @@ public class ChangeScreenResolutionList : MonoBehaviour
         {
             //Debug.Log("ChangeScreenResolution. set to windowed");
             Screen.fullScreen = false;
-            inFullscreen = false;
+
         }
         else
         {
             //Debug.Log("ChangeScreenResolution. set to fullscreen");
             Screen.fullScreen = true;
-            inFullscreen = true;
+
         }
     }
 
