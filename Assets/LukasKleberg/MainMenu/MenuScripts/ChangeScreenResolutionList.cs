@@ -58,7 +58,7 @@ public class ChangeScreenResolutionList : MonoBehaviour
         currentResolutionIndex = GetNextWrappedIndex(resolutionArray, currentResolutionIndex);
         SetResolutionText(resolutionArray[currentResolutionIndex]);
 
-        Debug.Log("in SetNextResolution, is x "+ resolutionArray[currentResolutionIndex].width + " y " + resolutionArray[currentResolutionIndex].height);
+        //Debug.Log("in SetNextResolution, is x "+ resolutionArray[currentResolutionIndex].width + " y " + resolutionArray[currentResolutionIndex].height);
     }
 
     public void SetPreviousResolution()
@@ -66,7 +66,15 @@ public class ChangeScreenResolutionList : MonoBehaviour
         currentResolutionIndex = GetPreviousWrappedIndex(resolutionArray, currentResolutionIndex);
         SetResolutionText(resolutionArray[currentResolutionIndex]);
 
-        Debug.Log("in SetPreviousResolution, is x " + resolutionArray[currentResolutionIndex].width + " y " + resolutionArray[currentResolutionIndex].height);
+        //Debug.Log("in SetPreviousResolution, is x " + resolutionArray[currentResolutionIndex].width + " y " + resolutionArray[currentResolutionIndex].height);
+    }
+
+    public void SetDefaultResolution() 
+    {
+        Debug.Log("in SetDefaultResolution");
+
+       currentResolutionIndex = resolutionArray.Length - 1;
+        ApplyResolution();
     }
 
     private void ApplyNewResolution(int newResolutionIndex) 
@@ -78,7 +86,7 @@ public class ChangeScreenResolutionList : MonoBehaviour
     private void ApplyResolution() 
     {
         Resolution newResolution = resolutionArray[currentResolutionIndex];
-        Debug.Log("in ApplyResolution, is x " + newResolution.width + " y " + newResolution.height);
+        //Debug.Log("in ApplyResolution, is x " + newResolution.width + " y " + newResolution.height);
 
         Screen.SetResolution(newResolution.width, newResolution.height, Screen.fullScreen);
     }
@@ -93,13 +101,13 @@ public class ChangeScreenResolutionList : MonoBehaviour
 
         if (Screen.fullScreen == true)
         {
-            Debug.Log("ChangeScreenResolution. set to windowed");
+            //Debug.Log("ChangeScreenResolution. set to windowed");
             Screen.fullScreen = false;
             inFullscreen = false;
         }
         else
         {
-            Debug.Log("ChangeScreenResolution. set to fullscreen");
+            //Debug.Log("ChangeScreenResolution. set to fullscreen");
             Screen.fullScreen = true;
             inFullscreen = true;
         }

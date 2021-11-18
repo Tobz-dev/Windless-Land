@@ -19,6 +19,17 @@ public class BossIdleScript : State
 
     public override void Enter()
     {
+        Agent.GetComponent<HealthScript>().regainHealth(100);
+        Agent.GetComponent<BossMechanicsScript>().fallingPlatform1.GetComponent<FallingPlatform>().respawn();
+        Agent.GetComponent<BossMechanicsScript>().fallingPlatform2.GetComponent<FallingPlatform>().respawn();
+        Agent.GetComponent<BossMechanicsScript>().fallingPlatform3.GetComponent<FallingPlatform>().respawn();
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            if(go.name != "Boss")
+            {
+                Destroy(go.gameObject);
+            }
+        }
 
     }
     public override void RunUpdate()

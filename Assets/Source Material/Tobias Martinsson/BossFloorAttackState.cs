@@ -9,6 +9,7 @@ public class BossFloorAttackState : State
     SomeAgent Agent;
     private float originalTime;
 
+
     protected override void Initialize()
     {
         Agent = (SomeAgent)Owner;
@@ -17,6 +18,7 @@ public class BossFloorAttackState : State
 
     public override void Enter()
     {
+
         //Debug.Log("Attack #1. Floor attack.");
         int rand = randomNumber();
         Debug.Log(rand);
