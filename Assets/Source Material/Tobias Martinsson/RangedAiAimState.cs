@@ -41,6 +41,7 @@ public class RangedAiAimState : State
             shootCooldown -= Time.deltaTime;
             if (shootCooldown < 0)
             {
+                //Agent.animator.SetTrigger("FireArrow");
                 Agent.GetComponent<ArrowScript>().shootArrow();
                 shootCooldown = originalTime;
             }
