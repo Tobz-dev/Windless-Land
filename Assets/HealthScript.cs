@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class HealthScript : MonoBehaviour
 {
 
     private int chilldrenAmount;
 
-    public int health;
+    private int health;
     [SerializeField]
     private int Maxhealth;
     [SerializeField]
@@ -23,11 +22,6 @@ public class HealthScript : MonoBehaviour
     private TextMeshProUGUI flaskAmountText;
     [SerializeField]
     private int maxFlasks = 4;
-    [SerializeField]
-    private Slider healthSlider;
-    [SerializeField]
-    private CameraFollow cameraFollow;
-
     private int flaskAmount;
     private bool startInvincibilityTimer = false;
     private bool damageIsOnCooldown = false;
@@ -44,7 +38,6 @@ public class HealthScript : MonoBehaviour
 
     private void Start()
     {
-
         scene = SceneManager.GetActiveScene();
         chilldrenAmount = transform.childCount;
         health = Maxhealth;
@@ -54,23 +47,13 @@ public class HealthScript : MonoBehaviour
         {
             flaskAmountText.text = maxFlasks + "/" + maxFlasks;
         }
-
-        if (gameObject.tag != "Player")
-        {
-            healthSlider.value = GetHealthPercentage();
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (gameObject.tag != "Player")
-        {
-            healthSlider.value = GetHealthPercentage();
-        }
-
-        if (health <= 0 && gameObject.tag != "Player")
+     
+            if (health <= 0 && gameObject.tag != "Player")
         {
             //death animation and delay
             EnemyDead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Small Enemy/SmallEnemyDead");
@@ -126,8 +109,6 @@ public class HealthScript : MonoBehaviour
             HealthSetup();
             damageIsOnCooldown = true;
             startInvincibilityTimer = true;
-
-            cameraFollow.StartShake();
         }
     }
 
@@ -220,10 +201,5 @@ public class HealthScript : MonoBehaviour
     public float GetHealth() {
 
         return health;
-    }
-
-    float GetHealthPercentage()
-    {
-        return (float)health / (float)Maxhealth;
     }
 }

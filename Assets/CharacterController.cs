@@ -32,6 +32,9 @@ public class CharacterController : MonoBehaviour
     bool invincibility = false;
 
 
+   
+
+
     //healthFlask
     bool healthFlaskTimerRunning = true;
     bool healthFlaskStart = false;
