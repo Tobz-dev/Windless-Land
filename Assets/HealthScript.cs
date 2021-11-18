@@ -12,7 +12,7 @@ public class HealthScript : MonoBehaviour
 
     public int health;
     [SerializeField]
-    private int Maxhealth;
+    public int Maxhealth;
     [SerializeField]
     private Material material;
     private Material originalMaterial;
