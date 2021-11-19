@@ -8,6 +8,7 @@ public class ToggleVision : MonoBehaviour
     public Camera cam1;
     public Camera cam2;
     public Animator fade;
+    public GameObject player;
     private float timeLimit = 0f;
     private bool visionOn = false;
 
@@ -30,7 +31,7 @@ public class ToggleVision : MonoBehaviour
         {
             Invoke ("Vision", 0.1f);
             fade.SetBool("EA", true);
-
+            player.SetActive(false);
 
             /*visionOn = true;
             timeLimit = Time.realtimeSinceStartup;
@@ -54,6 +55,7 @@ public class ToggleVision : MonoBehaviour
             {
                 Vision();
                 fade.SetBool("EA", false);
+                player.SetActive(true);
                 visionOn = false;
                 timeLimit = 0;
             }
