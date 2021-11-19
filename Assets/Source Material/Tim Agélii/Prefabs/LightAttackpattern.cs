@@ -15,9 +15,17 @@ public class LightAttackpattern : State
     public Material startMaterial;
     private bool stopAttack = false;
 
+    private float playerToEnemyDistance;
+
+   
+    [SerializeField]
+    private float enemyStoppingDistance;
+    [SerializeField]
+    private float enemyMeleeDistance;
     [SerializeField]
     private float outOfRange;
 
+    bool inMeleeRange = false;
 
     private float attackTimer = 0;
 
@@ -26,7 +34,7 @@ public class LightAttackpattern : State
 
     private float moveSpeed = 0;
 
-    private float stoppingDistance = 2f;
+ 
 
     Vector3 turnDirection;
 
@@ -35,11 +43,13 @@ public class LightAttackpattern : State
     private bool allowStop = true;
 
 
-    private bool startReset = false;
+  
     private bool startAttack = false;
 
 
     private bool waitToAttack = true;
+
+    private bool inAttack = false;
 
     
 
@@ -81,13 +91,36 @@ public class LightAttackpattern : State
       
            
          moveSpeed = getSpeed();
+        Agent.NavAgent.speed = moveSpeed;
         Agent.NavAgent.SetDestination(Agent.PlayerPosition);
 
         stopAttack = getStopAttack();
-    
-      
 
-        AttackPattern();
+
+        playerToEnemyDistance = (Agent.PlayerPosition - Agent.NavAgent.transform.position).magnitude;
+
+      
+        if (Mathf.Abs(playerToEnemyDistance) <= enemyStoppingDistance)
+        {
+            Agent.NavAgent.isStopped = true;
+        }
+        else {
+            Agent.NavAgent.isStopped = false;
+        }
+
+        if ((Mathf.Abs(playerToEnemyDistance) <= enemyMeleeDistance) && inAttack == false)
+        {
+            inMeleeRange = true;
+        }
+        else {
+
+            inMeleeRange = false;
+                }
+        
+
+
+
+            AttackPattern();
         
         if ((Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) >= outOfRange) && allowStop)
         {
@@ -111,21 +144,25 @@ public class LightAttackpattern : State
 
     void AttackPattern()
     {
+        inAttack = true;
+
+        LookAtPlayer();
         if (waitToAttack == true)
         {
-         //   Agent.NavAgent.isStopped = true;
+      
             WaitToAttack();
-        //   LookAtPlayer();
+           
         }
         if (startAttack == true)
         {
             Attack();
-       //    LookAtPlayer();
+         
         }
       
      
         if (stopAttack == true) {
             ResetPattern();
+            inAttack = false;
         }
 
 
@@ -148,28 +185,38 @@ public class LightAttackpattern : State
 
     void LookAtPlayer()
     {
-       
-        
+        if (Agent.NavAgent.isStopped == true) {
             turnDirection = Agent.Player.position - Agent.transform.position;
             turnDirection.Normalize();
             Agent.transform.rotation = Quaternion.Slerp(Agent.transform.rotation, Quaternion.LookRotation(turnDirection), turnSpeed * Time.deltaTime);
+        }
+        
+
         
 
     }
 
     void Attack()
     {
+
+
         if (startAttack == true)
         {
 
-          
-           
-                startAttack = false;
+            if (inMeleeRange)
+            {
+                Agent.animator.SetTrigger("StartAttack");
+            }
+            else {
               
+
                 Agent.animator.SetTrigger("StartAttack");
 
+            }
 
-            
+            startAttack = false;
+
+
 
         }
     }
@@ -180,7 +227,7 @@ public class LightAttackpattern : State
     void ResetPattern() {
         allowStop = true;
         waitToAttack = true;
-        //Agent.NavAgent.isStopped = false;
+       
         SetStopAttackFalse();
         Agent.animator.SetTrigger("StopAttack");
     }
