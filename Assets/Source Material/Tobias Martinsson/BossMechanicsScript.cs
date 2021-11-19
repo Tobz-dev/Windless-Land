@@ -11,6 +11,8 @@ public class BossMechanicsScript : MonoBehaviour
     public Transform adSpawnPoint1, adSpawnPoint2;
     public GameObject attackHitboxRight;
     public GameObject attackHitboxLeft;
+    public List<GameObject> PillarList;
+
     // Start is called before the first frame update
 
     public void FadeIn(GameObject floor) 
@@ -56,5 +58,12 @@ public class BossMechanicsScript : MonoBehaviour
             yield return null;
         }
         //Debug.Log("Faded out");
+    }
+
+    public void DestroyRandomPillar()
+    {
+        GameObject go = PillarList[Random.Range(0, PillarList.Count)];
+        Destroy(go);
+        PillarList.Remove(go);
     }
 }
