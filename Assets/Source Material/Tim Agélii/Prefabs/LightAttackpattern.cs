@@ -166,7 +166,6 @@ public class LightAttackpattern : State
         }
 
 
-
     }
 
     void WaitToAttack()
