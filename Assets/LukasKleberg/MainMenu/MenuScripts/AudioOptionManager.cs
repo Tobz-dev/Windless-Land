@@ -19,11 +19,6 @@ public class AudioOptionManager : MonoBehaviour
         //like a string for the player pref. and then the volume, when that happens.
     }
 
-    public void ChangeVolume(float newVolume) 
-    { 
-        //set the volume of the corresponding fmod audio thing. 
-    }
-
     public void AudioToggle()
     {
         if (turnOn)

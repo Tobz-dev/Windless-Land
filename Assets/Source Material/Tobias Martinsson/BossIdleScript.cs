@@ -10,15 +10,20 @@ public class BossIdleScript : State
     SomeAgent Agent;
 
     private Transform CurrentPatrol;
+    private Quaternion originalRotation;
 
     protected override void Initialize()
     {
         Agent = (SomeAgent)Owner;
         Debug.Assert(Agent);
+        originalRotation = Agent.transform.rotation;
     }
 
     public override void Enter()
     {
+        
+        CurrentPatrol = Agent.GetPatrolPointByindex(2);
+        Agent.NavAgent.SetDestination(CurrentPatrol.position);
         Agent.GetComponent<HealthScript>().regainHealth(100);
         Agent.GetComponent<BossMechanicsScript>().fallingPlatform1.GetComponent<FallingPlatform>().respawn();
         Agent.GetComponent<BossMechanicsScript>().fallingPlatform2.GetComponent<FallingPlatform>().respawn();
@@ -34,6 +39,11 @@ public class BossIdleScript : State
     }
     public override void RunUpdate()
     {
+        Agent.transform.rotation = originalRotation;
+        if (Agent.NavAgent.remainingDistance <= 2f)
+        {
+            Agent.NavAgent.SetDestination(Agent.gameObject.transform.position);
+        }
 
         if (!Physics.Linecast(Agent.transform.position, Agent.PlayerPosition, Agent.CollisionLayer) && (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) < chaseDistance))
         {
