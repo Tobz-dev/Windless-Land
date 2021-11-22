@@ -9,7 +9,7 @@ public class AudioOptionManager : MonoBehaviour
     [SerializeField]
     private Slider slider;
     private float savedVolumeSetting;
-    private bool turnOn;
+    private bool turnAudioOn;
 
     public void Start()
     {
@@ -19,18 +19,18 @@ public class AudioOptionManager : MonoBehaviour
         //like a string for the player pref. and then the volume, when that happens.
     }
 
-    public void AudioToggle()
+    /*public void AudioToggle()
     {
-        if (turnOn)
+        if (turnAudioOn)
         {
             slider.value = savedVolumeSetting;
-            turnOn = !turnOn;
+            turnAudioOn = !turnAudioOn;
         }
         else
         {
             savedVolumeSetting = slider.value;
             slider.value = 0.0f;
-            turnOn = !turnOn;
+            turnAudioOn = !turnAudioOn;
         }
-    }
+    }*/
 }
