@@ -16,8 +16,8 @@ public class LightAttackpattern : State
     private bool stopAttack = false;
 
     private float playerToEnemyDistance;
+    private Vector3 playerToEnemyDir;
 
-   
     [SerializeField]
     private float enemyStoppingDistance;
     [SerializeField]
@@ -51,6 +51,8 @@ public class LightAttackpattern : State
 
     private bool inAttack = false;
 
+    private bool flee = false;
+
     
 
     //hitbox variables
@@ -82,30 +84,47 @@ public class LightAttackpattern : State
 
     public void Awake()
     {
-      
-
+        waitToAttack = false;
+        startAttack = true;
 
     }
     public override void RunUpdate()
     {
       
            
-         moveSpeed = getSpeed();
+         moveSpeed = GetSpeed();
         Agent.NavAgent.speed = moveSpeed;
-        Agent.NavAgent.SetDestination(Agent.PlayerPosition);
 
-        stopAttack = getStopAttack();
+    
+        stopAttack = GetStopAttack();
+        flee = GetFlee();
+
+        playerToEnemyDir = Agent.transform.position - Agent.PlayerPosition;
+        playerToEnemyDistance = Vector3.Distance(Agent.transform.position, Agent.PlayerPosition);
+
+    
+
+        if (flee == true)
+        {
+            Agent.NavAgent.isStopped = false;
+            Agent.NavAgent.SetDestination(Agent.transform.position + playerToEnemyDir);
+        }
+        else {
+            Agent.NavAgent.SetDestination(Agent.PlayerPosition);
+        }
 
 
-        playerToEnemyDistance = (Agent.PlayerPosition - Agent.NavAgent.transform.position).magnitude;
-
-      
-        if (Mathf.Abs(playerToEnemyDistance) <= enemyStoppingDistance)
+        if (flee == false)
+        {
+            if (Mathf.Abs(playerToEnemyDistance) <= enemyStoppingDistance)
         {
             Agent.NavAgent.isStopped = true;
         }
-        else {
-            Agent.NavAgent.isStopped = false;
+        else
+        {
+            
+                Agent.NavAgent.isStopped = false;
+            }
         }
 
 
@@ -131,17 +150,25 @@ public class LightAttackpattern : State
         }
     }
 
-    float getSpeed(){
+    float GetSpeed(){
         return Agent.transform.GetComponentInParent<LightAttackEvent>().GetEnemySpeed();
     }
 
-    bool getStopAttack() {
+    bool GetStopAttack() {
         return Agent.transform.GetComponentInParent<LightAttackEvent>().GetStopAttack();
+    }
+    bool GetFlee()
+    {
+        return Agent.transform.GetComponentInParent<LightAttackEvent>().GetFlee();
     }
     void SetStopAttackFalse()
     {
          Agent.transform.GetComponentInParent<LightAttackEvent>().SetStopAttack(false);
     }
+    void SetFleeFalse() {
+       Agent.transform.GetComponentInParent<LightAttackEvent>().SetFleeFalse();
+    }
+
 
     void AttackPattern()
     {
@@ -156,6 +183,7 @@ public class LightAttackpattern : State
         }
         if (startAttack == true)
         {
+            SetFleeFalse();
             Attack();
          
         }
@@ -177,7 +205,7 @@ public class LightAttackpattern : State
             waitToAttack = false;
          
             startAttack = true;
-
+           
         }
      
 
@@ -218,7 +246,7 @@ public class LightAttackpattern : State
 
             startAttack = false;
 
-
+       
 
         }
     }
