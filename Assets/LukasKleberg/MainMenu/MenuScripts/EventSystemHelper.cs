@@ -53,23 +53,25 @@ public class EventSystemHelper : MonoBehaviour
             {
                 //if it is a mouse press do nothing.
                 //Debug.Log("left mouse click");
-                //ApplyCurrentSelectedGameObject();
                 return;
             }
 
-            //if it is a keyboard input, then diable the mouse cursor. and enable to eventsystem selection.
-            Cursor.lockState = CursorLockMode.Locked;
-            //Cursor.visible = false;
+            else 
+            {
+                //else it is a keyboard input, then diable the mouse cursor. and enable to eventsystem selection.
+                Cursor.lockState = CursorLockMode.Locked;
+                //Cursor.visible = false;
 
-            isKeyBoardActive = true;
+                isKeyBoardActive = true;
 
-            SetToStartObject();
+                SetToStartObject();
 
-            //ApplyCurrentSelectedGameObject();
-            //Debug.Log("key press");
+                //ApplyCurrentSelectedGameObject();
+                //Debug.Log("key press");
+            }
+
         }
     }
-
 
 
     public void ChangeFirstSelectedObject(GameObject newFirstSelectedObject) 
@@ -83,11 +85,6 @@ public class EventSystemHelper : MonoBehaviour
         if (isKeyBoardActive)
         {
             ApplyCurrentSelectedGameObject();
-        }
-        else 
-        {
-            //do something here. argh
-            //SetToStartObject();
         }
 
         Debug.Log("now it is " + EventSystem.current.ToString());
