@@ -51,7 +51,7 @@ public class LightAttackpattern : State
 
     private bool inAttack = false;
 
-    private bool flee = false;
+   // private bool flee = false;
 
     
 
@@ -97,25 +97,25 @@ public class LightAttackpattern : State
 
     
         stopAttack = GetStopAttack();
-        flee = GetFlee();
+      
 
         playerToEnemyDir = Agent.transform.position - Agent.PlayerPosition;
         playerToEnemyDistance = Vector3.Distance(Agent.transform.position, Agent.PlayerPosition);
 
-    
 
-        if (flee == true)
+      
+           //flee = GetFlee();
+        /*if (flee == true)
         {
             Agent.NavAgent.isStopped = false;
             Agent.NavAgent.SetDestination(Agent.transform.position + playerToEnemyDir);
-        }
-        else {
+        }*/
+         
             Agent.NavAgent.SetDestination(Agent.PlayerPosition);
-        }
+        
+     
 
-
-        if (flee == false)
-        {
+        
             if (Mathf.Abs(playerToEnemyDistance) <= enemyStoppingDistance)
         {
             Agent.NavAgent.isStopped = true;
@@ -124,8 +124,8 @@ public class LightAttackpattern : State
         {
             
                 Agent.NavAgent.isStopped = false;
-            }
-        }
+           }
+        
 
 
         if ((Mathf.Abs(playerToEnemyDistance) <= enemyMeleeDistance) && inAttack == false)
@@ -157,17 +157,20 @@ public class LightAttackpattern : State
     bool GetStopAttack() {
         return Agent.transform.GetComponentInParent<LightAttackEvent>().GetStopAttack();
     }
-    bool GetFlee()
+   
+    /*bool GetFlee()
     {
         return Agent.transform.GetComponentInParent<LightAttackEvent>().GetFlee();
     }
+      void SetFleeFalse() {
+       Agent.transform.GetComponentInParent<LightAttackEvent>().SetFleeFalse();
+    }
+    */
     void SetStopAttackFalse()
     {
          Agent.transform.GetComponentInParent<LightAttackEvent>().SetStopAttack(false);
     }
-    void SetFleeFalse() {
-       Agent.transform.GetComponentInParent<LightAttackEvent>().SetFleeFalse();
-    }
+  
 
 
     void AttackPattern()
@@ -183,7 +186,7 @@ public class LightAttackpattern : State
         }
         if (startAttack == true)
         {
-            SetFleeFalse();
+           // SetFleeFalse();
             Attack();
          
         }
