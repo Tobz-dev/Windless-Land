@@ -58,7 +58,7 @@ public class FontChange : MonoBehaviour
         PlayerPrefs.SetInt("FontIndex", fontIndex);
 
         //TMP_FontAsset testFont = fontToChangeTo;
-        Debug.Log("in ChangeFont. TextList is " + textMeshProUGUIList.Count);
+        //Debug.Log("in ChangeFont. TextList is " + textMeshProUGUIList.Count);
         foreach (TextMeshProUGUI textMeshProUGUI in textMeshProUGUIList)
         {
             if (textMeshProUGUI != null)
@@ -73,8 +73,8 @@ public class FontChange : MonoBehaviour
     public void ChangeFontSize(int newFontSize) 
     {
 
-        Debug.Log("in ChangeFontSize. newFontSize is " + newFontSize);
-        Debug.Log("in ChangeFontSize. currentFontSize is " + currentFontSize);
+        //Debug.Log("in ChangeFontSize. newFontSize is " + newFontSize);
+        //Debug.Log("in ChangeFontSize. currentFontSize is " + currentFontSize);
 
         int fontSizeDifference = newFontSize - currentFontSize;
 
@@ -83,7 +83,7 @@ public class FontChange : MonoBehaviour
         PlayerPrefs.SetInt("FontSize", currentFontSize);
 
 
-        Debug.Log("in ChangeFontSize. size differnece is " + fontSizeDifference);
+        //Debug.Log("in ChangeFontSize. size differnece is " + fontSizeDifference);
         //Debug.Log("in ChangeFontSize. new font size is" + currentFontSize);
 
         foreach (TextMeshProUGUI textMeshProUGUI in textMeshProUGUIList)

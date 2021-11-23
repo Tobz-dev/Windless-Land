@@ -14,7 +14,8 @@ public class VCAController : MonoBehaviour
     private Slider slider;
 
     private float savedVolumeSetting;
-    private bool turnAudioOn;
+    private bool isCurrentlyMuted;
+    public Image checkBoxImage;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +30,7 @@ public class VCAController : MonoBehaviour
         //Debug.Log("Setvolume, vcaVolume is:" + vcaVolume);
         PlayerPrefs.SetFloat(VcaName, vcaVolume);
 
+
     }
 
     //the settings need to be applied when the player starts the game. 
@@ -39,23 +41,40 @@ public class VCAController : MonoBehaviour
         slider = GetComponent<Slider>();
         VcaController.getVolume(out vcaVolume);
 
-        slider.value = (PlayerPrefs.GetFloat(VcaName));
+        slider.value = PlayerPrefs.GetFloat(VcaName);
 
+        string mutedString = PlayerPrefs.GetString(VcaName + "IsMuted", "NotMuted");
+
+        if (mutedString.Equals("Muted"))
+        {
+            Debug.Log("vca controller. string was muted");
+            checkBoxImage.enabled = true;
+            isCurrentlyMuted = true;
+        }
     }
 
     public void AudioToggle()
     {
         //this could use vcaVolume but I'm a bit unsure of how it works. -Lukas
-        if (turnAudioOn)
+        //if it is currently muted, then it unmutes by setting to the saved value.
+        Debug.Log("in audiotoggle. currently muted is: " + isCurrentlyMuted);
+        if (isCurrentlyMuted)
         {
-            slider.value = savedVolumeSetting;
-            turnAudioOn = !turnAudioOn;
+            slider.value = PlayerPrefs.GetFloat(VcaName + "SavedValue");
+
+            isCurrentlyMuted = !isCurrentlyMuted;
+            //set string to NotMuted
+            PlayerPrefs.SetString(VcaName + "IsMuted", "NotMuted");
         }
+        //if it is currently not muted, it saves the current value and then mutes.
         else
         {
-            savedVolumeSetting = slider.value;
+            PlayerPrefs.SetFloat(VcaName + "SavedValue", slider.value);
+
             slider.value = 0.0f;
-            turnAudioOn = !turnAudioOn;
+            isCurrentlyMuted = !isCurrentlyMuted;
+            //set string to Muted
+            PlayerPrefs.SetString(VcaName + "IsMuted", "Muted");
         }
     }
 }
