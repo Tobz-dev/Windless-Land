@@ -108,15 +108,16 @@ public class LightAttackpattern : State
             Agent.NavAgent.isStopped = false;
         }
 
+
         if ((Mathf.Abs(playerToEnemyDistance) <= enemyMeleeDistance) && inAttack == false)
         {
             inMeleeRange = true;
-        }
-        else {
-
+        } else if ((Mathf.Abs(playerToEnemyDistance) > enemyMeleeDistance)) {
             inMeleeRange = false;
-                }
-        
+        }
+
+       
+
 
 
 
@@ -184,11 +185,11 @@ public class LightAttackpattern : State
 
     void LookAtPlayer()
     {
-        if (Agent.NavAgent.isStopped == true) {
+       // if (Agent.NavAgent.isStopped == true) {
             turnDirection = Agent.Player.position - Agent.transform.position;
             turnDirection.Normalize();
             Agent.transform.rotation = Quaternion.Slerp(Agent.transform.rotation, Quaternion.LookRotation(turnDirection), turnSpeed * Time.deltaTime);
-        }
+   //     }
         
 
         
@@ -201,10 +202,12 @@ public class LightAttackpattern : State
 
         if (startAttack == true)
         {
+            Debug.Log(playerToEnemyDistance);
+            Debug.Log(inMeleeRange);
 
             if (inMeleeRange)
             {
-                Agent.animator.SetTrigger("StartAttack");
+                Agent.animator.SetTrigger("StartAttack2");
             }
             else {
               

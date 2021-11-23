@@ -259,7 +259,7 @@ public class CharacterController : MonoBehaviour
         playerMovement = rightMovement + upMovement;
 
         inputDirection = playerMovement.normalized;
-        Debug.Log(playerMovement.magnitude);
+      
 
 
         if (playerMovement.magnitude > moveSpeed)
@@ -682,12 +682,12 @@ public class CharacterController : MonoBehaviour
         }
       
       
-        Debug.Log(currentAttack);
+    
     }
     void ResetAttackAni() {
         currentAttack = 1;
         currentAttackTrigger = "Attack" + currentAttack;
-        Debug.Log(currentAttack);
+      
     }
     void AttackCoolDown()
     {
@@ -706,13 +706,13 @@ public class CharacterController : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    Debug.Log("ATACK");
+                 
                     queueAttack = true;
                     queueDodge = false;
                 }
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    Debug.Log("DODGE");
+                   
                     queueAttack = false;
                     queueDodge = true;
                 }
