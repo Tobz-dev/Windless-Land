@@ -6,6 +6,11 @@ using UnityEngine.UI;
 public class DustParticlesPrototype : MonoBehaviour
 {
     [SerializeField]
+    private Button hideButton;
+    [SerializeField]
+    private Button showButton;
+
+    [SerializeField]
     private ParticleSystem dustParticles;
     [SerializeField]
     private Text hideButtonText;
