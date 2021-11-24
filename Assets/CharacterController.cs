@@ -9,7 +9,17 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     float moveSpeed;
 
-  
+
+    [SerializeField]
+    private int maxMana;
+    private int mana = 0;
+
+    [SerializeField]
+    private int bowManaCost;
+    [SerializeField]
+    private int heavyManaCost;
+
+
     float moveSpeedDefault;
 
     private Rigidbody playerRgb;
@@ -162,15 +172,14 @@ public class CharacterController : MonoBehaviour
     private bool queueBowCancel = false;
     private bool bowIsActive = false;
    
-    private int arrowAmmo;
-    [SerializeField]
-    private int arrowAmmoMax;
+
 
     // Start is called before the first frame update
     void Start()
     {
+      
         playerRgb = transform.GetComponent<Rigidbody>();
-        arrowAmmo = arrowAmmoMax;
+      
         bow.SetActive(false);
         canMove = true;
         plane = new Plane(Vector3.up, Vector3.zero);
@@ -182,7 +191,7 @@ public class CharacterController : MonoBehaviour
         moveSpeedDefault = moveSpeed;
 
         currentAttackTrigger = "Attack1";
-        gameObject.GetComponent<ArrowUI>().UpdateAmmo(arrowAmmo, arrowAmmoMax);
+     //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
     }
 
     // Update is called once per frame
@@ -283,6 +292,8 @@ public class CharacterController : MonoBehaviour
 
       
     }
+
+    
     
     void Move()
     {
@@ -291,6 +302,15 @@ public class CharacterController : MonoBehaviour
    
   
     }
+
+    public void ManaIncreased(int i) {
+        mana = mana + i;
+        if (mana > maxMana) {
+            mana = maxMana;
+        }
+    }
+
+
 
     void EquipManager() {
         if (bowIsActive == false && startAttackDelay == false && startAttackCooldown == false)
@@ -314,7 +334,7 @@ public class CharacterController : MonoBehaviour
     void BowManager() {
        if (bow.activeSelf == true && dodgerollTimerRunning == false && healthFlaskStart == false)
         {
-            if (bowIsActive == false && arrowAmmo > 0) {
+            if (bowIsActive == false && mana >= bowManaCost) {
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     StartBowDraw();
@@ -418,8 +438,9 @@ public class CharacterController : MonoBehaviour
 
     void BowFire() {
         InstantiateArrow();
-        arrowAmmo--;
-        gameObject.GetComponent<ArrowUI>().UpdateAmmo(arrowAmmo, arrowAmmoMax);
+        mana = mana - bowManaCost;
+        Debug.Log(mana + "  manaleft");
+     //   gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
      bowIsFinishedLoading = false;
      anim.SetTrigger("StopBow");
      anim.SetTrigger("BowRecoil");
@@ -622,8 +643,10 @@ public class CharacterController : MonoBehaviour
 
                 Attack();
             }
-            if (Input.GetKeyDown(KeyCode.Mouse1))
+            if (Input.GetKeyDown(KeyCode.Mouse1) && mana >= heavyManaCost)
             {
+                mana = mana - heavyManaCost;
+
                 ResetAttackAni();
 
                 HeavyAttack();
@@ -877,11 +900,11 @@ public class CharacterController : MonoBehaviour
     }
 
     public void addArrowAmmo(int i) {
-        arrowAmmo = arrowAmmo + i;
-        if (arrowAmmo > arrowAmmoMax) {
-            arrowAmmo = arrowAmmoMax;
+        mana = mana + i;
+        if (mana > maxMana) {
+            mana = maxMana;
         }
-        gameObject.GetComponent<ArrowUI>().UpdateAmmo(arrowAmmo, arrowAmmoMax);
+      //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
     }
 
     public float GetFlaskUses() {
@@ -889,13 +912,7 @@ public class CharacterController : MonoBehaviour
         return flaskUses;
     }
 
-    public int GetArrowAmmo() {
-        return arrowAmmo;
-    }
 
-    public int GetArrowAmmoMax() {
-        return arrowAmmoMax;
-    }
 
     public void SetFlaskUses(int x)
     {

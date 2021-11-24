@@ -233,8 +233,7 @@ public class LightAttackpattern : State
 
         if (startAttack == true)
         {
-            Debug.Log(playerToEnemyDistance);
-            Debug.Log(inMeleeRange);
+           
 
             if (inMeleeRange)
             {

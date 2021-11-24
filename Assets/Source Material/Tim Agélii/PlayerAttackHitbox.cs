@@ -1,40 +1,57 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//Main Author: Tim Agélii
-
+//Main Author: Henrik Rudï¿½n
+//secondary Author: Tim Agï¿½lii
 public class PlayerAttackHitbox : MonoBehaviour
 {
     [SerializeField]
-    private int damage = 1;
+    private float swingTime;
+    [SerializeField]
+    private int damage;
+    [SerializeField]
+    private string target;
+    [SerializeField]
+    private int manaPerHit;
 
-    private float deathTimer = 0;
+
+    private float deathTimer;
+
+    private Collider hitboxCollider;
+
+    private void Start()
+    {
+        hitboxCollider = GetComponent<Collider>();
+    }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.tag);
-        if (other.gameObject.tag == "Enemy")
+
+       
+
+
+        
+
+        if (other.gameObject.tag == target)
         {
-
-         
-                other.gameObject.GetComponent<HealthScript>().takeDamage(damage);
-                Debug.Log("Dealt 1 damage");
-
-                Destroy(this.gameObject);
-            
+            other.GetComponent<HealthScript>().takeDamage(damage);
+           
+            GetComponentInParent<CharacterController>().ManaIncreased(manaPerHit);
+            Debug.Log("gained " + manaPerHit);
 
         }
+
     }
 
     private void Awake()
     {
-        deathTimer = 0;
+        deathTimer = 0f;
     }
+
 
     private void Update()
     {
-        DeathTimer(0.3f);
+        DeathTimer(swingTime);
     }
-
 
 
     private void DeathTimer(float seconds)
