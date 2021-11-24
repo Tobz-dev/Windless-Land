@@ -8,7 +8,7 @@ public class FontChange : MonoBehaviour
 
     GameObject[] textObjects;
     private List<TextMeshProUGUI> textMeshProUGUIList = new List<TextMeshProUGUI>();
-    [SerializeField] private GameObject[] objectsToGetTextFrom;
+    [SerializeField] private GameObject[] objectsToGetTextFrom, objectsToGetTextFromAndSetActive;
     [SerializeField] private TMP_FontAsset[] fontsArray;
 
     //goes from 45 (min) to 60 (max) in increments of 5. 50 being default
@@ -24,6 +24,12 @@ public class FontChange : MonoBehaviour
             //Debug.Log("in fontchange test. activate object loop");
         }
 
+        for (int i = 0; i <= objectsToGetTextFromAndSetActive.Length - 1; i++)
+        {
+            objectsToGetTextFromAndSetActive[i].SetActive(true);
+            //Debug.Log("in fontchange test. activate object loop");
+        }
+
 
         textObjects = GameObject.FindGameObjectsWithTag("Text");
         for (int i = 0; i <= textObjects.Length - 1; i++)
@@ -32,7 +38,7 @@ public class FontChange : MonoBehaviour
             //Debug.Log("textMeshProUGUIList count is" + textMeshProUGUIList.Count);
         }
 
-        for (int i = 1; i <= objectsToGetTextFrom.Length - 1; i++)
+        for (int i = 0; i <= objectsToGetTextFrom.Length - 1; i++)
         {
             objectsToGetTextFrom[i].SetActive(false);
             //Debug.Log("in fontchange test. inactive object loop");
@@ -43,12 +49,6 @@ public class FontChange : MonoBehaviour
 
         ChangeFont(PlayerPrefs.GetInt("FontIndex", 0));
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-         
     }
 
     public void ChangeFont(int fontIndex)
