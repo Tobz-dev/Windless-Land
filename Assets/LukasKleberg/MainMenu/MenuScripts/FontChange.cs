@@ -8,7 +8,7 @@ public class FontChange : MonoBehaviour
 
     GameObject[] textObjects;
     private List<TextMeshProUGUI> textMeshProUGUIList = new List<TextMeshProUGUI>();
-    [SerializeField] private GameObject[] objectsToGetTextFrom, objectsToGetTextFromAndSetActive;
+    [SerializeField] private GameObject[] objectsToGetTextFromAndSetInactive, objectsToGetTextFromAndSetActive;
     [SerializeField] private TMP_FontAsset[] fontsArray;
 
     //goes from 45 (min) to 60 (max) in increments of 5. 50 being default
@@ -18,9 +18,9 @@ public class FontChange : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i <= objectsToGetTextFrom.Length - 1; i++)
+        for (int i = 0; i <= objectsToGetTextFromAndSetInactive.Length - 1; i++)
         {
-            objectsToGetTextFrom[i].SetActive(true);
+            objectsToGetTextFromAndSetInactive[i].SetActive(true);
             //Debug.Log("in fontchange test. activate object loop");
         }
 
@@ -38,9 +38,9 @@ public class FontChange : MonoBehaviour
             //Debug.Log("textMeshProUGUIList count is" + textMeshProUGUIList.Count);
         }
 
-        for (int i = 0; i <= objectsToGetTextFrom.Length - 1; i++)
+        for (int i = 0; i <= objectsToGetTextFromAndSetInactive.Length - 1; i++)
         {
-            objectsToGetTextFrom[i].SetActive(false);
+            objectsToGetTextFromAndSetInactive[i].SetActive(false);
             //Debug.Log("in fontchange test. inactive object loop");
         }
 
