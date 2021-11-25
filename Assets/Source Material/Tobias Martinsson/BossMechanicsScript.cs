@@ -12,6 +12,12 @@ public class BossMechanicsScript : MonoBehaviour
     public GameObject attackHitboxRight;
     public GameObject attackHitboxLeft;
     public List<GameObject> PillarList;
+    public List<GameObject> tempPillarList;
+
+    private void Start()
+    {
+        tempPillarList = new List<GameObject>(PillarList);
+    }
 
     // Start is called before the first frame update
 
@@ -19,7 +25,9 @@ public class BossMechanicsScript : MonoBehaviour
     {
         StartCoroutine(FadeTo(1.0f, 2.0f, floor));
     }
-   
+
+    
+
 
     IEnumerator FadeTo(float aValue, float aTime, GameObject floor)
     {
@@ -60,10 +68,22 @@ public class BossMechanicsScript : MonoBehaviour
         //Debug.Log("Faded out");
     }
 
+    public void RespawnPillars()
+    {
+        foreach (GameObject go in PillarList)
+        {
+            go.GetComponent<MeshRenderer>().enabled = true;
+            go.GetComponent<BoxCollider>().enabled = true;
+        }
+        tempPillarList = PillarList;
+    }
+
     public void DestroyRandomPillar()
     {
-        GameObject go = PillarList[Random.Range(0, PillarList.Count)];
-        Destroy(go);
-        PillarList.Remove(go);
+
+        GameObject go = tempPillarList[Random.Range(0, PillarList.Count)];
+        go.GetComponent<MeshRenderer>().enabled = false;
+        go.GetComponent<BoxCollider>().enabled = false;
+        tempPillarList.Remove(go);
     }
 }
