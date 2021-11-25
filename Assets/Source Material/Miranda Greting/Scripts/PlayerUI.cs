@@ -143,6 +143,7 @@ public class PlayerUI : MonoBehaviour
                 for (int i = health - 1; i < previousHealth - 1; i++)
                 {
                     hpSlotList[i + 1].transform.GetChild(1).gameObject.SetActive(false);
+                    hpSlotList[i + 1].transform.GetChild(2).gameObject.SetActive(false);
                     GameObject activeHP = hpSlotList[health].transform.GetChild(2).gameObject;
                     Animator anim = activeHP.transform.GetChild(1).GetComponent<Animator>();
                     anim.SetFloat("direction", 1);
@@ -175,7 +176,7 @@ public class PlayerUI : MonoBehaviour
         GameObject activeHP = hpSlotList[health].transform.GetChild(2).gameObject;
         Animator anim = activeHP.transform.GetChild(1).GetComponent<Animator>();
         anim.SetTrigger("shatter");
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
         activeHP.SetActive(false);
         if (health > 0)
         {
