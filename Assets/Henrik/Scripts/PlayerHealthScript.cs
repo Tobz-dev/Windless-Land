@@ -197,6 +197,12 @@ public class PlayerHealthScript : MonoBehaviour
         return health;
     }
 
+    public float GetMaxHealth()
+    {
+
+        return Maxhealth;
+    }
+
 
 
     public void ResetPotions()
