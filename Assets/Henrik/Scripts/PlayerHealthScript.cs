@@ -130,6 +130,20 @@ public class PlayerHealthScript : MonoBehaviour
         Debug.Log("REGAINED" + x + " HEALTH,  MAX IS NOW " + health);
     }
 
+    public bool RegainFlask()
+    {
+        if (flaskAmount < maxFlasks)
+        {
+            flaskAmount++;
+            flaskAmountText.text = flaskAmount + "/" + maxFlasks;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     private void HealthSetup()
     {
         if (health >= 1)
