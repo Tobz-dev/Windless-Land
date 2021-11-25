@@ -15,7 +15,8 @@ public class FallingPlatform : MonoBehaviour
     public float fallplaton;
     public bool isFalling = false;
     public Vector3 initialposition;
-    
+    public Animator shakeAnimationController;
+
 
     void OnCollisionEnter(Collision collidedWithThis)
     {
@@ -26,7 +27,7 @@ public class FallingPlatform : MonoBehaviour
             PlatformFalling.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
             PlatformFalling.start();
             PlatformFalling.release();
-
+            shakeAnimationController.SetBool("Shake", true);
         }
     }
 
@@ -75,7 +76,7 @@ public class FallingPlatform : MonoBehaviour
             meshRenderer.enabled = false;
             rbd.isKinematic = true;
             boxcollider.isTrigger = false;
-           
+            shakeAnimationController.SetBool("Shake", false);
             isFalling = false;
             respawn();
         }
