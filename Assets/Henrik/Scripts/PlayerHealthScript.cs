@@ -136,6 +136,7 @@ public class PlayerHealthScript : MonoBehaviour
         {
             flaskAmount++;
             flaskAmountText.text = flaskAmount + "/" + maxFlasks;
+            GetComponent<CharacterController>().SetFlaskUses(flaskAmount);
             return true;
         }
         else
