@@ -41,6 +41,7 @@ public class PlayerUI : MonoBehaviour
         flaskAmount = previousFlaskAmt = maxFlasks;
         flaskAmountText.text = maxFlasks + "/" + maxFlasks;
         maxMana = mana = previousMana = (int)characterController.GetMaxMana();
+        manaSlider.value = maxMana;
     }
 
 
@@ -60,12 +61,13 @@ public class PlayerUI : MonoBehaviour
             HealthSetup(health, maxHealth);
         }
 
-        //function for getting current mana
-        //mana = characterController.GetMana();
-        if(mana != previousMana)
+        mana = characterController.GetMana();
+        if(mana != previousMana && mana >= 0)
         {
+            Debug.Log(mana);
             manaSlider.value = mana;
             previousMana = mana;
+            Debug.Log("mana = " + mana);
         }
 
         //testing
