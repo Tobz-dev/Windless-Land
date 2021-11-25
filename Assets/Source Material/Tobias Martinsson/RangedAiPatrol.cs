@@ -30,6 +30,8 @@ public class RangedAiPatrol : State
         {
             CurrentPatrol = Agent.GetPatrolPoint;
             Agent.NavAgent.SetDestination(CurrentPatrol.position);
+            Agent.animator.SetFloat("XSpeed", 0);
+            Agent.animator.SetFloat("YSpeed", 1);
         }
 
         if (!Physics.Linecast(Agent.transform.position, Agent.PlayerPosition, Agent.CollisionLayer) && (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) < aggroDistance))

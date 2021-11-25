@@ -13,6 +13,9 @@ public class SurfaceController : MonoBehaviour
     private FMOD.Studio.EventInstance foosteps;
     private FMOD.Studio.EventInstance EnemyFootsteps;
     private FMOD.Studio.EventInstance EnemyAttack;
+    private FMOD.Studio.EventInstance BowDraw;
+    private FMOD.Studio.EventInstance PlayerAttack;
+    private FMOD.Studio.EventInstance BowShot;
 
     private void Update()
     {
@@ -171,10 +174,10 @@ public class SurfaceController : MonoBehaviour
 
     public void PlayAttack()
     {
-        foosteps = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Attack");
-        foosteps.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
-        foosteps.start();
-        foosteps.release();
+        PlayerAttack = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Attack");
+        PlayerAttack.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        PlayerAttack.start();
+        PlayerAttack.release();
 
     }
 
@@ -223,6 +226,24 @@ public class SurfaceController : MonoBehaviour
         EnemyAttack.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         EnemyAttack.start();
         EnemyAttack.release();
+
+    }
+
+    public void PlayBowDraw()
+    {
+        BowDraw = FMODUnity.RuntimeManager.CreateInstance("event:/Objects/BowDraw");
+        BowDraw.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        BowDraw.start();
+        BowDraw.release();
+
+    }
+
+    public void PlayBowShot()
+    {
+        BowShot = FMODUnity.RuntimeManager.CreateInstance("event:/Objects/ArrowShot");
+        BowShot.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        BowShot.start();
+        BowShot.release();
 
     }
 

@@ -2315,6 +2315,7 @@ GameObject:
   - component: {fileID: 7320430286777435471}
   - component: {fileID: 7320430286777435472}
   - component: {fileID: 7320430286777435473}
+  - component: {fileID: 6095870533994589733}
   m_Layer: 0
   m_Name: Enemy_heavy 1
   m_TagString: Enemy
@@ -2414,6 +2415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2890f511685fdb048901bc1a4d080b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
   Maxhealth: 12
   material: {fileID: 2100000, guid: c103ed8a6e675b5479be69ce128d0892, type: 2}
   originalMaterial: {fileID: 2100000, guid: 808ae2002bfb8fc48ad40d63ab54ea5a, type: 2}
@@ -2421,6 +2423,7 @@ MonoBehaviour:
   flaskAmountText: {fileID: 0}
   maxFlasks: 4
   healthSlider: {fileID: 4316817689855374726}
+  cameraFollow: {fileID: 0}
   playerInvincibilityTime: 0
 --- !u!54 &7320430286777435472
 Rigidbody:
@@ -2448,7 +2451,7 @@ Animator:
   m_GameObject: {fileID: 7320430286777435474}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: ea6f4f828be5eb34489adf521b7122c9, type: 3}
-  m_Controller: {fileID: 9100000, guid: 0bfcd76fb73a69b45b185e8b9dd2a058, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0e9b0c5e71a02ec4b86cfa6c3f041952, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -2457,6 +2460,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6095870533994589733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7320430286777435474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f7ce5019c3564408ef3e55c9b16606, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTerrain: 0
 --- !u!1 &7320430286788588602
 GameObject:
   m_ObjectHideFlags: 0

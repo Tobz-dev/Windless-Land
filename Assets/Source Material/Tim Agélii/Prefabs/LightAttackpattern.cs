@@ -10,7 +10,6 @@ public class LightAttackpattern : State
 {
     SomeAgent Agent;
 
-    private int chilldrenAmount;
 
     public Material attackIndicatorMaterial;
     public Material startMaterial;
@@ -31,26 +30,29 @@ public class LightAttackpattern : State
 
     private bool allowStop = true;
 
-
+    private bool startLastCooldown = false;
+    private bool startReset = false;
     private bool startAttack = false;
     private bool startCooldown = false;
-    private bool startDash = false;
-
-    private bool lookAtPlayer = true;
+    private bool startSwing = false;
+    private bool startSecondSwing = false;
+    private bool waitToAttack = true;
 
 
     //hitbox variables
+   
     [SerializeField]
-    private float dashDistanceOffset;
-    private float dashTime;
+    private float swingDuration;
     [SerializeField]
-    private float dashSpeed;
+    private float swingMovespeed;
     [SerializeField]
     private GameObject attackHitbox;
 
     [SerializeField]
-    private float swingTime;
+    private float swingCooldownTime;
 
+    [SerializeField]
+    private float patternCooldownTime;
     [SerializeField]
     private float attackWaitTime;
 
@@ -75,7 +77,7 @@ public class LightAttackpattern : State
 
 
        
-        chilldrenAmount = Agent.transform.childCount;
+       
     }
 
     public void Awake()
@@ -92,40 +94,51 @@ public class LightAttackpattern : State
 
         if ((Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) >= outOfRange) && allowStop)
         {
-            Debug.Log(" ATTACK TO CHASE");
+            
             StateMachine.ChangeState<LightChase>();
         }
     }
 
     void AttackPattern()
     {
-        if (lookAtPlayer == true)
+        if (waitToAttack == true)
         {
             Agent.NavAgent.isStopped = true;
+            WaitToAttack();
             LookAtPlayer();
         }
         if (startAttack == true)
         {
             Attack();
+            LookAtPlayer();
         }
-        if (startDash == true) {
-            Dash();
+        if (startSwing == true) {
+            Swing();
+        }
+        if (startSecondSwing) {
+            SecondSwing();
         }
         if (startCooldown == true)
         {
             CoolDown();
+        }
+        if (startLastCooldown == true) {
+            LastCooldown();
+        }
+        if (startReset) {
+            ResetPattern();
         }
 
 
 
     }
 
-    void LookAtPlayer()
+    void WaitToAttack()
     {
         allowStop = false;
         if (AttackWaitTimer(attackWaitTime))
         {
-            lookAtPlayer = false;
+            waitToAttack = false;
             Agent.transform.rotation = Agent.transform.rotation;
             startAttack = true;
 
@@ -139,6 +152,17 @@ public class LightAttackpattern : State
 
     }
 
+    void LookAtPlayer()
+    {
+       
+        
+            turnDirection = Agent.Player.position - Agent.transform.position;
+            turnDirection.Normalize();
+            Agent.transform.rotation = Quaternion.Slerp(Agent.transform.rotation, Quaternion.LookRotation(turnDirection), turnSpeed * Time.deltaTime);
+        
+
+    }
+
     void Attack()
     {
         if (startAttack == true)
@@ -146,69 +170,88 @@ public class LightAttackpattern : State
 
             if (AttackWaitTimer(attackChargeTime))
             {
-                Agent.animator.SetTrigger("Attack");
-                dashTime = (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) - dashDistanceOffset) / dashSpeed;
+              
+           
                 startAttack = false;
-                startDash = true;
-                for (int i = 0; i < chilldrenAmount; i++)
-                {
+                startSwing = true;
+                Agent.animator.SetTrigger("StartAttack");
 
-                    GameObject child = Agent.transform.GetChild(i).gameObject;
-                    if (child.TryGetComponent(out Renderer renderer) == true){
-                        renderer.material = startMaterial;
-                    }
-                    
-                }
 
             }
-            else
-            {
-                for (int i = 0; i < chilldrenAmount; i++)
-                {
 
-                    GameObject child = Agent.transform.GetChild(i).gameObject;
-                    if (child.TryGetComponent(out Renderer renderer) == true)
-                    {
-                        renderer.material = attackIndicatorMaterial;
-                    }
-
-                }
-            }
         }
     }
     void CoolDown()
     {
         if (startCooldown == true)
         {
-            if (AttackWaitTimer(swingTime))
+            if (AttackWaitTimer(swingCooldownTime))
             {
-                allowStop = true;
-                lookAtPlayer = true;
+                startSecondSwing = true;
                 startCooldown = false;
-                Agent.NavAgent.isStopped = false;
+                Agent.animator.SetTrigger("StopAttack");
+                Agent.animator.SetTrigger("StartAttack");
             }
         }
 
     }
 
-    void Dash()
-    {
-        if (startDash == true)
+    void LastCooldown() {
+        if (startLastCooldown == true)
         {
-            if (AttackWaitTimer(dashTime))
+            if (AttackWaitTimer(patternCooldownTime))
+            {
+                startReset = true;
+                startLastCooldown = false;
+            }
+        }
+    }
+    void ResetPattern() {
+        startReset = false;
+        allowStop = true;
+        waitToAttack = true;
+        startCooldown = false;
+        Agent.NavAgent.isStopped = false;
+        Agent.animator.SetTrigger("StopAttack");
+    }
+
+    void Swing()
+    {
+        if (startSwing == true)
+        {
+            if (AttackWaitTimer(swingDuration))
             {
                 InstantiateOneHitbox();
-                startDash = false;
+                startSwing = false;
                 startCooldown = true;
+              
+
             }
             else 
             {
-                Agent.transform.position += Agent.transform.forward.normalized * dashSpeed * Time.deltaTime;
+                LookAtPlayer();
+                Agent.transform.position += Agent.transform.forward.normalized * swingMovespeed * Time.deltaTime;
             }
         }
 
     }
 
+    void SecondSwing() {
+        if (startSecondSwing == true)
+        {
+            if (AttackWaitTimer(swingDuration))
+            {
+                InstantiateOneHitbox();
+                startSecondSwing = false;
+                startLastCooldown = true;
+            }
+            else
+            {
+                LookAtPlayer();
+                Agent.transform.position += Agent.transform.forward.normalized * swingMovespeed * Time.deltaTime;
+            }
+        }
+    }
     void InstantiateOneHitbox()
     {
 

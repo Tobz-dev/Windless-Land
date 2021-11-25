@@ -11,7 +11,11 @@ public class PauseMenu : MonoBehaviour
     [SerializeField]
     private GameObject pauseMenuUI;
 
+    [SerializeField]
+    private GameObject playerHP, arrowAmmo;
 
+    [SerializeField]
+    private GameObject eventSystemHelper;
 
     private void Start()
     {
@@ -43,14 +47,25 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuBackground.SetActive(false);
         pauseMenuUI.SetActive(false);
+        eventSystemHelper.SetActive(false);
+
+        playerHP.SetActive(true);
+        arrowAmmo.SetActive(true);
+
         Time.timeScale = 1.0f;
-        gameIsPaused = false;
+        gameIsPaused = false; 
     }
 
     public void Pause()
     {
         pauseMenuBackground.SetActive(true);
         pauseMenuUI.SetActive(true);
+        eventSystemHelper.SetActive(true);
+
+        playerHP.SetActive(false);
+        arrowAmmo.SetActive(false);
+
+
         Time.timeScale = 0.0f;
         gameIsPaused = true;
     }
