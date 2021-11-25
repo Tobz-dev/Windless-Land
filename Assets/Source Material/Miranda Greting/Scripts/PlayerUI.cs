@@ -144,7 +144,11 @@ public class PlayerUI : MonoBehaviour
                 {
                     hpSlotList[i + 1].transform.GetChild(1).gameObject.SetActive(false);
                     hpSlotList[i + 1].transform.GetChild(2).gameObject.SetActive(false);
-                    GameObject activeHP = hpSlotList[health].transform.GetChild(2).gameObject;
+                    GameObject activeHP = hpSlotList[maxHealth - 1].transform.GetChild(2).gameObject;
+                    if(health != maxHealth)
+                    {
+                        activeHP = hpSlotList[health].transform.GetChild(2).gameObject;
+                    }
                     Animator anim = activeHP.transform.GetChild(1).GetComponent<Animator>();
                     anim.SetFloat("direction", 1);
                     StartCoroutine(DeactivateSlot());
@@ -173,11 +177,15 @@ public class PlayerUI : MonoBehaviour
 
     private IEnumerator DeactivateSlot()
     {
-        GameObject activeHP = hpSlotList[health].transform.GetChild(2).gameObject;
-        Animator anim = activeHP.transform.GetChild(1).GetComponent<Animator>();
-        anim.SetTrigger("shatter");
-        yield return new WaitForSeconds(0.25f);
-        activeHP.SetActive(false);
+        GameObject activeHP = hpSlotList[maxHealth - 1].transform.GetChild(2).gameObject;
+        if (health < maxHealth)
+        {
+            activeHP = hpSlotList[health].transform.GetChild(2).gameObject;
+            Animator anim = activeHP.transform.GetChild(1).GetComponent<Animator>();
+            anim.SetTrigger("shatter");
+            yield return new WaitForSeconds(0.25f);
+            activeHP.SetActive(false);
+        }
         if (health > 0)
         {
             GameObject currentHP = hpSlotList[health - 1].transform.GetChild(2).gameObject;
