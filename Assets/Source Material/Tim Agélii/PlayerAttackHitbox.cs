@@ -33,7 +33,7 @@ public class PlayerAttackHitbox : MonoBehaviour
 
         if (other.gameObject.tag == target)
         {
-            other.GetComponent<HealthScript>().takeDamage(damage);
+            other.GetComponent<EnemyHealthScript>().takeDamage(damage);
            
             GetComponentInParent<CharacterController>().ManaIncreased(manaPerHit);
             Debug.Log("gained " + manaPerHit);
