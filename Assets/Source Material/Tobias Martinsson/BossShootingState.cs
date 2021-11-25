@@ -83,7 +83,7 @@ public class BossShootingState : State
         }
         else
         {
-            StateMachine.ChangeState<BossIdleScript>();
+            StateMachine.ChangeState<BossChooseAttackState>();
         }
         
     }

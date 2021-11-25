@@ -70,18 +70,19 @@ public class BossMechanicsScript : MonoBehaviour
 
     public void RespawnPillars()
     {
+        tempPillarList = new List<GameObject>(PillarList);
         foreach (GameObject go in PillarList)
         {
             go.GetComponent<MeshRenderer>().enabled = true;
             go.GetComponent<BoxCollider>().enabled = true;
         }
-        tempPillarList = PillarList;
+        
     }
 
     public void DestroyRandomPillar()
     {
 
-        GameObject go = tempPillarList[Random.Range(0, PillarList.Count)];
+        GameObject go = tempPillarList[Random.Range(0, tempPillarList.Count)];
         go.GetComponent<MeshRenderer>().enabled = false;
         go.GetComponent<BoxCollider>().enabled = false;
         tempPillarList.Remove(go);
