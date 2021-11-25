@@ -17,6 +17,9 @@ public class PauseMenu : MonoBehaviour
     [SerializeField]
     private GameObject eventSystemHelper;
 
+    [SerializeField]
+    private GameObject[] subMenus;
+
     private void Start()
     {
         if (gameIsPaused)
@@ -53,7 +56,13 @@ public class PauseMenu : MonoBehaviour
         arrowAmmo.SetActive(true);
 
         Time.timeScale = 1.0f;
-        gameIsPaused = false; 
+        gameIsPaused = false;
+
+        //Debug.Log("in PauseMenu. resume");
+        for (int i = 0; i <= subMenus.Length - 1; i++)
+        {
+            subMenus[i].SetActive(false);   
+        }
     }
 
     public void Pause()
