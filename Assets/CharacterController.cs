@@ -846,8 +846,8 @@ public class CharacterController : MonoBehaviour
     public void Respawn()
     {
         Debug.Log("Player Dead");
-        GetComponent<HealthScript>().regainHealth(100);
-        GetComponent<HealthScript>().ResetPotions();
+        GetComponent<PlayerHealthScript>().regainHealth(100);
+        GetComponent<PlayerHealthScript>().ResetPotions();
         Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
         Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         Dead.start();
