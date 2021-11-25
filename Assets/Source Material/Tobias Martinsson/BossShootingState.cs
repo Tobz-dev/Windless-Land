@@ -28,14 +28,14 @@ public class BossShootingState : State
         int currentHealth = Agent.GetComponent<EnemyHealthScript>().health;
         int maxHealth = Agent.GetComponent<EnemyHealthScript>().Maxhealth;
         
-        if(currentHealth > maxHealth * 0.1 && currentHealth < maxHealth * 0.25)
+        if(currentHealth > maxHealth * 0.1 && currentHealth < maxHealth * 0.5)
         {
             SpawnLeftEnemy();
             SpawnLeftEnemy();
             SpawnRightEnemy();
             SpawnRightEnemy();
         }
-        else if(currentHealth > maxHealth * 0.25)
+        else if(currentHealth > maxHealth * 0.5)
         {
             SpawnLeftEnemy();
             SpawnRightEnemy();
