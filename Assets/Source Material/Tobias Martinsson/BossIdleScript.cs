@@ -24,7 +24,7 @@ public class BossIdleScript : State
         
         CurrentPatrol = Agent.GetPatrolPointByindex(2);
         Agent.NavAgent.SetDestination(CurrentPatrol.position);
-        Agent.GetComponent<HealthScript>().regainHealth(100);
+        Agent.GetComponent<EnemyHealthScript>().regainHealth(100);
         Agent.GetComponent<BossMechanicsScript>().fallingPlatform1.GetComponent<FallingPlatform>().respawn();
         Agent.GetComponent<BossMechanicsScript>().fallingPlatform2.GetComponent<FallingPlatform>().respawn();
         Agent.GetComponent<BossMechanicsScript>().fallingPlatform3.GetComponent<FallingPlatform>().respawn();
