@@ -308,8 +308,12 @@ public class CharacterController : MonoBehaviour
         if (mana > maxMana) {
             mana = maxMana;
         }
+        //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
     }
 
+    public int GetMaxMana() {
+        return maxMana;
+    }
 
 
     void EquipManager() {
@@ -899,13 +903,7 @@ public class CharacterController : MonoBehaviour
         respawnPoint.transform.position = new Vector3(position.x, position.y + 2f, position.z);
     }
 
-    public void addArrowAmmo(int i) {
-        mana = mana + i;
-        if (mana > maxMana) {
-            mana = maxMana;
-        }
-      //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
-    }
+   
 
     public float GetFlaskUses() {
 

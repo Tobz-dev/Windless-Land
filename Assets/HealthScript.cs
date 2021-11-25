@@ -81,7 +81,7 @@ public class HealthScript : MonoBehaviour
             EnemyDead.start();
             EnemyDead.release();
             Destroy(gameObject);
-            GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>().addArrowAmmo(1);
+        
 
         }
 

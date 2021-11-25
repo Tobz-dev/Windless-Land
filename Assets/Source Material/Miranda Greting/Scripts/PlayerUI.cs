@@ -40,7 +40,7 @@ public class PlayerUI : MonoBehaviour
         maxFlasks = (int)characterController.GetFlaskUses();
         flaskAmount = previousFlaskAmt = maxFlasks;
         flaskAmountText.text = maxFlasks + "/" + maxFlasks;
-        maxArrows = characterController.GetArrowAmmoMax();
+    //    maxArrows = characterController.GetArrowAmmoMax();
         arrows = previousArrows = maxArrows;
         UpdateAmmo(arrows, maxArrows);
     }
@@ -62,7 +62,7 @@ public class PlayerUI : MonoBehaviour
             HealthSetup(health, maxHealth);
         }
 
-        arrows = characterController.GetArrowAmmo();
+       // arrows = characterController.GetArrowAmmo();
 
         if(arrows != previousArrows)
         {
