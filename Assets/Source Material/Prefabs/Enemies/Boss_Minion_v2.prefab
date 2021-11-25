@@ -283,6 +283,36 @@ Transform:
   m_Father: {fileID: 8729187606263082647}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &855399088120456064
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3950145617256097670}
+  m_Layer: 0
+  m_Name: PatrolPoint1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3950145617256097670
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 855399088120456064}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2273061987402923425}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &862875280370464508
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,6 +509,7 @@ Transform:
   - {fileID: 2302298701956151976}
   - {fileID: 143561279433785420}
   - {fileID: 7885384154679649268}
+  - {fileID: 3950145617256097670}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -537,6 +568,7 @@ MonoBehaviour:
   agentTransform: {fileID: 0}
   PatrolPoints:
   - {fileID: 7885384154679649268}
+  - {fileID: 3950145617256097670}
   collider: {fileID: 0}
   States:
   - {fileID: 11400000, guid: a9e73f5804c839a4aa8edb54c6b9d06a, type: 2}
