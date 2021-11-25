@@ -486,7 +486,7 @@ public class CharacterController : MonoBehaviour
 
     void HealthFlaskManager()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0 && startAttackDelay == false && startAttackCooldown == false && dodgerolling == false && bowIsActive == false)
+        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0 && startAttackDelay == false && startAttackCooldown == false && dodgerolling == false && bowIsActive == false && gameObject.GetComponent<PlayerHealthScript>().GetHealth() < gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth())
         {
             healthFlaskStart = true;
             HealthRefill = FMODUnity.RuntimeManager.CreateInstance("event:/Game/HealthRefill");
@@ -509,7 +509,7 @@ public class CharacterController : MonoBehaviour
                 if (FlaskWaitTimer(healthFlaskDuration))
                 {
 
-                    GetComponentInParent<HealthScript>().regainHealth(1);
+                    GetComponentInParent<PlayerHealthScript>().regainHealth(1);
                   
                     healthFlaskTimerRunning = false;
                     moveSpeed = moveSpeedDefault;
@@ -887,8 +887,8 @@ public class CharacterController : MonoBehaviour
     public void Respawn()
     {
         Debug.Log("Player Dead");
-        GetComponent<HealthScript>().regainHealth(100);
-        GetComponent<HealthScript>().ResetPotions();
+        GetComponent<PlayerHealthScript>().regainHealth(100);
+        GetComponent<PlayerHealthScript>().ResetPotions();
         Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
         Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         Dead.start();
