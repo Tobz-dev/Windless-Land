@@ -659,6 +659,9 @@ GameObject:
   - component: {fileID: 7080027371258481432}
   - component: {fileID: 6192050316224529597}
   - component: {fileID: 8217490134631215223}
+  - component: {fileID: 700894386}
+  - component: {fileID: 700894387}
+  - component: {fileID: 700894388}
   m_Layer: 0
   m_Name: ManaFountain
   m_TagString: Untagged
@@ -741,6 +744,45 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &700894386
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7569037828535341474}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.8485944, y: 1.4377043, z: 1.9418269}
+  m_Center: {x: 0.011675855, y: 0.5009427, z: -0.2186616}
+--- !u!64 &700894387
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7569037828535341474}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 209025349390182283, guid: d1525ec4dbdae1a449549ff095a43e9d, type: 3}
+--- !u!114 &700894388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7569037828535341474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ba366800616a454d84e2c1cf19f5168, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8317241305726960980
 GameObject:
   m_ObjectHideFlags: 0
