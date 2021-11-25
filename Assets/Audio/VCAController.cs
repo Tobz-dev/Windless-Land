@@ -41,7 +41,7 @@ public class VCAController : MonoBehaviour
         slider = GetComponent<Slider>();
         VcaController.getVolume(out vcaVolume);
 
-        slider.value = PlayerPrefs.GetFloat(VcaName);
+        slider.value = PlayerPrefs.GetFloat(VcaName, 1.0f);
 
         string mutedString = PlayerPrefs.GetString(VcaName + "IsMuted", "NotMuted");
 
