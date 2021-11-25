@@ -11,7 +11,7 @@ public class PanelHandler : MonoBehaviour
     [SerializeField] private GameObject panel;
     [SerializeField] private GameObject logPanel;
     //[SerializeField] private Text logText;
-    [SerializeField] private TextMeshProUGUI pressText;
+    [SerializeField] private Text pressText;
     [SerializeField] private TextMeshProUGUI textmesh;
     private bool readLog;
     public int logNumber;
