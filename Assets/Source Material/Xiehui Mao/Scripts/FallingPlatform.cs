@@ -80,6 +80,16 @@ public class FallingPlatform : MonoBehaviour
             isFalling = false;
             respawn();
         }
+
+        if(col.tag == "StopShaking")
+        {
+            StopShaking();
+        }
+    }
+
+    public void StopShaking()
+    {
+        shakeAnimationController.SetBool("Shake", false);
     }
 }
 
