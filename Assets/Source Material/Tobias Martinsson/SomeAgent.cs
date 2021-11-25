@@ -38,6 +38,12 @@ public class SomeAgent : MonoBehaviour
         StateMachine.RunUpdate();
     }
 
+    public Transform GetPatrolPointByindex(int x)
+    {
+        Transform patPoint = PatrolPoints[x];
+        return patPoint;
+    }
+
     public void SetPatrolPoints(List<Transform> pPoints)
     {
         PatrolPoints = pPoints;

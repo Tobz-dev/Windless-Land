@@ -9,26 +9,32 @@ public class PickUpManager : MonoBehaviour
     //public LeverAnim leveranim;
 
 
-    [SerializeField] private GameObject panel;
+    public GameObject panel;
+    public Text pressText;
+
     //[SerializeField] private GameObject logPanel;
+
     private bool pickUpAllowed;
     //private bool insideArea;
-    //private bool readLog;
+    private bool readLog;
     //private bool hasOpenedDoor;
     //private bool canPushLever;
     private GameObject key;
-    [SerializeField] private Text pressText;
+    
     //[SerializeField] private Text logText;
     private int hasKey;
+    //private PanelHandler ph;
+    
 
 
 
 
     void Start()
     {
-        //panel.SetActive(false);
+        panel.SetActive(false);
         hasKey = 0;
         //logPanel.SetActive(false);
+        
     }
 
     private void Update()
@@ -43,7 +49,26 @@ public class PickUpManager : MonoBehaviour
             pickUpAllowed = false;
         }
 
-        
+        //if (readLog && Input.GetKeyDown(KeyCode.E))
+       // {
+            //ph.displayText();
+            //logPanel.SetActive(true);
+
+
+            //if (logPanel == isActiveAndEnabled)
+            //{
+              //  panel.SetActive(false);
+            //}
+        //}
+
+        //if (logPanel == isActiveAndEnabled && Input.GetKeyDown(KeyCode.Escape))
+        //{
+          //  logPanel.SetActive(false);
+        //}
+
+
+
+
         /*if(pickUpAllowed && !hasKey && Input.GetKeyDown(KeyCode.E))
         {
             key.SetActive(false);
@@ -52,39 +77,33 @@ public class PickUpManager : MonoBehaviour
             Debug.Log("HAS KEY");
         }*/
 
-       /* if (insideArea && hasKey == 1 && Input.GetKeyDown(KeyCode.E))
-        {
-            anim.openDoor();
-            hasKey = 0;
-            Debug.Log("No longer have key");
-            insideArea = false;
-            panel.SetActive(false);
-            hasOpenedDoor = true;
+        /* if (insideArea && hasKey == 1 && Input.GetKeyDown(KeyCode.E))
+         {
+             anim.openDoor();
+             hasKey = 0;
+             Debug.Log("No longer have key");
+             insideArea = false;
+             panel.SetActive(false);
+             hasOpenedDoor = true;
 
-            if (hasOpenedDoor)
-            {
-                panel.SetActive(false);
-            }
+             if (hasOpenedDoor)
+             {
+                 panel.SetActive(false);
+             }
+
+        
 
 
 
 
-        }
-        if (readLog && Input.GetKeyDown(KeyCode.E))
-        {
-            logPanel.SetActive(true);
+         }
 
-            if (logPanel == isActiveAndEnabled)
-            {
-                panel.SetActive(false);
-            }
-        }
 
-        if (canPushLever && Input.GetKeyDown(KeyCode.E))
-        {
-            panel.SetActive(false);
-            leveranim.pullLever();
-        }*/
+         if (canPushLever && Input.GetKeyDown(KeyCode.E))
+         {
+             panel.SetActive(false);
+             leveranim.pullLever();
+         }*/
     }
 
     private void OnTriggerEnter(Collider other)
@@ -105,6 +124,11 @@ public class PickUpManager : MonoBehaviour
             //pressText.text = "Press E To Pick Up Key";
         }
 
+     
+        
+
+
+
         /*if (other.gameObject.CompareTag("Door"))
         {
             panel.SetActive(true);
@@ -121,18 +145,22 @@ public class PickUpManager : MonoBehaviour
             }
 
         }*/
-        /*if (other.gameObject.CompareTag("Logs"))
-        {
-            panel.SetActive(true);
-            pressText.text = "Press E to read Log";
-            readLog = true;
-        }
+        /*
 
         if (other.gameObject.CompareTag("Lever"))
         {
             panel.SetActive(true);
             pressText.text = "press E to pull lever!";
             canPushLever = true;
+        }
+        
+         
+         
+         if (other.gameObject.CompareTag("Logs"))
+        {
+            panel.SetActive(true);
+            pressText.text = "Press E to read Log";
+            readLog = true;
         }*/
     }
 
@@ -145,6 +173,11 @@ public class PickUpManager : MonoBehaviour
             pickUpAllowed = false;
             panel.SetActive(false);
         }
+
+
+        
+
+
         /*if (other.gameObject.CompareTag("Key"))
         {
             panel.SetActive(false);
@@ -155,15 +188,18 @@ public class PickUpManager : MonoBehaviour
             panel.SetActive(false);
             insideArea = false;
         }
-        if (other.gameObject.CompareTag("Logs"))
-        {
-            panel.SetActive(false);
-            readLog = false;
-        }
+        
         if (other.gameObject.CompareTag("Lever"))
         {
             panel.SetActive(false);
             canPushLever = false;
+        }
+        
+         
+          if (other.gameObject.CompareTag("Logs"))
+        {
+            panel.SetActive(false);
+            readLog = false;
         }*/
     }
 

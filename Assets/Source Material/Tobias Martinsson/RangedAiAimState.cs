@@ -31,6 +31,7 @@ public class RangedAiAimState : State
 
         if (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) <= aggroDistance)
         {
+            Agent.animator.SetTrigger("DrawBow");
             Agent.NavAgent.updateRotation = false;
             Vector3 targetPostition = new Vector3(Agent.Player.position.x,
                                         Agent.transform.position.y,
@@ -41,6 +42,8 @@ public class RangedAiAimState : State
             shootCooldown -= Time.deltaTime;
             if (shootCooldown < 0)
             {
+                Agent.animator.SetTrigger("StopBow");
+                Agent.animator.SetTrigger("BowRecoil");
                 Agent.GetComponent<ArrowScript>().shootArrow();
                 shootCooldown = originalTime;
             }

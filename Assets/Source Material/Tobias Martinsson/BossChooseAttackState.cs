@@ -11,6 +11,8 @@ public class BossChooseAttackState : State
     private float originalTime;
     private Quaternion originalRotation;
     private float aggroDistance;
+    private Transform CurrentPatrol;
+    private int enrageCounter = 0;
 
     protected override void Initialize()
     {
@@ -24,15 +26,42 @@ public class BossChooseAttackState : State
     public override void Enter()
     {
         Debug.Log("Choosing attack.");
+
         Agent.transform.rotation = originalRotation;
     }
     public override void RunUpdate()
     {
+        Agent.transform.rotation = originalRotation;
+        CurrentPatrol = Agent.GetPatrolPointByindex(0);
+        Agent.NavAgent.SetDestination(CurrentPatrol.position);
+
+        Debug.Log(Agent.GetComponent<HealthScript>().health);
+        Debug.Log(Agent.GetComponent<HealthScript>().health * 0.75);
+        if (Agent.GetComponent<HealthScript>().health < Agent.GetComponent<HealthScript>().Maxhealth * 0.75 && enrageCounter == 0)
+        {
+            enrageCounter++;
+            Agent.GetComponent<BossMechanicsScript>().DestroyRandomPillar();
+            StateMachine.ChangeState<BossShootingState>();
+        }
+        else if (Agent.GetComponent<HealthScript>().health < Agent.GetComponent<HealthScript>().Maxhealth * 0.5 && enrageCounter == 1)
+        {
+            enrageCounter++;
+            StateMachine.ChangeState<BossShootingState>();
+            Agent.GetComponent<BossMechanicsScript>().DestroyRandomPillar();
+        }
+        else if(Agent.GetComponent<HealthScript>().health < Agent.GetComponent<HealthScript>().Maxhealth * 0.25 && enrageCounter == 2)
+        {
+            enrageCounter++;
+            StateMachine.ChangeState<BossShootingState>();
+            Agent.GetComponent<BossMechanicsScript>().DestroyRandomPillar();
+        }
+
         attackCooldown -= Time.deltaTime;
         if (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) <= aggroDistance)
         {
             if (attackCooldown < 0)
             {
+
                 int randomAttackStateIndex = Random.Range(2, Agent.States.Length);
                 //Debug.Log(randomAttackStateIndex);
                 switch (randomAttackStateIndex)
@@ -41,7 +70,7 @@ public class BossChooseAttackState : State
                         StateMachine.ChangeState<BossFloorAttackState>();
                         break;
                     case 3:
-                        StateMachine.ChangeState<BossShootingState>();
+                        StateMachine.ChangeState<BossFloorAttackState>();
                         break;
                     default:
                         break;
@@ -55,27 +84,5 @@ public class BossChooseAttackState : State
             StateMachine.ChangeState<BossIdleScript>();
 
         }
-        
-
-        //Agent.GetComponent<BossMechanicsScript>().fadeIn(Agent.GetComponent<BossMechanicsScript>().leftFloor);
-        //Shoots arrows continuously at player.
-        /*
-        Agent.NavAgent.updateRotation = false;
-        Vector3 targetPostition = new Vector3(Agent.Player.position.x,
-                                    Agent.transform.position.y,
-                                    Agent.Player.position.z);
-        Agent.transform.LookAt(targetPostition);
-        Vector3.RotateTowards(Agent.transform.position, Agent.PlayerPosition, 2, 0);
-
-        shootCooldown -= Time.deltaTime;
-        if (shootCooldown < 0)
-        {
-            Agent.GetComponent<ArrowScript>().shootArrow();
-            shootCooldown = originalTime;
-        }
-        */
-
-
-
     }
 }

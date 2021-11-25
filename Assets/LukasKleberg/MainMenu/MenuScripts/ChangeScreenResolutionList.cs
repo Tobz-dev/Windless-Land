@@ -19,11 +19,8 @@ public class ChangeScreenResolutionList : MonoBehaviour
 
     private int currentResolutionIndex = 0;
 
-    private bool inFullscreen;
-    public Image windowedCheckBoxImage;
-
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         //on build Unity gets repeat values for resolutions
         //this solves the problem, but this keeps the refresh rate stuck at 60Hz. (I've tried tons of other solutions).
@@ -37,15 +34,7 @@ public class ChangeScreenResolutionList : MonoBehaviour
         currentResolutionIndex = PlayerPrefs.GetInt("ResolutionPrefKey", resolutionArray.Length - 1);
 
         SetResolutionText(resolutionArray[currentResolutionIndex]);
-
-        //check if the game starts in fullscreen. TODO: playerpref that remembers this setting
-        //this is reversed because the button says "toggle windowed", so if it shouldn't be changed if the game is fullscreen
-        if (Screen.fullScreen == true)
-        {
-            Debug.Log("ChangeScreenResolution. on start set to fullscreen");
-            inFullscreen = false;
-            windowedCheckBoxImage.enabled = false;
-        }
+        
     }
 
     private void SetResolutionText(Resolution resolution) 
@@ -58,7 +47,7 @@ public class ChangeScreenResolutionList : MonoBehaviour
         currentResolutionIndex = GetNextWrappedIndex(resolutionArray, currentResolutionIndex);
         SetResolutionText(resolutionArray[currentResolutionIndex]);
 
-        Debug.Log("in SetNextResolution, is x "+ resolutionArray[currentResolutionIndex].width + " y " + resolutionArray[currentResolutionIndex].height);
+        //Debug.Log("in SetNextResolution, is x "+ resolutionArray[currentResolutionIndex].width + " y " + resolutionArray[currentResolutionIndex].height);
     }
 
     public void SetPreviousResolution()
@@ -66,7 +55,15 @@ public class ChangeScreenResolutionList : MonoBehaviour
         currentResolutionIndex = GetPreviousWrappedIndex(resolutionArray, currentResolutionIndex);
         SetResolutionText(resolutionArray[currentResolutionIndex]);
 
-        Debug.Log("in SetPreviousResolution, is x " + resolutionArray[currentResolutionIndex].width + " y " + resolutionArray[currentResolutionIndex].height);
+        //Debug.Log("in SetPreviousResolution, is x " + resolutionArray[currentResolutionIndex].width + " y " + resolutionArray[currentResolutionIndex].height);
+    }
+
+    public void SetDefaultResolution() 
+    {
+        Debug.Log("in SetDefaultResolution");
+
+        currentResolutionIndex = resolutionArray.Length - 1;
+        ApplyResolution();
     }
 
     private void ApplyNewResolution(int newResolutionIndex) 
@@ -78,7 +75,7 @@ public class ChangeScreenResolutionList : MonoBehaviour
     private void ApplyResolution() 
     {
         Resolution newResolution = resolutionArray[currentResolutionIndex];
-        Debug.Log("in ApplyResolution, is x " + newResolution.width + " y " + newResolution.height);
+        //Debug.Log("in ApplyResolution, is x " + newResolution.width + " y " + newResolution.height);
 
         Screen.SetResolution(newResolution.width, newResolution.height, Screen.fullScreen);
     }
@@ -88,20 +85,19 @@ public class ChangeScreenResolutionList : MonoBehaviour
         ApplyNewResolution(currentResolutionIndex);
     }
 
-    public void ToggleWindow()
+    public void ToggleWindow(bool setToFullscreen)
     {
 
-        if (Screen.fullScreen == true)
+        if (setToFullscreen == true)
         {
-            Debug.Log("ChangeScreenResolution. set to windowed");
+            //Debug.Log("ChangeScreenResolution. set to windowed");
             Screen.fullScreen = false;
-            inFullscreen = false;
         }
         else
         {
-            Debug.Log("ChangeScreenResolution. set to fullscreen");
+            //Debug.Log("ChangeScreenResolution. set to fullscreen");
             Screen.fullScreen = true;
-            inFullscreen = true;
+
         }
     }
 

@@ -8,17 +8,18 @@ public class BossFloorAttackState : State
 {
     SomeAgent Agent;
     private float originalTime;
-
+    private Quaternion originalRotation;
 
     protected override void Initialize()
     {
         Agent = (SomeAgent)Owner;
         Debug.Assert(Agent);
+        originalRotation = Agent.transform.rotation;
     }
 
     public override void Enter()
     {
-
+        Agent.transform.rotation = originalRotation;
         //Debug.Log("Attack #1. Floor attack.");
         int rand = randomNumber();
         Debug.Log(rand);
@@ -30,6 +31,8 @@ public class BossFloorAttackState : State
         {
             Agent.GetComponent<BossMechanicsScript>().FadeIn(Agent.GetComponent<BossMechanicsScript>().rightFloor);
         }
+
+
     }
     public override void RunUpdate()
     {
