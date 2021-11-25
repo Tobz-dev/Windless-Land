@@ -13,62 +13,64 @@ public class LightAttackpattern : State
 
     public Material attackIndicatorMaterial;
     public Material startMaterial;
-   
+    private bool stopAttack = false;
+
+    private float playerToEnemyDistance;
+    private Vector3 playerToEnemyDir;
+
     [SerializeField]
-    public float outOfRange;
-   
-    
+    private float enemyStoppingDistance;
+    [SerializeField]
+    private float enemyMeleeDistance;
+    [SerializeField]
+    private float outOfRange;
+
+    bool inMeleeRange = false;
+
     private float attackTimer = 0;
 
     [SerializeField]
     private float turnSpeed;
-    [SerializeField]
-    private float attackChargeTime;
+
+    private float moveSpeed = 0;
+
+ 
+
     Vector3 turnDirection;
 
     //public GameObject hitBox;
 
     private bool allowStop = true;
 
-    private bool startLastCooldown = false;
-    private bool startReset = false;
+
+  
     private bool startAttack = false;
-    private bool startCooldown = false;
-    private bool startSwing = false;
-    private bool startSecondSwing = false;
+
+
     private bool waitToAttack = true;
 
+    private bool inAttack = false;
+
+   // private bool flee = false;
+
+    
 
     //hitbox variables
-   
-    [SerializeField]
-    private float swingDuration;
-    [SerializeField]
-    private float swingMovespeed;
-    [SerializeField]
-    private GameObject attackHitbox;
+
+
 
     [SerializeField]
     private float swingCooldownTime;
 
-    [SerializeField]
-    private float patternCooldownTime;
+
     [SerializeField]
     private float attackWaitTime;
 
-    [SerializeField]
-    private Vector3 hitboxOffset;
-
-    [SerializeField]
-    private float xRotationOffset;
-    [SerializeField]
-    private float yRotationOffset;
-    [SerializeField]
-    private float zRotationOffset;
 
     [SerializeField]
     private Animator enemyAnim;
 
+    
 
     protected override void Initialize()
     {
@@ -76,59 +78,124 @@ public class LightAttackpattern : State
         Debug.Assert(Agent);
 
 
-       
-       
+
+
     }
 
     public void Awake()
     {
-      
-
+        waitToAttack = false;
+        startAttack = true;
 
     }
     public override void RunUpdate()
     {
+      
+           
+         moveSpeed = GetSpeed();
+        Agent.NavAgent.speed = moveSpeed;
 
-        AttackPattern();
+    
+        stopAttack = GetStopAttack();
+      
+
+        playerToEnemyDir = Agent.transform.position - Agent.PlayerPosition;
+        playerToEnemyDistance = Vector3.Distance(Agent.transform.position, Agent.PlayerPosition);
 
 
-        if ((Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) >= outOfRange) && allowStop)
+      
+           //flee = GetFlee();
+        /*if (flee == true)
+        {
+            Agent.NavAgent.isStopped = false;
+            Agent.NavAgent.SetDestination(Agent.transform.position + playerToEnemyDir);
+        }*/
+         
+            Agent.NavAgent.SetDestination(Agent.PlayerPosition);
+        
+     
+
+        
+            if (Mathf.Abs(playerToEnemyDistance) <= enemyStoppingDistance)
+        {
+            Agent.NavAgent.isStopped = true;
+        }
+        else
         {
             
+                Agent.NavAgent.isStopped = false;
+           }
+        
+
+
+        if ((Mathf.Abs(playerToEnemyDistance) <= enemyMeleeDistance) && inAttack == false)
+        {
+            inMeleeRange = true;
+        } else if ((Mathf.Abs(playerToEnemyDistance) > enemyMeleeDistance)) {
+            inMeleeRange = false;
+        }
+
+       
+
+
+
+
+            AttackPattern();
+        
+        if ((Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) >= outOfRange) && allowStop)
+        {
+
             StateMachine.ChangeState<LightChase>();
+
         }
     }
 
+    float GetSpeed(){
+        return Agent.transform.GetComponentInParent<LightAttackEvent>().GetEnemySpeed();
+    }
+
+    bool GetStopAttack() {
+        return Agent.transform.GetComponentInParent<LightAttackEvent>().GetStopAttack();
+    }
+   
+    /*bool GetFlee()
+    {
+        return Agent.transform.GetComponentInParent<LightAttackEvent>().GetFlee();
+    }
+      void SetFleeFalse() {
+       Agent.transform.GetComponentInParent<LightAttackEvent>().SetFleeFalse();
+    }
+    */
+    void SetStopAttackFalse()
+    {
+         Agent.transform.GetComponentInParent<LightAttackEvent>().SetStopAttack(false);
+    }
+  
+
+
     void AttackPattern()
     {
+        inAttack = true;
+
+        LookAtPlayer();
         if (waitToAttack == true)
         {
-            Agent.NavAgent.isStopped = true;
+      
             WaitToAttack();
-            LookAtPlayer();
+           
         }
         if (startAttack == true)
         {
+           // SetFleeFalse();
             Attack();
-            LookAtPlayer();
+         
         }
-        if (startSwing == true) {
-            Swing();
-        }
-        if (startSecondSwing) {
-            SecondSwing();
-        }
-        if (startCooldown == true)
-        {
-            CoolDown();
-        }
-        if (startLastCooldown == true) {
-            LastCooldown();
-        }
-        if (startReset) {
+      
+     
+        if (stopAttack == true) {
             ResetPattern();
+            inAttack = false;
         }
-
 
 
     }
@@ -139,125 +206,66 @@ public class LightAttackpattern : State
         if (AttackWaitTimer(attackWaitTime))
         {
             waitToAttack = false;
-            Agent.transform.rotation = Agent.transform.rotation;
+         
             startAttack = true;
-
+           
         }
-        else
-        {
-            turnDirection = Agent.Player.position - Agent.transform.position;
-            turnDirection.Normalize();
-            Agent.transform.rotation = Quaternion.Slerp(Agent.transform.rotation, Quaternion.LookRotation(turnDirection), turnSpeed * Time.deltaTime);
-        }
+     
 
     }
 
     void LookAtPlayer()
     {
-       
-        
+       // if (Agent.NavAgent.isStopped == true) {
             turnDirection = Agent.Player.position - Agent.transform.position;
             turnDirection.Normalize();
             Agent.transform.rotation = Quaternion.Slerp(Agent.transform.rotation, Quaternion.LookRotation(turnDirection), turnSpeed * Time.deltaTime);
+   //     }
+        
+
         
 
     }
 
     void Attack()
     {
+
+
         if (startAttack == true)
         {
-
-            if (AttackWaitTimer(attackChargeTime))
-            {
-              
            
-                startAttack = false;
-                startSwing = true;
+
+            if (inMeleeRange)
+            {
+                Agent.animator.SetTrigger("StartAttack2");
+            }
+            else {
+              
+
                 Agent.animator.SetTrigger("StartAttack");
 
-
             }
+
+            startAttack = false;
+
+       
 
         }
     }
-    void CoolDown()
-    {
-        if (startCooldown == true)
-        {
-            if (AttackWaitTimer(swingCooldownTime))
-            {
-                startSecondSwing = true;
-                startCooldown = false;
-                Agent.animator.SetTrigger("StopAttack");
-                Agent.animator.SetTrigger("StartAttack");
-            }
-        }
+   
 
-    }
+    
 
-    void LastCooldown() {
-        if (startLastCooldown == true)
-        {
-            if (AttackWaitTimer(patternCooldownTime))
-            {
-                startReset = true;
-                startLastCooldown = false;
-            }
-        }
-    }
     void ResetPattern() {
-        startReset = false;
         allowStop = true;
         waitToAttack = true;
-        startCooldown = false;
-        Agent.NavAgent.isStopped = false;
+       
+        SetStopAttackFalse();
         Agent.animator.SetTrigger("StopAttack");
     }
 
-    void Swing()
-    {
-        if (startSwing == true)
-        {
-            if (AttackWaitTimer(swingDuration))
-            {
-                InstantiateOneHitbox();
-                startSwing = false;
-                startCooldown = true;
-              
-
-            }
-            else 
-            {
-                LookAtPlayer();
-                Agent.transform.position += Agent.transform.forward.normalized * swingMovespeed * Time.deltaTime;
-            }
-        }
-
-    }
-
-    void SecondSwing() {
-        if (startSecondSwing == true)
-        {
-            if (AttackWaitTimer(swingDuration))
-            {
-                InstantiateOneHitbox();
-                startSecondSwing = false;
-                startLastCooldown = true;
-            }
-            else
-            {
-                LookAtPlayer();
-                Agent.transform.position += Agent.transform.forward.normalized * swingMovespeed * Time.deltaTime;
-            }
-        }
-    }
-    void InstantiateOneHitbox()
-    {
-
-        GameObject hitBox = (GameObject)Instantiate(attackHitbox, Agent.transform.position + (Agent.transform.rotation * hitboxOffset), Agent.transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
-
-    }
+   
+   
 
 
     private bool AttackWaitTimer(float seconds)

@@ -2,21 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
     [SerializeField]
     private GameObject player;
+    private Slider manaSlider;
     [SerializeField]
     private TextMeshProUGUI flaskAmountText;
     private int maxFlasks;
     private int flaskAmount;
     private int health;
     private int maxHealth;
+    private int mana;
+    private int maxMana;
     private HealthScript hpScript;
     private CharacterController characterController;
     private int previousHealth;
     private int previousFlaskAmt;
+    private int previousMana;
 
     [SerializeField] private GameObject hpSlot;
     [SerializeField] private GameObject parent;
@@ -40,7 +45,8 @@ public class PlayerUI : MonoBehaviour
         maxFlasks = (int)characterController.GetFlaskUses();
         flaskAmount = previousFlaskAmt = maxFlasks;
         flaskAmountText.text = maxFlasks + "/" + maxFlasks;
-        maxArrows = characterController.GetArrowAmmoMax();
+        maxMana = mana = previousMana = (int)characterController.GetMaxMana();
+    //    maxArrows = characterController.GetArrowAmmoMax();
         arrows = previousArrows = maxArrows;
         UpdateAmmo(arrows, maxArrows);
     }
@@ -62,8 +68,15 @@ public class PlayerUI : MonoBehaviour
             HealthSetup(health, maxHealth);
         }
 
-        arrows = characterController.GetArrowAmmo();
+        //function for getting current mana
+        mana = characterController.GetMaxMana();
+        if(mana != previousMana)
+        {
+            manaSlider.value = mana;
+            previousMana = mana;
+        }
 
+       //arrows = characterController.GetArrowAmmo();
         if(arrows != previousArrows)
         {
             UpdateAmmo(arrows, maxArrows);
