@@ -5,12 +5,12 @@ using UnityEngine;
 public class UIFaceCamera : MonoBehaviour
 {
 
-    public Transform objectToFace;
+    private Transform objectToFace;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        objectToFace = GameObject.FindGameObjectWithTag("MiddleOfCamera").transform;
     }
 
     // Update is called once per frame
