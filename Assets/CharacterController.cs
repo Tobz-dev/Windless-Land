@@ -470,7 +470,7 @@ public class CharacterController : MonoBehaviour
                 if (FlaskWaitTimer(healthFlaskDuration))
                 {
 
-                    GetComponentInParent<HealthScript>().regainHealth(1);
+                    GetComponentInParent<PlayerHealthScript>().regainHealth(1);
                   
                     healthFlaskTimerRunning = false;
                     moveSpeed = moveSpeedDefault;

@@ -52,7 +52,7 @@ public class PlayerHealthScript : MonoBehaviour
         HealthSetup();
         flaskAmount = maxFlasks;
         
-            flaskAmountText.text = maxFlasks + "/" + maxFlasks;
+        flaskAmountText.text = maxFlasks + "/" + maxFlasks;
     }
 
     // Update is called once per frame
