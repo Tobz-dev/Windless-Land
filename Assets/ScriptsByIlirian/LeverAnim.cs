@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using TMPro;
 
 public class LeverAnim : MonoBehaviour
 {
     private Animator anim;
     private bool canPress;
     private bool leverPulled;
-    [SerializeField] private Text pressText;
+    [SerializeField] private TextMeshProUGUI pressText;
     [SerializeField] private GameObject panel;
     private Collider trigger;
     private Animator anim2;
