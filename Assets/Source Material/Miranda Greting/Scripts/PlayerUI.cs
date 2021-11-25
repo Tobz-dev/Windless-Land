@@ -8,6 +8,7 @@ public class PlayerUI : MonoBehaviour
 {
     [SerializeField]
     private GameObject player;
+    [SerializeField]
     private Slider manaSlider;
     [SerializeField]
     private TextMeshProUGUI flaskAmountText;
@@ -17,7 +18,7 @@ public class PlayerUI : MonoBehaviour
     private int maxHealth;
     private int mana;
     private int maxMana;
-    private HealthScript hpScript;
+    private PlayerHealthScript hpScript;
     private CharacterController characterController;
     private int previousHealth;
     private int previousFlaskAmt;
@@ -27,16 +28,10 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private GameObject parent;
     private List<GameObject> hpSlotList = new List<GameObject>();
 
-    [SerializeField]
-    private TextMeshProUGUI arrowAmtText;
-    private int maxArrows;
-    private int arrows;
-    private int previousArrows;
-
     // Start is called before the first frame update
     void Start()
     {
-        hpScript = player.GetComponent<HealthScript>();
+        hpScript = player.GetComponent<PlayerHealthScript>();
         maxHealth = (int)hpScript.GetHealth();
         previousHealth = maxHealth;
         health = maxHealth;
@@ -46,9 +41,6 @@ public class PlayerUI : MonoBehaviour
         flaskAmount = previousFlaskAmt = maxFlasks;
         flaskAmountText.text = maxFlasks + "/" + maxFlasks;
         maxMana = mana = previousMana = (int)characterController.GetMaxMana();
-    //    maxArrows = characterController.GetArrowAmmoMax();
-        arrows = previousArrows = maxArrows;
-        UpdateAmmo(arrows, maxArrows);
     }
 
 
@@ -69,21 +61,14 @@ public class PlayerUI : MonoBehaviour
         }
 
         //function for getting current mana
-        mana = characterController.GetMaxMana();
+        //mana = characterController.GetMana();
         if(mana != previousMana)
         {
             manaSlider.value = mana;
             previousMana = mana;
         }
 
-       //arrows = characterController.GetArrowAmmo();
-        if(arrows != previousArrows)
-        {
-            UpdateAmmo(arrows, maxArrows);
-            previousArrows = arrows;
-            Debug.Log(arrows + " " + previousArrows);
-        }
-
+        //testing
         /*
         if (Input.GetKeyDown(KeyCode.I))
         {
@@ -93,6 +78,10 @@ public class PlayerUI : MonoBehaviour
         }
         */
 
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            mana -= 20;
+        }
 
         /*
         if (Input.GetKeyDown(KeyCode.Q))
@@ -177,14 +166,6 @@ public class PlayerUI : MonoBehaviour
             StartCoroutine("DeactivateSlot");
         }
         previousHealth = health;
-    }
-
-    public void UpdateAmmo(int arrowAmmo, int arrowAmmoMax)
-    {
-        if (arrowAmmo >= 0 && arrowAmmo <= arrowAmmoMax)
-        {
-            arrowAmtText.text = arrowAmmo + "/" + arrowAmmoMax;
-        }
     }
 
     private IEnumerator DeactivateSlot()
