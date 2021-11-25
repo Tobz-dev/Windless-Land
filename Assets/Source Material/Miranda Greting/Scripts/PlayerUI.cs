@@ -147,7 +147,7 @@ public class PlayerUI : MonoBehaviour
                     GameObject activeHP = hpSlotList[health].transform.GetChild(2).gameObject;
                     Animator anim = activeHP.transform.GetChild(1).GetComponent<Animator>();
                     anim.SetFloat("direction", 1);
-                    StartCoroutine("DeactivateSlot");
+                    StartCoroutine(DeactivateSlot());
                 }
             }
 
@@ -157,7 +157,7 @@ public class PlayerUI : MonoBehaviour
                 currentHP.SetActive(true);
                 Animator anim = currentHP.transform.GetChild(1).GetComponent<Animator>();
                 anim.SetFloat("direction", -1);
-                StartCoroutine("DeactivateSlot");
+                StartCoroutine(DeactivateSlot());
             }
         }
 
@@ -166,7 +166,7 @@ public class PlayerUI : MonoBehaviour
             hpSlotList[health].transform.GetChild(1).gameObject.SetActive(false);
             GameObject activeHP = hpSlotList[health].transform.GetChild(2).gameObject;
             Animator anim = activeHP.transform.GetChild(1).GetComponent<Animator>();
-            StartCoroutine("DeactivateSlot");
+            StartCoroutine(DeactivateSlot());
         }
         previousHealth = health;
     }

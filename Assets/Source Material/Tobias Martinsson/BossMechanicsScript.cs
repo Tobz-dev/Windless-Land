@@ -25,7 +25,9 @@ public class BossMechanicsScript : MonoBehaviour
     {
         StartCoroutine(FadeTo(1.0f, 2.0f, floor));
     }
-   
+
+    
+
 
     IEnumerator FadeTo(float aValue, float aTime, GameObject floor)
     {
@@ -68,7 +70,7 @@ public class BossMechanicsScript : MonoBehaviour
 
     public void RespawnPillars()
     {
-        foreach(GameObject go in PillarList)
+        foreach (GameObject go in PillarList)
         {
             go.GetComponent<MeshRenderer>().enabled = true;
             go.GetComponent<BoxCollider>().enabled = true;
@@ -78,6 +80,7 @@ public class BossMechanicsScript : MonoBehaviour
 
     public void DestroyRandomPillar()
     {
+
         GameObject go = tempPillarList[Random.Range(0, PillarList.Count)];
         go.GetComponent<MeshRenderer>().enabled = false;
         go.GetComponent<BoxCollider>().enabled = false;
