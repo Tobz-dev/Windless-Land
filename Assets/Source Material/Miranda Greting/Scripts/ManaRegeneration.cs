@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ManaRegeneration : MonoBehaviour
 {
+    float delayTime = 0.5f;
 
     // Update is called once per frame
     void Update()
@@ -11,12 +12,14 @@ public class ManaRegeneration : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player"))
+        delayTime = delayTime - Time.deltaTime;
+        if (other.CompareTag("Player") && delayTime <= 0)
         {
             CharacterController script = other.GetComponent<CharacterController>();
-            script.ManaIncreased(script.GetMaxMana());
+            script.ManaIncreased(script.GetMana()+10);
+            delayTime = 0.5f;
         }
     }
 
