@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3349090119542216458}
   - component: {fileID: 792466115}
   - component: {fileID: 792466114}
+  - component: {fileID: 1560472536}
   m_Layer: 6
   m_Name: Damaged floor
   m_TagString: Untagged
@@ -125,7 +126,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87bb851d97db9c740aa7f1a34aa1c3f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallplat: 1
+  fallplat: 3
   fallplaton: 2
   isFalling: 0
-  initialposition: {x: 0, y: 0}
+  initialposition: {x: 0, y: 0, z: 0}
+  shakeAnimationController: {fileID: 1560472536}
+--- !u!95 &1560472536
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9063344734669894877}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9174e25a9ac977a4cbddb26b6d5f000e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

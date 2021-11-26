@@ -24,6 +24,8 @@ public class LightPatrol : State
         CurrentPatrol = Agent.GetPatrolPoint;
         Agent.NavAgent.SetDestination(CurrentPatrol.position);
         Agent.NavAgent.speed = Speed;
+        Agent.animator.SetFloat("XSpeed", 0);
+        Agent.animator.SetFloat("YSpeed", 1);
     }
     public override void RunUpdate()
     {
@@ -31,8 +33,6 @@ public class LightPatrol : State
         {
             CurrentPatrol = Agent.GetPatrolPoint;
             Agent.NavAgent.SetDestination(CurrentPatrol.position);
-            Agent.animator.SetFloat("XSpeed", 0);
-            Agent.animator.SetFloat("YSpeed", 1);
         }
         Color color = new Color(0.0f, 0.0f, 1.0f);
         Debug.DrawLine(Agent.transform.position, Agent.PlayerPosition, color);

@@ -1959,12 +1959,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1427691672052367343}
   - component: {fileID: 1427691672052367344}
-  - component: {fileID: 1427691672052367345}
   - component: {fileID: 1427691672052367346}
-  - component: {fileID: 1427691672052367342}
+  - component: {fileID: 8770593732380206627}
   - component: {fileID: 1427691672052367347}
   - component: {fileID: 8156951210086529455}
   - component: {fileID: 4950615091010454670}
+  - component: {fileID: 2467606102895034927}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2003,22 +2003,9 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 0
---- !u!65 &1427691672052367345
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1427691672052367348}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1.7389507, z: 1}
-  m_Center: {x: 0, y: 0.8695183, z: 0}
+  m_CollisionDetection: 1
 --- !u!114 &1427691672052367346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2031,10 +2018,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02800c89b0ac8bf4892ef01d939eb3ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 6
-  dodgerollDuration: 0.7
+  moveSpeed: 5.5
+  maxMana: 100
+  bowManaCost: 30
+  heavyManaCost: 50
+  dodgerollDuration: 0.8
   dodgerollCooldown: 0.2
-  dodgerollSpeed: 10
+  dodgerollSpeed: 9
   dodgerollDropSpeed: 5
   dodgeDropOffTime: 0.4
   lightAttackHitbox: {fileID: 3483705884616122953, guid: 4e7239f0fd86c2e4c96d38353dfb8412, type: 3}
@@ -2042,7 +2032,7 @@ MonoBehaviour:
   timeToNextSwing: 0.2
   timeToNextSwingLight: 0.2
   timeToNextSwingHeavy: 0.4
-  lightAttackDelay: 0.2
+  lightAttackDelay: 0.3
   lightSwingCooldown: 0.6
   heavySwingCooldown: 0.6
   heavyAttackDelay: 0.6
@@ -2054,12 +2044,11 @@ MonoBehaviour:
   respawnPoint: {fileID: 1427691672052367343}
   bow: {fileID: 6585166769836526205}
   sword: {fileID: 1427691672213526296}
-  bowChargeTime: 0.4
+  bowChargeTime: 0.2
   arrow: {fileID: 4306732365073514678, guid: 99fa6afae87d804489c67d053cc03e27, type: 3}
-  bowCooldownTime: 0.3
-  bowDrawTime: 0.3
-  arrowAmmoMax: 3
---- !u!114 &1427691672052367342
+  bowCooldownTime: 0.2
+  bowDrawTime: 0.15
+--- !u!114 &8770593732380206627
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2068,7 +2057,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1427691672052367348}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2890f511685fdb048901bc1a4d080b37, type: 3}
+  m_Script: {fileID: 11500000, guid: fae85092d9970094eabf5d516fca307e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
@@ -2082,7 +2071,6 @@ MonoBehaviour:
   - {fileID: 0}
   flaskAmountText: {fileID: 0}
   maxFlasks: 4
-  healthSlider: {fileID: 0}
   cameraFollow: {fileID: 0}
   playerInvincibilityTime: 0.5
 --- !u!95 &1427691672052367347
@@ -2130,6 +2118,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrowAmtText: {fileID: 0}
+--- !u!136 &2467606102895034927
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427691672052367348}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.18084008
+  m_Height: 1.7346148
+  m_Direction: 1
+  m_Center: {x: 0.012223735, y: 0.86626554, z: -0.003879249}
 --- !u!1 &1427691672057429491
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,9 +9,20 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     float moveSpeed;
 
-  
+
+    [SerializeField]
+    private int maxMana;
+    private int mana = 0;
+
+    [SerializeField]
+    private int bowManaCost;
+    [SerializeField]
+    private int heavyManaCost;
+
+
     float moveSpeedDefault;
 
+    private Rigidbody playerRgb;
    
 
     float dodgeTimer = 0;
@@ -26,8 +37,6 @@ public class CharacterController : MonoBehaviour
     private Plane plane;
 
     bool moveAllow = true;
-
-    bool rotationAllow = true;
 
     bool invincibility = false;
 
@@ -68,6 +77,7 @@ public class CharacterController : MonoBehaviour
     Vector3 playerMovement;
 
     private bool canMove = true;
+  
 
     [SerializeField]
     private float dodgeDropOffTime;
@@ -162,14 +172,14 @@ public class CharacterController : MonoBehaviour
     private bool queueBowCancel = false;
     private bool bowIsActive = false;
    
-    private int arrowAmmo;
-    [SerializeField]
-    private int arrowAmmoMax;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        arrowAmmo = arrowAmmoMax;
+      
+        playerRgb = transform.GetComponent<Rigidbody>();
+      
         bow.SetActive(false);
         canMove = true;
         plane = new Plane(Vector3.up, Vector3.zero);
@@ -181,7 +191,7 @@ public class CharacterController : MonoBehaviour
         moveSpeedDefault = moveSpeed;
 
         currentAttackTrigger = "Attack1";
-        gameObject.GetComponent<ArrowUI>().UpdateAmmo(arrowAmmo, arrowAmmoMax);
+     //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
     }
 
     // Update is called once per frame
@@ -211,21 +221,24 @@ public class CharacterController : MonoBehaviour
 
             BowManager();
 
-            if (Input.anyKey && moveAllow == true)
-            {
-                Move();
-            }
+       
+         
 
             //anim stuff here. 
             anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
             anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
         }
     }
+    private void FixedUpdate()
+    {
+      
+
+    }
 
     private void PlayerRotationUpdate()
     {
 
-        if (moveAllow && rotationAllow && (Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
+        if (moveAllow && Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey")) != 0)
         {
             Vector3 horizontal = (Input.GetAxis("Horizontal") * right);
             Vector3 vertical = (Input.GetAxis("Vertical") * forward);
@@ -249,14 +262,26 @@ public class CharacterController : MonoBehaviour
     }
 
     void UpdateMoveInput() {
-        Vector3 rightMovement = right * moveSpeed * Time.deltaTime * Input.GetAxis("HorizontalKey");
-        Vector3 upMovement = forward * moveSpeed * Time.deltaTime * Input.GetAxis("VerticalKey");
+        Vector3 rightMovement = right * moveSpeed *  Input.GetAxis("HorizontalKey");
+        Vector3 upMovement = forward * moveSpeed * Input.GetAxis("VerticalKey");
 
-       playerMovement = rightMovement + upMovement;
+        playerMovement = rightMovement + upMovement;
 
         inputDirection = playerMovement.normalized;
+      
 
-        if (inputDirection.magnitude == 0)
+
+        if (playerMovement.magnitude > moveSpeed)
+        {
+            playerMovement = playerMovement.normalized * moveSpeed;
+        }
+
+        if (moveAllow == true)
+        {
+            Move();
+        }
+
+        if (playerMovement.magnitude == 0)
         {
             playerInputActive = false;
         }
@@ -264,19 +289,37 @@ public class CharacterController : MonoBehaviour
             playerInputActive = true;
         }
 
-        if (playerMovement.magnitude > moveSpeed * Time.deltaTime)
-        {
-            playerMovement = playerMovement.normalized * moveSpeed * Time.deltaTime;
-        }
+
+      
     }
 
+    
+    
     void Move()
     {
      
-
-        transform.position += playerMovement;
-
+        playerRgb.velocity = playerMovement + new Vector3(0, playerRgb.velocity.y,0);
+   
+  
     }
+
+    public void ManaIncreased(int i) {
+        mana = mana + i;
+        if (mana > maxMana) {
+            mana = maxMana;
+        }
+        //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
+    }
+
+    public int GetMaxMana() {
+        return maxMana;
+    }
+
+    public int GetMana()
+    {
+        return mana;
+    }
+
 
     void EquipManager() {
         if (bowIsActive == false && startAttackDelay == false && startAttackCooldown == false)
@@ -300,7 +343,7 @@ public class CharacterController : MonoBehaviour
     void BowManager() {
        if (bow.activeSelf == true && dodgerollTimerRunning == false && healthFlaskStart == false)
         {
-            if (bowIsActive == false && arrowAmmo > 0) {
+            if (bowIsActive == false && mana >= bowManaCost) {
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     StartBowDraw();
@@ -404,8 +447,9 @@ public class CharacterController : MonoBehaviour
 
     void BowFire() {
         InstantiateArrow();
-        arrowAmmo--;
-        gameObject.GetComponent<ArrowUI>().UpdateAmmo(arrowAmmo, arrowAmmoMax);
+        mana = mana - bowManaCost;
+        Debug.Log(mana + "  manaleft");
+     //   gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
      bowIsFinishedLoading = false;
      anim.SetTrigger("StopBow");
      anim.SetTrigger("BowRecoil");
@@ -447,7 +491,7 @@ public class CharacterController : MonoBehaviour
 
     void HealthFlaskManager()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0 && startAttackDelay == false && startAttackCooldown == false && dodgerolling == false && bowIsActive == false)
+        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0 && startAttackDelay == false && startAttackCooldown == false && dodgerolling == false && bowIsActive == false && gameObject.GetComponent<PlayerHealthScript>().GetHealth() < gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth())
         {
             healthFlaskStart = true;
             HealthRefill = FMODUnity.RuntimeManager.CreateInstance("event:/Game/HealthRefill");
@@ -470,7 +514,7 @@ public class CharacterController : MonoBehaviour
                 if (FlaskWaitTimer(healthFlaskDuration))
                 {
 
-                    GetComponentInParent<HealthScript>().regainHealth(1);
+                    GetComponentInParent<PlayerHealthScript>().regainHealth(1);
                   
                     healthFlaskTimerRunning = false;
                     moveSpeed = moveSpeedDefault;
@@ -560,11 +604,11 @@ public class CharacterController : MonoBehaviour
                 {
                     if (dodgeTimer < dodgeDropOffTime)
                     {
-                        transform.position += (transform.forward).normalized * dodgerollSpeed * Time.deltaTime;
+                        playerRgb.velocity = ((transform.forward).normalized * dodgerollSpeed ) +new Vector3(0, playerRgb.velocity.y, 0); ;
                     }
                     else {
                         invincibility = false;
-                        transform.position += (transform.forward).normalized * dodgerollDropSpeed * Time.deltaTime;
+                        playerRgb.velocity = ((transform.forward).normalized * dodgerollDropSpeed) + new Vector3 (0,playerRgb.velocity.y,0);
                     }
                    
                  
@@ -608,8 +652,10 @@ public class CharacterController : MonoBehaviour
 
                 Attack();
             }
-            if (Input.GetKeyDown(KeyCode.Mouse1))
+            if (Input.GetKeyDown(KeyCode.Mouse1) && mana >= heavyManaCost)
             {
+                mana = mana - heavyManaCost;
+
                 ResetAttackAni();
 
                 HeavyAttack();
@@ -668,12 +714,12 @@ public class CharacterController : MonoBehaviour
         }
       
       
-        Debug.Log(currentAttack);
+    
     }
     void ResetAttackAni() {
         currentAttack = 1;
         currentAttackTrigger = "Attack" + currentAttack;
-        Debug.Log(currentAttack);
+      
     }
     void AttackCoolDown()
     {
@@ -692,13 +738,13 @@ public class CharacterController : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    Debug.Log("ATACK");
+                 
                     queueAttack = true;
                     queueDodge = false;
                 }
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    Debug.Log("DODGE");
+                   
                     queueAttack = false;
                     queueDodge = true;
                 }
@@ -748,7 +794,7 @@ public class CharacterController : MonoBehaviour
             else
             {
                 
-                transform.position += (transform.forward).normalized * 2f * Time.deltaTime;
+                playerRgb.velocity = ((transform.forward).normalized * 2f ) +new Vector3(0, playerRgb.velocity.y, 0); ;
                 if (attackTimer >= extraInputTimeDelay && Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     Debug.Log("ATACK");
@@ -846,8 +892,8 @@ public class CharacterController : MonoBehaviour
     public void Respawn()
     {
         Debug.Log("Player Dead");
-        GetComponent<HealthScript>().regainHealth(100);
-        GetComponent<HealthScript>().ResetPotions();
+        GetComponent<PlayerHealthScript>().regainHealth(100);
+        GetComponent<PlayerHealthScript>().ResetPotions();
         Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
         Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         Dead.start();
@@ -862,26 +908,14 @@ public class CharacterController : MonoBehaviour
         respawnPoint.transform.position = new Vector3(position.x, position.y + 2f, position.z);
     }
 
-    public void addArrowAmmo(int i) {
-        arrowAmmo = arrowAmmo + i;
-        if (arrowAmmo > arrowAmmoMax) {
-            arrowAmmo = arrowAmmoMax;
-        }
-        gameObject.GetComponent<ArrowUI>().UpdateAmmo(arrowAmmo, arrowAmmoMax);
-    }
+   
 
     public float GetFlaskUses() {
 
         return flaskUses;
     }
 
-    public int GetArrowAmmo() {
-        return arrowAmmo;
-    }
 
-    public int GetArrowAmmoMax() {
-        return arrowAmmoMax;
-    }
 
     public void SetFlaskUses(int x)
     {

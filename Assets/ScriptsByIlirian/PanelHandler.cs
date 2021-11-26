@@ -7,7 +7,7 @@ using TMPro;
 
 public class PanelHandler : MonoBehaviour
 {
-    //private PickUpManager pma;
+    //private PauseMenu pm;
     [SerializeField] private GameObject panel;
     [SerializeField] private GameObject logPanel;
     //[SerializeField] private Text logText;
@@ -21,6 +21,7 @@ public class PanelHandler : MonoBehaviour
     void Start()
     {
         logPanel.SetActive(false);
+        //pm = GetComponent<PauseMenu>();
         
 
     }
@@ -30,6 +31,9 @@ public class PanelHandler : MonoBehaviour
         {
             
             logPanel.SetActive(true);
+            
+            
+            
 
 
             if (logPanel == isActiveAndEnabled)
@@ -41,11 +45,13 @@ public class PanelHandler : MonoBehaviour
             switch (logNumber)
             {
                 case 1:
-                    textmesh.text = "If you are reading this... Get out! NOW!";
+                    textmesh.text = "WASD to walk, \n \n  Spacebar to roll, \n \n  Left-Mouse Button to attack";
                     break;
                 case 2:
-                    textmesh.text = "They have taken the bridge... and the second hall. We have barred the gates, but cannot hold them for long. The ground shakes. Drums... drums in the deep. We cannot get out. " +
-                        "The shadows move in the dark. We cannot get out. They are coming......";
+                    textmesh.text = "Q to heal, \n \n 1 or 2 to swap between weapons";
+                    break;
+                case 3:
+                    textmesh.text = "[Placeholder]";
                     break;
 
 
@@ -55,6 +61,9 @@ public class PanelHandler : MonoBehaviour
         if (logPanel == isActiveAndEnabled && Input.GetKeyDown(KeyCode.Escape))
         {
             logPanel.SetActive(false);
+            
+            
+            
         }
     }
 

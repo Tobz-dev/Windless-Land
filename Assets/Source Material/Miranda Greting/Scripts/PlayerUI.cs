@@ -2,36 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
     [SerializeField]
     private GameObject player;
     [SerializeField]
+    private Slider manaSlider;
+    [SerializeField]
     private TextMeshProUGUI flaskAmountText;
     private int maxFlasks;
     private int flaskAmount;
     private int health;
     private int maxHealth;
-    private HealthScript hpScript;
+    private int mana;
+    private int maxMana;
+    private PlayerHealthScript hpScript;
     private CharacterController characterController;
     private int previousHealth;
     private int previousFlaskAmt;
+    private int previousMana;
 
     [SerializeField] private GameObject hpSlot;
     [SerializeField] private GameObject parent;
     private List<GameObject> hpSlotList = new List<GameObject>();
 
-    [SerializeField]
-    private TextMeshProUGUI arrowAmtText;
-    private int maxArrows;
-    private int arrows;
-    private int previousArrows;
-
     // Start is called before the first frame update
     void Start()
     {
-        hpScript = player.GetComponent<HealthScript>();
+        hpScript = player.GetComponent<PlayerHealthScript>();
         maxHealth = (int)hpScript.GetHealth();
         previousHealth = maxHealth;
         health = maxHealth;
@@ -40,9 +40,8 @@ public class PlayerUI : MonoBehaviour
         maxFlasks = (int)characterController.GetFlaskUses();
         flaskAmount = previousFlaskAmt = maxFlasks;
         flaskAmountText.text = maxFlasks + "/" + maxFlasks;
-        maxArrows = characterController.GetArrowAmmoMax();
-        arrows = previousArrows = maxArrows;
-        UpdateAmmo(arrows, maxArrows);
+        maxMana = mana = previousMana = (int)characterController.GetMaxMana();
+        manaSlider.value = maxMana;
     }
 
 
@@ -62,15 +61,16 @@ public class PlayerUI : MonoBehaviour
             HealthSetup(health, maxHealth);
         }
 
-        arrows = characterController.GetArrowAmmo();
-
-        if(arrows != previousArrows)
+        mana = characterController.GetMana();
+        if(mana != previousMana && mana >= 0)
         {
-            UpdateAmmo(arrows, maxArrows);
-            previousArrows = arrows;
-            Debug.Log(arrows + " " + previousArrows);
+            Debug.Log(mana);
+            manaSlider.value = mana;
+            previousMana = mana;
+            Debug.Log("mana = " + mana);
         }
 
+        //testing
         /*
         if (Input.GetKeyDown(KeyCode.I))
         {
@@ -80,6 +80,10 @@ public class PlayerUI : MonoBehaviour
         }
         */
 
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            mana -= 20;
+        }
 
         /*
         if (Input.GetKeyDown(KeyCode.Q))
@@ -139,10 +143,15 @@ public class PlayerUI : MonoBehaviour
                 for (int i = health - 1; i < previousHealth - 1; i++)
                 {
                     hpSlotList[i + 1].transform.GetChild(1).gameObject.SetActive(false);
-                    GameObject activeHP = hpSlotList[health].transform.GetChild(2).gameObject;
+                    hpSlotList[i + 1].transform.GetChild(2).gameObject.SetActive(false);
+                    GameObject activeHP = hpSlotList[maxHealth - 1].transform.GetChild(2).gameObject;
+                    if(health != maxHealth)
+                    {
+                        activeHP = hpSlotList[health].transform.GetChild(2).gameObject;
+                    }
                     Animator anim = activeHP.transform.GetChild(1).GetComponent<Animator>();
                     anim.SetFloat("direction", 1);
-                    StartCoroutine("DeactivateSlot");
+                    StartCoroutine(DeactivateSlot());
                 }
             }
 
@@ -152,7 +161,7 @@ public class PlayerUI : MonoBehaviour
                 currentHP.SetActive(true);
                 Animator anim = currentHP.transform.GetChild(1).GetComponent<Animator>();
                 anim.SetFloat("direction", -1);
-                StartCoroutine("DeactivateSlot");
+                StartCoroutine(DeactivateSlot());
             }
         }
 
@@ -161,26 +170,22 @@ public class PlayerUI : MonoBehaviour
             hpSlotList[health].transform.GetChild(1).gameObject.SetActive(false);
             GameObject activeHP = hpSlotList[health].transform.GetChild(2).gameObject;
             Animator anim = activeHP.transform.GetChild(1).GetComponent<Animator>();
-            StartCoroutine("DeactivateSlot");
+            StartCoroutine(DeactivateSlot());
         }
         previousHealth = health;
     }
 
-    public void UpdateAmmo(int arrowAmmo, int arrowAmmoMax)
-    {
-        if (arrowAmmo >= 0 && arrowAmmo <= arrowAmmoMax)
-        {
-            arrowAmtText.text = arrowAmmo + "/" + arrowAmmoMax;
-        }
-    }
-
     private IEnumerator DeactivateSlot()
     {
-        GameObject activeHP = hpSlotList[health].transform.GetChild(2).gameObject;
-        Animator anim = activeHP.transform.GetChild(1).GetComponent<Animator>();
-        anim.SetTrigger("shatter");
-        yield return new WaitForSeconds(0.5f);
-        activeHP.SetActive(false);
+        GameObject activeHP = hpSlotList[maxHealth - 1].transform.GetChild(2).gameObject;
+        if (health < maxHealth)
+        {
+            activeHP = hpSlotList[health].transform.GetChild(2).gameObject;
+            Animator anim = activeHP.transform.GetChild(1).GetComponent<Animator>();
+            anim.SetTrigger("shatter");
+            yield return new WaitForSeconds(0.25f);
+            activeHP.SetActive(false);
+        }
         if (health > 0)
         {
             GameObject currentHP = hpSlotList[health - 1].transform.GetChild(2).gameObject;
