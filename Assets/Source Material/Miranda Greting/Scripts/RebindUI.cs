@@ -41,11 +41,13 @@ public class RebindUI : MonoBehaviour
             UpdateUI();
         }
         InputManager.rebindComplete += UpdateUI;
+        InputManager.rebindCanceled += UpdateUI;
     }
 
     private void OnDisable()
     {
         InputManager.rebindComplete -= UpdateUI;
+        InputManager.rebindCanceled -= UpdateUI;
 
     }
 
@@ -104,7 +106,7 @@ public class RebindUI : MonoBehaviour
 
     private void ChangeBinding()
     {
-        InputManager.StartRebind(actionName, bindingIndex, rebindText);
+        InputManager.StartRebind(actionName, bindingIndex, rebindText, excludeMouse);
     }
 
     private void ResetBinding()

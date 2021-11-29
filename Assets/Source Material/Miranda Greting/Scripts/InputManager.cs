@@ -22,7 +22,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    public static void StartRebind(string actionName, int bindingIndex, TextMeshProUGUI statusText)
+    public static void StartRebind(string actionName, int bindingIndex, TextMeshProUGUI statusText, bool excludeMouse)
     {
         InputAction action = inputActions.asset.FindAction(actionName);
         if(action == null || action.bindings.Count <= bindingIndex)
@@ -35,16 +35,16 @@ public class InputManager : MonoBehaviour
             var firstIndex = bindingIndex + 1;
             if(firstIndex < action.bindings.Count && action.bindings[firstIndex].isComposite)
             {
-                ChangeRebind(action, bindingIndex, statusText, true);
+                ChangeRebind(action, bindingIndex, statusText, true, excludeMouse);
             }
         }
         else
         {
-            ChangeRebind(action, bindingIndex, statusText, false);
+            ChangeRebind(action, bindingIndex, statusText, false, excludeMouse);
         }
     }
 
-    private static void ChangeRebind(InputAction actionToRebind, int bindingIndex, TextMeshProUGUI statusText, bool compositeBinding)
+    private static void ChangeRebind(InputAction actionToRebind, int bindingIndex, TextMeshProUGUI statusText, bool compositeBinding, bool excludeMouse)
     {
         if(actionToRebind == null || bindingIndex < 0)
         {
@@ -66,7 +66,7 @@ public class InputManager : MonoBehaviour
                 var nextBindingIndex = bindingIndex + 1;
                 if(nextBindingIndex < actionToRebind.bindings.Count && actionToRebind.bindings[nextBindingIndex].isComposite)
                 {
-                    ChangeRebind(actionToRebind, nextBindingIndex, statusText, compositeBinding);
+                    ChangeRebind(actionToRebind, nextBindingIndex, statusText, compositeBinding, excludeMouse);
                 }
             }
 
@@ -81,6 +81,20 @@ public class InputManager : MonoBehaviour
 
             rebindCanceled?.Invoke();
         }); //same functionality as above when rebinding is canceled
+
+        rebind.WithCancelingThrough("<Keyboard>/escape");
+        rebind.WithCancelingThrough("<Gamepad>/buttonEast");
+
+        if (excludeMouse)
+        {
+            rebind.WithControlsExcluding("Mouse");
+            /*
+            rebind.WithControlsExcluding("<Mouse>/leftButton")
+                .WithControlsExcluding("<Mouse>/rightButton")
+                .WithControlsExcluding("<Mouse>/press")
+                .WithControlsExcluding("<Pointer>/position")
+            */
+        }
 
         rebindStarted?.Invoke(actionToRebind, bindingIndex);
 
