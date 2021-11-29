@@ -80,7 +80,24 @@ public class RebindUI : MonoBehaviour
     {
         if(actionText != null)
         {
-            actionText.text = actionName; 
+            actionText.text = actionName;
+
+            if(actionName.Equals("Move") && selectedBinding == 1)
+            {
+                actionText.text = "Move Left";
+            }
+            if(actionName.Equals("Move") && selectedBinding == 2)
+            {
+                actionText.text = "Move Right";
+            }
+            if (actionName.Equals("Move") && selectedBinding == 7)
+            {
+                actionText.text = "Move Down";
+            }
+            if (actionName.Equals("Move") && selectedBinding == 8)
+            {
+                actionText.text = "Move Up";
+            }
         }
 
         if(rebindText != null)
