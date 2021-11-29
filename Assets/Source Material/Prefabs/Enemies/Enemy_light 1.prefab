@@ -623,11 +623,13 @@ GameObject:
   - component: {fileID: 2750288061924280741}
   - component: {fileID: 2750288061924280740}
   - component: {fileID: 2750288061924280763}
-  - component: {fileID: 2750288061924280762}
+  - component: {fileID: 7738636834698128679}
   - component: {fileID: 2750288061924280760}
   - component: {fileID: 8899394423204546919}
   - component: {fileID: 360935734}
   - component: {fileID: 8109949195459415337}
+  - component: {fileID: 5791093235616141736}
+  - component: {fileID: 2160198289209791267}
   m_Layer: 0
   m_Name: Enemy_light 1
   m_TagString: Enemy
@@ -715,7 +717,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5efcd793ae1cd7a4991576a8b0ed83ea, type: 2}
   - {fileID: 11400000, guid: 32a5a5abfcb7d26498291e4df70e4825, type: 2}
   animator: {fileID: 0}
---- !u!114 &2750288061924280762
+--- !u!114 &7738636834698128679
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -724,17 +726,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2750288061924280743}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2890f511685fdb048901bc1a4d080b37, type: 3}
+  m_Script: {fileID: 11500000, guid: f22b3a70eb027c14da5b142e8a669b90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 5
-  Maxhealth: 5
+  health: 0
+  Maxhealth: 7
   material: {fileID: 2100000, guid: c103ed8a6e675b5479be69ce128d0892, type: 2}
-  hpSlots: []
-  flaskAmountText: {fileID: 0}
-  maxFlasks: 4
   healthSlider: {fileID: 7755251803048810522}
-  cameraFollow: {fileID: 0}
   playerInvincibilityTime: 0
 --- !u!54 &2750288061924280760
 Rigidbody:
@@ -825,6 +823,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTerrain: 0
+--- !u!114 &5791093235616141736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2750288061924280743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6164bb50da1a8647894774a7f068c5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitBox: {fileID: 7803925391982377162, guid: 341f374bed7fdd64ab3dddd7c0174f7b, type: 3}
+--- !u!114 &2160198289209791267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2750288061924280743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b56f241f955de4daf66f3c9eee1534, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2761392250566572969
 GameObject:
   m_ObjectHideFlags: 0

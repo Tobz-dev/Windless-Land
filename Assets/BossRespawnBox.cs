@@ -13,8 +13,11 @@ public class BossRespawnBox : MonoBehaviour
         {
             collision.gameObject.GetComponent<CharacterController>().Respawn();
             fallingPlatform1.GetComponent<FallingPlatform>().respawn();
+            fallingPlatform1.GetComponent<FallingPlatform>().StopShaking();
             fallingPlatform2.GetComponent<FallingPlatform>().respawn();
+            fallingPlatform2.GetComponent<FallingPlatform>().StopShaking();
             fallingPlatform3.GetComponent<FallingPlatform>().respawn();
+            fallingPlatform3.GetComponent<FallingPlatform>().StopShaking();
         }
     }
 }

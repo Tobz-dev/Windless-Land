@@ -19,8 +19,6 @@ public class ChangeScreenResolutionList : MonoBehaviour
 
     private int currentResolutionIndex = 0;
 
-    public Image windowedCheckBoxImage;
-
     // Start is called before the first frame update
     private void Start()
     {
@@ -36,10 +34,7 @@ public class ChangeScreenResolutionList : MonoBehaviour
         currentResolutionIndex = PlayerPrefs.GetInt("ResolutionPrefKey", resolutionArray.Length - 1);
 
         SetResolutionText(resolutionArray[currentResolutionIndex]);
-
-        //wow, bad cheat. so the problem is that the game just doesn't properly recognize if it is in windowed mode when starting. 
-        //so I'm setting it to fullscreen to get around that.
-        Screen.fullScreen = true;
+        
     }
 
     private void SetResolutionText(Resolution resolution) 
@@ -67,7 +62,7 @@ public class ChangeScreenResolutionList : MonoBehaviour
     {
         Debug.Log("in SetDefaultResolution");
 
-       currentResolutionIndex = resolutionArray.Length - 1;
+        currentResolutionIndex = resolutionArray.Length - 1;
         ApplyResolution();
     }
 
@@ -90,14 +85,13 @@ public class ChangeScreenResolutionList : MonoBehaviour
         ApplyNewResolution(currentResolutionIndex);
     }
 
-    public void ToggleWindow()
+    public void ToggleWindow(bool setToFullscreen)
     {
 
-        if (Screen.fullScreen == true)
+        if (setToFullscreen == true)
         {
             //Debug.Log("ChangeScreenResolution. set to windowed");
             Screen.fullScreen = false;
-
         }
         else
         {

@@ -76,7 +76,7 @@ public class EventSystemHelper : MonoBehaviour
 
     public void ChangeFirstSelectedObject(GameObject newFirstSelectedObject) 
     {
-        Debug.Log("in EventS helper, setting first selected to " + newFirstSelectedObject.name);
+        //Debug.Log("in EventS helper, setting first selected to " + newFirstSelectedObject.name);
 
         currentSelectedGameObject = newFirstSelectedObject;
 
@@ -87,7 +87,7 @@ public class EventSystemHelper : MonoBehaviour
             ApplyCurrentSelectedGameObject();
         }
 
-        Debug.Log("now it is " + EventSystem.current.ToString());
+        //Debug.Log("now it is " + EventSystem.current.ToString());
 
     }
 
@@ -112,7 +112,7 @@ public class EventSystemHelper : MonoBehaviour
     {
         currentSelectedGameObject = EventSystem.current.firstSelectedGameObject;
 
-        Debug.Log("in disable selection, set null");
+        //Debug.Log("in disable selection, set null");
         EventSystem.current.SetSelectedGameObject(null); 
 
         isKeyBoardActive = false;

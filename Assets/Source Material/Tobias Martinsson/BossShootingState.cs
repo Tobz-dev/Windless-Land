@@ -25,21 +25,28 @@ public class BossShootingState : State
 
     public override void Enter()
     {
-        int currentHealth = Agent.GetComponent<HealthScript>().health;
-        int maxHealth = Agent.GetComponent<HealthScript>().Maxhealth;
+        int currentHealth = Agent.GetComponent<EnemyHealthScript>().health;
+        int maxHealth = Agent.GetComponent<EnemyHealthScript>().Maxhealth;
+
+        if(currentHealth <= maxHealth * 0.25)
+        {
+            SpawnLeftEnemy();
+            SpawnLeftEnemy();
+            SpawnRightEnemy();
+            SpawnRightEnemy();
+        }
+        else if(currentHealth <= maxHealth * 0.5)
+        {
+            SpawnLeftEnemy();
+            SpawnRightEnemy();
+            SpawnRightEnemy();
+        }
+        else if (currentHealth <= maxHealth * 0.75)
+        {
+            SpawnLeftEnemy();
+            SpawnRightEnemy();
+        }
         
-        if(currentHealth > maxHealth * 0.1 && currentHealth < maxHealth * 0.5)
-        {
-            SpawnLeftEnemy();
-            SpawnLeftEnemy();
-            SpawnRightEnemy();
-            SpawnRightEnemy();
-        }
-        else if(currentHealth > maxHealth * 0.5)
-        {
-            SpawnLeftEnemy();
-            SpawnRightEnemy();
-        }
         totalArrows = arrowAmount;
     }
 
@@ -76,7 +83,7 @@ public class BossShootingState : State
         }
         else
         {
-            StateMachine.ChangeState<BossIdleScript>();
+            StateMachine.ChangeState<BossChooseAttackState>();
         }
         
     }
