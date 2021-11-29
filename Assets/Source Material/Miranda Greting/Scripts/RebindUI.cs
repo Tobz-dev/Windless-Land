@@ -37,6 +37,7 @@ public class RebindUI : MonoBehaviour
 
         if(inputActionReference != null)
         {
+            InputManager.LoadBindingOverride(actionName);
             GetBindingInfo();
             UpdateUI();
         }
@@ -90,7 +91,10 @@ public class RebindUI : MonoBehaviour
             }
             else
             {
-                rebindText.text = inputActionReference.action.GetBindingDisplayString(bindingIndex).ToUpper();
+                rebindText.text = inputActionReference.action.bindings[bindingIndex].effectivePath;
+                    
+                    //overridePath;
+                    //inputActionReference.action.GetBindingDisplayString(bindingIndex).ToUpper();
                 //inputActionReference.action.controls[0].name;
             }
             if (rebindText.text.Equals("BLANKSTEG"))
@@ -101,6 +105,7 @@ public class RebindUI : MonoBehaviour
             {
                 rebindText.text = "A";
             }
+            //rebindText.text = rebindText.text.ToUpper();
         }
     }
 
@@ -111,7 +116,7 @@ public class RebindUI : MonoBehaviour
 
     private void ResetBinding()
     {
-        throw new NotImplementedException();
+        InputManager.ResetBinding(actionName, bindingIndex);
+        UpdateUI();
     }
-
 }

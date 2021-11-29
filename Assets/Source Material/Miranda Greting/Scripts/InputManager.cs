@@ -70,6 +70,7 @@ public class InputManager : MonoBehaviour
                 }
             }
 
+            SaveBindingOverride(actionToRebind);
             rebindComplete?.Invoke();
 
         }); //assigns a delegat that enables the action when rebinding is complete, and disposes of delegate to prevent memory leaks
@@ -109,6 +110,54 @@ public class InputManager : MonoBehaviour
         }
 
         InputAction action = inputActions.asset.FindAction(actionName);
-        return action.GetBindingDisplayString(bindingIndex);
+        return action.bindings[bindingIndex].effectivePath;
+        //action.GetBindingDisplayString(bindingIndex);
+    }
+
+    public static void ResetBinding(string actionName, int bindingIndex)
+    {
+        InputAction action = inputActions.asset.FindAction(actionName);
+        if(action == null || action.bindings.Count <= bindingIndex)
+        {
+            Debug.Log("Could not find action or binding!! (aka action is null or binding doesn't exist)");
+            return;
+        }
+
+        if (action.bindings[bindingIndex].isComposite)
+        {
+            for(int i = bindingIndex; i < action.bindings.Count && action.bindings[i].isComposite; i++)
+            {
+                action.RemoveBindingOverride(i);
+            }
+        }
+        else
+        {
+            action.RemoveBindingOverride(bindingIndex);
+        }
+    }
+
+    private static void SaveBindingOverride(InputAction action)
+    {
+        for(int i = 0; i < action.bindings.Count; i++)
+        {
+            PlayerPrefs.SetString(action.actionMap + action.name + i, action.bindings[i].overridePath);
+        }
+    }
+
+    public static void LoadBindingOverride(string actionName)
+    {
+        if(inputActions == null)
+        {
+            inputActions = new PlayerInputs();
+        }
+
+        InputAction action = inputActions.asset.FindAction(actionName);
+        for(int i = 0; i < action.bindings.Count; i++)
+        {
+            if(!string.IsNullOrEmpty(PlayerPrefs.GetString(action.actionMap + action.name + i)))
+            {
+                action.ApplyBindingOverride(i, PlayerPrefs.GetString(action.actionMap + action.name + i));
+            }
+        }
     }
 }
