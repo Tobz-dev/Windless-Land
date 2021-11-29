@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class RebindUI : MonoBehaviour
 {
@@ -28,8 +29,33 @@ public class RebindUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI rebindText;
     [SerializeField] private Button resetButton;
 
+
+    private void OnEnable()
+    {
+        rebindButton.onClick.AddListener(() => ChangeBinding());
+        resetButton.onClick.AddListener(() => ResetBinding());
+
+        if(inputActionReference != null)
+        {
+            GetBindingInfo();
+            UpdateUI();
+        }
+        InputManager.rebindComplete += UpdateUI;
+    }
+
+    private void OnDisable()
+    {
+        InputManager.rebindComplete -= UpdateUI;
+
+    }
+
     private void OnValidate()
     {
+        if(inputActionReference == null)
+        {
+            return;
+        }
+
         GetBindingInfo();
         UpdateUI();
     }
@@ -58,13 +84,32 @@ public class RebindUI : MonoBehaviour
         {
             if (Application.isPlaying)
             {
-                //grab info from Input Manager
+                rebindText.text = InputManager.GetBindingName(actionName, bindingIndex);
             }
             else
             {
-                rebindText.text = inputActionReference.action.GetBindingDisplayString(bindingIndex);
+                rebindText.text = inputActionReference.action.GetBindingDisplayString(bindingIndex).ToUpper();
+                //inputActionReference.action.controls[0].name;
+            }
+            if (rebindText.text.Equals("BLANKSTEG"))
+            {
+                rebindText.text = "Space";
+            }
+            if (rebindText.text.Equals("À"))
+            {
+                rebindText.text = "A";
             }
         }
+    }
+
+    private void ChangeBinding()
+    {
+        InputManager.StartRebind(actionName, bindingIndex, rebindText);
+    }
+
+    private void ResetBinding()
+    {
+        throw new NotImplementedException();
     }
 
 }

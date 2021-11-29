@@ -8,6 +8,8 @@ public class CharacterControllerRemapTest : MonoBehaviour
 {
 
     private PlayerInput playerInput;
+    private PlayerInputs inputActions;
+    [SerializeField] private InputManager inputManager;
 
     [SerializeField]
     float moveSpeed = 4f;
@@ -52,6 +54,7 @@ public class CharacterControllerRemapTest : MonoBehaviour
     //dodgeroll
     bool dodgerollTimerRunning = false;
     bool dodgerollStart = false;
+    bool dodgerollRemapTrigger = false;
     bool dodgerolling = false;
     bool dodgerollOfCooldown = true;
     Vector3 inputDirection;
@@ -83,8 +86,18 @@ public class CharacterControllerRemapTest : MonoBehaviour
 
     public Transform respawnPoint;
 
-
     Vector3 forward, right;
+
+    
+    private void OnEnable()
+    {
+        inputActions = InputManager.inputActions;
+
+        inputActions.WindlessLand.Dodgeroll.started += Dodgeroll;
+        inputActions.WindlessLand.Enable();
+    }
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -98,12 +111,12 @@ public class CharacterControllerRemapTest : MonoBehaviour
         moveSpeedDefault = moveSpeed;
 
         playerInput = GetComponent<PlayerInput>();
+        inputActions = InputManager.inputActions;
     }
 
     // Update is called once per frame
     void Update()
     {
-
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (plane.Raycast(ray, out float enter) && canMove == true)
         {
@@ -199,7 +212,7 @@ public class CharacterControllerRemapTest : MonoBehaviour
 
     void HealthFlaskManager()
     {
-        if (playerInput.actions["Health Refill"].triggered /*Input.GetKeyDown(KeyCode.Q)*/ && healthFlaskOfCooldown && flaskUses > 0)
+        if (inputActions.WindlessLand.HealthRefill.triggered/*playerInput.actions["Health Refill"].triggered,,,, Input.GetKeyDown(KeyCode.Q)*/ && healthFlaskOfCooldown && flaskUses > 0)
         {
             healthFlaskStart = true;
 
@@ -261,14 +274,20 @@ public class CharacterControllerRemapTest : MonoBehaviour
     }
 
 
+    void Dodgeroll(InputAction.CallbackContext obj)
+    {
+        dodgerollRemapTrigger = true;
+    }
 
     void DodgerollManager()
     {
-        if (playerInput.actions["Dodgeroll"].triggered && dodgerollOfCooldown)
+        if (/*inputActions.WindlessLand.Dodgeroll.triggered ,,
+playerInput.actions["Dodgeroll"].triggered &&*/ dodgerollRemapTrigger && dodgerollOfCooldown)
         //Input.GetKeyDown(KeyCode.Space) && dodgerollOfCooldown)
         {
             dodgerollStart = true;
             dodgerollTimerRunning = true;
+            dodgerollRemapTrigger = false;
 
             //more anim things
             Debug.Log("in player Dodgeroll");
@@ -305,6 +324,7 @@ public class CharacterControllerRemapTest : MonoBehaviour
                 if (DodgeWaitTimer(dodgerollCooldown))
                 {
                     dodgerollStart = false;
+                    dodgerollRemapTrigger = false;
                     dodgerollOfCooldown = true;
 
 
@@ -331,7 +351,7 @@ public class CharacterControllerRemapTest : MonoBehaviour
 
     void AttackManager()
     {
-        if (playerInput.actions["Attack"].triggered /*Input.GetKeyDown(KeyCode.Mouse0)*/ && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false)
+        if (inputActions.WindlessLand.Attack.triggered/*playerInput.actions["Attack"].triggered,, /*Input.GetKeyDown(KeyCode.Mouse0)*/ && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false)
         {
             Attack();
 
