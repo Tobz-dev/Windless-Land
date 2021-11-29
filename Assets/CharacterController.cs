@@ -315,6 +315,11 @@ public class CharacterController : MonoBehaviour
         return maxMana;
     }
 
+    public int GetMana()
+    {
+        return mana;
+    }
+
 
     void EquipManager() {
         if (bowIsActive == false && startAttackDelay == false && startAttackCooldown == false)

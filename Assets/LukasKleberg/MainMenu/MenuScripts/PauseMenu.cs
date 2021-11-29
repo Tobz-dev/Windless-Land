@@ -20,12 +20,18 @@ public class PauseMenu : MonoBehaviour
     [SerializeField]
     private GameObject[] subMenus;
 
+    [SerializeField] private GameObject logpanel;
+    private bool logIsUp;
+
     private void Start()
     {
-        if (gameIsPaused)
+        checkIfLog();
+        logpanel.SetActive(false);
+        gameIsPaused = false;
+        /*if (gameIsPaused)
             Pause();
         else
-            Resume();
+            Resume();*/
     }
 
     // Update is called once per frame
@@ -42,12 +48,22 @@ public class PauseMenu : MonoBehaviour
             {
                 Pause();
             }
+
+
+
         }
+
+        if(logpanel == isActiveAndEnabled && Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            logpanel.SetActive(false);
+        }
+
 
     }
 
     public void Resume() 
     {
+        
         pauseMenuBackground.SetActive(false);
         pauseMenuUI.SetActive(false);
         eventSystemHelper.SetActive(false);
@@ -84,4 +100,19 @@ public class PauseMenu : MonoBehaviour
         Debug.Log("in PauseMenu, LoadScene with" + sceneToLoad);
         SceneManager.LoadScene(sceneToLoad);
     }
+
+    public void checkIfLog()
+    {
+        if(logpanel == isActiveAndEnabled)
+        {
+            logIsUp = true;
+        }
+        else
+        {
+            logIsUp = false;
+        }
+    }
+
+
+
 }

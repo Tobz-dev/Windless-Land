@@ -57,7 +57,12 @@ public class BossChooseAttackState : State
         }
 
         attackCooldown -= Time.deltaTime;
-        if (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) <= aggroDistance)
+        if (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) > aggroDistance)
+        {
+            StateMachine.ChangeState<BossIdleScript>();
+            enrageCounter = 0;
+        }
+        else
         {
             if (attackCooldown < 0)
             {
@@ -78,10 +83,6 @@ public class BossChooseAttackState : State
                 //StateMachine.ChangeState<randomAttackState>();
                 attackCooldown = originalTime;
             }
-        }
-        else
-        {
-            StateMachine.ChangeState<BossIdleScript>();
 
         }
     }

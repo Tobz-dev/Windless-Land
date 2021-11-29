@@ -7,7 +7,7 @@ using TMPro;
 
 public class PanelHandler : MonoBehaviour
 {
-    //private PickUpManager pma;
+    //private PauseMenu pm;
     [SerializeField] private GameObject panel;
     [SerializeField] private GameObject logPanel;
     //[SerializeField] private Text logText;
@@ -21,6 +21,7 @@ public class PanelHandler : MonoBehaviour
     void Start()
     {
         logPanel.SetActive(false);
+        //pm = GetComponent<PauseMenu>();
         
 
     }
@@ -30,6 +31,9 @@ public class PanelHandler : MonoBehaviour
         {
             
             logPanel.SetActive(true);
+            
+            
+            
 
 
             if (logPanel == isActiveAndEnabled)
@@ -57,6 +61,9 @@ public class PanelHandler : MonoBehaviour
         if (logPanel == isActiveAndEnabled && Input.GetKeyDown(KeyCode.Escape))
         {
             logPanel.SetActive(false);
+            
+            
+            
         }
     }
 

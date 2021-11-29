@@ -16,8 +16,8 @@ public class PlayerHealthScript : MonoBehaviour
     [SerializeField]
     private Material material;
     private Material originalMaterial;
-    [SerializeField]
-    private GameObject[] hpSlots;
+    //[SerializeField]
+    //private GameObject[] hpSlots;
     [SerializeField]
     private TextMeshProUGUI flaskAmountText;
     [SerializeField]
@@ -39,7 +39,7 @@ public class PlayerHealthScript : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if (gameObject.GetComponent<MeshRenderer>() != null)
         {
@@ -49,7 +49,7 @@ public class PlayerHealthScript : MonoBehaviour
         scene = SceneManager.GetActiveScene();
         chilldrenAmount = transform.childCount;
         health = Maxhealth;
-        HealthSetup();
+        //HealthSetup();
         flaskAmount = maxFlasks;
         
         flaskAmountText.text = maxFlasks + "/" + maxFlasks;
@@ -86,7 +86,7 @@ public class PlayerHealthScript : MonoBehaviour
             health -= x;
 
             
-                HealthSetup();
+                //HealthSetup();
                 damageIsOnCooldown = true;
                 startInvincibilityTimer = true;
 
@@ -126,7 +126,7 @@ public class PlayerHealthScript : MonoBehaviour
         {
             health = Maxhealth;
         }
-        HealthSetup();
+        //HealthSetup();
         Debug.Log("REGAINED" + x + " HEALTH,  MAX IS NOW " + health);
     }
 
@@ -145,6 +145,7 @@ public class PlayerHealthScript : MonoBehaviour
         }
     }
 
+    /*
     private void HealthSetup()
     {
         if (health >= 1)
@@ -170,6 +171,7 @@ public class PlayerHealthScript : MonoBehaviour
             hpSlots[health - 1].transform.GetChild(0).gameObject.SetActive(true);
         }
     }
+    */
 
     private bool DamageCooldown(float seconds)
     {
