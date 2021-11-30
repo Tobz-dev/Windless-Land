@@ -118,6 +118,39 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""HorizontalMovementArrows"",
+                    ""id"": ""22c803c9-538c-4c1d-aac6-ef6a0dad6ec8"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""3aaaeef0-53c3-45ba-913c-d4c2fa8ece21"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": ""Normalize(max=1)"",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""cd330350-e321-430c-88a2-545aab89ec63"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": ""Normalize(max=1)"",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": ""HorizontalMovementGamepad"",
                     ""id"": ""2fc26e2b-e439-4cc6-8fbc-b0dfb74b9b7f"",
                     ""path"": ""1DAxis"",
@@ -176,6 +209,39 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""name"": ""positive"",
                     ""id"": ""ef2f3d8b-b473-4fd5-a7a5-4b64c5f960b1"",
                     ""path"": ""<Keyboard>/W"",
+                    ""interactions"": """",
+                    ""processors"": ""Normalize(max=1)"",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""VerticalMovementArrows"",
+                    ""id"": ""c7cac121-3442-4940-939f-b861f7ded692"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""35e35394-342e-4f8e-b675-76f4acc331e4"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": ""Normalize(max=1)"",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""81d80c1f-65f4-4aa3-980f-a97222e4a6f6"",
+                    ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": ""Normalize(max=1)"",
                     ""groups"": ""Keyboard"",

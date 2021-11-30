@@ -13,7 +13,7 @@ public class RebindUI : MonoBehaviour
     [SerializeField] private bool excludeMouse = true;
     //note to self: add exclude keyboard too?
 
-    [Range(0, 10)]
+    [Range(0, 20)]
     [SerializeField] private int selectedBinding;
     [SerializeField] private InputBinding.DisplayStringOptions displayStringOptions;
    
@@ -82,19 +82,19 @@ public class RebindUI : MonoBehaviour
         {
             actionText.text = actionName;
 
-            if(actionName.Equals("Move") && selectedBinding == 1)
+            if(actionName.Equals("Move") && (selectedBinding == 1 || selectedBinding == 4))
             {
                 actionText.text = "Move Left";
             }
-            if(actionName.Equals("Move") && selectedBinding == 2)
+            if(actionName.Equals("Move") && (selectedBinding == 2 || selectedBinding == 5))
             {
                 actionText.text = "Move Right";
             }
-            if (actionName.Equals("Move") && selectedBinding == 7)
+            if (actionName.Equals("Move") && (selectedBinding == 10 || selectedBinding == 13))
             {
                 actionText.text = "Move Down";
             }
-            if (actionName.Equals("Move") && selectedBinding == 8)
+            if (actionName.Equals("Move") && (selectedBinding == 11 || selectedBinding == 14))
             {
                 actionText.text = "Move Up";
             }
@@ -105,11 +105,28 @@ public class RebindUI : MonoBehaviour
             if (Application.isPlaying)
             {
                 rebindText.text = InputManager.GetBindingName(actionName, bindingIndex);
+                int splitIndex = rebindText.text.IndexOf('/');
+                if (splitIndex >= 0)
+                {
+                    rebindText.text = rebindText.text.Substring(splitIndex+1);
+                    rebindText.text = rebindText.text[0].ToString().ToUpper() + rebindText.text.Substring(1);
+                }
             }
             else
             {
                 rebindText.text = inputActionReference.action.bindings[bindingIndex].effectivePath;
+                int splitIndex = rebindText.text.IndexOf('/');
+                if (splitIndex >= 0) 
+                { 
+                    rebindText.text = rebindText.text.Substring(splitIndex+1);
+                    rebindText.text = rebindText.text[0].ToString().ToUpper() + rebindText.text.Substring(1);
+                }
+                /*
+                for (int i = 0; i <= rebindText.text.Length - 1; i++)
+                {
                     
+                }
+                */
                     //overridePath;
                     //inputActionReference.action.GetBindingDisplayString(bindingIndex).ToUpper();
                 //inputActionReference.action.controls[0].name;
