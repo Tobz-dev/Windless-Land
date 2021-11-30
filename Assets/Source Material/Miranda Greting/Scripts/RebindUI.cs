@@ -82,19 +82,19 @@ public class RebindUI : MonoBehaviour
         {
             actionText.text = actionName;
 
-            if(actionName.Equals("Move") && (selectedBinding == 1 || selectedBinding == 4))
+            if(actionName.Equals("Move") && (selectedBinding == 3 || selectedBinding == 8))
             {
                 actionText.text = "Move Left";
             }
-            if(actionName.Equals("Move") && (selectedBinding == 2 || selectedBinding == 5))
+            if(actionName.Equals("Move") && (selectedBinding == 4 || selectedBinding == 9))
             {
                 actionText.text = "Move Right";
             }
-            if (actionName.Equals("Move") && (selectedBinding == 10 || selectedBinding == 13))
+            if (actionName.Equals("Move") && (selectedBinding == 2 || selectedBinding == 7))
             {
                 actionText.text = "Move Down";
             }
-            if (actionName.Equals("Move") && (selectedBinding == 11 || selectedBinding == 14))
+            if (actionName.Equals("Move") && (selectedBinding == 1 || selectedBinding == 6))
             {
                 actionText.text = "Move Up";
             }
@@ -106,28 +106,39 @@ public class RebindUI : MonoBehaviour
             {
                 rebindText.text = InputManager.GetBindingName(actionName, bindingIndex);
                 int splitIndex = rebindText.text.IndexOf('/');
+
                 if (splitIndex >= 0)
                 {
-                    rebindText.text = rebindText.text.Substring(splitIndex+1);
-                    rebindText.text = rebindText.text[0].ToString().ToUpper() + rebindText.text.Substring(1);
+                    string bindingString = rebindText.text.Substring(splitIndex + 1);
+                    bindingString = bindingString[0].ToString().ToUpper() + bindingString.Substring(1);
+                    if (rebindText.text[1].Equals('M'))
+                    {
+                        rebindText.text = "Mouse/" + bindingString;
+                    }
+                    else
+                    {
+                        rebindText.text = bindingString;
+                    }
                 }
             }
             else
             {
                 rebindText.text = inputActionReference.action.bindings[bindingIndex].effectivePath;
                 int splitIndex = rebindText.text.IndexOf('/');
+                
                 if (splitIndex >= 0) 
                 { 
-                    rebindText.text = rebindText.text.Substring(splitIndex+1);
-                    rebindText.text = rebindText.text[0].ToString().ToUpper() + rebindText.text.Substring(1);
+                    string bindingString = rebindText.text.Substring(splitIndex+1);
+                    bindingString = bindingString[0].ToString().ToUpper() + bindingString.Substring(1);
+                    if (rebindText.text[1].Equals('M'))
+                    {
+                        rebindText.text = "Mouse/" + bindingString;
+                    }
+                    else
+                    {
+                        rebindText.text = bindingString;
+                    }
                 }
-                /*
-                for (int i = 0; i <= rebindText.text.Length - 1; i++)
-                {
-                    
-                }
-                */
-                    //overridePath;
                     //inputActionReference.action.GetBindingDisplayString(bindingIndex).ToUpper();
                 //inputActionReference.action.controls[0].name;
             }

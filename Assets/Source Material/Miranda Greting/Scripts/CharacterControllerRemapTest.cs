@@ -88,18 +88,23 @@ public class CharacterControllerRemapTest : MonoBehaviour
 
     Vector3 forward, right;
 
-    
+    //Move
+    Vector2 movementInput;
+
     private void OnEnable()
     {
-        inputActions = InputManager.inputActions;
-
         inputActions.WindlessLand.Dodgeroll.started += Dodgeroll;
+        inputActions.WindlessLand.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
         inputActions.WindlessLand.Enable();
     }
-    
+
+    private void OnDisable()
+    {
+        inputActions.Disable();
+    }
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         canMove = true;
         plane = new Plane(Vector3.up, Vector3.zero);
@@ -111,7 +116,7 @@ public class CharacterControllerRemapTest : MonoBehaviour
         moveSpeedDefault = moveSpeed;
 
         playerInput = GetComponent<PlayerInput>();
-        inputActions = InputManager.inputActions;
+        inputActions = new PlayerInputs();
     }
 
     // Update is called once per frame
@@ -140,18 +145,18 @@ public class CharacterControllerRemapTest : MonoBehaviour
             }
 
             //anim stuff here. 
-            anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
-            anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
+            anim.SetFloat("XSpeed", movementInput.x);//Input.GetAxis("HorizontalKey"));
+            anim.SetFloat("YSpeed", movementInput.y);//Input.GetAxis("VerticalKey"));
         }
     }
 
     private void PlayerRotationUpdate()
     {
 
-        if (moveAllow && (Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
+        if (moveAllow && (Mathf.Abs(movementInput.x) + Mathf.Abs(movementInput.y)) !=0) //Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
         {
-            Vector3 horizontal = (Input.GetAxis("Horizontal") * right);
-            Vector3 vertical = (Input.GetAxis("Vertical") * forward);
+            Vector3 horizontal = movementInput.x * right; //(Input.GetAxis("Horizontal") * right);
+            Vector3 vertical = movementInput.y * forward; // (Input.GetAxis("Vertical") * forward);
             Vector3 rotation = horizontal + vertical;
 
             transform.rotation = Quaternion.LookRotation(rotation);
@@ -196,8 +201,11 @@ public class CharacterControllerRemapTest : MonoBehaviour
 
         Vector3 rightMovement = right * moveSpeed * Time.deltaTime * Input.GetAxis("HorizontalKey");
         Vector3 upMovement = forward * moveSpeed * Time.deltaTime * Input.GetAxis("VerticalKey");
-
-        Vector3 playerMovement = rightMovement + upMovement;
+        Vector3 horizontalMovement = right * moveSpeed * Time.deltaTime * movementInput.x;
+        Vector3 verticalMovement = forward * moveSpeed * Time.deltaTime * movementInput.y;
+        //Debug.Log("speed x:" + movementInput.x + "speed y:" + movementInput.y);
+        //Vector3 playerMovement = rightMovement + upMovement;
+        Vector3 playerMovement = horizontalMovement + verticalMovement;
 
         inputDirection = playerMovement.normalized;
 
@@ -277,6 +285,7 @@ public class CharacterControllerRemapTest : MonoBehaviour
     void Dodgeroll(InputAction.CallbackContext obj)
     {
         dodgerollRemapTrigger = true;
+        Debug.Log("dodgerollworks");
     }
 
     void DodgerollManager()
