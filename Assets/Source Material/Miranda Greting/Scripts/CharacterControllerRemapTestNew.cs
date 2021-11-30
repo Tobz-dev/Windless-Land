@@ -192,7 +192,7 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
 
     private void Awake()
     {
-        inputActions = new PlayerInputs();
+        inputActions = InputManager.inputActions;
     }
     // Start is called before the first frame update
     void Start()
@@ -212,6 +212,7 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
 
         currentAttackTrigger = "Attack1";
         //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
+        inputActions = InputManager.inputActions;
     }
 
     // Update is called once per frame

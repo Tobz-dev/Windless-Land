@@ -134,6 +134,26 @@ public class InputManager : MonoBehaviour
         {
             action.RemoveBindingOverride(bindingIndex);
         }
+        SaveBindingOverride(action);
+    }
+
+    public static void ResetAllBindings()
+    {
+        if(inputActions == null)
+        {
+            inputActions = new PlayerInputs();
+        }
+
+        //Note to self: removes all bindings in all actionMaps, not just current/gameplay map, change if multiple action maps will be used
+        foreach (InputActionMap map in inputActions.asset.actionMaps)
+        {
+            map.RemoveAllBindingOverrides();
+        }
+
+        foreach (InputAction action in inputActions.asset)
+        {
+            SaveBindingOverride(action);
+        }
     }
 
     private static void SaveBindingOverride(InputAction action)

@@ -164,4 +164,10 @@ public class RebindUI : MonoBehaviour
         InputManager.ResetBinding(actionName, bindingIndex);
         UpdateUI();
     }
+
+    public void ResetAllBindings()
+    {
+        InputManager.ResetAllBindings();
+        UpdateUI();
+    }
 }
