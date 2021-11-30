@@ -17,7 +17,7 @@ public class LeverAnim : MonoBehaviour
     [Header("Triggers")]
     public UnityEvent TriggerEvent;
 
-
+    private FMOD.Studio.EventInstance LeverPull;
 
 
     void Start()
@@ -51,6 +51,11 @@ public class LeverAnim : MonoBehaviour
         {
             panel.SetActive(false);
         }
+
+        LeverPull = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/LeverPull");
+        LeverPull.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        LeverPull.start();
+        LeverPull.release();
     }
 
     private void OnTriggerEnter(Collider other)
