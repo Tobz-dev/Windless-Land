@@ -13,7 +13,7 @@ public class DoorOpenAnim : MonoBehaviour
     [SerializeField] private Text pressText;
     [SerializeField] private GameObject panel;
     private Collider doorCollider;
-
+    private FMOD.Studio.EventInstance DoorOpen;
 
     void Start()
     {
@@ -35,7 +35,11 @@ public class DoorOpenAnim : MonoBehaviour
             panel.SetActive(false);
         }
 
-        
+        DoorOpen = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/DoorUnlock");
+        DoorOpen.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        DoorOpen.start();
+        DoorOpen.release();
+
     }
 
     void Update()
