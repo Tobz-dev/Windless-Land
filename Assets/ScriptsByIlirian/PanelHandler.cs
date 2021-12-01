@@ -15,6 +15,7 @@ public class PanelHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textmesh;
     private bool readLog;
     public int logNumber;
+    private FMOD.Studio.EventInstance PageOpen;
 
 
 
@@ -31,9 +32,13 @@ public class PanelHandler : MonoBehaviour
         {
             
             logPanel.SetActive(true);
-            
-            
-            
+
+            PageOpen = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/PageOpen");
+            PageOpen.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+            PageOpen.start();
+            PageOpen.release();
+
+
 
 
             if (logPanel == isActiveAndEnabled)
@@ -61,9 +66,7 @@ public class PanelHandler : MonoBehaviour
         if (logPanel == isActiveAndEnabled && Input.GetKeyDown(KeyCode.Escape))
         {
             logPanel.SetActive(false);
-            
-            
-            
+
         }
     }
 
