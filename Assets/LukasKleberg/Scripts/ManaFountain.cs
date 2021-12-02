@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ManaFountain : MonoBehaviour
 {
-    public int manaRestoreValue;
+    [SerializeField]
+    private int manaRestoreValue;
 
     private void OnTriggerEnter(Collider collision)
     {

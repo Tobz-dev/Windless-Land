@@ -214,6 +214,15 @@ public class PlayerHealthScript : MonoBehaviour
         flaskAmountText.text = flaskAmount + "/" + maxFlasks;
     }
 
+    public void IncreasePotionAmount(int amountOfPotions) 
+    {
+        maxFlasks += amountOfPotions;
+        flaskAmount += amountOfPotions;
+        Debug.Log("in IncreasePotionAmount. new maxFlasks is: " + maxFlasks);
+
+        flaskAmountText.text = flaskAmount + "/" + maxFlasks;
+    }
+
     float GetHealthPercentage()
     {
         return (float)health / (float)Maxhealth;
