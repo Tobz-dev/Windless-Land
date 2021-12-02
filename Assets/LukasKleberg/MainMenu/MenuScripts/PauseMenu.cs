@@ -12,7 +12,7 @@ public class PauseMenu : MonoBehaviour
     private GameObject pauseMenuUI;
 
     [SerializeField]
-    private GameObject playerHP, arrowAmmo, PlayerMana;
+    private GameObject playerHP, PlayerMana;
 
     [SerializeField]
     private GameObject eventSystemHelper;
@@ -68,7 +68,6 @@ public class PauseMenu : MonoBehaviour
         eventSystemHelper.SetActive(false);
 
         playerHP.SetActive(true);
-        arrowAmmo.SetActive(true);
         PlayerMana.SetActive(true);
 
         Time.timeScale = 1.0f;
@@ -88,7 +87,6 @@ public class PauseMenu : MonoBehaviour
         eventSystemHelper.SetActive(true);
 
         playerHP.SetActive(false);
-        arrowAmmo.SetActive(false);
         PlayerMana.SetActive(false);
 
 
