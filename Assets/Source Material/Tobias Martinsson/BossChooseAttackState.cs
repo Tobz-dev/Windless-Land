@@ -25,7 +25,6 @@ public class BossChooseAttackState : State
 
     public override void Enter()
     {
-        Debug.Log("Choosing attack.");
 
         Agent.transform.rotation = originalRotation;
     }
@@ -34,9 +33,6 @@ public class BossChooseAttackState : State
         Agent.transform.rotation = originalRotation;
         CurrentPatrol = Agent.GetPatrolPointByindex(0);
         Agent.NavAgent.SetDestination(CurrentPatrol.position);
-
-        Debug.Log(Agent.GetComponent<EnemyHealthScript>().health);
-        Debug.Log(Agent.GetComponent<EnemyHealthScript>().health * 0.75);
         if (Agent.GetComponent<EnemyHealthScript>().health < Agent.GetComponent<EnemyHealthScript>().Maxhealth * 0.75 && enrageCounter == 0)
         {
             enrageCounter++;
