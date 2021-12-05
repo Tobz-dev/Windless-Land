@@ -78,11 +78,13 @@ public class BossShootingState : State
             {
                 CurrentPatrol = Agent.GetPatrolPointByindex(0);
                 Agent.NavAgent.SetDestination(CurrentPatrol.position);
+                Agent.GetComponent<BossMechanicsScript>().DestroyRandomPillar();
                 StateMachine.ChangeState<BossChooseAttackState>();
             }
         }
         else
         {
+            Agent.GetComponent<BossMechanicsScript>().DestroyRandomPillar();
             StateMachine.ChangeState<BossChooseAttackState>();
         }
         

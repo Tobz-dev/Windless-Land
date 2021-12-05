@@ -40,20 +40,18 @@ public class BossChooseAttackState : State
         if (Agent.GetComponent<EnemyHealthScript>().health < Agent.GetComponent<EnemyHealthScript>().Maxhealth * 0.75 && enrageCounter == 0)
         {
             enrageCounter++;
-            Agent.GetComponent<BossMechanicsScript>().DestroyRandomPillar();
             StateMachine.ChangeState<BossShootingState>();
         }
         else if (Agent.GetComponent<EnemyHealthScript>().health < Agent.GetComponent<EnemyHealthScript>().Maxhealth * 0.5 && enrageCounter == 1)
         {
             enrageCounter++;
             StateMachine.ChangeState<BossShootingState>();
-            Agent.GetComponent<BossMechanicsScript>().DestroyRandomPillar();
         }
         else if(Agent.GetComponent<EnemyHealthScript>().health < Agent.GetComponent<EnemyHealthScript>().Maxhealth * 0.25 && enrageCounter == 2)
         {
             enrageCounter++;
             StateMachine.ChangeState<BossShootingState>();
-            Agent.GetComponent<BossMechanicsScript>().DestroyRandomPillar();
+            
         }
 
         attackCooldown -= Time.deltaTime;
