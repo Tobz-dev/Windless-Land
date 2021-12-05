@@ -16,6 +16,7 @@ public class SurfaceController : MonoBehaviour
     private FMOD.Studio.EventInstance BowDraw;
     private FMOD.Studio.EventInstance PlayerAttack;
     private FMOD.Studio.EventInstance BowShot;
+    private FMOD.Studio.EventInstance PlayerAttackStrong;
 
     private void Update()
     {
@@ -244,6 +245,15 @@ public class SurfaceController : MonoBehaviour
         BowShot.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         BowShot.start();
         BowShot.release();
+
+    }
+
+    public void PlayPlayerAttackStrong()
+    {
+        PlayerAttackStrong = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/AttackStrong");
+        PlayerAttackStrong.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        PlayerAttackStrong.start();
+        PlayerAttackStrong.release();
 
     }
 
