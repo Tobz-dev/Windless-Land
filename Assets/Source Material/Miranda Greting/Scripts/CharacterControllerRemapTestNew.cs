@@ -176,13 +176,27 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
     PlayerInputs inputActions;
     //move rebindings
     Vector2 movementInput;
+    private bool dodgerollActivated;
+    private bool attackActivated = false;
+    private bool attackDone = false;
+    private bool attackCanceled = false;
+    private bool keyboardUsed;
 
 
     private void OnEnable()
     {
         //inputActions.WindlessLand.Dodgeroll.started += Dodgeroll;
         inputActions.WindlessLand.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
+        inputActions.WindlessLand.Attack.started += ctx => attackActivated = true;
+        inputActions.WindlessLand.Attack.performed += ctx => attackDone = true;
+        inputActions.WindlessLand.Attack.canceled += ctx => attackCanceled = true;
+        inputActions.WindlessLand.Dodgeroll.performed += ctx => dodgerollActivated = true;
         inputActions.WindlessLand.Enable();
+    }
+
+    private void AttackStarted()
+    {
+
     }
 
     private void OnDisable()
@@ -197,7 +211,6 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         playerRgb = transform.GetComponent<Rigidbody>();
 
         bow.SetActive(false);
@@ -252,6 +265,7 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
             //anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
         }
     }
+
     private void FixedUpdate()
     {
 
@@ -262,13 +276,20 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
     {
         if (moveAllow && (Mathf.Abs(movementInput.x) + Mathf.Abs(movementInput.y)) != 0)
         {
-            Vector3 horizontal = (Input.GetAxis("Horizontal") * right);
-            //Vector3 horizontal = movementInput.x * right;
-            Vector3 vertical = (Input.GetAxis("Vertical") * forward);
+            Vector3 horizontal = movementInput.x * right;
+            Vector3 vertical = movementInput.y * forward;
+            if ((inputActions.WindlessLand.Move.bindings[3].effectivePath.Equals("<Keyboard>/a") || inputActions.WindlessLand.Move.bindings[3].effectivePath.Equals("<Keyboard>/leftArrow")) && (inputActions.WindlessLand.Move.bindings[4].effectivePath.Equals("<Keyboard>/d") || inputActions.WindlessLand.Move.bindings[4].effectivePath.Equals("<Keyboard>/rightArrow"))) {
+                horizontal = (Input.GetAxis("Horizontal") * right);
+            }
+
+            if ((inputActions.WindlessLand.Move.bindings[1].effectivePath.Equals("<Keyboard>/w") || inputActions.WindlessLand.Move.bindings[1].effectivePath.Equals("<Keyboard>/upArrow")) && (inputActions.WindlessLand.Move.bindings[2].effectivePath.Equals("<Keyboard>/s") || inputActions.WindlessLand.Move.bindings[2].effectivePath.Equals("<Keyboard>/downArrow")))
+            {
+                vertical = (Input.GetAxis("Vertical") * forward);
+            }
             //Vector3 vertical = movementInput.y * forward; 
             Vector3 rotation = horizontal + vertical;
 
-            //Debug.Log("Inputsystem: " + movementInput.x + ",  GetAxis: " + Input.GetAxis("Horizontal"));
+            //Debug.Log("Inputsystem: " + movementInput.x * right + ",  GetAxis: " + Input.GetAxis("Horizontal") * right  + ", Current: " + horizontal.x);
 
             transform.rotation = Quaternion.LookRotation(rotation);
         }
@@ -307,7 +328,7 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
         //movementInput.x = Input.GetAxis("Horizontal");
         //movementInput.y = Input.GetAxis("Vertical");
         //Debug.Log("speed x:" + movementInput.x + "speed y:" + movementInput.y);
-        Debug.Log("Inputspeed x:" + movementInput.x + " AxisSpeed: " + Input.GetAxis("HorizontalKey") + " GeneralAxisSpeed: " + Input.GetAxis("Horizontal"));
+        //Debug.Log("Inputspeed x:" + movementInput.x + " AxisSpeed: " + Input.GetAxis("HorizontalKey") + " GeneralAxisSpeed: " + Input.GetAxis("Horizontal"));
         playerMovement = horizontalMovement + verticalMovement;
 
         //playerMovement = rightMovement + upMovement;
@@ -375,15 +396,18 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
         if (bowIsActive == false && startAttackDelay == false && startAttackCooldown == false)
         {
 
-            if (Input.GetKeyDown(KeyCode.Alpha2))
+            if (/*Input.GetKeyDown(KeyCode.Alpha2)*/ inputActions.WindlessLand.BowWeapon.triggered) //detects when Weapon2 rebinding is triggered
             {
+                mana = 100; //testing - remove later
                 bow.SetActive(true);
                 sword.SetActive(false);
+                Debug.Log("Bow equipped");
             }
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (/*Input.GetKeyDown(KeyCode.Alpha1)*/ inputActions.WindlessLand.SwordWeapon.triggered) // detects when weapon1 rebinding trigger
             {
                 bow.SetActive(false);
                 sword.SetActive(true);
+                Debug.Log("Sword equipped");
             }
 
         }
@@ -392,14 +416,38 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
 
     void BowManager()
     {
+        string keyboardPath = inputActions.WindlessLand.Attack.bindings[0].effectivePath;
+        string mousePath = inputActions.WindlessLand.Attack.bindings[1].effectivePath;
+        int pathNameIndex = keyboardPath.IndexOf('/')+1;
+        int pathNameIndexMouse = mousePath.IndexOf('/')+1;
+        if (mousePath.Equals("<Mouse>/leftButton"))
+        {
+            mousePath = "mouse 0";
+            pathNameIndexMouse = 0;
+        }
+        if (keyboardPath.Equals("<Mouse>/leftButton"))
+        {
+            keyboardPath = "mouse 0";
+            pathNameIndex = 0;
+        }
+        keyboardPath = keyboardPath.Substring(pathNameIndex);
+        mousePath = mousePath.Substring(pathNameIndexMouse);
+        //Debug.Log(mousePath + ", " + keyboardPath);
         if (bow.activeSelf == true && dodgerollTimerRunning == false && healthFlaskStart == false)
         {
             if (bowIsActive == false && mana >= bowManaCost)
             {
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (/*Input.GetKeyDown(KeyCode.Mouse0) attackActivated*/ Input.GetKeyDown(keyboardPath)) //detects when key (re-)binding is pressed
                 {
                     StartBowDraw();
-
+                    Debug.Log("started!!");
+                    keyboardUsed = true;
+                }
+                if (/*Input.GetKeyDown(KeyCode.Mouse0) attackActivated*/ Input.GetKeyDown(mousePath)) //detects when key (re-)binding is pressed
+                {
+                    StartBowDraw();
+                    Debug.Log("started!!");
+                    keyboardUsed = false;
                 }
 
             }
@@ -409,7 +457,7 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
                 if (drawBow)
                 {
                     transform.rotation = lookRotation;
-                    DrawBow();
+                    DrawBow(keyboardPath, mousePath);
                 }
 
                 if (bowIsLoading)
@@ -425,10 +473,12 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
                     transform.rotation = lookRotation;
                 }
 
-                if (Input.GetKeyUp(KeyCode.Mouse0) && bowIsFinishedLoading == true)
+                if (/*Input.GetKeyUp(KeyCode.Mouse0) inputActions.WindlessLand.Attack.triggered attackCanceled */ (Input.GetKeyUp(keyboardPath) || Input.GetKeyUp(mousePath)) && bowIsFinishedLoading == true)
                 {
-
                     BowFire();
+                    attackActivated = false;
+                    attackCanceled = false;
+                    Debug.Log("Fire");
                 }
 
                 if (startBowCooldown)
@@ -437,10 +487,12 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
 
                 }
 
-                if ((Input.GetKeyUp(KeyCode.Mouse0) && drawBow == false && bowIsFinishedLoading == false && startBowCooldown == false && drawBow == false) || drawBow == false && queueBowCancel == true)
+                if ((/*Input.GetKeyUp(KeyCode.Mouse0) attackCanceled*/ ((!Input.GetKey(keyboardPath) && keyboardUsed) || (!Input.GetKey(mousePath) && !keyboardUsed))   && drawBow == false && bowIsFinishedLoading == false && startBowCooldown == false && drawBow == false) || drawBow == false && queueBowCancel == true)
                 {
-
+                    Debug.Log("Cancelbow");
+                    attackActivated = false;
                     BowCancel();
+                    attackCanceled = false;
                 }
             }
         }
@@ -460,7 +512,7 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
         drawBow = true;
 
     }
-    void DrawBow()
+    void DrawBow(string keyboardPath, string mousePath)
     {
         if (AttackWaitTimer(bowDrawTime))
         {
@@ -477,7 +529,7 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
         }
         else
         {
-            if (Input.GetKeyUp(KeyCode.Mouse0))
+            if (/*Input.GetKeyUp(KeyCode.Mouse0) inputActions.WindlessLand.Attack.triggered*/ ((!Input.GetKey(keyboardPath) && keyboardUsed) || (!Input.GetKey(mousePath) && !keyboardUsed)))
             {
                 queueBowCancel = true;
             }
@@ -551,7 +603,7 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
 
     void HealthFlaskManager()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0 && startAttackDelay == false && startAttackCooldown == false && dodgerolling == false && bowIsActive == false && gameObject.GetComponent<PlayerHealthScript>().GetHealth() < gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth())
+        if (/*Input.GetKeyDown(KeyCode.Q)*/ inputActions.WindlessLand.HealthRefill.triggered && healthFlaskOfCooldown && flaskUses > 0 && startAttackDelay == false && startAttackCooldown == false && dodgerolling == false && bowIsActive == false && gameObject.GetComponent<PlayerHealthScript>().GetHealth() < gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth())
         {
             healthFlaskStart = true;
             HealthRefill = FMODUnity.RuntimeManager.CreateInstance("event:/Game/HealthRefill");
@@ -621,6 +673,7 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
 
         dodgerollStart = true;
         dodgerollTimerRunning = true;
+        dodgerollActivated = false; //new
 
         //more anim things
         //Debug.Log("in player Dodgeroll");
@@ -643,8 +696,8 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
     }
 
     void DodgerollManager()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && dodgerollOfCooldown && startAttackDelay == false && startAttackCooldown == false && bowIsActive == false)
+    { // new
+        if (/*Input.GetKeyDown(KeyCode.Space)*/ dodgerollActivated && dodgerollOfCooldown && startAttackDelay == false && startAttackCooldown == false && bowIsActive == false)
         {
             StartDodgeroll();
         }
@@ -709,19 +762,21 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
     {
         if (sword.activeSelf == true && startAttackDelay == false && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (/*Input.GetKeyDown(KeyCode.Mouse0)*/ inputActions.WindlessLand.Attack.triggered)
             {
                 ResetAttackAni();
 
                 Attack();
+                Debug.Log("Ataaaaaaackkk (normal)");
             }
-            if (Input.GetKeyDown(KeyCode.Mouse1) && mana >= heavyManaCost)
+            if (/*Input.GetKeyDown(KeyCode.Mouse1)*/ inputActions.WindlessLand.HeavyAttack.triggered && mana >= heavyManaCost)
             {
                 mana = mana - heavyManaCost;
 
                 ResetAttackAni();
 
                 HeavyAttack();
+                Debug.Log("Heavy attack");
             }
 
         }

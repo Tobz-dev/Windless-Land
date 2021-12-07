@@ -29,6 +29,9 @@ public class RebindUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI rebindText;
     [SerializeField] private Button resetButton;
 
+    private GameObject[] rebindScripts;
+
+    public GameObject rebindWarning;
 
     private void OnEnable()
     {
@@ -43,6 +46,7 @@ public class RebindUI : MonoBehaviour
         }
         InputManager.rebindComplete += UpdateUI;
         InputManager.rebindCanceled += UpdateUI;
+        rebindScripts = GameObject.FindGameObjectsWithTag("Binding");
     }
 
     private void OnDisable()
@@ -154,9 +158,17 @@ public class RebindUI : MonoBehaviour
         }
     }
 
+    private void UpdateAllUI()
+    {
+        foreach (GameObject script in rebindScripts)
+        {
+            script.GetComponent<RebindUI>().UpdateUI();
+        }
+    }
+
     private void ChangeBinding()
     {
-        InputManager.StartRebind(actionName, bindingIndex, rebindText, excludeMouse);
+        InputManager.StartRebind(actionName, bindingIndex, rebindText, excludeMouse, rebindWarning);
     }
 
     private void ResetBinding()
@@ -168,6 +180,6 @@ public class RebindUI : MonoBehaviour
     public void ResetAllBindings()
     {
         InputManager.ResetAllBindings();
-        UpdateUI();
+        UpdateAllUI();
     }
 }

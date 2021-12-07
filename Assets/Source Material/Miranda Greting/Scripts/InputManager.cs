@@ -14,15 +14,21 @@ public class InputManager : MonoBehaviour
     public static event Action rebindCanceled;
     public static event Action<InputAction, int> rebindStarted;
 
+    private static InputManager instance;
+
+    [SerializeField] public GameObject rebindWarning;
+
     private void Awake()
     {
         if(inputActions == null)
         {
             inputActions = new PlayerInputs();
         }
+
+        instance = this;
     }
 
-    public static void StartRebind(string actionName, int bindingIndex, TextMeshProUGUI statusText, bool excludeMouse)
+    public static void StartRebind(string actionName, int bindingIndex, TextMeshProUGUI statusText, bool excludeMouse, GameObject rebindPanel)
     {
         InputAction action = inputActions.asset.FindAction(actionName);
         if(action == null || action.bindings.Count <= bindingIndex)
@@ -30,28 +36,30 @@ public class InputManager : MonoBehaviour
             Debug.Log("Couldn't find action or binding!! Check inspector reference");
         }
 
+        rebindPanel.SetActive(true);
+
         if (action.bindings[bindingIndex].isComposite)
         {
             var firstIndex = bindingIndex + 1;
             if(firstIndex < action.bindings.Count && action.bindings[firstIndex].isComposite)
             {
-                ChangeRebind(action, bindingIndex, statusText, true, excludeMouse);
+                ChangeRebind(action, bindingIndex, statusText, true, excludeMouse, rebindPanel);
             }
         }
         else
         {
-            ChangeRebind(action, bindingIndex, statusText, false, excludeMouse);
+            ChangeRebind(action, bindingIndex, statusText, false, excludeMouse, rebindPanel);
         }
     }
 
-    private static void ChangeRebind(InputAction actionToRebind, int bindingIndex, TextMeshProUGUI statusText, bool compositeBinding, bool excludeMouse)
+    private static void ChangeRebind(InputAction actionToRebind, int bindingIndex, TextMeshProUGUI statusText, bool compositeBinding, bool excludeMouse, GameObject rebindPanel)
     {
         if(actionToRebind == null || bindingIndex < 0)
         {
             return; //exits function if InputAction is null or index is invalid/less than zero
         }
 
-        statusText.text = "Press a " + actionToRebind.expectedControlType; //gives feedback to player on which type of button is expected
+        statusText.text = "Press a " + "button"; //actionToRebind.expectedControlType; //gives feedback to player on which type of button is expected
         actionToRebind.Disable(); //disables action while rebinding is being performed
 
         var rebind = actionToRebind.PerformInteractiveRebinding(bindingIndex); //creates instance of the rebinding action (does Not start the rebinding process, just creates an instance of the object that's going to do the rebinding)
@@ -61,17 +69,26 @@ public class InputManager : MonoBehaviour
             actionToRebind.Enable();
             operation.Dispose();
 
+            if(CheckDuplicateBindings(actionToRebind, bindingIndex, compositeBinding, rebindPanel.transform.GetChild(2).gameObject))
+            {
+                actionToRebind.RemoveBindingOverride(bindingIndex);
+                //CleanUp();
+                ChangeRebind(actionToRebind, bindingIndex, statusText, compositeBinding, excludeMouse, rebindPanel);
+                return;
+            }
+
             if (compositeBinding)
             {
                 var nextBindingIndex = bindingIndex + 1;
                 if(nextBindingIndex < actionToRebind.bindings.Count && actionToRebind.bindings[nextBindingIndex].isComposite)
                 {
-                    ChangeRebind(actionToRebind, nextBindingIndex, statusText, compositeBinding, excludeMouse);
+                    ChangeRebind(actionToRebind, nextBindingIndex, statusText, compositeBinding, excludeMouse, rebindPanel);
                 }
             }
 
             SaveBindingOverride(actionToRebind);
             rebindComplete?.Invoke();
+            rebindPanel.SetActive(false);
 
         }); //assigns a delegat that enables the action when rebinding is complete, and disposes of delegate to prevent memory leaks
 
@@ -81,6 +98,7 @@ public class InputManager : MonoBehaviour
             operation.Dispose();
 
             rebindCanceled?.Invoke();
+            rebindPanel.SetActive(false);
         }); //same functionality as above when rebinding is canceled
 
         rebind.WithCancelingThrough("<Keyboard>/escape");
@@ -179,5 +197,53 @@ public class InputManager : MonoBehaviour
                 action.ApplyBindingOverride(i, PlayerPrefs.GetString(action.actionMap + action.name + i));
             }
         }
+    }
+
+    private static bool CheckDuplicateBindings(InputAction action, int bindingIndex, bool allCompositeParts, GameObject rebindWarning)
+    {
+        InputBinding newBinding = action.bindings[bindingIndex];
+        foreach (InputBinding binding in action.actionMap.bindings)
+        {
+            if (binding.action == newBinding.action)
+            {
+                continue;
+            }
+            if (binding.effectivePath == newBinding.effectivePath)
+            {
+                //set gameobject active
+                rebindWarning.SetActive(true);
+                instance.StartCoroutine(DelayInactivation(2f, rebindWarning));
+                Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
+                return true;
+            }
+        }
+        //Check for duplicate composite bindings
+        if (allCompositeParts)
+        {
+            for (int i = 1; i < bindingIndex; i++)
+            {
+                if (action.bindings[i].effectivePath == newBinding.effectivePath)
+                {
+                    rebindWarning.SetActive(true);
+                    instance.StartCoroutine(DelayInactivation(2f, rebindWarning));
+                    Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static IEnumerator DelayInactivation(float waitTime, GameObject rebindWarning)
+    {
+        Debug.Log("Started");
+        float startTime = Time.realtimeSinceStartup;
+        while (Time.realtimeSinceStartup < startTime + waitTime)
+        {
+            yield return null;
+        }
+        rebindWarning.SetActive(false);
+        Debug.Log("setactivefalse");
     }
 }
