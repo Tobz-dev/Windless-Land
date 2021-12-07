@@ -12,7 +12,7 @@ public class PauseMenu : MonoBehaviour
     private GameObject pauseMenuUI;
 
     [SerializeField]
-    private GameObject playerHP, arrowAmmo;
+    private GameObject playerHP, PlayerMana;
 
     [SerializeField]
     private GameObject eventSystemHelper;
@@ -28,10 +28,9 @@ public class PauseMenu : MonoBehaviour
         checkIfLog();
         logpanel.SetActive(false);
         gameIsPaused = false;
-        /*if (gameIsPaused)
-            Pause();
-        else
-            Resume();*/
+
+        eventSystemHelper.SetActive(false);
+        pauseMenuBackground.SetActive(false);
     }
 
     // Update is called once per frame
@@ -69,7 +68,7 @@ public class PauseMenu : MonoBehaviour
         eventSystemHelper.SetActive(false);
 
         playerHP.SetActive(true);
-        arrowAmmo.SetActive(true);
+        PlayerMana.SetActive(true);
 
         Time.timeScale = 1.0f;
         gameIsPaused = false;
@@ -88,7 +87,7 @@ public class PauseMenu : MonoBehaviour
         eventSystemHelper.SetActive(true);
 
         playerHP.SetActive(false);
-        arrowAmmo.SetActive(false);
+        PlayerMana.SetActive(false);
 
 
         Time.timeScale = 0.0f;

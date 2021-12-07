@@ -27,9 +27,13 @@ public class BossFloorAttackState : State
         {
             Agent.GetComponent<BossMechanicsScript>().FadeIn(Agent.GetComponent<BossMechanicsScript>().leftFloor);
         }
-        else if(rand == 1)
+        else if (rand == 1)
         {
             Agent.GetComponent<BossMechanicsScript>().FadeIn(Agent.GetComponent<BossMechanicsScript>().rightFloor);
+        }
+        else if (rand == 2 || rand == 3)
+        {
+            Agent.GetComponent<BossMechanicsScript>().FadeInCircle();
         }
 
 
@@ -42,6 +46,6 @@ public class BossFloorAttackState : State
 
     public int randomNumber()
     {
-        return Random.Range(0, 2);
+        return Random.Range(0, 4);
     }
 }
