@@ -25,6 +25,7 @@ public class BossShootingState : State
 
     public override void Enter()
     {
+        attackCooldown = 2;
         int currentHealth = Agent.GetComponent<EnemyHealthScript>().health;
         int maxHealth = Agent.GetComponent<EnemyHealthScript>().Maxhealth;
 
