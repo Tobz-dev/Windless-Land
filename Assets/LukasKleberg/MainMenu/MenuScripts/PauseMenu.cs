@@ -26,7 +26,7 @@ public class PauseMenu : MonoBehaviour
     private void Start()
     {
         checkIfLog();
-        if (logpanel = null)
+        if (logpanel != null)
         {
             logpanel.SetActive(false);
         }
