@@ -77,6 +77,16 @@ public class InputManager : MonoBehaviour
                 return;
             }
 
+            if(actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/enter") || actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/escape") || actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/numpadEnter") 
+            || actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/leftMeta"))
+            {
+                actionToRebind.RemoveBindingOverride(bindingIndex);
+                ChangeRebind(actionToRebind, bindingIndex, statusText, compositeBinding, excludeMouse, rebindPanel);
+                rebindPanel.transform.GetChild(2).gameObject.SetActive(true);
+                instance.StartCoroutine(DelayInactivation(2f, rebindPanel.transform.GetChild(2).gameObject));
+                return;
+            }
+
             if (compositeBinding)
             {
                 var nextBindingIndex = bindingIndex + 1;
@@ -89,6 +99,7 @@ public class InputManager : MonoBehaviour
             SaveBindingOverride(actionToRebind);
             rebindComplete?.Invoke();
             rebindPanel.SetActive(false);
+            Debug.Log(actionToRebind.bindings[bindingIndex].effectivePath);
 
         }); //assigns a delegat that enables the action when rebinding is complete, and disposes of delegate to prevent memory leaks
 

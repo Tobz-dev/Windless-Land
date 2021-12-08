@@ -420,11 +420,22 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
         string mousePath = inputActions.WindlessLand.Attack.bindings[1].effectivePath;
         int pathNameIndex = keyboardPath.IndexOf('/')+1;
         int pathNameIndexMouse = mousePath.IndexOf('/')+1;
-        if (mousePath.Equals("<Mouse>/leftButton"))
-        {
-            mousePath = "mouse 0";
+        if (mousePath.Equals("<Mouse>/leftButton") || mousePath.Equals("<Mouse>/middleButton") || mousePath.Equals("<Mouse>/rightButton")) {
+            if(mousePath.Equals("<Mouse>/leftButton"))
+            {
+                mousePath = "mouse 0";
+            }
+        else if (keyboardPath.Equals("<Mouse>/middleButton"))
+            {
+                keyboardPath = "mouse 1";
+            }
+            else if (keyboardPath.Equals("<Mouse>/rightButton"))
+            {
+                keyboardPath = "mouse 2";
+            }
             pathNameIndexMouse = 0;
         }
+
         if (keyboardPath.Equals("<Mouse>/leftButton") || keyboardPath.Equals("<Mouse>/middleButton") || keyboardPath.Equals("<Mouse>/rightButton"))
         {
             if (keyboardPath.Equals("<Mouse>/leftButton"))
