@@ -103,7 +103,7 @@ public class PlayerUI : MonoBehaviour
     {
         //decrease available potion amount & update UI 
         Debug.Log(flaskAmount);
-        flaskAmountText.text = flaskAmount + "/" + maxFlasks;
+        flaskAmountText.text = flaskAmount.ToString();
     }
 
     private void InstantiateHealth(int maxHealth)
