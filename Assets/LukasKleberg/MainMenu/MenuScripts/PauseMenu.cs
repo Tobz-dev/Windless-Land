@@ -26,7 +26,11 @@ public class PauseMenu : MonoBehaviour
     private void Start()
     {
         checkIfLog();
-        logpanel.SetActive(false);
+        if (logpanel = null)
+        {
+            logpanel.SetActive(false);
+        }
+        
         gameIsPaused = false;
 
         eventSystemHelper.SetActive(false);
