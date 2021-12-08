@@ -39,7 +39,7 @@ public class PlayerUI : MonoBehaviour
         HealthSetup(health, maxHealth);
         maxFlasks = (int)characterController.GetFlaskUses();
         flaskAmount = previousFlaskAmt = maxFlasks;
-        flaskAmountText.text = maxFlasks + "/" + maxFlasks;
+        flaskAmountText.text = characterController.GetFlaskUses().ToString();
         maxMana = mana = previousMana = (int)characterController.GetMaxMana();
         manaSlider.value = maxMana;
     }
@@ -50,7 +50,7 @@ public class PlayerUI : MonoBehaviour
         flaskAmount = (int)characterController.GetFlaskUses();
         if (flaskAmount != previousFlaskAmt)
         {
-            flaskAmountText.text = (int)characterController.GetFlaskUses() + "/" + maxFlasks;
+            flaskAmountText.text = characterController.GetFlaskUses().ToString();
             previousFlaskAmt = flaskAmount;
         }
 
