@@ -425,9 +425,20 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
             mousePath = "mouse 0";
             pathNameIndexMouse = 0;
         }
-        if (keyboardPath.Equals("<Mouse>/leftButton"))
+        if (keyboardPath.Equals("<Mouse>/leftButton") || keyboardPath.Equals("<Mouse>/middleButton") || keyboardPath.Equals("<Mouse>/rightButton"))
         {
-            keyboardPath = "mouse 0";
+            if (keyboardPath.Equals("<Mouse>/leftButton"))
+            {
+                keyboardPath = "mouse 0";
+            }
+            else if (keyboardPath.Equals("<Mouse>/middleButton"))
+            {
+                keyboardPath = "mouse 1";
+            }
+            else if (keyboardPath.Equals("<Mouse>/rightButton"))
+            {
+                keyboardPath = "mouse 2";
+            }
             pathNameIndex = 0;
         }
         keyboardPath = keyboardPath.Substring(pathNameIndex);
@@ -473,7 +484,7 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
                     transform.rotation = lookRotation;
                 }
 
-                if (/*Input.GetKeyUp(KeyCode.Mouse0) inputActions.WindlessLand.Attack.triggered attackCanceled */ (Input.GetKeyUp(keyboardPath) || Input.GetKeyUp(mousePath)) && bowIsFinishedLoading == true)
+                if (/*Input.GetKeyUp(KeyCode.Mouse0) inputActions.WindlessLand.Attack.triggered attackCanceled  (Input.GetKeyUp(keyboardPath) || Input.GetKeyUp(mousePath))*/ ((!Input.GetKey(keyboardPath) && keyboardUsed) || (!Input.GetKey(mousePath) && !keyboardUsed)) && bowIsFinishedLoading == true)
                 {
                     BowFire();
                     attackActivated = false;
@@ -544,6 +555,7 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
 
         if (AttackWaitTimer(bowChargeTime))
         {
+            Debug.Log("bowIsCharged");
             bowIsFinishedLoading = true;
             bowIsLoading = false;
         }
