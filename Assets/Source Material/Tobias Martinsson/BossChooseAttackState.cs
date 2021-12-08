@@ -24,6 +24,7 @@ public class BossChooseAttackState : State
 
     public override void Enter()
     {
+        attackCooldown = 4f;
         GameObject bossCanvas = GameObject.FindGameObjectWithTag("BossHUD");
         bossCanvas.GetComponent<Canvas>().enabled = true;
         Agent.transform.rotation = originalRotation;
