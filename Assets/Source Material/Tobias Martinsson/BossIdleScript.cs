@@ -9,7 +9,6 @@ public class BossIdleScript : State
 {
     public float initialAggroDistance;
     SomeAgent Agent;
-    public Slider bossUi;
 
 
     private Transform CurrentPatrol;
@@ -24,6 +23,8 @@ public class BossIdleScript : State
 
     public override void Enter()
     {
+        GameObject bossCanvas = GameObject.FindGameObjectWithTag("BossHUD");
+        bossCanvas.GetComponent<Canvas>().enabled = false;
         Agent.GetComponent<BossMechanicsScript>().RespawnPillars();
         CurrentPatrol = Agent.GetPatrolPointByindex(2);
         Agent.NavAgent.SetDestination(CurrentPatrol.position);
