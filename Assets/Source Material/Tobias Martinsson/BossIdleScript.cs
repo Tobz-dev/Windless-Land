@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //Main Author: Tobias Martinsson
 [CreateAssetMenu()]
 public class BossIdleScript : State
 {
-    public float chaseDistance;
+    public float initialAggroDistance;
     SomeAgent Agent;
+
 
     private Transform CurrentPatrol;
     private Quaternion originalRotation;
@@ -21,6 +23,8 @@ public class BossIdleScript : State
 
     public override void Enter()
     {
+        GameObject bossCanvas = GameObject.FindGameObjectWithTag("BossHUD");
+        bossCanvas.GetComponent<Canvas>().enabled = false;
         Agent.GetComponent<BossMechanicsScript>().RespawnPillars();
         CurrentPatrol = Agent.GetPatrolPointByindex(2);
         Agent.NavAgent.SetDestination(CurrentPatrol.position);
@@ -45,7 +49,7 @@ public class BossIdleScript : State
             Agent.NavAgent.SetDestination(Agent.gameObject.transform.position);
         }
 
-        if (!Physics.Linecast(Agent.transform.position, Agent.PlayerPosition, Agent.CollisionLayer) && (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) < chaseDistance))
+        if (!Physics.Linecast(Agent.transform.position, Agent.PlayerPosition, Agent.CollisionLayer) && (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) < initialAggroDistance))
         {
 
             StateMachine.ChangeState<BossChooseAttackState>();
