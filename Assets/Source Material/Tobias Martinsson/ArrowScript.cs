@@ -11,11 +11,6 @@ public class ArrowScript : MonoBehaviour
 
     private FMOD.Studio.EventInstance ArrowShot;
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     public void shootArrow()
     {
         GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPosition.position, arrowSpawnPosition.rotation);
