@@ -10,7 +10,7 @@ public class BossChooseAttackState : State
     public float attackCooldown;
     private float originalTime;
     private Quaternion originalRotation;
-    private float aggroDistance;
+    public float aggroDistance;
     private Transform CurrentPatrol;
     private int enrageCounter = 0;
 
@@ -20,7 +20,6 @@ public class BossChooseAttackState : State
         Debug.Assert(Agent);
         originalTime = attackCooldown;
         originalRotation = Agent.transform.rotation;
-        aggroDistance = Agent.GetComponent<BossMechanicsScript>().aggroRange;
     }
 
     public override void Enter()
