@@ -20,8 +20,9 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     [SerializeField] private Toggle individualEditToggle;
     private bool individualEditMode = false;
-    private GameObject markedObject;
+    private bool prototypeActivated = false;
 
+    private GameObject markedObject;
 
     [SerializeField] private Button resetMarkedObject; //obs, if(toggle.marked, this button.SetActive(true), otherwise false!!!
     [SerializeField] private Button resetAllObjects;
@@ -99,11 +100,18 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     {
         return individualEditMode;
     }
+    public GameObject GetParentObject()
+    {
+        return editableObjects[0];
+    }
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("detectedDrag");
-        movableObject.anchoredPosition += eventData.delta;
+        if (!individualEditToggle.isOn)
+        {
+            Debug.Log("detectedDrag");
+            movableObject.anchoredPosition += eventData.delta;
+        }
         for (int i = 0; i <= editableObjects.Length - 1; i++) {
             if (eventData.selectedObject == editableObjects[i])
             {

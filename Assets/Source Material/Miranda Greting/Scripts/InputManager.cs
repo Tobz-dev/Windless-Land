@@ -109,7 +109,7 @@ public class InputManager : MonoBehaviour
             rebindCanceled?.Invoke();
             rebindPanel.SetActive(false);
         }); //same functionality as above when rebinding is canceled
-
+        rebind.WithControlsExcluding("<Keyboard>/escape");
         rebind.WithCancelingThrough("<Keyboard>/escape");
         rebind.WithCancelingThrough("<Gamepad>/buttonEast");
 

@@ -11,6 +11,7 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     private bool edited;
     private GameObject editingParticles;
     [SerializeField] private Toggle editModeToggle;
+    [SerializeField] private GameObject parent;
 
     // Start is called before the first frame update
     void Start()
@@ -31,14 +32,18 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         if (editModeToggle.isOn)
         {
             individualEditMode = true;
+            if (!this.gameObject.name.Equals("EditAll"))
+            {
+                editingParticles.SetActive(true);
+            }
         }
         else if(!editModeToggle.isOn)
         {
             individualEditMode = false;
-        }
-        if (individualEditMode)
-        {
-            editingParticles.SetActive(true);
+            if(this.gameObject.name.Equals("EditAll"))
+            {
+                editingParticles.SetActive(true);
+            }
         }
     }
 
@@ -46,16 +51,29 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     {
         if (editModeToggle.isOn)
         {
-            individualEditMode = true;
+            if (!gameObject.name.Equals("EditAll")) 
+            {
+                edited = true;
+                gameObject.GetComponent<RectTransform>().anchoredPosition += eventData.delta;
+            }
+            else
+            {
+                edited = false;
+            }
         }
+
         else if (!editModeToggle.isOn)
-        {
-            individualEditMode = false;
-        }
-        if (individualEditMode)
-        {
-            edited = true;
-            gameObject.GetComponent<RectTransform>().anchoredPosition += eventData.delta;
+        {            
+                Debug.Log("MoveAll");
+                edited = true;
+                parent.GetComponent<RectTransform>().anchoredPosition += eventData.delta;
+            
+            /*
+            else
+            {
+                edited = false;
+            }
+            */
         }
     }
 
