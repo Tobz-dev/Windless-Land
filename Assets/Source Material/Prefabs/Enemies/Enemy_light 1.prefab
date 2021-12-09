@@ -623,13 +623,12 @@ GameObject:
   - component: {fileID: 2750288061924280740}
   - component: {fileID: 2750288061924280763}
   - component: {fileID: 7738636834698128679}
-  - component: {fileID: 2750288061924280760}
   - component: {fileID: 8899394423204546919}
   - component: {fileID: 360935734}
   - component: {fileID: 8109949195459415337}
   - component: {fileID: 5791093235616141736}
   - component: {fileID: 2160198289209791267}
-  - component: {fileID: 1669702482862036686}
+  - component: {fileID: 4578277817305970900}
   m_Layer: 0
   m_Name: Enemy_light 1
   m_TagString: Enemy
@@ -652,6 +651,7 @@ Transform:
   - {fileID: 6926750620054264258}
   - {fileID: 3249854461629600788}
   - {fileID: 3680757198447718128}
+  - {fileID: 2665539023081950584}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -721,22 +721,6 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: c103ed8a6e675b5479be69ce128d0892, type: 2}
   healthSlider: {fileID: 7755251803048810522}
   playerInvincibilityTime: 0
---- !u!54 &2750288061924280760
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2750288061924280743}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 1
-  m_AngularDrag: 0.2
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 32
-  m_CollisionDetection: 3
 --- !u!95 &8899394423204546919
 Animator:
   serializedVersion: 3
@@ -835,7 +819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93b56f241f955de4daf66f3c9eee1534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!136 &1669702482862036686
+--- !u!136 &4578277817305970900
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -843,12 +827,12 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2750288061924280743}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 2.0150256
+  m_Height: 2.0177817
   m_Direction: 1
-  m_Center: {x: 0, y: 0.98604846, z: 0}
+  m_Center: {x: 0, y: 0.9765475, z: 0}
 --- !u!1 &2761392250566572969
 GameObject:
   m_ObjectHideFlags: 0
@@ -1920,6 +1904,67 @@ Transform:
   m_Father: {fileID: 6615314510324717825}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6178293131096911526
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2665539023081950584}
+  - component: {fileID: 4322211789076720698}
+  - component: {fileID: 3450932154503236159}
+  m_Layer: 0
+  m_Name: Collisionbody
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2665539023081950584
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6178293131096911526}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.76576793, y: 0.36577693, z: 0.8005}
+  m_Children: []
+  m_Father: {fileID: 3269944038367613725}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &4322211789076720698
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6178293131096911526}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &3450932154503236159
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6178293131096911526}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.9999991, y: 5.131212, z: 1}
+  m_Center: {x: 0, y: 2.494577, z: 0}
 --- !u!1 &6357229796298407336
 GameObject:
   m_ObjectHideFlags: 0
