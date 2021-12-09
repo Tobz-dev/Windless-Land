@@ -78,7 +78,7 @@ public class InputManager : MonoBehaviour
             }
 
             if(actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/enter") || actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/escape") || actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/numpadEnter") 
-            || actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/leftMeta"))
+            || actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/leftMeta")) //cancels rebinding if chosen key isn't allowed/is otherwise occupied (escape, enter, windows/meta key etc)
             {
                 actionToRebind.RemoveBindingOverride(bindingIndex);
                 ChangeRebind(actionToRebind, bindingIndex, statusText, compositeBinding, excludeMouse, rebindPanel);

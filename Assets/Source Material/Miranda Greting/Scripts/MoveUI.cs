@@ -9,38 +9,27 @@ using UnityEngine.InputSystem;
 public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] private RectTransform movableObject;
-    private Vector3 offset;
-    private float zCoord;
     private Vector2 startPos;
+    private Vector2[] startPositions;
     private Vector2 currentPos;
     private List <Vector2> previousPositions;
-    [SerializeField] private GameObject[] scalableObjects;
+    [SerializeField] private GameObject[] editableObjects;
     [SerializeField] private Slider scaleSlider;
-    [SerializeField] private GameObject rebindingMenu;
-    [SerializeField] private GameObject rebindingMenuFirstSelected;
-    [SerializeField] private GameObject rebindCloseSelected;
-    [SerializeField] private GameObject pauseMenu;
-    [SerializeField] private GameObject pauseFirstSelected;
-    [SerializeField] private GameObject uiMenu;
-    [SerializeField] private GameObject uiMenuFirstSelected;
-    [SerializeField] private GameObject uiMenuCloseSelected;
-    [SerializeField] private InputAction pause;
+
     [SerializeField] private GameObject editModePanel;
-    [SerializeField] private TMP_Dropdown dropDown;
+
+    [SerializeField] private Toggle individualEditToggle;
+    private bool individualEditMode = false;
+    private GameObject markedObject;
+
+
+    [SerializeField] private Button resetMarkedObject; //obs, if(toggle.marked, this button.SetActive(true), otherwise false!!!
+    [SerializeField] private Button resetAllObjects;
+
     private Vector2[] anchorOffsets;
     private GameObject[] textObjects;
     private List<TextMeshProUGUI> textMeshProUGUIList = new List<TextMeshProUGUI>();
 
-
-    private void OnEnable()
-    {
-        pause.Enable();
-    }
-
-    private void OnDisable()
-    {
-        pause.Disable();
-    }
 
     void Start()
     {
@@ -49,30 +38,21 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         previousPositions = new List<Vector2>();
         previousPositions.Add(currentPos);
         scaleSlider.onValueChanged.AddListener(delegate { ScaleUI(); });
-        rebindingMenu.SetActive(false);
-        pause.performed += _ => TogglePauseMenu();
-
-        pauseMenu.SetActive(true);
-        uiMenu.SetActive(true);
-        rebindingMenu.SetActive(true);
-        textObjects = GameObject.FindGameObjectsWithTag("Text");
-        for (int i = 0; i <= textObjects.Length - 1; i++)
-        {
-            textMeshProUGUIList.Add(textObjects[i].GetComponent<TextMeshProUGUI>());
-        }
 
         editModePanel.SetActive(false);
-        pauseMenu.SetActive(false);
-        rebindingMenu.SetActive(false);
-        uiMenu.SetActive(false);
-        anchorOffsets = new Vector2[scalableObjects.Length];
-        for (int i = 0; i <= scalableObjects.Length - 1; i++)
-        {
-            RectTransform rectTransform = scalableObjects[i].GetComponent<RectTransform>();
-            anchorOffsets[i] = new Vector2(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y);
-        }
 
-        dropDown.value = 1;
+        anchorOffsets = new Vector2[editableObjects.Length];
+        startPositions = new Vector2[editableObjects.Length];
+        for (int i = 0; i <= editableObjects.Length - 1; i++)
+        {
+            RectTransform rectTransform = editableObjects[i].GetComponent<RectTransform>();
+            anchorOffsets[i] = new Vector2(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y);
+            startPositions[i] = rectTransform.anchoredPosition;
+            if (i != 2)
+            {
+                editableObjects[i].transform.GetChild(0).gameObject.SetActive(false);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -80,49 +60,55 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            ResetTransform();
+            ResetTransform(false);
         }
-
-
-        if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.Z))
-        {
-            UndoTransform();
-        }
-
-        if (Input.GetKey(KeyCode.Escape))
-        {
-            //ToggleMenu();
-        }
-
     }
 
-    private void ResetTransform()
+    public void ResetTransform(bool onlyMarkedObject)
     {
-        movableObject.anchoredPosition = startPos;
-    }
-
-    private void UndoTransform()
-    {
-        if (currentPos == previousPositions[previousPositions.Count - 1] && currentPos != previousPositions[0])
+        for (int i = 0; i <= editableObjects.Length - 1; i++)
         {
-            previousPositions.RemoveAt(previousPositions.Count - 1);
-            movableObject.anchoredPosition = previousPositions[previousPositions.Count - 1];
-            currentPos = previousPositions[previousPositions.Count - 1];
+            if (onlyMarkedObject)
+            {
+                if (editableObjects[i] == markedObject)
+                {
+                    markedObject.GetComponent<RectTransform>().anchoredPosition = startPositions[i];
+                }
+            }
+            else
+            {
+                editableObjects[i].GetComponent<RectTransform>().anchoredPosition = startPositions[i];
+            }
         }
-
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        Debug.Log("detectedDrag");
         movableObject.anchoredPosition += eventData.delta;
+        for (int i = 0; i <= editableObjects.Length - 1; i++) {
+            if (eventData.selectedObject == editableObjects[i])
+            {
+                Debug.Log("DetectedObject");
+                editableObjects[i].transform.GetChild(0).gameObject.SetActive(true);
+            }
+        }
     }
 
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        Debug.Log("detectedDrag");
 
+        for (int i = 0; i <= editableObjects.Length - 1; i++)
+        {
+            if (eventData.selectedObject == editableObjects[i])
+            {
+                Debug.Log("DetectedObject");
+                editableObjects[i].transform.GetChild(0).gameObject.SetActive(true);
+            }
+        }
     }
-
 
     public void OnEndDrag(PointerEventData eventData)
     {
@@ -138,7 +124,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     private void ScaleUI()
     {
-        foreach (GameObject gameObject in scalableObjects)
+        foreach (GameObject gameObject in editableObjects)
         {
             gameObject.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, 1);
         }
@@ -146,9 +132,9 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     public void ChangeAnchoredPos(string buttonPos)
     {
-        for (int i = 0; i <= scalableObjects.Length - 1; i++)
+        for (int i = 0; i <= editableObjects.Length - 1; i++)
         {
-            RectTransform rectTransform = scalableObjects[i].GetComponent<RectTransform>();
+            RectTransform rectTransform = editableObjects[i].GetComponent<RectTransform>();
             Vector2 rectMinMax = rectTransform.anchorMin;
 
             if (buttonPos.Equals("UpLeft"))
@@ -219,81 +205,4 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             }
         }
     }
-
-    public void ToggleRebindMenu()
-    {
-        if (rebindingMenu.activeInHierarchy)
-        {
-            rebindingMenu.SetActive(false);
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(rebindCloseSelected);
-        }
-        else
-        {
-            rebindingMenu.SetActive(true);
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(rebindingMenuFirstSelected);
-        }
-        //rebindingMenu.SetActive(true);
-    }
-
-    public void TogglePauseMenu()
-    {
-        if (pauseMenu.activeInHierarchy)
-        {
-            pauseMenu.SetActive(false);
-            rebindingMenu.SetActive(false);
-            uiMenu.SetActive(false);
-            Time.timeScale = 1;
-        }
-        else
-        {
-            pauseMenu.SetActive(true);
-            Time.timeScale = 0;
-
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(pauseFirstSelected);
-        }
-    }
-
-    public void ToggleUIMenu()
-    {
-        if (uiMenu.activeInHierarchy)
-        {
-            uiMenu.SetActive(false);
-            editModePanel.SetActive(false);
-            pauseMenu.SetActive(true);
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(uiMenuCloseSelected);
-
-        }
-        else
-        {
-            uiMenu.SetActive(true);
-            editModePanel.SetActive(true);
-            pauseMenu.SetActive(false);
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(uiMenuFirstSelected);
-        }
-    }
-
-    public void ChangeFontSize(int selection)
-    {
-        foreach(TextMeshProUGUI textObject in textMeshProUGUIList)
-        {
-            if(dropDown.value == 0)
-            {
-                textObject.fontSize = 30;
-            }
-            if (dropDown.value == 1)
-            {
-                textObject.fontSize = 40;
-            }
-            if (dropDown.value == 2)
-            {
-                textObject.fontSize = 50;
-            }
-        }
-    }
-
 }
