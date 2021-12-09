@@ -16,8 +16,6 @@ public class InputManager : MonoBehaviour
 
     private static InputManager instance;
 
-    [SerializeField] public GameObject rebindWarning;
-
     private void Awake()
     {
         if(inputActions == null)

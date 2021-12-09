@@ -82,6 +82,11 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         }
     }
 
+    public bool CheckEditMode()
+    {
+        return individualEditMode;
+    }
+
     public void OnDrag(PointerEventData eventData)
     {
         Debug.Log("detectedDrag");

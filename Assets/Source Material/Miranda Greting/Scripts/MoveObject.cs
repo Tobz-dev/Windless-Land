@@ -9,9 +9,12 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     private bool individualEditMode;
     private bool edited;
     private GameObject editingParticles;
+    [SerializeField] private MoveUI uiManager;
+
     // Start is called before the first frame update
     void Start()
     {
+        individualEditMode = false;
         editingParticles = gameObject.transform.GetChild(0).gameObject;
         editingParticles.SetActive(false);
     }
@@ -24,6 +27,7 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        individualEditMode = uiManager.CheckEditMode();
         if (individualEditMode)
         {
             editingParticles.SetActive(true);
@@ -32,6 +36,7 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnDrag(PointerEventData eventData)
     {
+        individualEditMode = uiManager.CheckEditMode();
         if (individualEditMode)
         {
             edited = true;
@@ -44,6 +49,7 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         //currentPos = movableObject.anchoredPosition;
         //previousPositions.Add(currentPos);
         //Debug.Log("AddedPosCurrent");
+        individualEditMode = uiManager.CheckEditMode();
         if (individualEditMode)
         {
             edited = false;
@@ -54,7 +60,7 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        individualEditMode = true;
+        individualEditMode = uiManager.CheckEditMode();
         if (individualEditMode)
         {
             editingParticles.SetActive(true);
@@ -63,7 +69,7 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        individualEditMode = true;
+        individualEditMode = uiManager.CheckEditMode();
         if (individualEditMode && !edited)
         {
             editingParticles.SetActive(false);
@@ -72,7 +78,7 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnSelect(BaseEventData eventData)
     {
-        individualEditMode = true;
+        individualEditMode = uiManager.CheckEditMode();
         if (individualEditMode)
         {
             editingParticles.SetActive(true);
@@ -81,7 +87,7 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnDeselect(BaseEventData eventData)
     {
-        individualEditMode = true;
+        individualEditMode = uiManager.CheckEditMode();
         if (individualEditMode)
         {
             editingParticles.SetActive(false);
