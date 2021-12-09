@@ -53,6 +53,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
                 editableObjects[i].transform.GetChild(0).gameObject.SetActive(false);
             }
         }
+        individualEditMode = false;
     }
 
     // Update is called once per frame
@@ -79,6 +80,18 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             {
                 editableObjects[i].GetComponent<RectTransform>().anchoredPosition = startPositions[i];
             }
+        }
+    }
+
+    public void ChangeEditMode()
+    {
+        if (individualEditToggle.isOn)
+        {
+            individualEditMode = true;
+        }
+        else
+        {
+            individualEditMode = false;
         }
     }
 
