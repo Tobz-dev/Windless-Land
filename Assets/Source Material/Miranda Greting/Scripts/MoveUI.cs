@@ -237,7 +237,34 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         return editableObjects[0];
     }
 
+    public void MoveUIElement(GameObject movedObject)
+    {
+        RectTransform rectTransform = movedObject.GetComponent<RectTransform>();
+        RectTransform canvasRect = UIMenu.transform.parent.GetComponent<RectTransform>();
 
+        float minX = (canvasRect.sizeDelta.x - rectTransform.sizeDelta.x) * -rectTransform.anchorMin.x;
+        float maxX = (canvasRect.sizeDelta.x - rectTransform.sizeDelta.x) * rectTransform.anchorMax.x;
+        float minY = (canvasRect.sizeDelta.y - rectTransform.sizeDelta.y) * -rectTransform.anchorMin.y;
+        float maxY = (canvasRect.sizeDelta.y - rectTransform.sizeDelta.y) * rectTransform.anchorMin.y;
+
+        Vector3[] cornerPositions = new Vector3[4];
+        canvasRect.GetWorldCorners(cornerPositions);
+        Vector3 canvasLowLeft = cornerPositions[0], canvasTopRight = cornerPositions[2];
+        var containerSize = canvasTopRight - canvasLowLeft;
+        rectTransform.GetWorldCorners(cornerPositions);
+        Vector3 movedObjectLowLeft = cornerPositions[0], movedObjectTopRight = cornerPositions[2];
+        var movableSize = movedObjectTopRight - movedObjectLowLeft;
+
+        var position = rectTransform.position;
+        Vector3 deltaLowLeft = position - movedObjectLowLeft, deltaTopRight = movedObjectTopRight - position;
+        position.x = movableSize.x < containerSize.x 
+            ? Mathf.Clamp(position.x, canvasLowLeft.x + deltaLowLeft.x, canvasTopRight.x - deltaTopRight.x)
+            : Mathf.Clamp(position.x, canvasTopRight.x - deltaTopRight.x, canvasLowLeft.x + deltaLowLeft.x);
+        position.y = movableSize.y < containerSize.y
+            ? Mathf.Clamp(position.y, canvasLowLeft.y + deltaLowLeft.y + 10, canvasTopRight.y - deltaTopRight.y)
+            : Mathf.Clamp(position.y, canvasTopRight.y - deltaTopRight.y, canvasLowLeft.y + deltaLowLeft.y + 10);
+        rectTransform.position = position;
+    }
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -327,7 +354,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             }
         }
         RectTransform rectTransform = selectedObject.GetComponent<RectTransform>();
-        Vector2 rectMinMax = rectTransform.anchorMin;
+        Vector2 rectMinMax = movableObject.anchorMin;
 
         if (buttonPos.Equals("UpLeft"))
         {

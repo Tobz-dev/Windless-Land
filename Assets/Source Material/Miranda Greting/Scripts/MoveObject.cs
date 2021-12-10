@@ -96,6 +96,7 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
             {
                 edited = true;
                 gameObject.GetComponent<RectTransform>().anchoredPosition += eventData.delta;
+                uiManager.MoveUIElement(gameObject);
             }
             else
             {
@@ -105,8 +106,9 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
         else if (!editModeToggle.isOn)
         {            
-                edited = true;
-                parent.GetComponent<RectTransform>().anchoredPosition += eventData.delta;            
+            edited = true;
+            parent.GetComponent<RectTransform>().anchoredPosition += eventData.delta;
+            uiManager.MoveUIElement(parent);
             /*
             else
             {
