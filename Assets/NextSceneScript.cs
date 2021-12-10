@@ -13,7 +13,7 @@ public class NextSceneScript : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            SceneManager.LoadScene("nameOfLevelToLoad");
+            SceneManager.LoadScene(nameOfLevelToLoad);
         }
     }
 }
