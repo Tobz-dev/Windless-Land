@@ -24,6 +24,7 @@ public class BossChooseAttackState : State
 
     public override void Enter()
     {
+        Agent.GetComponent<SphereCollider>().enabled = true;
         attackCooldown = 4f;
         GameObject bossCanvas = GameObject.FindGameObjectWithTag("BossHUD");
         bossCanvas.GetComponent<Canvas>().enabled = true;
