@@ -59,10 +59,13 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     public void SetSelected(bool isSelected)
     {
         selected = isSelected;
-        if (isSelected && !selectedParticles.activeInHierarchy)
+        if (isSelected)
         {
+            if (selectedParticles.activeInHierarchy)
+            {
+                return;
+            }
             selectedParticles.SetActive(true);
-            return;
         }
         else
         {
