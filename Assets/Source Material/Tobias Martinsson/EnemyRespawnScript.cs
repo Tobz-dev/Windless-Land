@@ -14,11 +14,7 @@ public class EnemyRespawnScript : MonoBehaviour
     }
     public void RespawnEnemy()
     {
-        foreach(GameObject go in GameObject.FindGameObjectsWithTag("Enemy"))
-        {
-            Destroy(go);
-        }
-
+        
         Instantiate(enemy, spawnPosition.position, Quaternion.Euler(0,0,0), gameObject.transform);
     }
 

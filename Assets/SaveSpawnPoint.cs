@@ -9,7 +9,14 @@ public class SaveSpawnPoint : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            foreach(GameObject go in GameObject.FindGameObjectsWithTag("Respawner"))
+
+            foreach (GameObject go in GameObject.FindGameObjectsWithTag("Enemy"))
+            {
+                Destroy(go);
+            }
+
+
+            foreach (GameObject go in GameObject.FindGameObjectsWithTag("Respawner"))
             {
 
                 go.GetComponent<EnemyRespawnScript>().RespawnEnemy();
