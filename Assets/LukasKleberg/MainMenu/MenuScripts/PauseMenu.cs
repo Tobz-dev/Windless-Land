@@ -12,7 +12,7 @@ public class PauseMenu : MonoBehaviour
     private GameObject pauseMenuUI;
 
     [SerializeField]
-    private GameObject playerHP, PlayerMana, PlayerBow;
+    private GameObject playerHUD;
 
     [SerializeField]
     private GameObject eventSystemHelper;
@@ -71,9 +71,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         eventSystemHelper.SetActive(false);
 
-        playerHP.SetActive(true);
-        PlayerMana.SetActive(true);
-        PlayerBow.SetActive(true);
+        playerHUD.SetActive(true);
 
         Time.timeScale = 1.0f;
         gameIsPaused = false;
@@ -91,10 +89,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(true);
         eventSystemHelper.SetActive(true);
 
-        playerHP.SetActive(false);
-        PlayerMana.SetActive(false);
-        PlayerBow.SetActive(false);
-
+        playerHUD.SetActive(false);
 
         Time.timeScale = 0.0f;
         gameIsPaused = true;
