@@ -32191,7 +32191,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Exit Game
+  m_text: "Return to \nmain menu"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 814b4169af3b09842abae37b8f85fbad, type: 2}
   m_sharedMaterial: {fileID: -8124943007681638659, guid: 814b4169af3b09842abae37b8f85fbad, type: 2}
@@ -32218,8 +32218,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -37059,6 +37059,49 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &5019228764560665608
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1389037051258165623}
+  - component: {fileID: 5641812255554090103}
+  m_Layer: 0
+  m_Name: SceneLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1389037051258165623
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5019228764560665608}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1011.4965, y: -512.50793, z: 0}
+  m_LocalScale: {x: 1.9664574, y: 1.9664574, z: 1.9664574}
+  m_Children: []
+  m_Father: {fileID: 6695071115637025546}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5641812255554090103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5019228764560665608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 981ab759db316754f820a74a3ce66b9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5786043252360347448
 GameObject:
   m_ObjectHideFlags: 0
@@ -37181,6 +37224,7 @@ RectTransform:
   - {fileID: 4513293246725122253}
   - {fileID: 186463391684247984}
   - {fileID: 7670993214831815343}
+  - {fileID: 1389037051258165623}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
