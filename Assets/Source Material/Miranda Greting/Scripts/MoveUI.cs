@@ -25,8 +25,6 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     [SerializeField] private Slider scaleSlider;
     private ScaleManager scaleScript;
 
-    [SerializeField] private GameObject editModePanel;
-
     [SerializeField] private Toggle individualEditToggle;
     private bool individualEditMode = false;
     private bool prototypeActivated = false;
@@ -45,6 +43,11 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     void OnEnable()
     {
         InactivatePrototype(false);
+        foreach(GameObject gameObject in editableObjects)
+        {
+            movableObject.gameObject.SetActive(true);
+            gameObject.SetActive(true);
+        }
     }
     void OnDisable()
     {
@@ -59,8 +62,6 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         previousPositions = new List<Vector2>();
         previousPositions.Add(currentPos);
         scaleSlider.onValueChanged.AddListener(delegate { ScaleUI(); });
-
-        editModePanel.SetActive(false);
 
         anchorOffsets = new Vector2[editableObjects.Length+1];
         anchorOffsets[0] = new Vector2(movableObject.anchoredPosition.x, movableObject.anchoredPosition.y);
@@ -162,7 +163,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         }
     }
 
-    public void HideSingleResetButton()
+    public void ToggleEditModes()
     {
         if (individualEditToggle.isOn)
         {
@@ -306,11 +307,6 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         previousPositions.Add(currentPos);
         Debug.Log("AddedPosCurrent");
         */
-    }
-
-    public void ActivateEditMode()
-    {
-        editModePanel.SetActive(true);
     }
 
     private void ScaleUI()
