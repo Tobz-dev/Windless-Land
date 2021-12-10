@@ -7,7 +7,8 @@ public class SaveSpawnPoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.tag == "Player")
+        GameObject collisionObject = collision.gameObject;
+        if (collisionObject.tag == "Player")
         {
 
             foreach (GameObject go in GameObject.FindGameObjectsWithTag("Enemy"))
@@ -22,7 +23,9 @@ public class SaveSpawnPoint : MonoBehaviour
                 go.GetComponent<EnemyRespawnScript>().RespawnEnemy();
                 
             }
-            collision.gameObject.GetComponent<CharacterController>().SetRespawnPoint(transform.position);
+            collisionObject.GetComponent<PlayerHealthScript>().regainHealth(100);
+            collisionObject.GetComponent<PlayerHealthScript>().ResetPotions();
+            collisionObject.GetComponent<CharacterController>().SetRespawnPoint(transform.position);
         }
     }
 }
