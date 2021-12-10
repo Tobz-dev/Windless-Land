@@ -112,6 +112,21 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         }
     }
 
+    public void ActivatePlayerUI(bool active)
+    {
+        foreach(GameObject editableObject in editableObjects)
+        {
+            if (active)
+            {
+                editableObject.SetActive(true);
+            }
+            else
+            {
+                editableObject.SetActive(false);
+            }
+        }
+    }
+
     public void InactivatePrototype(bool setInactive)
     {
         if (setInactive)
@@ -131,6 +146,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             for (int i = 0; i <= editableObjects.Length - 1; i++)
             {
                 editableObjects[i].GetComponent<MoveObject>().enabled = true;
+                editableObjects[i].SetActive(true);
             }
             movableObject.GetChild(0).gameObject.SetActive(false);
             movableObject.GetChild(1).gameObject.SetActive(true);
