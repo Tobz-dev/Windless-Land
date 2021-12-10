@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3092168407338272591}
   - component: {fileID: 3092168407338272590}
+  - component: {fileID: 3960813972244193965}
+  - component: {fileID: 3960813972244193966}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -44,7 +46,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  manaSlider: {fileID: 0}
   flaskAmountText: {fileID: 0}
   hpSlot: {fileID: 7927673378436811673, guid: 5645fb3628311db4ca3299f64c7ff374, type: 3}
   parent: {fileID: 0}
-  arrowAmtText: {fileID: 0}
+--- !u!114 &3960813972244193965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3092168407338272589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d755fe166f5d3b64282f9dd2df9f789a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3960813972244193966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3092168407338272589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948c3d5f872261e4a97d5176b9b21ff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movableObject: {fileID: 0}
+  UIMenu: {fileID: 0}
+  editableObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  scaleSlider: {fileID: 0}
+  editModePanel: {fileID: 0}
+  individualEditToggle: {fileID: 0}
+  resetMarkedObject: {fileID: 0}
+  resetAllObjects: {fileID: 0}

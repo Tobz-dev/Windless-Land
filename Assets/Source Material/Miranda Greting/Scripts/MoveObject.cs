@@ -5,20 +5,31 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
+public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
 {
     private bool individualEditMode;
     private bool edited;
-    private GameObject editingParticles;
+    private GameObject highlightingParticles;
+    private GameObject selectedParticles;
     [SerializeField] private Toggle editModeToggle;
     [SerializeField] private GameObject parent;
+    [SerializeField] private MoveUI uiManager;
+    bool highlighted;
+    bool selected;
 
     // Start is called before the first frame update
     void Start()
     {
         individualEditMode = false;
-        editingParticles = gameObject.transform.GetChild(0).gameObject;
-        editingParticles.SetActive(false);
+        highlightingParticles = gameObject.transform.GetChild(0).gameObject;
+        selectedParticles = gameObject.transform.GetChild(1).gameObject;
+        highlightingParticles.SetActive(false);
+        selectedParticles.SetActive(false);
+    }
+
+    public void InactivatePrototype()
+    {
+
     }
 
     // Update is called once per frame
@@ -27,23 +38,53 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         
     }
 
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (editModeToggle.isOn)
+        {
+            uiManager.ChangeSelectedObject(gameObject);
+        }
+    }
+
+    public bool GetSelected()
+    {
+        return selected;
+    }
+
+    public bool GetHighlighted()
+    {
+        return highlighted;
+    }
+
+    public void SetSelected(bool isSelected)
+    {
+        selected = isSelected;
+        if (isSelected)
+        {
+            selectedParticles.SetActive(true);
+        }
+        else
+        {
+            selectedParticles.SetActive(false);
+        }
+    }
+
+    public void SetHighlighted(bool isMarked)
+    {
+        highlighted = isMarked;
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (editModeToggle.isOn)
         {
-            individualEditMode = true;
-            if (!this.gameObject.name.Equals("EditAll"))
-            {
-                editingParticles.SetActive(true);
-            }
+            highlightingParticles.SetActive(true);
+            uiManager.ChangeSelectedObject(gameObject);
         }
         else if(!editModeToggle.isOn)
         {
-            individualEditMode = false;
-            if(this.gameObject.name.Equals("EditAll"))
-            {
-                editingParticles.SetActive(true);
-            }
+            highlightingParticles.SetActive(false);
+            parent.transform.GetChild(0).gameObject.SetActive(true);
         }
     }
 
@@ -64,10 +105,8 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
         else if (!editModeToggle.isOn)
         {            
-                Debug.Log("MoveAll");
                 edited = true;
-                parent.GetComponent<RectTransform>().anchoredPosition += eventData.delta;
-            
+                parent.GetComponent<RectTransform>().anchoredPosition += eventData.delta;            
             /*
             else
             {
@@ -93,7 +132,7 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         if (individualEditMode)
         {
             edited = false;
-            editingParticles.SetActive(false);
+            highlightingParticles.SetActive(false);
         }
 
     }
@@ -103,14 +142,12 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         if (editModeToggle.isOn)
         {
             individualEditMode = true;
+            highlightingParticles.SetActive(true);
         }
         else if (!editModeToggle.isOn)
         {
             individualEditMode = false;
-        }
-        if (individualEditMode)
-        {
-            editingParticles.SetActive(true);
+            parent.transform.GetChild(0).gameObject.SetActive(true);
         }
     }
 
@@ -126,7 +163,7 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         }
         if (individualEditMode && !edited)
         {
-            editingParticles.SetActive(false);
+            highlightingParticles.SetActive(false);
         }
     }
 
@@ -135,14 +172,12 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         if (editModeToggle.isOn)
         {
             individualEditMode = true;
+            highlightingParticles.SetActive(true);
         }
         else if (!editModeToggle.isOn)
         {
             individualEditMode = false;
-        }
-        if (individualEditMode)
-        {
-            editingParticles.SetActive(true);
+            parent.transform.GetChild(0).gameObject.SetActive(true);
         }
     }
 
@@ -158,7 +193,7 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         }
         if (individualEditMode)
         {
-            editingParticles.SetActive(false);
+            highlightingParticles.SetActive(false);
         }
     }
 }

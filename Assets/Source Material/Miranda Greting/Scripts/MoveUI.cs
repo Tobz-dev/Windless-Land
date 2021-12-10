@@ -8,13 +8,22 @@ using UnityEngine.InputSystem;
 
 public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    [SerializeField] private RectTransform movableObject;
+    [SerializeField] private RectTransform movableObject; //HUD Gameobject goes here
+    [SerializeField] private GameObject UIMenu; //AjustUI/HUD goes here
+
+    private bool active = true;
+
+    private GameObject highlightParticles;
+    private Vector3 originalScale;
+
     private Vector2 startPos;
     private Vector2[] startPositions;
     private Vector2 currentPos;
     private List <Vector2> previousPositions;
-    [SerializeField] private GameObject[] editableObjects;
+    [SerializeField] private GameObject[] editableObjects; // all individual UI components go here; healthbar, potions, manabar, (keys) - in this order!!
+  
     [SerializeField] private Slider scaleSlider;
+    private ScaleManager scaleScript;
 
     [SerializeField] private GameObject editModePanel;
 
@@ -28,12 +37,23 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     [SerializeField] private Button resetAllObjects;
 
     private Vector2[] anchorOffsets;
+    private Vector3[] originalScales;
+    private float[] currentScaleSlideValues;
     private GameObject[] textObjects;
     private List<TextMeshProUGUI> textMeshProUGUIList = new List<TextMeshProUGUI>();
 
+    void OnEnable()
+    {
+        InactivatePrototype(false);
+    }
+    void OnDisable()
+    {
+        InactivatePrototype(true);
+    }
 
     void Start()
     {
+        originalScale = movableObject.localScale;
         startPos = movableObject.anchoredPosition;
         currentPos = startPos;
         previousPositions = new List<Vector2>();
@@ -42,19 +62,33 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
         editModePanel.SetActive(false);
 
-        anchorOffsets = new Vector2[editableObjects.Length];
+        anchorOffsets = new Vector2[editableObjects.Length+1];
+        anchorOffsets[0] = new Vector2(movableObject.anchoredPosition.x, movableObject.anchoredPosition.y);
         startPositions = new Vector2[editableObjects.Length];
+        originalScales = new Vector3[editableObjects.Length];
+        currentScaleSlideValues = new float[editableObjects.Length];
         for (int i = 0; i <= editableObjects.Length - 1; i++)
         {
             RectTransform rectTransform = editableObjects[i].GetComponent<RectTransform>();
-            anchorOffsets[i] = new Vector2(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y);
+            anchorOffsets[i+1] = new Vector2(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y);
             startPositions[i] = rectTransform.anchoredPosition;
+            originalScales[i] = rectTransform.localScale;
+            currentScaleSlideValues[i] = scaleSlider.value;
             if (i != 2)
             {
                 editableObjects[i].transform.GetChild(0).gameObject.SetActive(false);
             }
         }
         individualEditMode = false;
+        individualEditToggle.isOn = false;
+        movableObject.GetChild(0).gameObject.SetActive(false);
+        movableObject.GetChild(1).gameObject.SetActive(true);
+
+        scaleSlider.value = 1;
+        scaleScript = scaleSlider.GetComponent<ScaleManager>();
+
+        UIMenu.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -64,6 +98,99 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         {
             ResetTransform(false);
         }
+
+        if(UIMenu.activeInHierarchy == false && active)
+        {
+            InactivatePrototype(true);
+            active = false;
+        }
+        else if(UIMenu.activeInHierarchy == true && !active)
+        {
+            InactivatePrototype(false);
+            active = true;
+        }
+    }
+
+    public void InactivatePrototype(bool setInactive)
+    {
+        if (setInactive)
+        {
+            individualEditToggle.isOn = false;
+            for (int i = 0; i <= editableObjects.Length - 1; i++)
+            {
+                editableObjects[i].GetComponent<MoveObject>().enabled = false;
+                editableObjects[i].transform.GetChild(0).gameObject.SetActive(false);
+            }
+            movableObject.GetChild(0).gameObject.SetActive(false);
+            movableObject.GetChild(1).gameObject.SetActive(false);
+        }
+        else
+        {
+            individualEditToggle.isOn = false;
+            for (int i = 0; i <= editableObjects.Length - 1; i++)
+            {
+                editableObjects[i].GetComponent<MoveObject>().enabled = true;
+            }
+            movableObject.GetChild(0).gameObject.SetActive(false);
+            movableObject.GetChild(1).gameObject.SetActive(true);
+        }
+    }
+
+    public void ChangeSelectedObject(GameObject selection)
+    {
+        for (int i = 0; i <= editableObjects.Length - 1; i++)
+        {
+            MoveObject objectScript = editableObjects[i].GetComponent<MoveObject>();
+            if (editableObjects[i] != selection && objectScript.GetSelected())
+            {
+                objectScript.SetSelected(false);
+                scaleSlider.value = currentScaleSlideValues[i];
+            }
+            selection.GetComponent<MoveObject>().SetSelected(true);
+        }
+    }
+
+    public void UnselectAll()
+    {
+        for (int i = 0; i <= editableObjects.Length - 1; i++)
+        {
+            MoveObject objectScript = editableObjects[i].GetComponent<MoveObject>();
+            objectScript.SetSelected(false);
+            objectScript.SetHighlighted(false);
+            editableObjects[i].transform.GetChild(0).gameObject.SetActive(false);
+            editableObjects[i].transform.GetChild(1).gameObject.SetActive(false);
+        }
+    }
+
+    public void HideSingleResetButton()
+    {
+        if (individualEditToggle.isOn)
+        {
+            //resetMarkedObject.gameObject.SetActive(true);
+            resetMarkedObject.gameObject.transform.parent.gameObject.SetActive(true);
+            movableObject.GetChild(1).gameObject.SetActive(false);
+            ChangeSelectedObject(editableObjects[0]);
+        }
+        else
+        {
+            //resetMarkedObject.gameObject.SetActive(false);
+            resetMarkedObject.gameObject.transform.parent.gameObject.SetActive(false);
+            movableObject.GetChild(1).gameObject.SetActive(true);
+            //selectedParticles.SetActive(true);
+        }
+    }
+
+    public void ChangeHighlightedObject(GameObject highlighted)
+    {
+        for (int i = 0; i <= editableObjects.Length - 1; i++)
+        {
+            MoveObject objectScript = editableObjects[i].GetComponent<MoveObject>();
+            if (editableObjects[i] != highlighted && objectScript.GetHighlighted())
+            {
+                objectScript.SetHighlighted(false);
+            }
+            highlighted.GetComponent<MoveObject>().SetHighlighted(true);
+        }
     }
 
     public void ResetTransform(bool onlyMarkedObject)
@@ -72,14 +199,19 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         {
             if (onlyMarkedObject)
             {
-                if (editableObjects[i] == markedObject)
+                if (editableObjects[i].GetComponent<MoveObject>().GetSelected())
                 {
-                    markedObject.GetComponent<RectTransform>().anchoredPosition = startPositions[i];
+                    editableObjects[i].GetComponent<RectTransform>().anchoredPosition = startPositions[i];
+                    editableObjects[i].transform.localScale = originalScales[i];
+
                 }
             }
             else
             {
                 editableObjects[i].GetComponent<RectTransform>().anchoredPosition = startPositions[i];
+                movableObject.anchoredPosition = startPos;
+                editableObjects[i].transform.localScale = originalScales[i];
+                movableObject.localScale = originalScale;
             }
         }
     }
@@ -105,8 +237,11 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         return editableObjects[0];
     }
 
+
+
     public void OnDrag(PointerEventData eventData)
     {
+        /*
         if (!individualEditToggle.isOn)
         {
             Debug.Log("detectedDrag");
@@ -119,11 +254,13 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
                 editableObjects[i].transform.GetChild(0).gameObject.SetActive(true);
             }
         }
+        */
     }
 
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        /*
         Debug.Log("detectedDrag");
 
         for (int i = 0; i <= editableObjects.Length - 1; i++)
@@ -134,13 +271,16 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
                 editableObjects[i].transform.GetChild(0).gameObject.SetActive(true);
             }
         }
+        */
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        /*
         currentPos = movableObject.anchoredPosition;
         previousPositions.Add(currentPos);
         Debug.Log("AddedPosCurrent");
+        */
     }
 
     public void ActivateEditMode()
@@ -150,85 +290,110 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     private void ScaleUI()
     {
-        foreach (GameObject gameObject in editableObjects)
+        if (individualEditToggle.isOn)
         {
-            gameObject.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, 1);
+            for (int i = 0; i <= editableObjects.Length-1; i++)
+            {
+                if (editableObjects[i].GetComponent<MoveObject>().GetSelected())
+                {
+                    if (scaleScript.GetSelected())
+                    {
+                        //editableObjects[i].transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, 1);
+                        editableObjects[i].transform.localScale = new Vector3(originalScales[i].x * scaleSlider.value, originalScales[i].y * scaleSlider.value, 1);
+                    }
+                    currentScaleSlideValues[i] = scaleScript.GetValueAtDeselect();
+                }
+            }
+        }
+        else
+        {
+            movableObject.localScale = new Vector3(originalScale.x * scaleSlider.value, originalScale.y * scaleSlider.value, 1);
         }
     }
 
     public void ChangeAnchoredPos(string buttonPos)
     {
-        for (int i = 0; i <= editableObjects.Length - 1; i++)
+        RectTransform selectedObject = movableObject;
+        int objectInList = 0;
+        if (individualEditToggle.isOn)
         {
-            RectTransform rectTransform = editableObjects[i].GetComponent<RectTransform>();
-            Vector2 rectMinMax = rectTransform.anchorMin;
+            for (int i = 0; i <= editableObjects.Length - 1; i++)
+            {
+                if (editableObjects[i].GetComponent<MoveObject>().GetSelected())
+                {
+                    selectedObject = editableObjects[i].GetComponent<RectTransform>();
+                    objectInList = i + 1;
+                }
+            }
+        }
+        RectTransform rectTransform = selectedObject.GetComponent<RectTransform>();
+        Vector2 rectMinMax = rectTransform.anchorMin;
 
-            if (buttonPos.Equals("UpLeft"))
-            {
-                rectMinMax = new Vector2(0, 1);
-                rectTransform.anchorMin = rectMinMax;
-                rectTransform.anchorMax = rectMinMax;
-                rectTransform.pivot = rectMinMax;
-                rectTransform.anchoredPosition = new Vector2(anchorOffsets[i].x, anchorOffsets[i].y);
-            }
-            else if (buttonPos.Equals("UpMid"))
-            {
-                rectMinMax = new Vector2(0.5f, 1);
-                rectTransform.anchorMin = rectMinMax;
-                rectTransform.anchorMax = rectMinMax;
-                rectTransform.pivot = rectMinMax;
-                rectTransform.anchoredPosition = new Vector2(0, anchorOffsets[i].y);
+        if (buttonPos.Equals("UpLeft"))
+        {
+            rectMinMax = new Vector2(0, 1);
+            rectTransform.anchorMin = rectMinMax;
+            rectTransform.anchorMax = rectMinMax;
+            rectTransform.pivot = rectMinMax;
+            rectTransform.anchoredPosition = new Vector2(anchorOffsets[objectInList].x, anchorOffsets[objectInList].y);
+        }
+        else if (buttonPos.Equals("UpMid"))
+        {
+            rectMinMax = new Vector2(0.5f, 1);
+            rectTransform.anchorMin = rectMinMax;
+            rectTransform.anchorMax = rectMinMax;
+            rectTransform.pivot = rectMinMax;
+            rectTransform.anchoredPosition = new Vector2(0, anchorOffsets[objectInList].y);
 
-            }
-            else if (buttonPos.Equals("UpRight"))
-            {
-                rectMinMax = new Vector2(1, 1);
-                rectTransform.anchorMin = rectMinMax;
-                rectTransform.anchorMax = rectMinMax;
-                rectTransform.pivot = rectMinMax;
-                rectTransform.anchoredPosition = new Vector2(-anchorOffsets[i].x * 2, anchorOffsets[i].y);
+        }
+        else if (buttonPos.Equals("UpRight"))
+        {
+            rectMinMax = new Vector2(1, 1);
+            rectTransform.anchorMin = rectMinMax;
+            rectTransform.anchorMax = rectMinMax;
+            rectTransform.pivot = rectMinMax;
+            rectTransform.anchoredPosition = new Vector2(-anchorOffsets[objectInList].x * 2, anchorOffsets[objectInList].y);
 
-            }
-            else if (buttonPos.Equals("MidLeft"))
-            {
-                rectMinMax = new Vector2(0, 0.5f);
-                rectTransform.anchorMin = rectMinMax;
-                rectTransform.anchorMax = rectMinMax;
-                rectTransform.pivot = rectMinMax;
-                rectTransform.anchoredPosition = new Vector2(anchorOffsets[i].x, 0);
-            }
-            else if (buttonPos.Equals("MidRight"))
-            {
-                rectMinMax = new Vector2(1, 0.5f);
-                rectTransform.anchorMin = rectMinMax;
-                rectTransform.anchorMax = rectMinMax;
-                rectTransform.pivot = rectMinMax;
-                rectTransform.anchoredPosition = new Vector2(-anchorOffsets[i].x * 2, 0);
-            }
-            else if (buttonPos.Equals("DownLeft"))
-            {
-                rectMinMax = new Vector2(0, 0);
-                rectTransform.anchorMin = rectMinMax;
-                rectTransform.anchorMax = rectMinMax;
-                rectTransform.pivot = rectMinMax;
-                rectTransform.anchoredPosition = new Vector2(anchorOffsets[i].x, -anchorOffsets[i].y * 4);
-            }
-            else if (buttonPos.Equals("DownMid"))
-            {
-                rectMinMax = new Vector2(0.5f, 0);
-                rectTransform.anchorMin = rectMinMax;
-                rectTransform.anchorMax = rectMinMax;
-                rectTransform.pivot = rectMinMax;
-                rectTransform.anchoredPosition = new Vector2(0, -anchorOffsets[i].y * 4);
-            }
-            else if (buttonPos.Equals("DownRight"))
-            {
-                rectMinMax = new Vector2(1, 0);
-                rectTransform.anchorMin = rectMinMax;
-                rectTransform.anchorMax = rectMinMax;
-                rectTransform.pivot = rectMinMax;
-                rectTransform.anchoredPosition = new Vector2(-anchorOffsets[i].x * 2, -anchorOffsets[i].y * 4);
-            }
+        }
+        else if (buttonPos.Equals("MidLeft"))
+        {
+            rectMinMax = new Vector2(0, 0.5f);
+            rectTransform.anchorMin = rectMinMax;
+            rectTransform.anchorMax = rectMinMax;
+            rectTransform.pivot = rectMinMax;
+            rectTransform.anchoredPosition = new Vector2(anchorOffsets[objectInList].x, 0);
+        }
+        else if (buttonPos.Equals("MidRight"))
+        {
+            rectMinMax = new Vector2(1, 0.5f);
+            rectTransform.anchorMin = rectMinMax;
+            rectTransform.anchorMax = rectMinMax;
+            rectTransform.pivot = rectMinMax;
+            rectTransform.anchoredPosition = new Vector2(-anchorOffsets[objectInList].x * 2, 0);
+        }
+        else if (buttonPos.Equals("DownLeft"))
+        {
+            rectMinMax = new Vector2(0, 0);
+            rectTransform.anchorMin = rectMinMax;
+            rectTransform.anchorMax = rectMinMax;
+            rectTransform.pivot = rectMinMax;
+            rectTransform.anchoredPosition = new Vector2(anchorOffsets[objectInList].x, -anchorOffsets[objectInList].y * 4);
+        }
+        else if (buttonPos.Equals("DownMid"))
+        {
+            rectMinMax = new Vector2(0.5f, 0);
+            rectTransform.anchorMin = rectMinMax;
+            rectTransform.anchorMax = rectMinMax;
+            rectTransform.pivot = rectMinMax;
+            rectTransform.anchoredPosition = new Vector2(0, -anchorOffsets[objectInList].y * 4);
+        }
+        else if (buttonPos.Equals("DownRight"))
+        {
+            rectMinMax = new Vector2(1, 0);
+            rectTransform.anchorMin = rectMinMax;
+            rectTransform.anchorMax = rectMinMax;
+            rectTransform.pivot = rectMinMax;
+            rectTransform.anchoredPosition = new Vector2(-anchorOffsets[objectInList].x * 2, -anchorOffsets[objectInList].y * 4);
         }
     }
 }
