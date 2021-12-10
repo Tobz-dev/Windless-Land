@@ -166,17 +166,15 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     {
         if (individualEditToggle.isOn)
         {
-            //resetMarkedObject.gameObject.SetActive(true);
             resetMarkedObject.gameObject.transform.parent.gameObject.SetActive(true);
             movableObject.GetChild(1).gameObject.SetActive(false);
             ChangeSelectedObject(editableObjects[0]);
         }
         else
         {
-            //resetMarkedObject.gameObject.SetActive(false);
             resetMarkedObject.gameObject.transform.parent.gameObject.SetActive(false);
             movableObject.GetChild(1).gameObject.SetActive(true);
-            //selectedParticles.SetActive(true);
+            UnselectAll();
         }
     }
 

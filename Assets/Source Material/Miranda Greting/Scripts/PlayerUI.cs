@@ -113,7 +113,7 @@ public class PlayerUI : MonoBehaviour
         for (int i = 0; i <= maxHealth - 1; i++)
         {
             //instantiate hp slots with predetermined space (90 units) inbetween them
-            GameObject newHP = Instantiate(hpSlot, new Vector3(-140 + 90 * i, 0, 0), Quaternion.identity) as GameObject;
+            GameObject newHP = Instantiate(hpSlot, new Vector3(-190 + 90 * i, 0, 0), Quaternion.identity) as GameObject;
             newHP.transform.SetParent(parent.transform, false);
             if (i == maxHealth - 1)
             {

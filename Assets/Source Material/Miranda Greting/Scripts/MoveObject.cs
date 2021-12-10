@@ -59,13 +59,14 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     public void SetSelected(bool isSelected)
     {
         selected = isSelected;
-        if (isSelected)
+        if (isSelected && !selectedParticles.activeInHierarchy)
         {
             selectedParticles.SetActive(true);
+            return;
         }
         else
         {
-            selectedParticles.SetActive(false);
+            gameObject.transform.GetChild(1).gameObject.SetActive(false);
         }
     }
 
@@ -162,8 +163,9 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         else if (!editModeToggle.isOn)
         {
             individualEditMode = false;
+            parent.transform.GetChild(0).gameObject.SetActive(false);
         }
-        if (individualEditMode && !edited)
+        if (individualEditMode)
         {
             highlightingParticles.SetActive(false);
         }
