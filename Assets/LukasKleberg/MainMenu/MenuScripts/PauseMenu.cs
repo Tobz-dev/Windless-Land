@@ -12,7 +12,7 @@ public class PauseMenu : MonoBehaviour
     private GameObject pauseMenuUI;
 
     [SerializeField]
-    private GameObject playerHP, PlayerMana;
+    private GameObject playerHP, PlayerMana, PlayerBow;
 
     [SerializeField]
     private GameObject eventSystemHelper;
@@ -26,7 +26,7 @@ public class PauseMenu : MonoBehaviour
     private void Start()
     {
         checkIfLog();
-        if (logpanel = null)
+        if (logpanel != null)
         {
             logpanel.SetActive(false);
         }
@@ -73,6 +73,7 @@ public class PauseMenu : MonoBehaviour
 
         playerHP.SetActive(true);
         PlayerMana.SetActive(true);
+        PlayerBow.SetActive(true);
 
         Time.timeScale = 1.0f;
         gameIsPaused = false;
@@ -92,6 +93,7 @@ public class PauseMenu : MonoBehaviour
 
         playerHP.SetActive(false);
         PlayerMana.SetActive(false);
+        PlayerBow.SetActive(false);
 
 
         Time.timeScale = 0.0f;

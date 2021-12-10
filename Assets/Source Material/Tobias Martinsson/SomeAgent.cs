@@ -18,12 +18,15 @@ public class SomeAgent : MonoBehaviour
     public Animator animator;
 
     private StateMachine StateMachine;
-    public Transform GetPatrolPoint => PatrolPoints[Random.Range(0, PatrolPoints.Count)];
+    //public Transform GetPatrolPoint => 
 
     public Vector3 PlayerPosition => Player.position;
 
     private void Awake()
     {
+        
+        SetPatrolPoints(GetComponentInParent<EnemyRespawnScript>().PatrolPoints);
+        
         collider = GetComponent<BoxCollider>();
         NavAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
@@ -36,6 +39,11 @@ public class SomeAgent : MonoBehaviour
     private void Update()
     {
         StateMachine.RunUpdate();
+    }
+
+    public Transform GetPatrolPoint()
+    {
+        return PatrolPoints[Random.Range(0, PatrolPoints.Count)];
     }
 
     public Transform GetPatrolPointByindex(int x)

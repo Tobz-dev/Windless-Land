@@ -33,6 +33,11 @@ public class EnemyHealthScript : MonoBehaviour
     [SerializeField]
     private float playerInvincibilityTime;
 
+    private void Awake()
+    {
+        health = Maxhealth;
+    }
+
     private void Start()
     {
         if (gameObject.GetComponent<MeshRenderer>() != null)
@@ -66,7 +71,6 @@ public class EnemyHealthScript : MonoBehaviour
             EnemyDead.start();
             EnemyDead.release();
             Destroy(gameObject);
-
         }
 
         if (startInvincibilityTimer == true)
@@ -170,4 +174,5 @@ public class EnemyHealthScript : MonoBehaviour
     {
         return (float)health / (float)Maxhealth;
     }
+
 }

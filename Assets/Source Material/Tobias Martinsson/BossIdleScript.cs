@@ -23,6 +23,7 @@ public class BossIdleScript : State
 
     public override void Enter()
     {
+        Agent.GetComponent<SphereCollider>().enabled = false;
         GameObject bossCanvas = GameObject.FindGameObjectWithTag("BossHUD");
         bossCanvas.GetComponent<Canvas>().enabled = false;
         Agent.GetComponent<BossMechanicsScript>().RespawnPillars();
