@@ -36734,6 +36734,62 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &3583848396137894822
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7670993214831815343}
+  - component: {fileID: 9118867180679249719}
+  m_Layer: 5
+  m_Name: AudioValueSetter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7670993214831815343
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3583848396137894822}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0357187, y: 1.0357187, z: 1.0357187}
+  m_Children: []
+  m_Father: {fileID: 6695071115637025546}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 1144.4009, y: 191.22223}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &9118867180679249719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3583848396137894822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77bad28deffb72b4aa5c24158a8f6194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vcaControllerArray:
+  - {fileID: 62050489185372422}
+  - {fileID: 62050487860541967}
+  - {fileID: 62050489101889601}
+  - {fileID: 62050489549876808}
+  - {fileID: 62050488927028608}
+  - {fileID: 62050488267224984}
+  - {fileID: 62050488008277279}
 --- !u!1 &4521435795752177026
 GameObject:
   m_ObjectHideFlags: 0
@@ -37124,6 +37180,7 @@ RectTransform:
   - {fileID: 5881574537318041348}
   - {fileID: 4513293246725122253}
   - {fileID: 186463391684247984}
+  - {fileID: 7670993214831815343}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -37209,6 +37266,7 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 62050487910189226}
   playerHP: {fileID: 0}
   PlayerMana: {fileID: 0}
+  PlayerBow: {fileID: 0}
   eventSystemHelper: {fileID: 6967255155275705677}
   subMenus:
   - {fileID: 62050489143136385}
