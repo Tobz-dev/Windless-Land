@@ -21,7 +21,7 @@ public class LightPatrol : State
 
     public override void Enter()
     {
-        CurrentPatrol = Agent.GetPatrolPoint;
+        CurrentPatrol = Agent.GetPatrolPoint();
         Agent.NavAgent.SetDestination(CurrentPatrol.position);
         Agent.NavAgent.speed = Speed;
         Agent.animator.SetFloat("XSpeed", 0);
@@ -31,7 +31,7 @@ public class LightPatrol : State
     {
         if (Agent.NavAgent.remainingDistance < 2.0f)
         {
-            CurrentPatrol = Agent.GetPatrolPoint;
+            CurrentPatrol = Agent.GetPatrolPoint();
             Agent.NavAgent.SetDestination(CurrentPatrol.position);
         }
         Color color = new Color(0.0f, 0.0f, 1.0f);
