@@ -42,7 +42,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     void OnEnable()
     {
-        InactivatePrototype(false);
+        //InactivatePrototype(false);
         foreach(GameObject gameObject in editableObjects)
         {
             movableObject.gameObject.SetActive(true);
@@ -51,7 +51,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     }
     void OnDisable()
     {
-        InactivatePrototype(true);
+        //InactivatePrototype(true);
     }
 
     void Start()
@@ -91,6 +91,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         scaleScript = scaleSlider.GetComponent<ScaleManager>();
 
         UIMenu.SetActive(false);
+        InactivatePrototype(true);
 
     }
 
@@ -101,6 +102,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         {
             ResetTransform(false);
         }
+
 
         if(UIMenu.activeInHierarchy == false && active)
         {
