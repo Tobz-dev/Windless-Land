@@ -63,6 +63,9 @@ public class PanelHandler : MonoBehaviour
                 case 4:
                     textmesh.text = "Hitting enemies will restore your mana. Another way is to go near a Mana Fountain";
                     break;
+                case 5:
+                    textmesh.text = "Enemies respawn when a checkpoint is activated. Be careful.";
+                    break;
                 default:
                     textmesh.text = "Default";
                     break;
