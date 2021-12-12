@@ -13,7 +13,10 @@ public class SaveSpawnPoint : MonoBehaviour
 
             foreach (GameObject go in GameObject.FindGameObjectsWithTag("Enemy"))
             {
-                Destroy(go);
+                if(go.name != "Boss")
+                {
+                    Destroy(go);
+                }
             }
 
 
