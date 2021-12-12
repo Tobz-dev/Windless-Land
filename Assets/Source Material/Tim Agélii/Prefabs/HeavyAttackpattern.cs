@@ -34,6 +34,7 @@ public class HeavyAttackpattern : State
 
     private float moveSpeed = 0;
 
+    private int randomAttack = 0;
 
 
     Vector3 turnDirection;
@@ -128,14 +129,11 @@ public class HeavyAttackpattern : State
 
 
 
-        if ((Mathf.Abs(playerToEnemyDistance) <= enemyMeleeDistance) && inAttack == false)
+        if (inAttack == false)
         {
-            inMeleeRange = true;
+            randomAttack = (int)(Random.value*10);
         }
-        else if ((Mathf.Abs(playerToEnemyDistance) > enemyMeleeDistance))
-        {
-            inMeleeRange = false;
-        }
+    
 
 
 
@@ -240,11 +238,11 @@ public class HeavyAttackpattern : State
         {
 
 
-            if (inMeleeRange)
+            if (randomAttack > 5)
             {
                 Agent.animator.SetTrigger("StartAttack2");
             }
-            else
+            else if(randomAttack <= 5)
             {
 
 
