@@ -24,6 +24,8 @@ public class RangedAiAimState : State
         Debug.Log("Entered RangedAiAimState");
         CurrentPatrol = Agent.transform;
         Agent.NavAgent.SetDestination(CurrentPatrol.position);
+        Agent.animator.SetTrigger("DrawBow");
+        //Agent.transform.rotation = lookRotation;
     }
 
     public override void RunUpdate()
@@ -31,21 +33,23 @@ public class RangedAiAimState : State
 
         if (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) <= aggroDistance)
         {
-            Agent.animator.SetTrigger("DrawBow");
+            
             Agent.NavAgent.updateRotation = false;
             Vector3 targetPostition = new Vector3(Agent.Player.position.x,
                                         Agent.transform.position.y,
                                         Agent.Player.position.z);
             Agent.transform.LookAt(targetPostition);
             Vector3.RotateTowards(Agent.transform.position, Agent.PlayerPosition, 2,0);
+            Agent.animator.SetTrigger("DrawBow");
 
             shootCooldown -= Time.deltaTime;
             if (shootCooldown < 0)
             {
-                Agent.animator.SetTrigger("StopBow");
+                Debug.Log("Entered RunUpdate, firing");
                 Agent.animator.SetTrigger("BowRecoil");
                 Agent.GetComponent<ArrowScript>().shootArrow();
                 shootCooldown = originalTime;
+                Agent.animator.SetTrigger("StartIdle");
             }
 
         }
