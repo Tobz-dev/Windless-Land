@@ -13,7 +13,14 @@ public class PlayerAnimEvents : MonoBehaviour
     [SerializeField]
     private GameObject arrow;
 
+    private int comboNumber;
+
     private float playerMoveSpeed;
+
+    private bool allowMovement = true;
+
+   
+
 
     public void instantiateLightHitbox() {
      
@@ -40,7 +47,29 @@ public class PlayerAnimEvents : MonoBehaviour
     public void SetPlayerMoveSpeed(float f) {
         playerMoveSpeed = f;
     }
-    public float GetplayerMoveSpeed() {
+    public float GetPlayerMoveSpeed() {
         return playerMoveSpeed;
     }
+
+
+    public void SetComboNumber(int i)
+    {
+        comboNumber = i;
+    }
+    public int GetComboNumber()
+    {
+        return comboNumber;
+    }
+
+
+    public void SetAllowMovement(bool b)
+    {
+        allowMovement= b;
+    }
+    public bool GetAllowMovement()
+    {
+        return allowMovement;
+    }
+
+
 }

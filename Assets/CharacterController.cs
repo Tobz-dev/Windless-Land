@@ -207,6 +207,8 @@ public class CharacterController : MonoBehaviour
 
             lookRotation = Quaternion.LookRotation(hitPoint - playerPositionOnPlane);
 
+            UpdateEventVariables();
+
             PlayerRotationUpdate();
 
             HealthFlaskManager();
@@ -259,6 +261,13 @@ public class CharacterController : MonoBehaviour
 
         }
         */
+    }
+
+    private void UpdateEventVariables()
+    {
+       moveSpeed = transform.GetComponentInParent<PlayerAnimEvents>().GetPlayerMoveSpeed();
+       canMove = transform.GetComponentInParent<PlayerAnimEvents>().GetAllowMovement();
+       currentAttack = transform.GetComponentInParent<PlayerAnimEvents>().GetComboNumber();
     }
 
     void UpdateMoveInput() {
@@ -402,9 +411,9 @@ public class CharacterController : MonoBehaviour
         bowIsActive = true;
             anim.SetTrigger("DrawBow");
 
-            moveAllow = false;
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovement(false);
 
-            drawBow = true;
+        drawBow = true;
         
     }
     void DrawBow() {
@@ -459,7 +468,7 @@ public class CharacterController : MonoBehaviour
     }
     void BowCancel() {
         anim.SetTrigger("StopBow");
-        moveAllow = true;
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovement(true);
         queueBowCancel = false;
         attackTimer = 0;
         drawBow = false;
@@ -476,7 +485,7 @@ public class CharacterController : MonoBehaviour
     void BowCooldown() {
         if (AttackWaitTimer(bowCooldownTime))
         {
-            moveAllow = true;
+            transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovement(true);
             startBowCooldown = false;
             bowIsActive = false;
             anim.SetTrigger("StopBow");
@@ -566,8 +575,8 @@ public class CharacterController : MonoBehaviour
             anim.SetTrigger("DodgeRoll");
 
 
-      
-        moveAllow = false;
+
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovement(false);
 
         if (playerInputActive)
         {
@@ -595,7 +604,7 @@ public class CharacterController : MonoBehaviour
                 if (DodgeWaitTimer(dodgerollDuration))
                 {
 
-                    moveAllow = true;
+                    transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovement(true);
                     dodgerolling = false;
                     dodgerollTimerRunning = false;
                    
@@ -682,7 +691,7 @@ public class CharacterController : MonoBehaviour
         //Debug.Log("in player attack");
         anim.SetTrigger(currentAttackTrigger);
 
-        moveAllow = false;
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovement(false);
         transform.rotation = lookRotation;
         startAttackDelay = true;
 
@@ -701,7 +710,7 @@ public class CharacterController : MonoBehaviour
 
         anim.SetTrigger("HeavyAttack");
 
-        moveAllow = false;
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovement(false);
         transform.rotation = lookRotation;
         startAttackDelay = true;
 
@@ -727,8 +736,8 @@ public class CharacterController : MonoBehaviour
         {
             if (AttackWaitTimer(swingCooldown))
             {
-               moveAllow = true;
-              
+                transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovement(true);
+
                 startAttackCooldown = false;
 
                 anim.SetTrigger("StopAttack");
