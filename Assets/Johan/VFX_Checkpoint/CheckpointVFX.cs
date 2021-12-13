@@ -39,10 +39,11 @@ public class CheckpointVFX : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C)) //Det som triggar hela effekten. Byts ut i riktiga spelet till när spelaren aktiverar checkpointen på något sätt.
+        /*if (Input.GetKeyDown(KeyCode.C)) //Det som triggar hela effekten. Byts ut i riktiga spelet till när spelaren aktiverar checkpointen på något sätt.
         {
             StartEffect();
         }
+        */
 
         CheckPlayShine();
         CheckStopShine();
@@ -51,7 +52,15 @@ public class CheckpointVFX : MonoBehaviour
         CheckReduceSpawnRate();
     }
 
-
+    private void OnTriggerEnter(Collider collision)
+    {
+        GameObject collisionObject = collision.gameObject;
+        if (collisionObject.tag == "Player") 
+        {
+            StartEffect();
+        }
+            
+    }
 
     private void StartEffect()
     {

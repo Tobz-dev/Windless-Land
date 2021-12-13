@@ -20,14 +20,20 @@ public class FontChange : MonoBehaviour
     {
         for (int i = 0; i <= objectsToGetTextFromAndSetInactive.Length - 1; i++)
         {
-            objectsToGetTextFromAndSetInactive[i].SetActive(true);
+            if (objectsToGetTextFromAndSetInactive[i] != null)
+            {
+                objectsToGetTextFromAndSetInactive[i].SetActive(true);
+            }
+            
             //Debug.Log("in fontchange test. activate object loop");
         }
 
         for (int i = 0; i <= objectsToGetTextFromAndSetActive.Length - 1; i++)
         {
-            objectsToGetTextFromAndSetActive[i].SetActive(true);
-            //Debug.Log("in fontchange test. activate object loop");
+            if (objectsToGetTextFromAndSetActive[i] != null)
+            {
+                objectsToGetTextFromAndSetActive[i].SetActive(true);
+            }
         }
 
 
