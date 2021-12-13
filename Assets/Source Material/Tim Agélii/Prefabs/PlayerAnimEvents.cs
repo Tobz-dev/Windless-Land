@@ -19,11 +19,11 @@ public class PlayerAnimEvents : MonoBehaviour
 
     private bool allowMovement = true;
 
+    private bool endOfAttack = false;
+
    
-
-
     public void instantiateLightHitbox() {
-     
+
         var newHitbox = Instantiate(lightAttackHitbox, transform.position + (transform.rotation * new Vector3(0, 0.5f, 1.7f)), transform.rotation);
 
         newHitbox.transform.parent = gameObject.transform;
@@ -62,14 +62,32 @@ public class PlayerAnimEvents : MonoBehaviour
     }
 
 
-    public void SetAllowMovement(bool b)
+    public void SetAllowMovementFalse()
     {
-        allowMovement= b;
+        allowMovement = false;
+    }
+    public void SetAllowMovementTrue()
+    {
+        allowMovement = true;
     }
     public bool GetAllowMovement()
     {
         return allowMovement;
     }
+
+    public void SetEndOfAttackTrue() {
+        endOfAttack = true;
+    }
+
+    public void SetEndOfAttackFalse()
+    {
+        endOfAttack = false;
+    }
+
+    public bool GetEndOfAttack() {
+        return endOfAttack;
+    }
+
 
 
 }
