@@ -10,7 +10,7 @@ public class BossChooseAttackState : State
     public float attackCooldown;
     private float originalTime;
     private Quaternion originalRotation;
-    private float aggroDistance;
+    public float aggroDistance;
     private Transform CurrentPatrol;
     private int enrageCounter = 0;
 
@@ -20,13 +20,14 @@ public class BossChooseAttackState : State
         Debug.Assert(Agent);
         originalTime = attackCooldown;
         originalRotation = Agent.transform.rotation;
-        aggroDistance = Agent.GetComponent<BossMechanicsScript>().aggroRange;
     }
 
     public override void Enter()
     {
-        Debug.Log("Choosing attack.");
-
+        Agent.GetComponent<SphereCollider>().enabled = true;
+        attackCooldown = 4f;
+        GameObject bossCanvas = GameObject.FindGameObjectWithTag("BossHUD");
+        bossCanvas.GetComponent<Canvas>().enabled = true;
         Agent.transform.rotation = originalRotation;
     }
     public override void RunUpdate()
@@ -34,26 +35,21 @@ public class BossChooseAttackState : State
         Agent.transform.rotation = originalRotation;
         CurrentPatrol = Agent.GetPatrolPointByindex(0);
         Agent.NavAgent.SetDestination(CurrentPatrol.position);
-
-        Debug.Log(Agent.GetComponent<EnemyHealthScript>().health);
-        Debug.Log(Agent.GetComponent<EnemyHealthScript>().health * 0.75);
         if (Agent.GetComponent<EnemyHealthScript>().health < Agent.GetComponent<EnemyHealthScript>().Maxhealth * 0.75 && enrageCounter == 0)
         {
             enrageCounter++;
-            Agent.GetComponent<BossMechanicsScript>().DestroyRandomPillar();
             StateMachine.ChangeState<BossShootingState>();
         }
         else if (Agent.GetComponent<EnemyHealthScript>().health < Agent.GetComponent<EnemyHealthScript>().Maxhealth * 0.5 && enrageCounter == 1)
         {
             enrageCounter++;
             StateMachine.ChangeState<BossShootingState>();
-            Agent.GetComponent<BossMechanicsScript>().DestroyRandomPillar();
         }
         else if(Agent.GetComponent<EnemyHealthScript>().health < Agent.GetComponent<EnemyHealthScript>().Maxhealth * 0.25 && enrageCounter == 2)
         {
             enrageCounter++;
             StateMachine.ChangeState<BossShootingState>();
-            Agent.GetComponent<BossMechanicsScript>().DestroyRandomPillar();
+            
         }
 
         attackCooldown -= Time.deltaTime;
