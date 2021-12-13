@@ -728,8 +728,10 @@ public class CharacterController : MonoBehaviour
     {
    
         if (attacking)
-        {   
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+          
+           
+            if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
                  
                     queueAttack = true;
@@ -741,16 +743,16 @@ public class CharacterController : MonoBehaviour
                     queueAttack = false;
                     queueDodge = true;
                 }
+         
+            if (endOfAttack == false)
+            {
+                playerRgb.velocity = ((transform.forward).normalized * 2f) + new Vector3(0, playerRgb.velocity.y, 0);
+            }
 
-           
 
             if (endOfAttack == true)
             {
-            
-
-               
-
-      
+                playerRgb.velocity = new Vector3(0, playerRgb.velocity.y, 0);
 
                 if (AttackWaitTimer(lightSwingCooldown)) {
                      anim.SetTrigger("StopAttack");
