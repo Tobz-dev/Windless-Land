@@ -1965,6 +1965,7 @@ GameObject:
   - component: {fileID: 8156951210086529455}
   - component: {fileID: 4950615091010454670}
   - component: {fileID: 2467606102895034927}
+  - component: {fileID: 332721061240920747}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2063,12 +2064,6 @@ MonoBehaviour:
   health: 0
   Maxhealth: 5
   material: {fileID: 2100000, guid: 808ae2002bfb8fc48ad40d63ab54ea5a, type: 2}
-  hpSlots:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   flaskAmountText: {fileID: 0}
   maxFlasks: 4
   cameraFollow: {fileID: 0}
@@ -2132,6 +2127,21 @@ CapsuleCollider:
   m_Height: 1.7346148
   m_Direction: 1
   m_Center: {x: 0.012223735, y: 0.86626554, z: -0.003879249}
+--- !u!114 &332721061240920747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427691672052367348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68cc3827b54f51249a4278920481698c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heavyAttackHitbox: {fileID: 3483705884616122953, guid: 64b24f8498a572547a2d8e587a50b698, type: 3}
+  lightAttackHitbox: {fileID: 3483705884616122953, guid: 4e7239f0fd86c2e4c96d38353dfb8412, type: 3}
+  arrow: {fileID: 4306732365073514678, guid: 99fa6afae87d804489c67d053cc03e27, type: 3}
 --- !u!1 &1427691672057429491
 GameObject:
   m_ObjectHideFlags: 0

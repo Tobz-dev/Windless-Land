@@ -190,6 +190,8 @@ public class CharacterController : MonoBehaviour
 
         moveSpeedDefault = moveSpeed;
 
+        transform.GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeed(moveSpeedDefault);
+
         currentAttackTrigger = "Attack1";
      //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
     }
@@ -266,7 +268,7 @@ public class CharacterController : MonoBehaviour
     private void UpdateEventVariables()
     {
        moveSpeed = transform.GetComponentInParent<PlayerAnimEvents>().GetPlayerMoveSpeed();
-       canMove = transform.GetComponentInParent<PlayerAnimEvents>().GetAllowMovement();
+       moveAllow = transform.GetComponentInParent<PlayerAnimEvents>().GetAllowMovement();
        currentAttack = transform.GetComponentInParent<PlayerAnimEvents>().GetComboNumber();
     }
 
@@ -717,16 +719,14 @@ public class CharacterController : MonoBehaviour
     }
 
     void QueueNextAttackAni() {
-        currentAttack++;
-        if (currentAttack <= attackComboLenght) {
+
+        if (currentAttack <= attackComboLenght)
+        {
             currentAttackTrigger = "Attack" + currentAttack;
         }
-      
-      
-    
     }
     void ResetAttackAni() {
-        currentAttack = 1;
+        transform.GetComponentInParent<PlayerAnimEvents>().SetComboNumber(1);
         currentAttackTrigger = "Attack" + currentAttack;
       
     }

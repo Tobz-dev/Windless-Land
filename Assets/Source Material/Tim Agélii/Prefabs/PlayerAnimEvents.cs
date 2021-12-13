@@ -13,7 +13,7 @@ public class PlayerAnimEvents : MonoBehaviour
     [SerializeField]
     private GameObject arrow;
 
-    private int comboNumber;
+    private int comboNumber = 1;
 
     private float playerMoveSpeed;
 
