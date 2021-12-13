@@ -17,13 +17,15 @@ public class PanelHandler : MonoBehaviour
     public int logNumber;
     private FMOD.Studio.EventInstance PageOpen;
 
+    [SerializeField] private GameObject PressE;
+
 
 
     void Start()
     {
         logPanel.SetActive(false);
         //pm = GetComponent<PauseMenu>();
-        
+        PressE.SetActive(false);        
 
     }
     void Update()
@@ -44,6 +46,7 @@ public class PanelHandler : MonoBehaviour
             if (logPanel == isActiveAndEnabled)
             {
               panel.SetActive(false);
+                PressE.SetActive(false);
             }
 
 
@@ -89,6 +92,7 @@ public class PanelHandler : MonoBehaviour
             panel.SetActive(true);
             pressText.text = "Press E to read Log";
             readLog = true;
+            PressE.SetActive(true);
         }
     }
 
@@ -99,6 +103,7 @@ public class PanelHandler : MonoBehaviour
         {
             panel.SetActive(false);
             readLog = false;
+            PressE.SetActive(false);
         }
     }
 
