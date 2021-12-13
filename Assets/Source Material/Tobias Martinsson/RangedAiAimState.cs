@@ -45,11 +45,11 @@ public class RangedAiAimState : State
             shootCooldown -= Time.deltaTime;
             if (shootCooldown < 0)
             {
-                Debug.Log("Entered RunUpdate");
+                Debug.Log("Entered RunUpdate, firing");
                 Agent.animator.SetTrigger("BowRecoil");
                 Agent.GetComponent<ArrowScript>().shootArrow();
                 shootCooldown = originalTime;
-                Agent.animator.SetTrigger("BowStop");
+                Agent.animator.SetTrigger("StartIdle");
             }
 
         }
