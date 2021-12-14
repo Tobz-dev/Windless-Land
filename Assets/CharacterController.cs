@@ -856,7 +856,7 @@ public class CharacterController : MonoBehaviour
 
     public void SetRespawnPoint(Vector3 position)
     {
-        Debug.Log("Respawnpoint Set");
+        //Debug.Log("Respawnpoint Set");
         respawnPoint.transform.position = new Vector3(position.x, position.y + 2f, position.z);
     }
 

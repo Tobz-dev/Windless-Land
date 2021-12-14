@@ -20,7 +20,7 @@ public class AiPatrolState : State
 
     public override void Enter()
     {
-        CurrentPatrol = Agent.GetPatrolPoint;
+        CurrentPatrol = Agent.GetPatrolPoint();
         Agent.NavAgent.SetDestination(CurrentPatrol.position);
         Agent.NavAgent.speed = Speed;
     }
@@ -28,7 +28,7 @@ public class AiPatrolState : State
     {
         if (Agent.NavAgent.remainingDistance < 2.0f)
         {
-            CurrentPatrol = Agent.GetPatrolPoint;
+            CurrentPatrol = Agent.GetPatrolPoint();
             Agent.NavAgent.SetDestination(CurrentPatrol.position);
         }
 

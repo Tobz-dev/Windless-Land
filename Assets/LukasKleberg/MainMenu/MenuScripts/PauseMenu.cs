@@ -12,7 +12,7 @@ public class PauseMenu : MonoBehaviour
     private GameObject pauseMenuUI;
 
     [SerializeField]
-    private GameObject playerHP, PlayerMana;
+    private GameObject playerHUD;
 
     [SerializeField]
     private GameObject eventSystemHelper;
@@ -26,7 +26,11 @@ public class PauseMenu : MonoBehaviour
     private void Start()
     {
         checkIfLog();
-        logpanel.SetActive(false);
+        if (logpanel != null)
+        {
+            logpanel.SetActive(false);
+        }
+        
         gameIsPaused = false;
 
         eventSystemHelper.SetActive(false);
@@ -65,10 +69,10 @@ public class PauseMenu : MonoBehaviour
         
         pauseMenuBackground.SetActive(false);
         pauseMenuUI.SetActive(false);
+        eventSystemHelper.GetComponent<EventSystemHelper>().UnlockMouseCursor();
         eventSystemHelper.SetActive(false);
 
-        playerHP.SetActive(true);
-        PlayerMana.SetActive(true);
+        playerHUD.SetActive(true);
 
         Time.timeScale = 1.0f;
         gameIsPaused = false;
@@ -86,9 +90,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(true);
         eventSystemHelper.SetActive(true);
 
-        playerHP.SetActive(false);
-        PlayerMana.SetActive(false);
-
+        playerHUD.SetActive(false);
 
         Time.timeScale = 0.0f;
         gameIsPaused = true;
