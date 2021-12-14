@@ -8,11 +8,12 @@ public class SaveSpawnPoint : MonoBehaviour
 {
     public GameObject panel;
     public TextMeshProUGUI pressText;
+    private bool playerOnCheckpoint = false;
 
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && playerOnCheckpoint)
         {
             foreach (GameObject go in GameObject.FindGameObjectsWithTag("Enemy"))
             {
@@ -41,13 +42,16 @@ public class SaveSpawnPoint : MonoBehaviour
     private void OnTriggerExit(Collider collision)
     {
         panel.SetActive(false);
+        playerOnCheckpoint = false;
     }
 
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.tag == "Player")
         {
-            panel.SetActive(true);       
+            panel.SetActive(true);
+            playerOnCheckpoint = true;
+            
         }
     }
 }
