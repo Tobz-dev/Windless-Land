@@ -52,17 +52,8 @@ public class CheckpointVFX : MonoBehaviour
         CheckReduceSpawnRate();
     }
 
-    private void OnTriggerEnter(Collider collision)
-    {
-        GameObject collisionObject = collision.gameObject;
-        if (collisionObject.tag == "Player") 
-        {
-            StartEffect();
-        }
-            
-    }
 
-    private void StartEffect()
+    public void StartEffect()
     {
         //Börjar spela shadern och sänka elden
         playShine = true;
