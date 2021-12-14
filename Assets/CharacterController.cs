@@ -47,9 +47,9 @@ public class CharacterController : MonoBehaviour
     bool healthFlaskStart = false;
     bool healthFlaskOfCooldown = true;
 
-    float flaskUses = 4;
-    float healthFlaskSpeedFactor = 0.2f;
-    float healthFlaskDuration = 1.5f;
+    float flaskUses = 2;
+    float healthFlaskSpeedFactor = 0.3f;
+    float healthFlaskDuration = 1f;
     float healthFlaskCooldown = 0.5f;
 
     //attack
@@ -536,7 +536,7 @@ public class CharacterController : MonoBehaviour
                 if (FlaskWaitTimer(healthFlaskDuration))
                 {
 
-                    GetComponentInParent<PlayerHealthScript>().regainHealth(1);
+                    GetComponentInParent<PlayerHealthScript>().regainHealth(2);
                   
                     healthFlaskTimerRunning = false;
                     moveSpeed = moveSpeedDefault;
