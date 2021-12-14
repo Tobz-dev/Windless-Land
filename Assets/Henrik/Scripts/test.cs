@@ -47,14 +47,14 @@ public class test : MonoBehaviour
             Debug.Log("Key Down");
             CanSwing = false;
             //disable movement
-            player.GetComponent<CharacterController>().CanMove();
+       //     player.GetComponent<CharacterController>().CanMove();
             StartCoroutine(Timer(Swing, SwingDelay));
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             Debug.Log("Key Down");
-            player.GetComponent<CharacterController>().CanMove();
+          //  player.GetComponent<CharacterController>().CanMove();
 
         }
     }
@@ -81,7 +81,7 @@ public class test : MonoBehaviour
         Debug.Log("SwingDone");
         col.enabled = !col.enabled;
         mesh.enabled = !mesh.enabled;
-        player.GetComponent<CharacterController>().CanMove();
+     //   player.GetComponent<CharacterController>().CanMove();
         //enable movement
         StartCoroutine(Timer(SwingCooldown, SwingCoolDown));
     }
