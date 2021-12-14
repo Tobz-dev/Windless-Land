@@ -216,19 +216,21 @@ public class CharacterController : MonoBehaviour
 
             StunHandler();
 
-            AttackManager();
+            if (startPlayerStunned == false) {
+                AttackManager();
 
 
-            BowManager();
+                BowManager();
 
 
-            DodgerollManager();
+                DodgerollManager();
+              
+                HealthFlaskManager();
 
-
+            }
 
             EquipManager();
 
-            HealthFlaskManager();
 
 
             UpdateEventVariables();
@@ -677,26 +679,29 @@ public class CharacterController : MonoBehaviour
 
    private void AttackManager()
     {
-        endOfAttack = transform.GetComponentInParent<PlayerAnimEvents>().GetEndOfAttack();
+      
 
-        InAttack();
+            endOfAttack = transform.GetComponentInParent<PlayerAnimEvents>().GetEndOfAttack();
 
-        if (sword.activeSelf == true && attacking == false && dodgerollTimerRunning == false && healthFlaskStart == false && moveAllow == true) 
-        {
-            if (Input.GetKeyDown(KeyCode.Mouse0)) {
-                currentAttack = 1;
-         
-                Attack();
-            }
-            if (Input.GetKeyDown(KeyCode.Mouse1) && mana >= heavyManaCost)
+            InAttack();
+
+            if (sword.activeSelf == true && attacking == false && dodgerollTimerRunning == false && healthFlaskStart == false && moveAllow == true)
             {
-                mana = mana - heavyManaCost;
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    currentAttack = 1;
 
-                HeavyAttack();
+                    Attack();
+                }
+                if (Input.GetKeyDown(KeyCode.Mouse1) && mana >= heavyManaCost)
+                {
+                    mana = mana - heavyManaCost;
+
+                    HeavyAttack();
+                }
+
             }
-
-        }
-
+        
        
     }
 
@@ -829,7 +834,7 @@ public class CharacterController : MonoBehaviour
     }
 
     
-
+    //note: ibland kan man spamclicka sig ur för att göra en attack
     private void StunHandler() {
 
         if (startPlayerStunned == true) {
