@@ -20,6 +20,9 @@ public class PauseMenu : MonoBehaviour
     [SerializeField]
     private GameObject[] subMenus;
 
+    [SerializeField]
+    private GameObject prototypeController => GameObject.Find("TobiasPrototypeController");
+
     [SerializeField] private GameObject logpanel;
     private bool logIsUp;
 
@@ -74,7 +77,16 @@ public class PauseMenu : MonoBehaviour
 
         playerHUD.SetActive(true);
 
-        Time.timeScale = 1.0f;
+        if (prototypeController.GetComponent<PrototypeScript>().prototypeEnabled == true)
+        {
+
+            Time.timeScale = prototypeController.GetComponent<PrototypeScript>().timeScaleVariable;
+            //Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
         gameIsPaused = false;
 
         //Debug.Log("in PauseMenu. resume");
