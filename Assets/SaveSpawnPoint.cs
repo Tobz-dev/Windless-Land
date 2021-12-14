@@ -1,19 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class SaveSpawnPoint : MonoBehaviour
 {
+    public GameObject panel;
+    public TextMeshProUGUI pressText;
+    private bool playerOnCheckpoint = false;
 
-    private void OnTriggerEnter(Collider collision)
+
+    private void Update()
     {
-        GameObject collisionObject = collision.gameObject;
-        if (collisionObject.tag == "Player")
+        if (Input.GetKeyDown(KeyCode.E) && playerOnCheckpoint)
         {
-
             foreach (GameObject go in GameObject.FindGameObjectsWithTag("Enemy"))
             {
-                if(go.name != "Boss")
+                if (go.name != "Boss")
                 {
                     Destroy(go);
                 }
@@ -24,11 +28,30 @@ public class SaveSpawnPoint : MonoBehaviour
             {
 
                 go.GetComponent<EnemyRespawnScript>().RespawnEnemy();
-                
+
             }
-            collisionObject.GetComponent<PlayerHealthScript>().regainHealth(100);
-            collisionObject.GetComponent<PlayerHealthScript>().ResetPotions();
-            collisionObject.GetComponent<CharacterController>().SetRespawnPoint(transform.position);
+            GetComponent<CheckpointVFX>().StartEffect();
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            player.GetComponent<PlayerHealthScript>().regainHealth(100);
+            player.GetComponent<PlayerHealthScript>().ResetPotions();
+            player.GetComponent<CharacterController>().SetRespawnPoint(transform.position);
+        }
+    }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        panel.SetActive(false);
+        playerOnCheckpoint = false;
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.tag == "Player")
+        {
+            panel.SetActive(true);
+            playerOnCheckpoint = true;
+            
         }
     }
 }
