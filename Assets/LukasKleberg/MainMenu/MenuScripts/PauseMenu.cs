@@ -21,7 +21,7 @@ public class PauseMenu : MonoBehaviour
     private GameObject[] subMenus;
 
     [SerializeField]
-    private GameObject prototypeController => GameObject.Find("TobiasPrototypeController");
+    private GameObject prototypeController;
 
     [SerializeField] private GameObject logpanel;
     private bool logIsUp;

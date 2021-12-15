@@ -41,14 +41,9 @@ public class CharacterController : MonoBehaviour
 
     private bool invincibility = false;
 
-
-    //lever
-   
-
-    //stun
     private bool endPlayerStunned = false;
     private bool startPlayerStunned = false;
-    private bool resetAnim = false;
+
 
     //healthFlask
     private bool healthFlaskTimerRunning = true;
@@ -375,7 +370,7 @@ public class CharacterController : MonoBehaviour
     }
 
    private void BowManager() {
-       if (bow.activeSelf == true && dodgerollTimerRunning == false && healthFlaskStart == false && startPlayerStunned == false)
+       if (bow.activeSelf == true && dodgerollTimerRunning == false && healthFlaskStart == false && moveAllow == true)
         {
             if (bowIsActive == false && mana >= bowManaCost) {
                 if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -844,15 +839,12 @@ public class CharacterController : MonoBehaviour
     private void StunHandler() {
 
         if (startPlayerStunned == true) {
-            if (resetAnim == false) {
-                anim.SetBool("PlayerIsStunned", true);
-            }
-            resetAnim = false;
+          
 
             playerRgb.velocity = (-(transform.forward).normalized * 1.5f) + new Vector3(0, playerRgb.velocity.y, 0);
 
             if (endPlayerStunned == true) {
-                anim.SetBool("PlayerIsStunned", false);
+                anim.SetTrigger("StopPlayerStun");
                 transform.GetComponentInParent<PlayerAnimEvents>().SetEndPlayerStunnedFalse();
            
 
@@ -889,39 +881,13 @@ public class CharacterController : MonoBehaviour
         if (healthFlaskStart == true) {
             HealthFlaskCancel();
         }
-        if (startPlayerStunned == true) {
-            ResetStunAnim();
-        }
-        CancelLeverPull();
 
+        startPlayerStunned = true;
+        anim.SetTrigger("PlayerStun");
 
-            startPlayerStunned = true;
-      
-
-
-    }
-    private void ResetStunAnim() {
-        anim.SetBool("PlayerIsStunned", false);
-        resetAnim = true;
-    }
-
-    
-
-    public void PullLever() {
-        if (moveAllow == true && attacking == false && healthFlaskStart == false && bowIsActive == false) {
-            anim.SetBool("PullingLever", true);
-        }
       
     }
 
-    public void CancelLeverPull() {
-        if(anim.GetBool("PullingLever") == true)
-        anim.SetBool("PullingLever", false);
-        
-        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
-    }
-
-    
 
     private bool AttackWaitTimer(float seconds)
     {

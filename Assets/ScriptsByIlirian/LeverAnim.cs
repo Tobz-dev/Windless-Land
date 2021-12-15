@@ -34,18 +34,11 @@ public class LeverAnim : MonoBehaviour
 
     void Update()
     {
-        if (canPress && Input.GetKeyDown(KeyCode.E))
-        {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>().PullLever();
-
-          
-        }
-        if (canPress && GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAnimEvents>().GetLeverPulled() == true)
+        if(canPress && Input.GetKeyDown(KeyCode.E))
         {
             pullLever();
-
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAnimEvents>().SetLeverPulledFalse();
         }
+
     }
 
     public void pullLever()
@@ -61,14 +54,12 @@ public class LeverAnim : MonoBehaviour
         if (leverPulled)
         {
             panel.SetActive(false);
-       
         }
 
         LeverPull = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/LeverPull");
         LeverPull.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         LeverPull.start();
         LeverPull.release();
-        
     }
 
     private void OnTriggerEnter(Collider other)
