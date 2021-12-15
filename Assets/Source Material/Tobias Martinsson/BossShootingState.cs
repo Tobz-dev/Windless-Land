@@ -14,8 +14,6 @@ public class BossShootingState : State
     public float aggroDistance;
     public GameObject addEnemy;
     private Transform CurrentPatrol;
-    private float switchStateCooldown = 2f;
-    private bool shotBigArrow = false;
 
     protected override void Initialize()
     {
@@ -81,36 +79,13 @@ public class BossShootingState : State
             {
                 CurrentPatrol = Agent.GetPatrolPointByindex(0);
                 Agent.NavAgent.SetDestination(CurrentPatrol.position);
-                if (shotBigArrow == false)
-                {
-                    shotBigArrow = true;
-                    
-
-                    Transform pillarTransform = Agent.GetComponent<BossMechanicsScript>().GetRandomPillar();
-                    Vector3 pillarPosition = new Vector3(pillarTransform.position.x,
-                                               pillarTransform.transform.position.y,
-                                               pillarTransform.position.z);
-                    Agent.transform.LookAt(pillarPosition);
-                    Vector3.RotateTowards(Agent.transform.position, pillarPosition, 2, 0);
-
-                    Agent.GetComponent<ArrowScript>().shootBigArrow();
-
-                    
-                    
-                }
-
-                switchStateCooldown -= Time.deltaTime;
-                if (switchStateCooldown < 0)
-                {
-                    shotBigArrow = false;
-                    switchStateCooldown = 2f;
-                    StateMachine.ChangeState<BossChooseAttackState>();
-                    
-                }
+                Agent.GetComponent<BossMechanicsScript>().DestroyRandomPillar();
+                StateMachine.ChangeState<BossChooseAttackState>();
             }
         }
         else
         {
+            Agent.GetComponent<BossMechanicsScript>().DestroyRandomPillar();
             StateMachine.ChangeState<BossChooseAttackState>();
         }
         
