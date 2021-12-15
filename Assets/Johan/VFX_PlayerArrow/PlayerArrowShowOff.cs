@@ -5,6 +5,8 @@ using UnityEngine.VFX;
 
 public class PlayerArrowShowOff : MonoBehaviour
 {
+    public static int particleDensitySetting = 1; //Inställningen för 1.Normal, 2.Reduced, 3.Minimal - ###!!!MÅSTE LIGGA I GAME CONTROLLER!!!###
+
     [SerializeField]
     private VisualEffect arrowChannelVFX;
     [SerializeField]
@@ -27,7 +29,29 @@ public class PlayerArrowShowOff : MonoBehaviour
         {
             isFiring = true;
             anim.SetTrigger("DrawBow");
-            arrowChannelVFX.SendEvent("PlayBowChannel");
+
+            
+            switch (particleDensitySetting)
+            {
+                case 1:
+                    arrowChannelVFX.SetFloat("OuterPullInCount", 7);
+                    arrowChannelVFX.SetFloat("InnerPullInCount", 4);
+                    arrowChannelVFX.SendEvent("PlayBowChannel");
+                    break;
+                case 2:
+                    arrowChannelVFX.SetFloat("OuterPullInCount", 0);
+                    arrowChannelVFX.SetFloat("InnerPullInCount", 0);
+                    arrowChannelVFX.SendEvent("PlayBowChannel");
+                    break;
+                case 3:
+                    break;
+                default:
+                    arrowChannelVFX.SetFloat("OuterPullInCount", 7);
+                    arrowChannelVFX.SetFloat("InnerPullInCount", 4);
+                    arrowChannelVFX.SendEvent("PlayBowChannel");
+                    break;
+            }
+            
         }
 
         if (isFiring)
