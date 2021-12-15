@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using TMPro;
+using System;
 
 public class PrototypeScript : MonoBehaviour
 {
@@ -13,6 +15,8 @@ public class PrototypeScript : MonoBehaviour
     public float timeScaleVariable = 1;
 
     public Image checkbox;
+
+    public TextMeshProUGUI timeScaleText;
 
     public bool prototypeEnabled = false;
 
@@ -36,7 +40,10 @@ public class PrototypeScript : MonoBehaviour
 
     public void ChangeTimeScale(float x)
     {
-        if(prototypeEnabled == true)
+        //timeScaleText.text = (x % 1).ToString();
+        timeScaleText.text = Math.Round(x, 2).ToString();
+
+        if (prototypeEnabled == true)
         {
 
             timeScaleVariable = x;
