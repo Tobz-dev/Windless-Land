@@ -42,7 +42,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     void OnEnable()
     {
-        InactivatePrototype(false);
+        //InactivatePrototype(false);
         foreach(GameObject gameObject in editableObjects)
         {
             movableObject.gameObject.SetActive(true);
@@ -51,7 +51,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     }
     void OnDisable()
     {
-        InactivatePrototype(true);
+        //InactivatePrototype(true);
     }
 
     void Start()
@@ -91,6 +91,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         scaleScript = scaleSlider.GetComponent<ScaleManager>();
 
         UIMenu.SetActive(false);
+        InactivatePrototype(true);
 
     }
 
@@ -101,6 +102,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         {
             ResetTransform(false);
         }
+
 
         if(UIMenu.activeInHierarchy == false && active)
         {
@@ -332,6 +334,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     private void ScaleUI()
     {
+        GameObject scaledObject;
         if (individualEditToggle.isOn)
         {
             for (int i = 0; i <= editableObjects.Length-1; i++)
@@ -355,7 +358,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
                         }
                         //editableObjects[i].transform.GetChild(0).localScale = new Vector3originalScales[i] * new Vector3(scaleSlider.value, scaleSlider.value, 1);
-
+                        scaledObject = editableObjects[i];
                     }
                     currentScaleSlideValues[i] = scaleScript.GetValueAtDeselect();
                 }
@@ -364,7 +367,15 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         else
         {
             movableObject.localScale = new Vector3(originalScale.x * scaleSlider.value, originalScale.y * scaleSlider.value, 1);
+            scaledObject = movableObject.gameObject;
         }
+        RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
+        Vector2 anchorPos = rectTransform.anchoredPosition;
+        float ypos = anchorPos.y;
+        float xpos = anchorPos.x;
+        xpos = Mathf.Clamp(xpos, 0, Screen.width - rectTransform.sizeDelta.x);
+        ypos = Mathf.Clamp(ypos, 10, Screen.height - rectTransform.sizeDelta.y);
+        rectTransform.anchoredPosition = new Vector2(xpos, ypos);
     }
 
     public void ChangeAnchoredPos(string buttonPos)

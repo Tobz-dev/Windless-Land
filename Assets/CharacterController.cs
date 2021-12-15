@@ -23,7 +23,8 @@ public class CharacterController : MonoBehaviour
     float moveSpeedDefault;
 
     private Rigidbody playerRgb;
-   
+
+    float attackTimer = 0;
 
     float dodgeTimer = 0;
 
@@ -36,40 +37,48 @@ public class CharacterController : MonoBehaviour
 
     private Plane plane;
 
-    bool moveAllow = true;
+    private bool moveAllow = true;
 
-    bool invincibility = false;
+    private bool invincibility = false;
 
+
+    //lever
+   
+
+    //stun
+    private bool endPlayerStunned = false;
+    private bool startPlayerStunned = false;
+    private bool resetAnim = false;
 
     //healthFlask
-    bool healthFlaskTimerRunning = true;
-    bool healthFlaskStart = false;
-    bool healthFlaskOfCooldown = true;
+    private bool healthFlaskTimerRunning = true;
+    private bool healthFlaskStart = false;
+    private bool healthFlaskOfCooldown = true;
 
-    float flaskUses = 4;
-    float healthFlaskSpeedFactor = 0.2f;
-    float healthFlaskDuration = 1.5f;
-    float healthFlaskCooldown = 0.5f;
+    private int flaskUses = 2;
+    private int originalFlaskUsesAmount;
+    private float healthFlaskSpeedFactor = 0.3f;
+    private float healthFlaskDuration = 1f;
+    private float healthFlaskCooldown = 0.5f;
 
     //attack
-    bool startAttackCooldown = false;
-    float attackTimer = 0;
+    private bool attacking = false;
 
     //dodgeroll
     [SerializeField]
-    float dodgerollDuration = 0.7f;
+    private float dodgerollDuration = 0.7f;
     [SerializeField]
-    float dodgerollCooldown = 0.2f;
+    private float dodgerollCooldown = 0.2f;
 
 
     [SerializeField]
-    float dodgerollSpeed = 11f;
+    private float dodgerollSpeed = 11f;
     [SerializeField]
-    float dodgerollDropSpeed = 3f;
-    bool dodgerollTimerRunning = false;
-    bool dodgerollStart = false;
-    bool dodgerolling = false;
-    bool dodgerollOfCooldown = true;
+    private float dodgerollDropSpeed = 3f;
+    private bool dodgerollTimerRunning = false;
+    private bool dodgerollStart = false;
+    private bool dodgerolling = false;
+    private bool dodgerollOfCooldown = true;
     Vector3 inputDirection;
 
     private bool playerInputActive = false;
@@ -104,6 +113,8 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private float lightAttackDelay;
 
+
+    private bool endOfAttack = false;
 
     private float attackDelay;
 
@@ -177,7 +188,7 @@ public class CharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      
+        originalFlaskUsesAmount = flaskUses;
         playerRgb = transform.GetComponent<Rigidbody>();
       
         bow.SetActive(false);
@@ -189,6 +200,8 @@ public class CharacterController : MonoBehaviour
         right = Quaternion.Euler(new Vector3(0, 90, 0)) * forward;
 
         moveSpeedDefault = moveSpeed;
+
+        transform.GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeed(moveSpeedDefault);
 
         currentAttackTrigger = "Attack1";
      //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
@@ -207,22 +220,35 @@ public class CharacterController : MonoBehaviour
 
             lookRotation = Quaternion.LookRotation(hitPoint - playerPositionOnPlane);
 
-            PlayerRotationUpdate();
+            StunHandler();
 
-            HealthFlaskManager();
+            if (startPlayerStunned == false) {
+                AttackManager();
 
-            DodgerollManager();
 
-            AttackManager();
+                BowManager();
 
-            UpdateMoveInput();
+
+                DodgerollManager();
+              
+                HealthFlaskManager();
+
+            }
 
             EquipManager();
 
-            BowManager();
+
+
+            UpdateEventVariables();
 
        
-         
+            PlayerRotationUpdate();
+
+            UpdateMoveInput();
+
+
+           
+
 
             //anim stuff here. 
             anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
@@ -261,7 +287,15 @@ public class CharacterController : MonoBehaviour
         */
     }
 
-    void UpdateMoveInput() {
+    private void UpdateEventVariables()
+    {
+       moveSpeed = transform.GetComponentInParent<PlayerAnimEvents>().GetPlayerMoveSpeed();
+       moveAllow = transform.GetComponentInParent<PlayerAnimEvents>().GetAllowMovement();
+       endPlayerStunned = transform.GetComponentInParent<PlayerAnimEvents>().GetEndPlayerStunned();
+
+    }
+
+   private void UpdateMoveInput() {
         Vector3 rightMovement = right * moveSpeed *  Input.GetAxis("HorizontalKey");
         Vector3 upMovement = forward * moveSpeed * Input.GetAxis("VerticalKey");
 
@@ -295,7 +329,7 @@ public class CharacterController : MonoBehaviour
 
     
     
-    void Move()
+   private void Move()
     {
      
         playerRgb.velocity = playerMovement + new Vector3(0, playerRgb.velocity.y,0);
@@ -321,10 +355,10 @@ public class CharacterController : MonoBehaviour
     }
 
 
-    void EquipManager() {
-        if (bowIsActive == false && startAttackDelay == false && startAttackCooldown == false)
+   private void EquipManager() {
+        if (bowIsActive == false && startAttackDelay == false && attacking == false && moveAllow == true)
         {
-
+       
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 bow.SetActive(true);
@@ -340,8 +374,8 @@ public class CharacterController : MonoBehaviour
 
     }
 
-    void BowManager() {
-       if (bow.activeSelf == true && dodgerollTimerRunning == false && healthFlaskStart == false)
+   private void BowManager() {
+       if (bow.activeSelf == true && dodgerollTimerRunning == false && healthFlaskStart == false && startPlayerStunned == false)
         {
             if (bowIsActive == false && mana >= bowManaCost) {
                 if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -354,6 +388,8 @@ public class CharacterController : MonoBehaviour
 
             if (bowIsActive == true)
             {
+           
+
                 if (drawBow)
                 {
                     transform.rotation = lookRotation;
@@ -397,17 +433,17 @@ public class CharacterController : MonoBehaviour
    
 
     }
-    void StartBowDraw() {
+   private void StartBowDraw() {
 
         bowIsActive = true;
             anim.SetTrigger("DrawBow");
+        playerRgb.velocity = new Vector3(0, playerRgb.velocity.y, 0);
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
 
-            moveAllow = false;
-
-            drawBow = true;
+        drawBow = true;
         
     }
-    void DrawBow() {
+   private void DrawBow() {
         if (AttackWaitTimer(bowDrawTime))
         {
             
@@ -430,7 +466,7 @@ public class CharacterController : MonoBehaviour
 
     }
 
-    void BowLoading()
+   private void BowLoading()
     {
       
 
@@ -445,8 +481,8 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    void BowFire() {
-        InstantiateArrow();
+   private void BowFire() {
+      
         mana = mana - bowManaCost;
         Debug.Log(mana + "  manaleft");
      //   gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
@@ -457,9 +493,9 @@ public class CharacterController : MonoBehaviour
         startBowCooldown = true;
      
     }
-    void BowCancel() {
+   private void BowCancel() {
         anim.SetTrigger("StopBow");
-        moveAllow = true;
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
         queueBowCancel = false;
         attackTimer = 0;
         drawBow = false;
@@ -473,10 +509,10 @@ public class CharacterController : MonoBehaviour
 
     
 
-    void BowCooldown() {
+   private void BowCooldown() {
         if (AttackWaitTimer(bowCooldownTime))
         {
-            moveAllow = true;
+            transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
             startBowCooldown = false;
             bowIsActive = false;
             anim.SetTrigger("StopBow");
@@ -489,9 +525,9 @@ public class CharacterController : MonoBehaviour
 
 
 
-    void HealthFlaskManager()
+   private void HealthFlaskManager()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0 && startAttackDelay == false && startAttackCooldown == false && dodgerolling == false && bowIsActive == false && gameObject.GetComponent<PlayerHealthScript>().GetHealth() < gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth())
+        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0 && attacking == false && dodgerolling == false && bowIsActive == false && gameObject.GetComponent<PlayerHealthScript>().GetHealth() < gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth() && moveAllow == true)
         {
             healthFlaskStart = true;
             HealthRefill = FMODUnity.RuntimeManager.CreateInstance("event:/Game/HealthRefill");
@@ -514,7 +550,7 @@ public class CharacterController : MonoBehaviour
                 if (FlaskWaitTimer(healthFlaskDuration))
                 {
 
-                    GetComponentInParent<PlayerHealthScript>().regainHealth(1);
+                    GetComponentInParent<PlayerHealthScript>().regainHealth(2);
                   
                     healthFlaskTimerRunning = false;
                     moveSpeed = moveSpeedDefault;
@@ -545,18 +581,22 @@ public class CharacterController : MonoBehaviour
 
             if (dodgerollStart == true)
             {
-                
-                healthFlaskStart = false;
-                healthFlaskOfCooldown = true;
-                healthFlaskTimerRunning = true;
-                moveSpeed = moveSpeedDefault;
-                flaskTimer = 0;
+
+                HealthFlaskCancel();
 
             }
         }
     }
 
-    void StartDodgeroll() {
+   private void HealthFlaskCancel() {
+        healthFlaskStart = false;
+        healthFlaskOfCooldown = true;
+        healthFlaskTimerRunning = true;
+        moveSpeed = moveSpeedDefault;
+        flaskTimer = 0;
+    }
+
+   private void StartDodgeroll() {
         
             dodgerollStart = true;
             dodgerollTimerRunning = true;
@@ -566,8 +606,8 @@ public class CharacterController : MonoBehaviour
             anim.SetTrigger("DodgeRoll");
 
 
-      
-        moveAllow = false;
+
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
 
         if (playerInputActive)
         {
@@ -581,9 +621,9 @@ public class CharacterController : MonoBehaviour
         invincibility = true;
     }
 
-    void DodgerollManager()
+   private void DodgerollManager()
     {
-    if (Input.GetKeyDown(KeyCode.Space) && dodgerollOfCooldown && startAttackDelay == false && startAttackCooldown == false && bowIsActive == false)
+    if (Input.GetKeyDown(KeyCode.Space) && dodgerollOfCooldown && attacking == false && bowIsActive == false && moveAllow == true)
     {
         StartDodgeroll();
         }
@@ -595,7 +635,7 @@ public class CharacterController : MonoBehaviour
                 if (DodgeWaitTimer(dodgerollDuration))
                 {
 
-                    moveAllow = true;
+                    transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
                     dodgerolling = false;
                     dodgerollTimerRunning = false;
                    
@@ -643,100 +683,76 @@ public class CharacterController : MonoBehaviour
         return false;
     }
 
-    void AttackManager()
+   private void AttackManager()
     {
-        if (sword.activeSelf == true && startAttackDelay == false && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false) 
-        {
-            if (Input.GetKeyDown(KeyCode.Mouse0)) {
-                ResetAttackAni();
+      
 
-                Attack();
-            }
-            if (Input.GetKeyDown(KeyCode.Mouse1) && mana >= heavyManaCost)
+            endOfAttack = transform.GetComponentInParent<PlayerAnimEvents>().GetEndOfAttack();
+
+            InAttack();
+
+            if (sword.activeSelf == true && attacking == false && dodgerollTimerRunning == false && healthFlaskStart == false && moveAllow == true)
             {
-                mana = mana - heavyManaCost;
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    currentAttack = 1;
 
-                ResetAttackAni();
+                    Attack();
+                }
+                if (Input.GetKeyDown(KeyCode.Mouse1) && mana >= heavyManaCost)
+                {
+                    mana = mana - heavyManaCost;
 
-                HeavyAttack();
+                    HeavyAttack();
+                }
+
             }
-
-        }
-
-        HitboxDelay();
-
-        AttackCoolDown();
+        
+       
     }
 
-    void Attack()
+   private void Attack()
     {
-        attackHitbox = lightAttackHitbox;
-
-        attackDelay = lightAttackDelay;
-
-        swingCooldown = lightSwingCooldown;
-
-        timeToNextSwing = timeToNextSwingLight;
-
+  
         //more anim things
         //Debug.Log("in player attack");
+      
+        currentAttackTrigger = "Attack" + currentAttack;
         anim.SetTrigger(currentAttackTrigger);
 
-        moveAllow = false;
+
+        playerRgb.velocity = new Vector3(0, playerRgb.velocity.y, 0);
+
+
+        transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
+       
         transform.rotation = lookRotation;
-        startAttackDelay = true;
+        attacking = true;
+
+       
 
     }
 
-    void HeavyAttack() {
-
-        attackHitbox = heavyAttackHitbox;
-
-        attackDelay = heavyAttackDelay;
-
-        swingCooldown = heavySwingCooldown;
-
-        timeToNextSwing = timeToNextSwingHeavy;
-
+   private void HeavyAttack() {
 
         anim.SetTrigger("HeavyAttack");
 
-        moveAllow = false;
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
         transform.rotation = lookRotation;
-        startAttackDelay = true;
+        attacking = true;
 
     }
 
-    void QueueNextAttackAni() {
-        currentAttack++;
-        if (currentAttack <= attackComboLenght) {
-            currentAttackTrigger = "Attack" + currentAttack;
-        }
-      
-      
-    
-    }
-    void ResetAttackAni() {
-        currentAttack = 1;
-        currentAttackTrigger = "Attack" + currentAttack;
-      
-    }
-    void AttackCoolDown()
+   
+    private void InAttack()
     {
-        if (startAttackCooldown == true)
+   
+        if (attacking && endPlayerStunned == false)
         {
-            if (AttackWaitTimer(swingCooldown))
-            {
-               moveAllow = true;
-              
-                startAttackCooldown = false;
-
-                anim.SetTrigger("StopAttack");
-
-            }
-            else
-            {
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+          
+           
+            if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
                  
                     queueAttack = true;
@@ -748,99 +764,169 @@ public class CharacterController : MonoBehaviour
                     queueAttack = false;
                     queueDodge = true;
                 }
-
-                if (attackTimer >= timeToNextSwing)
-                {
-
-                    if (queueAttack == true && attackDelay == lightAttackDelay)
-                    {
-
-                        QueueNextAttackAni();
-                        if (currentAttack <= attackComboLenght) {
-                            startAttackCooldown = false;
-                            queueAttack = false;
-                            attackTimer = 0;
-                            anim.SetTrigger("StopAttack");
-
-                            Attack();
-                        }
-                    
-                    }
-                    if (queueDodge == true)
-                    {
-                        startAttackCooldown = false;
-                        queueDodge = false;
-                        attackTimer = 0;
-                        anim.SetTrigger("StopAttack");
-                        StartDodgeroll();
-                    }
-                }
-            }
-        }
-    }
-    void HitboxDelay()
-    {
-        if (startAttackDelay == true)
-        {
-            if (AttackWaitTimer(attackDelay))
+         
+            if (endOfAttack == false)
             {
-
-                InstantiateAttackHitbox();
-                startAttackDelay = false;
-                startAttackCooldown = true;
-
-
+                playerRgb.velocity = ((transform.forward).normalized * 2f) + new Vector3(0, playerRgb.velocity.y, 0);
             }
-            else
+
+
+            if (endOfAttack == true)
             {
-                
-                playerRgb.velocity = ((transform.forward).normalized * 2f ) +new Vector3(0, playerRgb.velocity.y, 0); ;
-                if (attackTimer >= extraInputTimeDelay && Input.GetKeyDown(KeyCode.Mouse0))
-                {
-                    Debug.Log("ATACK");
-                    queueAttack = true;
-                    queueDodge = false;
+                playerRgb.velocity = new Vector3(0, playerRgb.velocity.y, 0);
+
+                if (AttackWaitTimer(lightSwingCooldown)) {
+                     anim.SetTrigger("StopAttack");
+                    attacking = false;
+                    transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+                    transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
                 }
-                if (attackTimer >= (extraInputTimeDelay) && Input.GetKeyDown(KeyCode.Space))
+
+
+                if (queueAttack == true)
                 {
-                    Debug.Log("DODGE");
+                    currentAttack++;
                     queueAttack = false;
-                    queueDodge = true;
+                    if (currentAttack <= 3){
+
+                        anim.SetTrigger("StopAttack");
+                        attacking = false;
+                        transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
+                        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+                        attackTimer = 0;
+                        Attack();
+                    }
                 }
+             
+                if (queueDodge == true)
+                {
+                    queueDodge = false;
+                    anim.SetTrigger("StopAttack");
+                    attacking = false;
+                    transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
+                    transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+                    attackTimer = 0;
+                    StartDodgeroll();
+               
+                }
+
+              
+                
 
 
             }
+
+            }
+
+               
+                }
+
+    void AttackCancel() {
+        if (attacking == true)
+        {
+            anim.SetTrigger("StopAttack");
         }
-     
-    }
-
-    void InstantiateArrow() { 
-    GameObject arrowPrefab = Instantiate(arrow, transform.position + (transform.rotation * new Vector3(0, 1.5f, 1.5f)), transform.rotation);
-    }
 
 
-    void InstantiateAttackHitbox()
-    {
-        var newHitbox = Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0.5f, 1.7f)), transform.rotation);
-
-        newHitbox.transform.parent = gameObject.transform;
-        //GameObject hitBox = (GameObject)Instantiate(attackHitbox, transform.position + (transform.rotation * hitboxOffset), transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
-
-        //hitBox.transform.localScale = hitboxScale;
-
-
-        //hitBox.GetComponent<newHitbox>().SetTarget("Enemy");
-        //hitBox.GetComponent<newHitbox>().SetDamage(damage);
-        //hitBox.GetComponent<newHitbox>().SetSwingTime(swingTime);
-
+            attacking = false;
+            attackTimer = 0;
+            transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+            transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
+            queueDodge = false;
+            queueAttack = false;
+          
 
 
     }
+
+    
+    //note: ibland kan man spamclicka sig ur för att göra en attack
+    private void StunHandler() {
+
+        if (startPlayerStunned == true) {
+            if (resetAnim == false) {
+                anim.SetBool("PlayerIsStunned", true);
+            }
+            resetAnim = false;
+
+            playerRgb.velocity = (-(transform.forward).normalized * 1.5f) + new Vector3(0, playerRgb.velocity.y, 0);
+
+            if (endPlayerStunned == true) {
+                anim.SetBool("PlayerIsStunned", false);
+                transform.GetComponentInParent<PlayerAnimEvents>().SetEndPlayerStunnedFalse();
+           
+
+                if (attacking == true)
+                {
+                    AttackCancel();
+                }
+                if (bowIsActive == true)
+                {
+                    BowCancel();
+                }
+                if (healthFlaskStart == true)
+                {
+                    HealthFlaskCancel();
+                }
+                startPlayerStunned = false;
+                transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+            }
+
+        }
+
+
+    }
+
+
+    public void StartPlayerStun() {
+       
+            AttackCancel();
+        
+        if (bowIsActive == true)
+        {
+            BowCancel();
+        }
+        if (healthFlaskStart == true) {
+            HealthFlaskCancel();
+        }
+        if (startPlayerStunned == true) {
+            ResetStunAnim();
+        }
+        CancelLeverPull();
+
+
+            startPlayerStunned = true;
+      
+
+
+    }
+    private void ResetStunAnim() {
+        anim.SetBool("PlayerIsStunned", false);
+        resetAnim = true;
+    }
+
+    
+
+    public void PullLever() {
+        if (moveAllow == true && attacking == false && healthFlaskStart == false && bowIsActive == false) {
+            anim.SetBool("PullingLever", true);
+        }
+      
+    }
+
+    public void CancelLeverPull() {
+        if(anim.GetBool("PullingLever") == true)
+        anim.SetBool("PullingLever", false);
+        
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+    }
+
+    
 
     private bool AttackWaitTimer(float seconds)
     {
 
-        attackTimer += Time.deltaTime;
+       attackTimer += Time.deltaTime;
 
         if (attackTimer >= seconds)
         {
@@ -848,25 +934,11 @@ public class CharacterController : MonoBehaviour
             attackTimer = 0;
             return true;
 
-
         }
+
         return false;
     }
-    public void CanMove()
-    {
-        if(canMove == true)
-        {
-            canMove = false;
-            Debug.Log("canMove = false");
-        }
-        else
-        {
-            canMove = true;
-            Debug.Log("canMove = true");
-        }
-    }
 
-    
 
     private bool FlaskWaitTimer(float seconds)
     {
@@ -893,7 +965,7 @@ public class CharacterController : MonoBehaviour
     {
         Debug.Log("Player Dead");
         GetComponent<PlayerHealthScript>().regainHealth(100);
-        GetComponent<PlayerHealthScript>().ResetPotions();
+        ResetPotionsToOriginal();
         Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
         Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         Dead.start();
@@ -915,12 +987,48 @@ public class CharacterController : MonoBehaviour
         return flaskUses;
     }
 
+    public void ResetPotions()
+    {
+        if (flaskUses < originalFlaskUsesAmount)
+        {
+            SetFlaskUses(originalFlaskUsesAmount);
+        }
+       
+    }
+
+    public void ResetPotionsToOriginal()
+    {
+        SetFlaskUses(originalFlaskUsesAmount);
+    }
+
+
 
 
     public void SetFlaskUses(int x)
     {
         flaskUses = x;
     }
+
+
+    // Configs
+
+    public void setConfig(int newMaxMana, float newMoveSpeed)
+    {
+        maxMana = newMaxMana;
+        moveSpeed = newMoveSpeed;
+    }
+
+    public int getMaxMana()
+    {
+        return maxMana;
+    }
+
+    public float getMoveSpeed()
+    {
+        return moveSpeed;
+    }
+
+    // END Configs
 
 }
 

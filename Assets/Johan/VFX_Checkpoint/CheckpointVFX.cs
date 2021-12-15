@@ -39,10 +39,11 @@ public class CheckpointVFX : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C)) //Det som triggar hela effekten. Byts ut i riktiga spelet till när spelaren aktiverar checkpointen på något sätt.
+        /*if (Input.GetKeyDown(KeyCode.C)) //Det som triggar hela effekten. Byts ut i riktiga spelet till när spelaren aktiverar checkpointen på något sätt.
         {
             StartEffect();
         }
+        */
 
         CheckPlayShine();
         CheckStopShine();
@@ -52,8 +53,7 @@ public class CheckpointVFX : MonoBehaviour
     }
 
 
-
-    private void StartEffect()
+    public void StartEffect()
     {
         //Börjar spela shadern och sänka elden
         playShine = true;
@@ -77,7 +77,7 @@ public class CheckpointVFX : MonoBehaviour
             shineScaleCurrent += Time.deltaTime * 1.5f;
             shinePlanes.transform.localScale = new Vector3(1, shineScaleCurrent, 1);
             shinePositionCurrent -= Time.deltaTime * 0.5f;
-            shinePlanes.transform.position = new Vector3(0, shinePositionCurrent, 0);
+            shinePlanes.transform.position = new Vector3(transform.position.x, shinePositionCurrent, transform.position.z);
 
             shineMaskPowerCurrent -= Time.deltaTime * 6f;
             shineShaderMaterial.SetFloat("MaskPower_", shineMaskPowerCurrent);
@@ -104,7 +104,7 @@ public class CheckpointVFX : MonoBehaviour
             shinePlanes.transform.localScale = new Vector3(1, shineScaleCurrent, 1);
 
             shinePositionCurrent += Time.deltaTime * 1.1f;
-            shinePlanes.transform.position = new Vector3(0, shinePositionCurrent, 0);
+            shinePlanes.transform.position = new Vector3(transform.position.x, shinePositionCurrent, transform.position.z);
 
             shineMaskPowerCurrent += Time.deltaTime * 4f;
             if (shineMaskPowerCurrent >= 2.23f)

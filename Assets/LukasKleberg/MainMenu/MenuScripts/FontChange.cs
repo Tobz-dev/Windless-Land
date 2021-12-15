@@ -15,19 +15,30 @@ public class FontChange : MonoBehaviour
     private int currentFontSize = 50;
     private int savedFontSize;
 
+    //Variabler som använder config filer.
+    private int fontIndex2;
+    private int fontSize2;
+
+
     // Start is called before the first frame update
     void Start()
     {
         for (int i = 0; i <= objectsToGetTextFromAndSetInactive.Length - 1; i++)
         {
-            objectsToGetTextFromAndSetInactive[i].SetActive(true);
+            if (objectsToGetTextFromAndSetInactive[i] != null)
+            {
+                objectsToGetTextFromAndSetInactive[i].SetActive(true);
+            }
+            
             //Debug.Log("in fontchange test. activate object loop");
         }
 
         for (int i = 0; i <= objectsToGetTextFromAndSetActive.Length - 1; i++)
         {
-            objectsToGetTextFromAndSetActive[i].SetActive(true);
-            //Debug.Log("in fontchange test. activate object loop");
+            if (objectsToGetTextFromAndSetActive[i] != null)
+            {
+                objectsToGetTextFromAndSetActive[i].SetActive(true);
+            }
         }
 
 
@@ -45,9 +56,9 @@ public class FontChange : MonoBehaviour
         }
 
         //get the currentFontSize from a playerpref
-        ChangeFontSize(PlayerPrefs.GetInt("FontSize", 50));
+        ChangeFontSize(PlayerPrefs.GetInt("fontSize", 50));
 
-        ChangeFont(PlayerPrefs.GetInt("FontIndex", 0));
+        ChangeFont(PlayerPrefs.GetInt("fontIndex", 0));
 
     }
 
@@ -55,7 +66,7 @@ public class FontChange : MonoBehaviour
     {
         //TODO set a player pref. so that other scenes can access the new font
         TMP_FontAsset fontToChangeTo = fontsArray[fontIndex];
-        PlayerPrefs.SetInt("FontIndex", fontIndex);
+        PlayerPrefs.SetInt("fontIndex", fontIndex);
 
         //TMP_FontAsset testFont = fontToChangeTo;
         //Debug.Log("in ChangeFont. TextList is " + textMeshProUGUIList.Count);
@@ -80,7 +91,7 @@ public class FontChange : MonoBehaviour
 
         currentFontSize = newFontSize;
 
-        PlayerPrefs.SetInt("FontSize", currentFontSize);
+        PlayerPrefs.SetInt("fontSize", currentFontSize);
 
 
         //Debug.Log("in ChangeFontSize. size differnece is " + fontSizeDifference);
@@ -93,5 +104,21 @@ public class FontChange : MonoBehaviour
                 textMeshProUGUI.fontSize += fontSizeDifference;
             }
         }
+    }
+
+    public void setConfig(int newfontIndex, int newfontSize)
+    {
+        fontIndex2 = newfontIndex;
+        fontSize2 = newfontSize;
+    }
+
+    public int getFontIndex()
+    {
+        return fontIndex2;
+    }
+
+    public int getFontSize()
+    {
+        return fontSize2;
     }
 }

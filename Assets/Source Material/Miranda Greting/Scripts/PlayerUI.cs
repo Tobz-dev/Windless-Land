@@ -26,7 +26,9 @@ public class PlayerUI : MonoBehaviour
 
     [SerializeField] private GameObject hpSlot;
     [SerializeField] private GameObject parent;
+    [SerializeField] private GameObject lowHPParticles;
     private List<GameObject> hpSlotList = new List<GameObject>();
+    private GameObject[] damageParticles;
 
     // Start is called before the first frame update
     void Start()
@@ -134,6 +136,10 @@ public class PlayerUI : MonoBehaviour
         {
             for (int i = 0; i <= health - 2; i++)
             {
+                if(hpSlotList[i].transform.GetChild(0).gameObject == lowHPParticles)
+                {
+                    Destroy(hpSlotList[i].transform.GetChild(0).gameObject);
+                }
                 hpSlotList[i].transform.GetChild(1).gameObject.SetActive(true);
                 hpSlotList[i].transform.GetChild(2).gameObject.SetActive(false);
             }
@@ -173,6 +179,19 @@ public class PlayerUI : MonoBehaviour
             StartCoroutine(DeactivateSlot());
         }
         previousHealth = health;
+
+
+        if(health == 1)
+        {
+            hpSlotList[0].transform.GetChild(2).GetChild(2).gameObject.SetActive(true);
+            hpSlotList[1].transform.GetChild(2).GetChild(2).gameObject.SetActive(false);
+        }
+
+        if (health == 2)
+        {
+            hpSlotList[1].transform.GetChild(2).GetChild(2).gameObject.SetActive(true);
+            hpSlotList[0].transform.GetChild(2).GetChild(2).gameObject.SetActive(false);
+        }
     }
 
     private IEnumerator DeactivateSlot()

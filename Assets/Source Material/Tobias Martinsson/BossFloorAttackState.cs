@@ -9,6 +9,7 @@ public class BossFloorAttackState : State
     SomeAgent Agent;
     private float originalTime;
     private Quaternion originalRotation;
+    private BossMechanicsScript bossScript;
 
     protected override void Initialize()
     {
@@ -20,20 +21,20 @@ public class BossFloorAttackState : State
     public override void Enter()
     {
         Agent.transform.rotation = originalRotation;
-        //Debug.Log("Attack #1. Floor attack.");
-        int rand = randomNumber();
-        Debug.Log(rand);
+        bossScript = Agent.GetComponent<BossMechanicsScript>();
+        int rand = randomNumber(4);
+
         if (rand == 0)
         {
-            Agent.GetComponent<BossMechanicsScript>().FadeIn(Agent.GetComponent<BossMechanicsScript>().leftFloor);
+            bossScript.FadeIn(bossScript.leftFloor);
         }
         else if (rand == 1)
         {
-            Agent.GetComponent<BossMechanicsScript>().FadeIn(Agent.GetComponent<BossMechanicsScript>().rightFloor);
+            bossScript.FadeIn(bossScript.rightFloor);
         }
         else if (rand == 2 || rand == 3)
         {
-            Agent.GetComponent<BossMechanicsScript>().FadeInCircle();
+            bossScript.FadeInCircle();
         }
 
 
@@ -44,8 +45,8 @@ public class BossFloorAttackState : State
         StateMachine.ChangeState<BossChooseAttackState>();
     }
 
-    public int randomNumber()
+    public int randomNumber(int x)
     {
-        return Random.Range(0, 4);
+        return Random.Range(0, x);
     }
 }

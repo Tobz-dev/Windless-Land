@@ -21,11 +21,11 @@ public class PlayerHealthScript : MonoBehaviour
     //[SerializeField]
     //private TextMeshProUGUI flaskAmountText;
     [SerializeField]
-    private int maxFlasks = 4;
+    private int startingFlasks = 2;
     [SerializeField]
     private CameraFollow cameraFollow;
 
-    private int flaskAmount;
+    private int currentFlaskAmount;
     private bool startInvincibilityTimer = false;
     private bool damageIsOnCooldown = false;
     private float invincibilityTimer = 0;
@@ -50,7 +50,7 @@ public class PlayerHealthScript : MonoBehaviour
         chilldrenAmount = transform.childCount;
         health = Maxhealth;
         //HealthSetup();
-        flaskAmount = maxFlasks;
+        currentFlaskAmount = startingFlasks;
         
         //flaskAmountText.text = maxFlasks + "/" + maxFlasks;
     }
@@ -99,9 +99,10 @@ public class PlayerHealthScript : MonoBehaviour
 
                 FMODUnity.RuntimeManager.StudioSystem.setParameterByName("TakeDamageEffect", 1);
 
+                gameObject.GetComponent<CharacterController>().StartPlayerStun();
 
 
-            
+
         }
 
 
@@ -119,7 +120,7 @@ public class PlayerHealthScript : MonoBehaviour
         {
             health += x;
             //decrease available potion amount & update UI 
-            flaskAmount--;
+            currentFlaskAmount--;
             //flaskAmountText.text = flaskAmount + "/" + maxFlasks;
         }
         if (Maxhealth - health > 0 && x > Maxhealth - health)
@@ -130,6 +131,7 @@ public class PlayerHealthScript : MonoBehaviour
         Debug.Log("REGAINED" + x + " HEALTH,  MAX IS NOW " + health);
     }
 
+    /*
     public bool RegainFlask()
     {
         if (flaskAmount < maxFlasks)
@@ -144,6 +146,7 @@ public class PlayerHealthScript : MonoBehaviour
             return false;
         }
     }
+    */
 
     /*
     private void HealthSetup()
@@ -209,16 +212,16 @@ public class PlayerHealthScript : MonoBehaviour
 
     public void ResetPotions()
     {
-        flaskAmount = 4;
+        currentFlaskAmount = 4;
         GetComponent<CharacterController>().SetFlaskUses(4);
         //flaskAmountText.text = flaskAmount + "/" + maxFlasks;
     }
 
     public void IncreasePotionAmount(int amountOfPotions) 
     {
-        maxFlasks += amountOfPotions;
-        flaskAmount += amountOfPotions;
-        Debug.Log("in IncreasePotionAmount. new maxFlasks is: " + maxFlasks);
+        startingFlasks += amountOfPotions;
+        currentFlaskAmount += amountOfPotions;
+        Debug.Log("in IncreasePotionAmount. new maxFlasks is: " + startingFlasks);
 
         //flaskAmountText.text = flaskAmount + "/" + maxFlasks;
     }
@@ -226,5 +229,15 @@ public class PlayerHealthScript : MonoBehaviour
     float GetHealthPercentage()
     {
         return (float)health / (float)Maxhealth;
+    }
+
+    public void setConfig(int newMaxHealth)
+    {
+        Maxhealth = newMaxHealth;
+    }
+
+    public int getMaxHealth()
+    {
+        return Maxhealth;
     }
 }
