@@ -50,6 +50,33 @@ public class LightEnemyParticles : MonoBehaviour
         }
 
         bloodEffect.SetVector3("BloodVelocity", currentBloodValues);
+
+        
+        switch (PlayerArrowShowOff.particleDensitySetting)
+        {
+            case 1:
+                bloodEffect.SetFloat("ImpactSparkCount", 4);
+                bloodEffect.SetFloat("BurstCountMin", 10);
+                bloodEffect.SetFloat("BurstCountMax", 40);
+                break;
+            case 2:
+                bloodEffect.SetFloat("ImpactSparkCount", 0);
+                bloodEffect.SetFloat("BurstCountMin", 5);
+                bloodEffect.SetFloat("BurstCountMax", 15);
+                break;
+            case 3:
+                bloodEffect.SetFloat("ImpactSparkCount", 0);
+                bloodEffect.SetFloat("BurstCountMin", 0);
+                bloodEffect.SetFloat("BurstCountMax", 0);
+                break;
+            default:
+                bloodEffect.SetFloat("ImpactSparkCount", 4);
+                bloodEffect.SetFloat("BurstCountMin", 10);
+                bloodEffect.SetFloat("BurstCountMax", 40);
+                break;
+
+        }
+        
         bloodEffect.SendEvent("TriggerBlood");
     }
 
