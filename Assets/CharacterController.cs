@@ -42,6 +42,9 @@ public class CharacterController : MonoBehaviour
     private bool invincibility = false;
 
 
+    //lever
+   
+
     //stun
     private bool endPlayerStunned = false;
     private bool startPlayerStunned = false;
@@ -371,7 +374,7 @@ public class CharacterController : MonoBehaviour
     }
 
    private void BowManager() {
-       if (bow.activeSelf == true && dodgerollTimerRunning == false && healthFlaskStart == false && moveAllow == true)
+       if (bow.activeSelf == true && dodgerollTimerRunning == false && healthFlaskStart == false && startPlayerStunned == false)
         {
             if (bowIsActive == false && mana >= bowManaCost) {
                 if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -888,9 +891,10 @@ public class CharacterController : MonoBehaviour
         if (startPlayerStunned == true) {
             ResetStunAnim();
         }
-      
+        CancelLeverPull();
 
-        startPlayerStunned = true;
+
+            startPlayerStunned = true;
       
 
 
@@ -899,6 +903,24 @@ public class CharacterController : MonoBehaviour
         anim.SetBool("PlayerIsStunned", false);
         resetAnim = true;
     }
+
+    
+
+    public void PullLever() {
+        if (moveAllow == true && attacking == false && healthFlaskStart == false && bowIsActive == false) {
+            anim.SetBool("PullingLever", true);
+        }
+      
+    }
+
+    public void CancelLeverPull() {
+        if(anim.GetBool("PullingLever") == true)
+        anim.SetBool("PullingLever", false);
+        
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+    }
+
+    
 
     private bool AttackWaitTimer(float seconds)
     {
