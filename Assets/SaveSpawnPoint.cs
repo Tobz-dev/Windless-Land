@@ -9,12 +9,15 @@ public class SaveSpawnPoint : MonoBehaviour
     public GameObject panel;
     public TextMeshProUGUI pressText;
     private bool playerOnCheckpoint = false;
+    private bool usedCheckpoint = false;
 
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && playerOnCheckpoint)
+        if (Input.GetKeyDown(KeyCode.E) && playerOnCheckpoint && usedCheckpoint == false)
         {
+            usedCheckpoint = true;
+            panel.SetActive(false);
             foreach (GameObject go in GameObject.FindGameObjectsWithTag("Enemy"))
             {
                 if (go.name != "Boss")
@@ -34,7 +37,7 @@ public class SaveSpawnPoint : MonoBehaviour
 
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             player.GetComponent<PlayerHealthScript>().regainHealth(100);
-            player.GetComponent<PlayerHealthScript>().ResetPotions();
+            player.GetComponent<CharacterController>().ResetPotions();
             player.GetComponent<CharacterController>().SetRespawnPoint(transform.position);
         }
     }
@@ -47,7 +50,7 @@ public class SaveSpawnPoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.tag == "Player")
+        if (collision.tag == "Player" && usedCheckpoint == false)
         {
             panel.SetActive(true);
             playerOnCheckpoint = true;

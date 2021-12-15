@@ -50,7 +50,8 @@ public class CharacterController : MonoBehaviour
     private bool healthFlaskStart = false;
     private bool healthFlaskOfCooldown = true;
 
-    private float flaskUses = 2;
+    private int flaskUses = 2;
+    private int originalFlaskUsesAmount;
     private float healthFlaskSpeedFactor = 0.3f;
     private float healthFlaskDuration = 1f;
     private float healthFlaskCooldown = 0.5f;
@@ -182,7 +183,7 @@ public class CharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      
+        originalFlaskUsesAmount = flaskUses;
         playerRgb = transform.GetComponent<Rigidbody>();
       
         bow.SetActive(false);
@@ -930,7 +931,7 @@ public class CharacterController : MonoBehaviour
     {
         Debug.Log("Player Dead");
         GetComponent<PlayerHealthScript>().regainHealth(100);
-        GetComponent<PlayerHealthScript>().ResetPotions();
+        ResetPotionsToOriginal();
         Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
         Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         Dead.start();
@@ -951,6 +952,21 @@ public class CharacterController : MonoBehaviour
 
         return flaskUses;
     }
+
+    public void ResetPotions()
+    {
+        if (flaskUses < originalFlaskUsesAmount)
+        {
+            SetFlaskUses(originalFlaskUsesAmount);
+        }
+       
+    }
+
+    public void ResetPotionsToOriginal()
+    {
+        SetFlaskUses(originalFlaskUsesAmount);
+    }
+
 
 
 
