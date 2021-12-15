@@ -22,7 +22,8 @@ public class PlayerAnimEvents : MonoBehaviour
     private bool endOfAttack = false;
 
     private bool EndPlayerStunned = false;
-   
+
+    private bool LeverPulled = false;
     public void instantiateLightHitbox() {
 
         var newHitbox = Instantiate(lightAttackHitbox, transform.position + (transform.rotation * new Vector3(0, 0.5f, 1.7f)), transform.rotation);
@@ -102,6 +103,21 @@ public class PlayerAnimEvents : MonoBehaviour
     public bool GetEndPlayerStunned()
     {
         return EndPlayerStunned;
+    }
+
+    public void SetLeverPulledTrue()
+    {
+        LeverPulled = true;
+    }
+
+    public void SetLeverPulledFalse()
+    {
+        LeverPulled = false;
+    }
+
+    public bool GetLeverPulled()
+    {
+        return LeverPulled;
     }
 
 }
