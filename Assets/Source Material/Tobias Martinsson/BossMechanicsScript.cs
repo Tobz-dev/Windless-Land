@@ -13,6 +13,9 @@ public class BossMechanicsScript : MonoBehaviour
     public GameObject attackHitboxLeft;
     public List<GameObject> PillarList;
     public List<GameObject> tempPillarList;
+    public GameObject circleVisibleHitBox;
+    public GameObject circleHitBox;
+    public Vector3 playPosAtAttack;
 
     private void Start()
     {
@@ -24,6 +27,13 @@ public class BossMechanicsScript : MonoBehaviour
     public void FadeIn(GameObject floor) 
     {
         StartCoroutine(FadeTo(1.0f, 2.0f, floor));
+    }
+
+    public void FadeInCircle()
+    {
+        playPosAtAttack = GameObject.FindGameObjectWithTag("Player").transform.position;
+        circleVisibleHitBox.transform.position = playPosAtAttack;
+        StartCoroutine(FadeTo(1.0f, 2.0f, circleVisibleHitBox));
     }
 
     
@@ -49,6 +59,11 @@ public class BossMechanicsScript : MonoBehaviour
         else if(floor.name == "BossDangerFloorLeft")
         {
            Instantiate(attackHitboxLeft);
+        }
+        else if(floor.name == "BossDangerFloorCircle")
+        {
+            GameObject memes = Instantiate(circleHitBox, playPosAtAttack, Quaternion.Euler(0,0,0));
+
         }
 
         StartCoroutine(FadeOut(0.0f, aTime / 4, floor));

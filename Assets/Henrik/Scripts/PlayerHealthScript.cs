@@ -18,8 +18,8 @@ public class PlayerHealthScript : MonoBehaviour
     private Material originalMaterial;
     //[SerializeField]
     //private GameObject[] hpSlots;
-    [SerializeField]
-    private TextMeshProUGUI flaskAmountText;
+    //[SerializeField]
+    //private TextMeshProUGUI flaskAmountText;
     [SerializeField]
     private int maxFlasks = 4;
     [SerializeField]
@@ -52,7 +52,7 @@ public class PlayerHealthScript : MonoBehaviour
         //HealthSetup();
         flaskAmount = maxFlasks;
         
-        flaskAmountText.text = maxFlasks + "/" + maxFlasks;
+        //flaskAmountText.text = maxFlasks + "/" + maxFlasks;
     }
 
     // Update is called once per frame
@@ -120,7 +120,7 @@ public class PlayerHealthScript : MonoBehaviour
             health += x;
             //decrease available potion amount & update UI 
             flaskAmount--;
-            flaskAmountText.text = flaskAmount + "/" + maxFlasks;
+            //flaskAmountText.text = flaskAmount + "/" + maxFlasks;
         }
         if (Maxhealth - health > 0 && x > Maxhealth - health)
         {
@@ -135,7 +135,7 @@ public class PlayerHealthScript : MonoBehaviour
         if (flaskAmount < maxFlasks)
         {
             flaskAmount++;
-            flaskAmountText.text = flaskAmount + "/" + maxFlasks;
+            //flaskAmountText.text = flaskAmount + "/" + maxFlasks;
             GetComponent<CharacterController>().SetFlaskUses(flaskAmount);
             return true;
         }
@@ -211,7 +211,16 @@ public class PlayerHealthScript : MonoBehaviour
     {
         flaskAmount = 4;
         GetComponent<CharacterController>().SetFlaskUses(4);
-        flaskAmountText.text = flaskAmount + "/" + maxFlasks;
+        //flaskAmountText.text = flaskAmount + "/" + maxFlasks;
+    }
+
+    public void IncreasePotionAmount(int amountOfPotions) 
+    {
+        maxFlasks += amountOfPotions;
+        flaskAmount += amountOfPotions;
+        Debug.Log("in IncreasePotionAmount. new maxFlasks is: " + maxFlasks);
+
+        //flaskAmountText.text = flaskAmount + "/" + maxFlasks;
     }
 
     float GetHealthPercentage()

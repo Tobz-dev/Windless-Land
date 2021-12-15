@@ -49,14 +49,25 @@ public class PanelHandler : MonoBehaviour
 
             switch (logNumber)
             {
+                //TODO. have them change if the player is using a controller. 
+                //or if they have rebound the controls.
                 case 1:
-                    textmesh.text = "WASD to walk, \n \n  Spacebar to roll, \n \n  Left-Mouse Button to attack";
+                    textmesh.text = "WASD to walk, \n \n  Spacebar to roll, \n \n  Left Mouse Button to attack";
                     break;
                 case 2:
-                    textmesh.text = "Q to heal, \n \n 1 or 2 to swap between weapons";
+                    textmesh.text = "Q to drink a healing potion";
                     break;
                 case 3:
-                    textmesh.text = "[Placeholder]";
+                    textmesh.text = "Press the Right Mouse Button for a heavy attack. Heavy attacks consume mana";
+                    break;
+                case 4:
+                    textmesh.text = "Hitting enemies will restore your mana. Another way is to go near a Mana Fountain";
+                    break;
+                case 5:
+                    textmesh.text = "Enemies respawn when a checkpoint is activated. Be careful.";
+                    break;
+                default:
+                    textmesh.text = "Default";
                     break;
 
 

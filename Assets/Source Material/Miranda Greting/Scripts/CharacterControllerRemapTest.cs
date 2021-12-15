@@ -8,6 +8,8 @@ public class CharacterControllerRemapTest : MonoBehaviour
 {
 
     private PlayerInput playerInput;
+    private PlayerInputs inputActions;
+    [SerializeField] private InputManager inputManager;
 
     [SerializeField]
     float moveSpeed = 4f;
@@ -52,6 +54,7 @@ public class CharacterControllerRemapTest : MonoBehaviour
     //dodgeroll
     bool dodgerollTimerRunning = false;
     bool dodgerollStart = false;
+    bool dodgerollRemapTrigger = false;
     bool dodgerolling = false;
     bool dodgerollOfCooldown = true;
     Vector3 inputDirection;
@@ -83,10 +86,25 @@ public class CharacterControllerRemapTest : MonoBehaviour
 
     public Transform respawnPoint;
 
-
     Vector3 forward, right;
+
+    //Move
+    Vector2 movementInput;
+
+    private void OnEnable()
+    {
+        inputActions.WindlessLand.Dodgeroll.started += Dodgeroll;
+        inputActions.WindlessLand.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
+        inputActions.WindlessLand.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Disable();
+    }
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         canMove = true;
         plane = new Plane(Vector3.up, Vector3.zero);
@@ -98,12 +116,12 @@ public class CharacterControllerRemapTest : MonoBehaviour
         moveSpeedDefault = moveSpeed;
 
         playerInput = GetComponent<PlayerInput>();
+        inputActions = new PlayerInputs();
     }
 
     // Update is called once per frame
     void Update()
     {
-
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (plane.Raycast(ray, out float enter) && canMove == true)
         {
@@ -127,18 +145,18 @@ public class CharacterControllerRemapTest : MonoBehaviour
             }
 
             //anim stuff here. 
-            anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
-            anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
+            anim.SetFloat("XSpeed", movementInput.x);//Input.GetAxis("HorizontalKey"));
+            anim.SetFloat("YSpeed", movementInput.y);//Input.GetAxis("VerticalKey"));
         }
     }
 
     private void PlayerRotationUpdate()
     {
 
-        if (moveAllow && (Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
+        if (moveAllow && (Mathf.Abs(movementInput.x) + Mathf.Abs(movementInput.y)) !=0) //Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
         {
-            Vector3 horizontal = (Input.GetAxis("Horizontal") * right);
-            Vector3 vertical = (Input.GetAxis("Vertical") * forward);
+            Vector3 horizontal = movementInput.x * right; //(Input.GetAxis("Horizontal") * right);
+            Vector3 vertical = movementInput.y * forward; // (Input.GetAxis("Vertical") * forward);
             Vector3 rotation = horizontal + vertical;
 
             transform.rotation = Quaternion.LookRotation(rotation);
@@ -183,8 +201,11 @@ public class CharacterControllerRemapTest : MonoBehaviour
 
         Vector3 rightMovement = right * moveSpeed * Time.deltaTime * Input.GetAxis("HorizontalKey");
         Vector3 upMovement = forward * moveSpeed * Time.deltaTime * Input.GetAxis("VerticalKey");
-
-        Vector3 playerMovement = rightMovement + upMovement;
+        Vector3 horizontalMovement = right * moveSpeed * Time.deltaTime * movementInput.x;
+        Vector3 verticalMovement = forward * moveSpeed * Time.deltaTime * movementInput.y;
+        //Debug.Log("speed x:" + movementInput.x + "speed y:" + movementInput.y);
+        //Vector3 playerMovement = rightMovement + upMovement;
+        Vector3 playerMovement = horizontalMovement + verticalMovement;
 
         inputDirection = playerMovement.normalized;
 
@@ -199,7 +220,7 @@ public class CharacterControllerRemapTest : MonoBehaviour
 
     void HealthFlaskManager()
     {
-        if (playerInput.actions["Health Refill"].triggered /*Input.GetKeyDown(KeyCode.Q)*/ && healthFlaskOfCooldown && flaskUses > 0)
+        if (inputActions.WindlessLand.HealthRefill.triggered/*playerInput.actions["Health Refill"].triggered,,,, Input.GetKeyDown(KeyCode.Q)*/ && healthFlaskOfCooldown && flaskUses > 0)
         {
             healthFlaskStart = true;
 
@@ -261,14 +282,21 @@ public class CharacterControllerRemapTest : MonoBehaviour
     }
 
 
+    void Dodgeroll(InputAction.CallbackContext obj)
+    {
+        dodgerollRemapTrigger = true;
+        Debug.Log("dodgerollworks");
+    }
 
     void DodgerollManager()
     {
-        if (playerInput.actions["Dodgeroll"].triggered && dodgerollOfCooldown)
+        if (/*inputActions.WindlessLand.Dodgeroll.triggered ,,
+playerInput.actions["Dodgeroll"].triggered &&*/ dodgerollRemapTrigger && dodgerollOfCooldown)
         //Input.GetKeyDown(KeyCode.Space) && dodgerollOfCooldown)
         {
             dodgerollStart = true;
             dodgerollTimerRunning = true;
+            dodgerollRemapTrigger = false;
 
             //more anim things
             Debug.Log("in player Dodgeroll");
@@ -305,6 +333,7 @@ public class CharacterControllerRemapTest : MonoBehaviour
                 if (DodgeWaitTimer(dodgerollCooldown))
                 {
                     dodgerollStart = false;
+                    dodgerollRemapTrigger = false;
                     dodgerollOfCooldown = true;
 
 
@@ -331,7 +360,7 @@ public class CharacterControllerRemapTest : MonoBehaviour
 
     void AttackManager()
     {
-        if (playerInput.actions["Attack"].triggered /*Input.GetKeyDown(KeyCode.Mouse0)*/ && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false)
+        if (inputActions.WindlessLand.Attack.triggered/*playerInput.actions["Attack"].triggered,, /*Input.GetKeyDown(KeyCode.Mouse0)*/ && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false)
         {
             Attack();
 

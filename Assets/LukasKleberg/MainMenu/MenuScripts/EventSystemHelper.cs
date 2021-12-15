@@ -119,4 +119,8 @@ public class EventSystemHelper : MonoBehaviour
         shouldSetToStartObject = true;
     }
 
+    public void UnlockMouseCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+    }
 }

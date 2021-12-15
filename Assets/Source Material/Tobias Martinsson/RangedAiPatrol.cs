@@ -20,16 +20,21 @@ public class RangedAiPatrol : State
 
     public override void Enter()
     {
-        CurrentPatrol = Agent.GetPatrolPoint;
+        CurrentPatrol = Agent.GetPatrolPoint();
         Agent.NavAgent.SetDestination(CurrentPatrol.position);
         Agent.NavAgent.speed = Speed;
+
+        Agent.animator.SetTrigger("StopBow");
+        Agent.animator.SetFloat("XSpeed", 0);
+        Agent.animator.SetFloat("YSpeed", 1);
     }
     public override void RunUpdate()
     {
         if (Agent.NavAgent.remainingDistance < 2.0f)
         {
-            CurrentPatrol = Agent.GetPatrolPoint;
+            CurrentPatrol = Agent.GetPatrolPoint();
             Agent.NavAgent.SetDestination(CurrentPatrol.position);
+
             Agent.animator.SetFloat("XSpeed", 0);
             Agent.animator.SetFloat("YSpeed", 1);
         }
