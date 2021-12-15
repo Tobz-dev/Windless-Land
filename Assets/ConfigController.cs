@@ -16,6 +16,7 @@ public class ConfigController : MonoBehaviour
 
         //Save();
         Load();
+        Save();
     }
 
     void Update()
