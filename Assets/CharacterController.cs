@@ -41,9 +41,11 @@ public class CharacterController : MonoBehaviour
 
     private bool invincibility = false;
 
+
+    //stun
     private bool endPlayerStunned = false;
     private bool startPlayerStunned = false;
-
+    private bool resetAnim = false;
 
     //healthFlask
     private bool healthFlaskTimerRunning = true;
@@ -838,12 +840,15 @@ public class CharacterController : MonoBehaviour
     private void StunHandler() {
 
         if (startPlayerStunned == true) {
-          
+            if (resetAnim == false) {
+                anim.SetBool("PlayerIsStunned", true);
+            }
+            resetAnim = false;
 
             playerRgb.velocity = (-(transform.forward).normalized * 1.5f) + new Vector3(0, playerRgb.velocity.y, 0);
 
             if (endPlayerStunned == true) {
-                anim.SetTrigger("StopPlayerStun");
+                anim.SetBool("PlayerIsStunned", false);
                 transform.GetComponentInParent<PlayerAnimEvents>().SetEndPlayerStunnedFalse();
            
 
@@ -880,13 +885,20 @@ public class CharacterController : MonoBehaviour
         if (healthFlaskStart == true) {
             HealthFlaskCancel();
         }
+        if (startPlayerStunned == true) {
+            ResetStunAnim();
+        }
+      
 
         startPlayerStunned = true;
-        anim.SetTrigger("PlayerStun");
-
       
-    }
 
+
+    }
+    private void ResetStunAnim() {
+        anim.SetBool("PlayerIsStunned", false);
+        resetAnim = true;
+    }
 
     private bool AttackWaitTimer(float seconds)
     {
