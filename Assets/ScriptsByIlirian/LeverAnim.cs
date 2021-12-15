@@ -19,6 +19,8 @@ public class LeverAnim : MonoBehaviour
 
     private FMOD.Studio.EventInstance LeverPull;
 
+    [SerializeField] private GameObject PressE;
+
 
     void Start()
     {
@@ -26,6 +28,7 @@ public class LeverAnim : MonoBehaviour
         panel.SetActive(false);
         trigger = GetComponent<BoxCollider>();
         anim2 = GetComponentInChildren<Animator>();
+        PressE.SetActive(false);
         
     }
 
@@ -47,6 +50,7 @@ public class LeverAnim : MonoBehaviour
         trigger.enabled = false;
         anim2.SetBool("Open", true);
         TriggerEvent.Invoke();
+        PressE.SetActive(false);
         if (leverPulled)
         {
             panel.SetActive(false);
@@ -65,6 +69,7 @@ public class LeverAnim : MonoBehaviour
             canPress = true;
             panel.SetActive(true);
             pressText.text = "Press E to pull lever";
+            PressE.SetActive(true);
 
             if (leverPulled)
             {
@@ -80,6 +85,7 @@ public class LeverAnim : MonoBehaviour
             {
                 canPress = false;
                 panel.SetActive(false);
+                PressE.SetActive(false);
 
             }
     }
