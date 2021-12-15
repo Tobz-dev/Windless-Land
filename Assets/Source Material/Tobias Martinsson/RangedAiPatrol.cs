@@ -24,7 +24,7 @@ public class RangedAiPatrol : State
         Agent.NavAgent.SetDestination(CurrentPatrol.position);
         Agent.NavAgent.speed = Speed;
 
-        Agent.animator.SetTrigger("StopBow");
+        Agent.animator.SetTrigger("BowStop");
         Agent.animator.SetFloat("XSpeed", 0);
         Agent.animator.SetFloat("YSpeed", 1);
     }
