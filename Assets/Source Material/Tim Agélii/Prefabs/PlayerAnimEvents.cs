@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+// Main Authour : Tim Agélii
 public class PlayerAnimEvents : MonoBehaviour
 {
     [SerializeField]
@@ -21,6 +21,7 @@ public class PlayerAnimEvents : MonoBehaviour
 
     private bool endOfAttack = false;
 
+    private bool EndPlayerStunned = false;
    
     public void instantiateLightHitbox() {
 
@@ -88,6 +89,19 @@ public class PlayerAnimEvents : MonoBehaviour
         return endOfAttack;
     }
 
+    public void SetEndPlayerStunnedTrue()
+    {
+        EndPlayerStunned = true;
+    }
 
+    public void SetEndPlayerStunnedFalse()
+    {
+        EndPlayerStunned = false;
+    }
+
+    public bool GetEndPlayerStunned()
+    {
+        return EndPlayerStunned;
+    }
 
 }
