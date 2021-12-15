@@ -10,7 +10,7 @@ public class LeverAnim : MonoBehaviour
     private Animator anim;
     private bool canPress;
     private bool leverPulled;
-    [SerializeField] private TextMeshProUGUI pressText;
+    //[SerializeField] private TextMeshProUGUI pressText;
     [SerializeField] private GameObject panel;
     private Collider trigger;
     private Animator anim2;
@@ -68,7 +68,7 @@ public class LeverAnim : MonoBehaviour
         {
             canPress = true;
             panel.SetActive(true);
-            pressText.text = "Press E to pull lever";
+            //pressText.text = "Press E to pull lever";
             PressE.SetActive(true);
 
             if (leverPulled)
