@@ -221,7 +221,21 @@ public class CharacterControllerJohan : MonoBehaviour
             HealthRefill.start();
             HealthRefill.release();
 
-            potionEffect.SendEvent("Start");
+
+            switch (PlayerArrowShowOff.particleDensitySetting)
+            {
+                case 1:
+                    potionEffect.SendEvent("PlayPotionEffect");
+                    break;
+                case 2:
+                    potionEffect.SendEvent("PlayPotionEffectReduced");
+                    break;
+                case 3:
+                    potionEffect.SendEvent("PlayPotionEffectMinimal");
+                    break;
+                default:
+                    break;
+            }
 
         }
 
