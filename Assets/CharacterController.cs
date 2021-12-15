@@ -874,6 +874,27 @@ public class CharacterController : MonoBehaviour
         flaskUses = x;
     }
 
+
+    // Configs
+
+    public void setConfig(int newMaxMana, float newMoveSpeed)
+    {
+        maxMana = newMaxMana;
+        moveSpeed = newMoveSpeed;
+    }
+
+    public int getMaxMana()
+    {
+        return maxMana;
+    }
+
+    public float getMoveSpeed()
+    {
+        return moveSpeed;
+    }
+
+    // END Configs
+
 }
 
 

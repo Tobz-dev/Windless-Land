@@ -227,4 +227,14 @@ public class PlayerHealthScript : MonoBehaviour
     {
         return (float)health / (float)Maxhealth;
     }
+
+    public void setConfig(int newMaxHealth)
+    {
+        Maxhealth = newMaxHealth;
+    }
+
+    public int getMaxHealth()
+    {
+        return Maxhealth;
+    }
 }
