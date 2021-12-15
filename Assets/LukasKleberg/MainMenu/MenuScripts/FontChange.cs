@@ -15,6 +15,11 @@ public class FontChange : MonoBehaviour
     private int currentFontSize = 50;
     private int savedFontSize;
 
+    //Variabler som använder config filer.
+    private int fontIndex2;
+    private int fontSize2;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -99,5 +104,21 @@ public class FontChange : MonoBehaviour
                 textMeshProUGUI.fontSize += fontSizeDifference;
             }
         }
+    }
+
+    public void setConfig(int newfontIndex, int newfontSize)
+    {
+        fontIndex2 = newfontIndex;
+        fontSize2 = newfontSize;
+    }
+
+    public int getFontIndex()
+    {
+        return fontIndex2;
+    }
+
+    public int getFontSize()
+    {
+        return fontSize2;
     }
 }
