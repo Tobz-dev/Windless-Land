@@ -86,8 +86,9 @@ public class HeavyAttackpattern : State
     public void Awake()
     {
         waitToAttack = false;
+        attackTimer = 0;
         startAttack = true;
-
+        
     }
     public override void RunUpdate()
     {
@@ -145,7 +146,7 @@ public class HeavyAttackpattern : State
         if ((Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) >= outOfRange) && allowStop)
         {
 
-            StateMachine.ChangeState<LightChase>();
+            StateMachine.ChangeState<HeavyChase>();
 
         }
     }
@@ -177,7 +178,7 @@ public class HeavyAttackpattern : State
 
     void AttackPattern()
     {
-        inAttack = true;
+
 
         LookAtPlayer();
         if (waitToAttack == true)
@@ -188,6 +189,7 @@ public class HeavyAttackpattern : State
         }
         if (startAttack == true)
         {
+            inAttack = true;
             // SetFleeFalse();
             Attack();
 
@@ -205,7 +207,7 @@ public class HeavyAttackpattern : State
 
     void WaitToAttack()
     {
-        allowStop = false;
+       
         if (AttackWaitTimer(attackWaitTime))
         {
             waitToAttack = false;
@@ -232,7 +234,7 @@ public class HeavyAttackpattern : State
 
     void Attack()
     {
-
+        allowStop = false;
 
         if (startAttack == true)
         {
