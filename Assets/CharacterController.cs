@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Main Authour : Tim Agélii
+// Main Authour : Tim Agï¿½lii
 public class CharacterController : MonoBehaviour
 {
 
@@ -41,14 +41,9 @@ public class CharacterController : MonoBehaviour
 
     private bool invincibility = false;
 
-
-    //lever
-   
-
-    //stun
     private bool endPlayerStunned = false;
     private bool startPlayerStunned = false;
-    private bool resetAnim = false;
+
 
     //healthFlask
     private bool doneDrinkingFlask = false;
@@ -196,7 +191,7 @@ public class CharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      
+        originalFlaskUsesAmount = flaskUses;
         playerRgb = transform.GetComponent<Rigidbody>();
       
         bow.SetActive(false);
@@ -857,19 +852,16 @@ public class CharacterController : MonoBehaviour
     }
 
     
-    //note: ibland kan man spamclicka sig ur för att göra en attack
+    //note: ibland kan man spamclicka sig ur fï¿½r att gï¿½ra en attack
     private void StunHandler() {
 
         if (startPlayerStunned == true) {
-            if (resetAnim == false) {
-                anim.SetBool("PlayerIsStunned", true);
-            }
-            resetAnim = false;
+          
 
             playerRgb.velocity = (-(transform.forward).normalized * 1.5f) + new Vector3(0, playerRgb.velocity.y, 0);
 
             if (endPlayerStunned == true) {
-                anim.SetBool("PlayerIsStunned", false);
+                anim.SetTrigger("StopPlayerStun");
                 transform.GetComponentInParent<PlayerAnimEvents>().SetEndPlayerStunnedFalse();
            
 
@@ -906,23 +898,12 @@ public class CharacterController : MonoBehaviour
         if (usingHealthFlask == true) {
             HealthFlaskCancel();
         }
-        if (startPlayerStunned == true) {
-            ResetStunAnim();
-        }
-        CancelLeverPull();
 
+        startPlayerStunned = true;
+        anim.SetTrigger("PlayerStun");
 
-            startPlayerStunned = true;
       
-
-
     }
-    private void ResetStunAnim() {
-        anim.SetBool("PlayerIsStunned", false);
-        resetAnim = true;
-    }
-
-    
 
     public void PullLever() {
         if (moveAllow == true && attacking == false && usingHealthFlask == false && bowIsActive == false) {
@@ -982,7 +963,7 @@ public class CharacterController : MonoBehaviour
     {
         Debug.Log("Player Dead");
         GetComponent<PlayerHealthScript>().regainHealth(100);
-        GetComponent<PlayerHealthScript>().ResetPotions();
+        ResetPotionsToOriginal();
         Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
         Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         Dead.start();
@@ -1003,6 +984,21 @@ public class CharacterController : MonoBehaviour
 
         return flaskUses;
     }
+
+    public void ResetPotions()
+    {
+        if (flaskUses < originalFlaskUsesAmount)
+        {
+            SetFlaskUses(originalFlaskUsesAmount);
+        }
+       
+    }
+
+    public void ResetPotionsToOriginal()
+    {
+        SetFlaskUses(originalFlaskUsesAmount);
+    }
+
 
 
 
