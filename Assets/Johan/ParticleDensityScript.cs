@@ -11,11 +11,47 @@ public class ParticleDensityScript : MonoBehaviour
     [SerializeField]
     private GameObject[] torchFiresReduced;
 
+
+    private void Awake()
+    {
+        switch (particleDensitySetting)
+        {
+            case 1:
+                ChangeFireToNormal();
+                break;
+            case 2:
+                ChangeFireToReduced();
+                break;
+            case 3:
+                ChangeFireToMinimal();
+                break;
+            default:
+                ChangeFireToNormal();
+                break;
+        }
+    }
+
     public void SetDensityNormal()
     {
         particleDensitySetting = 1;
+        ChangeFireToNormal();
+    }
 
-        for(int i = 0; i < torchFiresNormal.Length; i++)
+    public void SetDensityReduced()
+    {
+        particleDensitySetting = 1;
+        ChangeFireToReduced();
+    }
+
+    public void SetDensityMinimal()
+    {
+        particleDensitySetting = 1;
+        ChangeFireToMinimal();
+    }
+
+    private void ChangeFireToNormal()
+    {
+        for (int i = 0; i < torchFiresNormal.Length; i++)
         {
             torchFiresNormal[i].SetActive(true);
         }
@@ -26,10 +62,8 @@ public class ParticleDensityScript : MonoBehaviour
         }
     }
 
-    public void SetDensityReduced()
+    private void ChangeFireToReduced()
     {
-        particleDensitySetting = 1;
-
         for (int i = 0; i < torchFiresNormal.Length; i++)
         {
             torchFiresNormal[i].SetActive(false);
@@ -41,10 +75,8 @@ public class ParticleDensityScript : MonoBehaviour
         }
     }
 
-    public void SetDensityMinimal()
+    private void ChangeFireToMinimal()
     {
-        particleDensitySetting = 1;
-
         for (int i = 0; i < torchFiresNormal.Length; i++)
         {
             torchFiresNormal[i].SetActive(false);
