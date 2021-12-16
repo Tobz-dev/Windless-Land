@@ -1224,6 +1224,17 @@ public class CharacterController : MonoBehaviour
         return false;
     }
 
+    public void ChangeInputDelayOn() {
+        if (inputDelayOn == false)
+        {
+            inputDelayOn = true;
+        }
+        else {
+            inputDelayOn = false;
+        }
+    
+    }
+
 
     // Configs
 
@@ -1271,6 +1282,8 @@ public class CharacterController : MonoBehaviour
     {
         autoAim = x;
     }
+
+    
 
 }
 
