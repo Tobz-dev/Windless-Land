@@ -171,6 +171,8 @@ MonoBehaviour:
   - {fileID: 8926484042661615954}
   - {fileID: 8926484042661615962}
   - {fileID: 8926484042661615971}
+  - {fileID: 8926484042661616025}
+  - {fileID: 8926484042661616027}
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
   m_UISuperCollapsed: 0
@@ -1646,9 +1648,6 @@ MonoBehaviour:
   m_Owners:
   - {fileID: 8926484042661614605}
   - {fileID: 8926484042661614555}
-  - {fileID: 8926484042661614749}
-  - {fileID: 8926484042661614816}
-  - {fileID: 8926484042661614872}
   - {fileID: 8926484042661615971}
 --- !u!114 &8926484042661614607
 MonoBehaviour:
@@ -4136,10 +4135,12 @@ MonoBehaviour:
   m_InputSlots: []
   m_OutputSlots: []
   m_Label: Spawn system
-  m_Data: {fileID: 8926484042661614606}
+  m_Data: {fileID: 8926484042661616026}
   m_InputFlowSlot:
   - link:
     - context: {fileID: 8926484042661614605}
+      slotIndex: 0
+    - context: {fileID: 8926484042661616025}
       slotIndex: 0
   - link: []
   m_OutputFlowSlot:
@@ -5925,10 +5926,14 @@ MonoBehaviour:
   m_InputSlots: []
   m_OutputSlots: []
   m_Label: Spawn system
-  m_Data: {fileID: 8926484042661614606}
+  m_Data: {fileID: 8926484042661616028}
   m_InputFlowSlot:
   - link:
     - context: {fileID: 8926484042661614605}
+      slotIndex: 0
+    - context: {fileID: 8926484042661616025}
+      slotIndex: 0
+    - context: {fileID: 8926484042661616027}
       slotIndex: 0
   - link: []
   m_OutputFlowSlot:
@@ -7578,10 +7583,12 @@ MonoBehaviour:
   m_InputSlots: []
   m_OutputSlots: []
   m_Label: Spawn system
-  m_Data: {fileID: 8926484042661614606}
+  m_Data: {fileID: 8926484042661616026}
   m_InputFlowSlot:
   - link:
     - context: {fileID: 8926484042661614605}
+      slotIndex: 0
+    - context: {fileID: 8926484042661616025}
       slotIndex: 0
   - link: []
   m_OutputFlowSlot:
@@ -11763,3 +11770,110 @@ MonoBehaviour:
         PublicKeyToken=b77a5c561934e089
   m_Direction: 0
   m_LinkedSlots: []
+--- !u!114 &8926484042661616025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2461f61b3c026d54db1951a4e17ab20e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 114350483966674976}
+  m_Children: []
+  m_UIPosition: {x: 2911, y: -621}
+  m_UICollapsed: 0
+  m_UISuperCollapsed: 0
+  m_InputSlots: []
+  m_OutputSlots: []
+  m_Label: 
+  m_Data: {fileID: 8926484042661616026}
+  m_InputFlowSlot:
+  - link: []
+  m_OutputFlowSlot:
+  - link:
+    - context: {fileID: 8926484042661614749}
+      slotIndex: 0
+    - context: {fileID: 8926484042661614816}
+      slotIndex: 0
+    - context: {fileID: 8926484042661614872}
+      slotIndex: 0
+  eventName: TriggerExplosionReduced
+--- !u!114 &8926484042661616026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f68759077adc0b143b6e1c101e82065e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 114350483966674976}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  title: 
+  m_Owners:
+  - {fileID: 8926484042661616025}
+  - {fileID: 8926484042661614749}
+  - {fileID: 8926484042661614872}
+--- !u!114 &8926484042661616027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2461f61b3c026d54db1951a4e17ab20e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 114350483966674976}
+  m_Children: []
+  m_UIPosition: {x: 3351, y: -621}
+  m_UICollapsed: 0
+  m_UISuperCollapsed: 0
+  m_InputSlots: []
+  m_OutputSlots: []
+  m_Label: 
+  m_Data: {fileID: 8926484042661616028}
+  m_InputFlowSlot:
+  - link: []
+  m_OutputFlowSlot:
+  - link:
+    - context: {fileID: 8926484042661614816}
+      slotIndex: 0
+  eventName: TriggerExplosionMinimal
+--- !u!114 &8926484042661616028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f68759077adc0b143b6e1c101e82065e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 114350483966674976}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  title: 
+  m_Owners:
+  - {fileID: 8926484042661616027}
+  - {fileID: 8926484042661614816}

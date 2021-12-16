@@ -196,6 +196,22 @@ public class CheckpointVFX : MonoBehaviour
 
         for (int i = 0; i < checkpointGraphs.Length; i++)
         {
+            switch (ParticleDensityScript.particleDensitySetting)
+            {
+                case 1:
+                    checkpointGraphs[i].SendEvent("TriggerExplosion");
+                    break;
+                case 2:
+                    checkpointGraphs[i].SendEvent("TriggerExplosionReduced");
+                    break;
+                case 3:
+                    checkpointGraphs[i].SendEvent("TriggerExplosionMinimal");
+                    break;
+                default:
+                    checkpointGraphs[i].SendEvent("TriggerExplosion");
+                    break;
+
+            }
             checkpointGraphs[i].SendEvent("TriggerExplosion");
         }
 

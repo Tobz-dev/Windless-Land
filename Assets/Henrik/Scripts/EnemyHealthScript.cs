@@ -94,7 +94,7 @@ public class EnemyHealthScript : MonoBehaviour
 
             StartCoroutine(damagedMaterial());
             damagedMaterial();
-
+            GetComponent<LightEnemyParticles>().PlayBloodEffect(1);
             
             EnemyHurt = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Small Enemy/SmallEnemyHurt");
             EnemyHurt.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));

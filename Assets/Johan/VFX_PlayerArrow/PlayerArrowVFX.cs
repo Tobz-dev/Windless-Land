@@ -22,7 +22,7 @@ public class PlayerArrowVFX : MonoBehaviour
     void Awake()
     {
         
-        switch (PlayerArrowShowOff.particleDensitySetting)
+        switch (ParticleDensityScript.particleDensitySetting)
         {
             case 1:
                 trailObject.SetActive(true);
@@ -35,11 +35,13 @@ public class PlayerArrowVFX : MonoBehaviour
                 trailObject.SetActive(false);
                 fireEffect.SetVector2("FireSparkCount", new Vector2(0, 0));
                 fireEffect.SetVector2("FireSmokeCount", new Vector2(0, 0));
-                fireEffect.SendEvent("PlayBowFire");
+                fireEffect.SendEvent("PlayBowFire");    
                 break;
             case 3:
-            break;
+                trailObject.SetActive(false);
+                break;
             default:
+                trailObject.SetActive(true);
                 pulseEffect.SendEvent("PlayPulse");
                 fireEffect.SetVector2("FireSparkCount", new Vector2(8, 15));
                 fireEffect.SetVector2("FireSmokeCount", new Vector2(4, 7));
@@ -66,7 +68,7 @@ public class PlayerArrowVFX : MonoBehaviour
 
     public void PlayImpactEffect()
     {
-        switch (PlayerArrowShowOff.particleDensitySetting)
+        switch (ParticleDensityScript.particleDensitySetting)
         {
             case 1:
                 impactEffect.SetVector2("ImpactSparkCount", new Vector2(8, 15));
