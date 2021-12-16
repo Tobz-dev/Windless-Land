@@ -22,6 +22,12 @@ public class LeverAnim : MonoBehaviour
 
     [SerializeField] private GameObject PressE;
 
+    private PlayerInputs inputActions;
+
+    private void Awake()
+    {
+        inputActions = InputManager.inputActions;
+    }
 
     void Start()
     {
@@ -35,7 +41,7 @@ public class LeverAnim : MonoBehaviour
 
     void Update()
     {
-        if (canPress && Input.GetKeyDown(KeyCode.E))
+        if (canPress && inputActions.WindlessLand.Interact.triggered/*Input.GetKeyDown(KeyCode.E)*/)
         {
             GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>().PullLever();
             PressE.SetActive(false);
