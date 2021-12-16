@@ -28,13 +28,6 @@ public class ArrowCollisionCheck : MonoBehaviour
 
     private void DestroyArrow()
     {
-        GetComponent<PlayerArrowUpdate>().StopArrow();
-        GetComponent<PlayerArrowVFX>().PlayImpactEffect();
-
-        killTime += 1 * Time.deltaTime;
-        if (killTime >= 5f)
-        {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject);
     }
 }
