@@ -21,7 +21,7 @@ public class SaveSpawnPoint : MonoBehaviour
 
     private void Update()
     {
-        if (/*Input.GetKeyDown(KeyCode.E)*/ inputActions.WindlessLand.Interact.triggered && playerOnCheckpoint && usedCheckpoint == false)
+        if (Input.GetKeyDown(KeyCode.E) /*inputActions.WindlessLand.Interact.triggered*/ && playerOnCheckpoint && usedCheckpoint == false)
         {
             usedCheckpoint = true;
             panel.SetActive(false);

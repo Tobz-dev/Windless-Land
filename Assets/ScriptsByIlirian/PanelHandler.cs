@@ -20,7 +20,8 @@ public class PanelHandler : MonoBehaviour
     [SerializeField] private GameObject PressE;
 
     private PlayerInputs inputActions;
-
+    
+    /*
     private void Awake()
     {
         inputActions = InputManager.inputActions;
@@ -35,6 +36,7 @@ public class PanelHandler : MonoBehaviour
     {
         inputActions.WindlessLand.Disable();
     }
+    */
 
     void Start()
     {
@@ -45,7 +47,7 @@ public class PanelHandler : MonoBehaviour
     }
     void Update()
     {
-        if (readLog && inputActions.WindlessLand.Interact.triggered/*Input.GetKeyDown(KeyCode.E)*/)
+        if (readLog && /*inputActions.WindlessLand.Interact.triggered*/Input.GetKeyUp(KeyCode.E))
         {
             if (!logPanel.activeSelf)
             {
@@ -93,7 +95,7 @@ public class PanelHandler : MonoBehaviour
                 }
             }
         }
-        else if (logPanel == isActiveAndEnabled && Input.anyKeyDown && !inputActions.WindlessLand.Interact.triggered)
+        else if (logPanel == isActiveAndEnabled && Input.anyKeyDown /* Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)  /* && !inputActions.WindlessLand.Interact.triggered*/)
         {
             logPanel.SetActive(false);
         }
