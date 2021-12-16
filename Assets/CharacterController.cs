@@ -422,13 +422,35 @@ public class CharacterController : MonoBehaviour
 
                 if (drawBow)
                 {
-                    transform.rotation = lookRotation;
+                    if (autoAim == true)
+                    {
+                        closestEnemy = FindClosestEnemy();
+                        objectToFace = closestEnemy.transform;
+                        transform.LookAt(objectToFace);
+                    }
+
+
+                    if (autoAim == false)
+                    {
+                        transform.rotation = lookRotation;
+                    }
                     DrawBow();
                 }
 
                 if (bowIsLoading)
                 {
-                    transform.rotation = lookRotation;
+                    if (autoAim == true)
+                    {
+                        closestEnemy = FindClosestEnemy();
+                        objectToFace = closestEnemy.transform;
+                        transform.LookAt(objectToFace);
+                    }
+
+
+                    if (autoAim == false)
+                    {
+                        transform.rotation = lookRotation;
+                    }
 
                     BowLoading();
 
@@ -436,7 +458,18 @@ public class CharacterController : MonoBehaviour
                 if (bowIsFinishedLoading)
                 {
 
-                    transform.rotation = lookRotation;
+                    if (autoAim == true)
+                    {
+                        closestEnemy = FindClosestEnemy();
+                        objectToFace = closestEnemy.transform;
+                        transform.LookAt(objectToFace);
+                    }
+
+
+                    if (autoAim == false)
+                    {
+                        transform.rotation = lookRotation;
+                    }
                 }
 
                 if (Input.GetKeyUp(KeyCode.Mouse0) && bowIsFinishedLoading == true)
@@ -790,7 +823,18 @@ public class CharacterController : MonoBehaviour
         anim.SetTrigger("HeavyAttack");
 
         transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
-        transform.rotation = lookRotation;
+        if (autoAim == true)
+        {
+            closestEnemy = FindClosestEnemy();
+            objectToFace = closestEnemy.transform;
+            transform.LookAt(objectToFace);
+        }
+
+
+        if (autoAim == false)
+        {
+            transform.rotation = lookRotation;
+        }
         attacking = true;
 
     }
