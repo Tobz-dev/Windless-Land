@@ -379,15 +379,15 @@ public class CharacterController : MonoBehaviour
             {
                 bow.SetActive(true);
                 sword.SetActive(false);
-                swordEquipped = true;
-                bowEquipped = false;
+                swordEquipped = false;
+                bowEquipped = true;
             }
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 bow.SetActive(false);
                 sword.SetActive(true);
-                bowEquipped = true;
-                swordEquipped = false;
+                bowEquipped = false;
+                swordEquipped = true;
             }
 
         }
