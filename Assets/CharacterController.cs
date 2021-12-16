@@ -47,6 +47,13 @@ public class CharacterController : MonoBehaviour
     private bool resetAnim = false;
 
 
+    //accesibility input delay
+    private bool inputDelayOn = false;
+    private float  inputDelay = 0.5f;
+    private float delayTimer = 0;
+    private bool allowNextInput = false;
+    private bool runTimerOnce = true;
+
     //healthFlask
     private bool doneDrinkingFlask = false;
     private bool usingHealthFlask = false;
@@ -399,15 +406,15 @@ public class CharacterController : MonoBehaviour
             {
                 bow.SetActive(true);
                 sword.SetActive(false);
-                swordEquipped = true;
-                bowEquipped = false;
+                swordEquipped = false;
+                bowEquipped = true;
             }
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 bow.SetActive(false);
                 sword.SetActive(true);
-                bowEquipped = true;
-                swordEquipped = false;
+                bowEquipped = false;
+                swordEquipped = true;
             }
 
         }
@@ -765,7 +772,7 @@ public class CharacterController : MonoBehaviour
 
    private void AttackManager()
     {
-      
+
 
             endOfAttack = transform.GetComponentInParent<PlayerAnimEvents>().GetEndOfAttack();
 
@@ -793,6 +800,12 @@ public class CharacterController : MonoBehaviour
 
    private void Attack()
     {
+
+        if (inputDelayOn) {
+            delayTimer = 0;
+            allowNextInput = false;
+            runTimerOnce = true;
+        }
 
         //more anim things
         //Debug.Log("in player attack");
@@ -869,24 +882,56 @@ public class CharacterController : MonoBehaviour
    
     private void InAttack()
     {
-   
-        if (attacking && endPlayerStunned == false && usingHealthFlask == false && dodgerolling == false )
+       
+
+        if (attacking && endPlayerStunned == false && usingHealthFlask == false && dodgerolling == false)
         {
-          
-           
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+
+            if (inputDelayOn == false)
+            {
+
+                if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                 
+
                     queueAttack = true;
                     queueDodge = false;
                 }
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                   
+
                     queueAttack = false;
                     queueDodge = true;
                 }
-         
+            } else if (inputDelayOn){
+
+                if (runTimerOnce == true) { 
+                
+              
+                if (InputDelayTimer())
+                {
+                    allowNextInput = true;
+                    runTimerOnce = false;
+
+                }
+                }
+
+                if (allowNextInput == true) { 
+
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+
+                    queueAttack = true;
+                    queueDodge = false;
+                }
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+
+                    queueAttack = false;
+                    queueDodge = true;
+                }
+                }
+            }
+        
             if (endOfAttack == false)
             {
                 playerRgb.velocity = ((transform.forward).normalized * 2f) + new Vector3(0, playerRgb.velocity.y, 0);
@@ -1156,6 +1201,22 @@ public class CharacterController : MonoBehaviour
         flaskUses = x;
     }
 
+    public bool InputDelayTimer()
+    {
+
+        delayTimer += Time.deltaTime;
+
+        if (delayTimer >= inputDelay)
+        {
+
+            delayTimer = 0;
+            return true;
+
+        }
+
+        return false;
+    }
+
 
     // Configs
 
@@ -1174,6 +1235,8 @@ public class CharacterController : MonoBehaviour
     {
         return moveSpeed;
     }
+
+
 
     // END Configs
 

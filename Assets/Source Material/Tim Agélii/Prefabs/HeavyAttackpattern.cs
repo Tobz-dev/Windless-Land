@@ -86,12 +86,16 @@ public class HeavyAttackpattern : State
     public void Awake()
     {
         waitToAttack = false;
+        attackTimer = 0;
         startAttack = true;
-
+        
     }
     public override void RunUpdate()
     {
-
+        if (waitToAttack == false && startAttack == false && inAttack == false) {
+            startAttack = true;
+            Agent.animator.SetBool("StartAttack2", true);
+        }
 
         moveSpeed = GetSpeed();
         Agent.NavAgent.speed = moveSpeed;
@@ -133,7 +137,6 @@ public class HeavyAttackpattern : State
         {
             randomAttack = (int)(Random.value*10);
         }
-    
 
 
 
@@ -145,9 +148,10 @@ public class HeavyAttackpattern : State
         if ((Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) >= outOfRange) && allowStop)
         {
 
-            StateMachine.ChangeState<LightChase>();
+            StateMachine.ChangeState<HeavyChase>();
 
         }
+
     }
 
     float GetSpeed()
@@ -177,7 +181,7 @@ public class HeavyAttackpattern : State
 
     void AttackPattern()
     {
-        inAttack = true;
+
 
         LookAtPlayer();
         if (waitToAttack == true)
@@ -188,6 +192,7 @@ public class HeavyAttackpattern : State
         }
         if (startAttack == true)
         {
+            inAttack = true;
             // SetFleeFalse();
             Attack();
 
@@ -197,7 +202,7 @@ public class HeavyAttackpattern : State
         if (stopAttack == true)
         {
             ResetPattern();
-            inAttack = false;
+         
         }
 
 
@@ -205,7 +210,7 @@ public class HeavyAttackpattern : State
 
     void WaitToAttack()
     {
-        allowStop = false;
+       
         if (AttackWaitTimer(attackWaitTime))
         {
             waitToAttack = false;
@@ -232,7 +237,7 @@ public class HeavyAttackpattern : State
 
     void Attack()
     {
-
+        allowStop = false;
 
         if (startAttack == true)
         {
@@ -240,13 +245,12 @@ public class HeavyAttackpattern : State
 
             if (randomAttack > 5)
             {
-                Agent.animator.SetTrigger("StartAttack2");
+                Agent.animator.SetBool("StartAttack2", true);
             }
             else
             {
 
-
-                Agent.animator.SetTrigger("StartAttack");
+                Agent.animator.SetBool("StartAttack", true);
 
             }
           
@@ -263,9 +267,10 @@ public class HeavyAttackpattern : State
     {
         allowStop = true;
         waitToAttack = true;
-
+        inAttack = false;
         SetStopAttackFalse();
-        Agent.animator.SetTrigger("StopAttack");
+        Agent.animator.SetBool("StartAttack2", false);
+        Agent.animator.SetBool("StartAttack", false);
     }
 
 
