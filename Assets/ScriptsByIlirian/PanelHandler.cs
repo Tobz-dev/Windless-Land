@@ -79,6 +79,7 @@ public class PanelHandler : MonoBehaviour
 
         if (logPanel == isActiveAndEnabled && Input.GetKeyDown(KeyCode.Escape))
         {
+            
             logPanel.SetActive(false);
 
         }
