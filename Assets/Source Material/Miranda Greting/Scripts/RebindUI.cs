@@ -44,7 +44,7 @@ public class RebindUI : MonoBehaviour
     private void Awake()
     {
         InputManager.LoadBindingOverride(actionName);
-        ResetAllBindings();
+        //ResetAllBindings();
     }
 
     private void OnEnable()
