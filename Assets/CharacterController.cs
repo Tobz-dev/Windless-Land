@@ -134,6 +134,7 @@ public class CharacterController : MonoBehaviour
     private Transform objectToFace;
     private GameObject closestEnemy;
     public bool autoAim = false;
+    Quaternion enemyLookRotation;
 
 
     //prototyp
@@ -202,6 +203,7 @@ public class CharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         originalFlaskUsesAmount = (int)flaskUses;
         playerRgb = transform.GetComponent<Rigidbody>();
         swordEquipped = true;
@@ -220,7 +222,8 @@ public class CharacterController : MonoBehaviour
 
 
         currentAttackTrigger = "Attack1";
-     //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
+        //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
+
     }
 
     // Update is called once per frame
@@ -280,6 +283,13 @@ public class CharacterController : MonoBehaviour
             anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
             anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
         }
+
+
+        if(attacking == true)
+        {
+            playerRgb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+        }
+        else { playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY; }
     }
     private void FixedUpdate()
     {
@@ -422,7 +432,7 @@ public class CharacterController : MonoBehaviour
 
                 if (drawBow)
                 {
-                    if (autoAim == true)
+                    if (autoAim == true && FindClosestEnemy() != null)
                     {
                         closestEnemy = FindClosestEnemy();
                         objectToFace = closestEnemy.transform;
@@ -430,7 +440,7 @@ public class CharacterController : MonoBehaviour
                     }
 
 
-                    if (autoAim == false)
+                    else
                     {
                         transform.rotation = lookRotation;
                     }
@@ -439,7 +449,7 @@ public class CharacterController : MonoBehaviour
 
                 if (bowIsLoading)
                 {
-                    if (autoAim == true)
+                    if (autoAim == true && FindClosestEnemy() != null)
                     {
                         closestEnemy = FindClosestEnemy();
                         objectToFace = closestEnemy.transform;
@@ -447,7 +457,7 @@ public class CharacterController : MonoBehaviour
                     }
 
 
-                    if (autoAim == false)
+                    else
                     {
                         transform.rotation = lookRotation;
                     }
@@ -458,7 +468,7 @@ public class CharacterController : MonoBehaviour
                 if (bowIsFinishedLoading)
                 {
 
-                    if (autoAim == true)
+                    if (autoAim == true && FindClosestEnemy() != null)
                     {
                         closestEnemy = FindClosestEnemy();
                         objectToFace = closestEnemy.transform;
@@ -466,7 +476,7 @@ public class CharacterController : MonoBehaviour
                     }
 
 
-                    if (autoAim == false)
+                    else
                     {
                         transform.rotation = lookRotation;
                     }
@@ -798,15 +808,33 @@ public class CharacterController : MonoBehaviour
         transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
 
 
-        if (autoAim == true)
+        //Vector3 hitPoint = ray.GetPoint(enter);
+        //plane.SetNormalAndPosition(Vector3.up, transform.position);
+        //Vector3 playerPositionOnPlane = plane.ClosestPointOnPlane(transform.position);
+
+        //lookRotation = Quaternion.LookRotation(hitPoint - playerPositionOnPlane);
+
+
+        if (autoAim == true && FindClosestEnemy() != null)
         {
             closestEnemy = FindClosestEnemy();
             objectToFace = closestEnemy.transform;
+
+
+            // Vector3 hitPoint2 = closestEnemy.transform.position;
+            // Vector3 playerPositionOnPlane2 = plane.ClosestPointOnPlane(transform.position);
+            // enemyLookRotation = Quaternion.LookRotation(hitPoint2 - playerPositionOnPlane2);
+
+            // transform.rotation = enemyLookRotation;
+            playerRgb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+            
             transform.LookAt(objectToFace);
+
+            playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
         }
 
 
-        if (autoAim == false) 
+        else
         {
             transform.rotation = lookRotation;
         }
@@ -823,7 +851,7 @@ public class CharacterController : MonoBehaviour
         anim.SetTrigger("HeavyAttack");
 
         transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
-        if (autoAim == true)
+        if (autoAim == true && FindClosestEnemy() != null)
         {
             closestEnemy = FindClosestEnemy();
             objectToFace = closestEnemy.transform;
@@ -831,7 +859,7 @@ public class CharacterController : MonoBehaviour
         }
 
 
-        if (autoAim == false)
+        else
         {
             transform.rotation = lookRotation;
         }

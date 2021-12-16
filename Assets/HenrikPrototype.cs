@@ -38,14 +38,14 @@ public class HenrikPrototype : MonoBehaviour
             //Debug.Log("Auto Aim On");
             player = GameObject.FindGameObjectWithTag("Player");
             autoAim = true;
-            player.gameObject.GetComponent<CharacterController>().setAutoaim(false);
+            player.gameObject.GetComponent<CharacterController>().setAutoaim(true);
         }
         else
         {
             //Debug.Log("Auto Aim Off");
             player = GameObject.FindGameObjectWithTag("Player");
             autoAim = false;
-            player.gameObject.GetComponent<CharacterController>().setAutoaim(true);
+            player.gameObject.GetComponent<CharacterController>().setAutoaim(false);
         }
     }
 
