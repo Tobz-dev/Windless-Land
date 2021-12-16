@@ -51,40 +51,49 @@ public class ParticleDensityScript : MonoBehaviour
 
     private void ChangeFireToNormal()
     {
-        for (int i = 0; i < torchFiresNormal.Length; i++)
+        if(torchFiresNormal != null && torchFiresReduced != null)
         {
-            torchFiresNormal[i].SetActive(true);
-        }
+            for (int i = 0; i < torchFiresNormal.Length; i++)
+            {
+                torchFiresNormal[i].SetActive(true);
+            }
 
-        for (int i = 0; i < torchFiresReduced.Length; i++)
-        {
-            torchFiresReduced[i].SetActive(false);
+            for (int i = 0; i < torchFiresReduced.Length; i++)
+            {
+                torchFiresReduced[i].SetActive(false);
+            }
         }
     }
 
     private void ChangeFireToReduced()
     {
-        for (int i = 0; i < torchFiresNormal.Length; i++)
+        if (torchFiresNormal != null && torchFiresReduced != null)
         {
-            torchFiresNormal[i].SetActive(false);
-        }
+            for (int i = 0; i < torchFiresNormal.Length; i++)
+            {
+                torchFiresNormal[i].SetActive(false);
+            }
 
-        for (int i = 0; i < torchFiresReduced.Length; i++)
-        {
-            torchFiresReduced[i].SetActive(true);
+            for (int i = 0; i < torchFiresReduced.Length; i++)
+            {
+                torchFiresReduced[i].SetActive(true);
+            }
         }
     }
 
     private void ChangeFireToMinimal()
     {
-        for (int i = 0; i < torchFiresNormal.Length; i++)
+        if (torchFiresNormal != null && torchFiresReduced != null)
         {
-            torchFiresNormal[i].SetActive(false);
-        }
+            for (int i = 0; i < torchFiresNormal.Length; i++)
+            {
+                torchFiresNormal[i].SetActive(false);
+            }
 
-        for (int i = 0; i < torchFiresReduced.Length; i++)
-        {
-            torchFiresReduced[i].SetActive(false);
+            for (int i = 0; i < torchFiresReduced.Length; i++)
+            {
+                torchFiresReduced[i].SetActive(false);
+            }
         }
     }
 }
