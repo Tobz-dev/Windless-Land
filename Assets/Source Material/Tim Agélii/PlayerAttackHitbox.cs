@@ -79,4 +79,9 @@ public class PlayerAttackHitbox : MonoBehaviour
     {
         return manaPerHit;
     }
+
+    public void setDamage(int newDamage)
+    {
+            damage = newDamage;
+    }
 }

@@ -22,7 +22,7 @@ public class HenrikPrototype : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -31,7 +31,7 @@ public class HenrikPrototype : MonoBehaviour
         
     }
 
-
+    
     public void autoAimButton()
     {
         if(autoAim == false)
@@ -64,13 +64,14 @@ public class HenrikPrototype : MonoBehaviour
     {
         if (moreDamage == false)
         {
-            playerAttackHitbox.gameObject.GetComponent<PlayerAttackHitbox>().setDamage(moreDamage, addedDamage);
             moreDamage = true;
+            playerAttackHitbox.gameObject.GetComponent<PlayerAttackHitbox>().setDamage(1);
         }
         else
         {
-            playerAttackHitbox.gameObject.GetComponent<PlayerAttackHitbox>().setDamage(moreDamage, addedDamage);
             moreDamage = false;
+            playerAttackHitbox.gameObject.GetComponent<PlayerAttackHitbox>().setDamage(2);
         }
     }
+
 }
