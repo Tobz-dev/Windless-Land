@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class ToggleVision : MonoBehaviour
 {
-    //Referens: https://answers.unity.com/questions/383391/setting-a-time-limit-on-actions.html
+    //Referens: https://answers.unity.com/questions/383391/setting-a-time-limit-on-actions.html and https://answers.unity.com/questions/894218/check-if-gameobjectsetactivetruefalse.html
     public Camera cam1;
     public Camera cam2;
     public Animator fade;
-    public GameObject player;
-    private float timeLimit = 0f;
-    private bool visionOn = false;
+    public GameObject visionedCamera;
+    //public GameObject player;
+    //private float timeLimit = 0f;
+    //private bool visionOn = false;
 
 
     void Start()
@@ -27,24 +28,16 @@ public class ToggleVision : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.V) && visionOn == false)
+        if (Input.GetKeyDown(KeyCode.V) && visionedCamera.activeInHierarchy != false)                                          // && visionOn == false)
         {
             Invoke ("Vision", 0.1f);
             fade.SetBool("EA", true);
-            player.SetActive(false);
+            //player.SetActive(false);
 
-            /*visionOn = true;
-            timeLimit = Time.realtimeSinceStartup;
- 
-            if(visionOn == true && Time.realtimeSinceStartup - timeLimit >= 3)
-            {
-                visionOn = false;
-                Vision();
-            }*/
-            visionOn = true;
+            //visionOn = true;
         }
 
-        if (visionOn)
+        /*if (visionOn)
         {
             if(timeLimit <= 5)
             {
@@ -59,18 +52,6 @@ public class ToggleVision : MonoBehaviour
                 visionOn = false;
                 timeLimit = 0;
             }
-        }
-
+        }*/
     }
-
-    /*IEnumerator visionOff()
-    {
-        if (visionOn == true)
-        {
-            yield return new WaitForSeconds(timeLimit);
-            visionOn = false;
-            Vision();
-        }
-        Debug.Log(visionOn);
-    }*/
 }
