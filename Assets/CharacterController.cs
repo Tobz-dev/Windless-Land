@@ -52,7 +52,9 @@ public class CharacterController : MonoBehaviour
 
 
     private float flaskUses = 2;
-  
+
+    private int originalFlaskUsesAmount;
+
     private float healthFlaskCooldown = 0.5f;
 
     //attack
@@ -191,7 +193,7 @@ public class CharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        originalFlaskUsesAmount = flaskUses;
+        originalFlaskUsesAmount = (int)flaskUses;
         playerRgb = transform.GetComponent<Rigidbody>();
       
         bow.SetActive(false);
