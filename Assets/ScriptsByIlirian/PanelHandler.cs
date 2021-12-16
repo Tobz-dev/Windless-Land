@@ -45,7 +45,7 @@ public class PanelHandler : MonoBehaviour
     }
     void Update()
     {
-        if (readLog && inputActions.WindlessLand.Interact.triggered/*Input.GetKeyDown(KeyCode.E)*/)
+        if (readLog && /*inputActions.WindlessLand.Interact.triggered*/Input.GetKeyDown(KeyCode.E))
         {
             if (!logPanel.activeSelf)
             {

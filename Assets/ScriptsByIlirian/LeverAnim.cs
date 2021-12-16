@@ -41,7 +41,7 @@ public class LeverAnim : MonoBehaviour
 
     void Update()
     {
-        if (canPress && inputActions.WindlessLand.Interact.triggered/*Input.GetKeyDown(KeyCode.E)*/)
+        if (canPress && (inputActions.WindlessLand.Interact.triggered || Input.GetKeyDown(KeyCode.E)))
         {
             GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>().PullLever();
             PressE.SetActive(false);
