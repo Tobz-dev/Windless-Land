@@ -1101,6 +1101,7 @@ MonoBehaviour:
   VcaName: Music
   vcaVolume: 0
   checkBoxImage: {fileID: 62050488968697836}
+  Attenuation: {fileID: 0}
 --- !u!1 &62050487878363732
 GameObject:
   m_ObjectHideFlags: 0
@@ -2589,6 +2590,7 @@ MonoBehaviour:
   VcaName: UI
   vcaVolume: 0
   checkBoxImage: {fileID: 62050489196743863}
+  Attenuation: {fileID: 0}
 --- !u!1 &62050488015881743
 GameObject:
   m_ObjectHideFlags: 0
@@ -5674,6 +5676,7 @@ MonoBehaviour:
   VcaName: Enemy SFX
   vcaVolume: 0
   checkBoxImage: {fileID: 62050488949454070}
+  Attenuation: {fileID: 0}
 --- !u!1 &62050488278471536
 GameObject:
   m_ObjectHideFlags: 0
@@ -12717,6 +12720,7 @@ MonoBehaviour:
   VcaName: Player SFX
   vcaVolume: 0
   checkBoxImage: {fileID: 62050488302898185}
+  Attenuation: {fileID: 0}
 --- !u!1 &62050488929932026
 GameObject:
   m_ObjectHideFlags: 0
@@ -15037,6 +15041,7 @@ MonoBehaviour:
   VcaName: Ambience
   vcaVolume: 0
   checkBoxImage: {fileID: 62050489214727019}
+  Attenuation: {fileID: 0}
 --- !u!1 &62050489104956538
 GameObject:
   m_ObjectHideFlags: 0
@@ -16014,6 +16019,7 @@ MonoBehaviour:
   VcaName: Master
   vcaVolume: 0
   checkBoxImage: {fileID: 62050489166394407}
+  Attenuation: {fileID: 0}
 --- !u!1 &62050489188370929
 GameObject:
   m_ObjectHideFlags: 0
@@ -19326,6 +19332,7 @@ MonoBehaviour:
   VcaName: SFX
   vcaVolume: 0
   checkBoxImage: {fileID: 62050489152706263}
+  Attenuation: {fileID: 0}
 --- !u!1 &62050489557059628
 GameObject:
   m_ObjectHideFlags: 0
@@ -24094,6 +24101,7 @@ GameObject:
   - component: {fileID: 66423515258048737}
   - component: {fileID: 4491341262801993357}
   - component: {fileID: 5311884437159275599}
+  - component: {fileID: 2302194991149251159}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -24215,6 +24223,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2302194991149251159}
+        m_TargetAssemblyTypeName: VisionActive, Assembly-CSharp
+        m_MethodName: OnButtonPress
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &5311884437159275599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24228,6 +24248,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkBoxImage: {fileID: 5934257774724708184}
+--- !u!114 &2302194991149251159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114768619975246941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20f99808f49be0a4cbc8526ca4630a29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visionedCamera: {fileID: 0}
 --- !u!1 &123856103609251423
 GameObject:
   m_ObjectHideFlags: 0
@@ -26708,6 +26741,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1427691672052367346, guid: 88452f2814ba9584ca4e7b2a38114a19, type: 3}
+        m_TargetAssemblyTypeName: CharacterController, Assembly-CSharp
+        m_MethodName: ChangeInputDelayOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3422625871311504652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26855,6 +26900,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8862556882965517749, guid: 1f88305a75ed323418139c8cb7b7a108, type: 3}
+        m_TargetAssemblyTypeName: HenrikPrototype, Assembly-CSharp
+        m_MethodName: moreDamageButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6264675973858646271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26902,7 +26959,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 1.4270935, y: 1.2485046}
+  m_AnchoredPosition: {x: 1.4270935, y: 1.2485352}
   m_SizeDelta: {x: -38.8542, y: -39.6942}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &996655611153192432
@@ -27683,6 +27740,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8862556882965517749, guid: 1f88305a75ed323418139c8cb7b7a108, type: 3}
+        m_TargetAssemblyTypeName: HenrikPrototype, Assembly-CSharp
+        m_MethodName: cooldownIdikatorButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8513483127006632707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28402,14 +28471,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 186463391684247985}
-        m_TargetAssemblyTypeName: FontChange, Assembly-CSharp
-        m_MethodName: ChangeFontSize
-        m_Mode: 3
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 50
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -28535,14 +28604,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 186463391684247985}
-        m_TargetAssemblyTypeName: FontChange, Assembly-CSharp
-        m_MethodName: ChangeFontSize
-        m_Mode: 3
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 55
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -28986,6 +29055,18 @@ MonoBehaviour:
       - m_Target: {fileID: 6892199666723697265}
         m_TargetAssemblyTypeName: OptionsButtonHandler, Assembly-CSharp
         m_MethodName: OnButtonPress
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8862556882965517749, guid: 1f88305a75ed323418139c8cb7b7a108, type: 3}
+        m_TargetAssemblyTypeName: HenrikPrototype, Assembly-CSharp
+        m_MethodName: autoAimButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -30590,7 +30671,9 @@ MonoBehaviour:
   - {fileID: 62050488255372876}
   - {fileID: 62050489791439695}
   - {fileID: 62050488435275414}
+  - {fileID: 708040291920363192}
   - {fileID: 408186751638540702}
+  - {fileID: 8324923434154618718}
   prototypeController: {fileID: 4356176289555986992}
   logpanel: {fileID: 0}
 --- !u!1 &6731734405248640038
@@ -31471,14 +31554,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 186463391684247985}
-        m_TargetAssemblyTypeName: FontChange, Assembly-CSharp
-        m_MethodName: ChangeFontSize
-        m_Mode: 3
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 45
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -33241,14 +33324,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6710781267461471142, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
   m_PrefabInstance: {fileID: 363758808584499952}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &6353779404559862103 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6710781267461471143, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
-  m_PrefabInstance: {fileID: 363758808584499952}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5711418694338959795 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5354601558195596099, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
+  m_PrefabInstance: {fileID: 363758808584499952}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &6353779404559862103 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6710781267461471143, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
   m_PrefabInstance: {fileID: 363758808584499952}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &538346381254438699
@@ -33833,9 +33916,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a88dccd35c111594ab7d21ae5e5987e0, type: 3}
---- !u!1 &3248471555185957905 stripped
+--- !u!1 &2567707662854444079 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 5850513544236216426, guid: a88dccd35c111594ab7d21ae5e5987e0, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6883615944319613012, guid: a88dccd35c111594ab7d21ae5e5987e0, type: 3}
+  m_PrefabInstance: {fileID: 8945785728367750267}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1776809827756905060 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7245640507181891103, guid: a88dccd35c111594ab7d21ae5e5987e0, type: 3}
   m_PrefabInstance: {fileID: 8945785728367750267}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &7326794544582354604 stripped
@@ -33864,13 +33952,8 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7245640506576947736, guid: a88dccd35c111594ab7d21ae5e5987e0, type: 3}
   m_PrefabInstance: {fileID: 8945785728367750267}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2567707662854444079 stripped
+--- !u!1 &3248471555185957905 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 6883615944319613012, guid: a88dccd35c111594ab7d21ae5e5987e0, type: 3}
-  m_PrefabInstance: {fileID: 8945785728367750267}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1776809827756905060 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7245640507181891103, guid: a88dccd35c111594ab7d21ae5e5987e0, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5850513544236216426, guid: a88dccd35c111594ab7d21ae5e5987e0, type: 3}
   m_PrefabInstance: {fileID: 8945785728367750267}
   m_PrefabAsset: {fileID: 0}

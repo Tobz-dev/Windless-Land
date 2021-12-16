@@ -54,7 +54,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Sword Weapon",
+                    "name": "Equip Sword",
                     "type": "Button",
                     "id": "f3611410-27fe-4253-9781-d7765139f881",
                     "expectedControlType": "Button",
@@ -62,7 +62,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Bow Weapon",
+                    "name": "Equip Bow",
                     "type": "Button",
                     "id": "ebc2c2f0-c19c-4154-99ac-24c3bd02f0b6",
                     "expectedControlType": "Button",
@@ -74,6 +74,14 @@
                     "type": "Value",
                     "id": "bc669470-5ef2-459b-bfb2-98c964f397e9",
                     "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "f39849ee-73ab-4bd0-863b-c7eaeb0f5203",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -148,7 +156,7 @@
                 {
                     "name": "",
                     "id": "1b2093d4-f5fd-46c5-aa03-2030af840274",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -196,18 +204,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Sword Weapon",
+                    "action": "Equip Sword",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "4361f8a2-b614-44cc-83db-52a9e5aa28bc",
-                    "path": "<Gamepad>/leftTrigger",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Sword Weapon",
+                    "action": "Equip Sword",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -218,7 +226,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Bow Weapon",
+                    "action": "Equip Bow",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -229,7 +237,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Bow Weapon",
+                    "action": "Equip Bow",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -549,6 +557,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Dodgeroll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b9d1e5c4-d68b-4769-9e32-073d7a13a3ed",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4be96b2d-e6af-4cff-8c01-e3e9c8871c64",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

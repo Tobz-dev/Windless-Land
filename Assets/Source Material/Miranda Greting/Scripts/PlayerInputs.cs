@@ -67,7 +67,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Sword Weapon"",
+                    ""name"": ""Equip Sword"",
                     ""type"": ""Button"",
                     ""id"": ""f3611410-27fe-4253-9781-d7765139f881"",
                     ""expectedControlType"": ""Button"",
@@ -75,7 +75,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Bow Weapon"",
+                    ""name"": ""Equip Bow"",
                     ""type"": ""Button"",
                     ""id"": ""ebc2c2f0-c19c-4154-99ac-24c3bd02f0b6"",
                     ""expectedControlType"": ""Button"",
@@ -87,6 +87,14 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""bc669470-5ef2-459b-bfb2-98c964f397e9"",
                     ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""f39849ee-73ab-4bd0-863b-c7eaeb0f5203"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -161,7 +169,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1b2093d4-f5fd-46c5-aa03-2030af840274"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -209,18 +217,18 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Sword Weapon"",
+                    ""action"": ""Equip Sword"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""4361f8a2-b614-44cc-83db-52a9e5aa28bc"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Sword Weapon"",
+                    ""action"": ""Equip Sword"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -231,7 +239,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Bow Weapon"",
+                    ""action"": ""Equip Bow"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -242,7 +250,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Bow Weapon"",
+                    ""action"": ""Equip Bow"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -564,6 +572,28 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""action"": ""Dodgeroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b9d1e5c4-d68b-4769-9e32-073d7a13a3ed"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4be96b2d-e6af-4cff-8c01-e3e9c8871c64"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -612,9 +642,10 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         m_WindlessLand_HeavyAttack = m_WindlessLand.FindAction("HeavyAttack", throwIfNotFound: true);
         m_WindlessLand_HealthRefill = m_WindlessLand.FindAction("Health Refill", throwIfNotFound: true);
         m_WindlessLand_Dodgeroll = m_WindlessLand.FindAction("Dodgeroll", throwIfNotFound: true);
-        m_WindlessLand_SwordWeapon = m_WindlessLand.FindAction("Sword Weapon", throwIfNotFound: true);
-        m_WindlessLand_BowWeapon = m_WindlessLand.FindAction("Bow Weapon", throwIfNotFound: true);
+        m_WindlessLand_EquipSword = m_WindlessLand.FindAction("Equip Sword", throwIfNotFound: true);
+        m_WindlessLand_EquipBow = m_WindlessLand.FindAction("Equip Bow", throwIfNotFound: true);
         m_WindlessLand_Movement = m_WindlessLand.FindAction("Movement", throwIfNotFound: true);
+        m_WindlessLand_Pause = m_WindlessLand.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -670,9 +701,10 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_WindlessLand_HeavyAttack;
     private readonly InputAction m_WindlessLand_HealthRefill;
     private readonly InputAction m_WindlessLand_Dodgeroll;
-    private readonly InputAction m_WindlessLand_SwordWeapon;
-    private readonly InputAction m_WindlessLand_BowWeapon;
+    private readonly InputAction m_WindlessLand_EquipSword;
+    private readonly InputAction m_WindlessLand_EquipBow;
     private readonly InputAction m_WindlessLand_Movement;
+    private readonly InputAction m_WindlessLand_Pause;
     public struct WindlessLandActions
     {
         private @PlayerInputs m_Wrapper;
@@ -683,9 +715,10 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         public InputAction @HeavyAttack => m_Wrapper.m_WindlessLand_HeavyAttack;
         public InputAction @HealthRefill => m_Wrapper.m_WindlessLand_HealthRefill;
         public InputAction @Dodgeroll => m_Wrapper.m_WindlessLand_Dodgeroll;
-        public InputAction @SwordWeapon => m_Wrapper.m_WindlessLand_SwordWeapon;
-        public InputAction @BowWeapon => m_Wrapper.m_WindlessLand_BowWeapon;
+        public InputAction @EquipSword => m_Wrapper.m_WindlessLand_EquipSword;
+        public InputAction @EquipBow => m_Wrapper.m_WindlessLand_EquipBow;
         public InputAction @Movement => m_Wrapper.m_WindlessLand_Movement;
+        public InputAction @Pause => m_Wrapper.m_WindlessLand_Pause;
         public InputActionMap Get() { return m_Wrapper.m_WindlessLand; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -713,15 +746,18 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @Dodgeroll.started -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnDodgeroll;
                 @Dodgeroll.performed -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnDodgeroll;
                 @Dodgeroll.canceled -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnDodgeroll;
-                @SwordWeapon.started -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnSwordWeapon;
-                @SwordWeapon.performed -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnSwordWeapon;
-                @SwordWeapon.canceled -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnSwordWeapon;
-                @BowWeapon.started -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnBowWeapon;
-                @BowWeapon.performed -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnBowWeapon;
-                @BowWeapon.canceled -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnBowWeapon;
+                @EquipSword.started -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnEquipSword;
+                @EquipSword.performed -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnEquipSword;
+                @EquipSword.canceled -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnEquipSword;
+                @EquipBow.started -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnEquipBow;
+                @EquipBow.performed -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnEquipBow;
+                @EquipBow.canceled -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnEquipBow;
                 @Movement.started -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnMovement;
+                @Pause.started -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_WindlessLandActionsCallbackInterface = instance;
             if (instance != null)
@@ -744,15 +780,18 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @Dodgeroll.started += instance.OnDodgeroll;
                 @Dodgeroll.performed += instance.OnDodgeroll;
                 @Dodgeroll.canceled += instance.OnDodgeroll;
-                @SwordWeapon.started += instance.OnSwordWeapon;
-                @SwordWeapon.performed += instance.OnSwordWeapon;
-                @SwordWeapon.canceled += instance.OnSwordWeapon;
-                @BowWeapon.started += instance.OnBowWeapon;
-                @BowWeapon.performed += instance.OnBowWeapon;
-                @BowWeapon.canceled += instance.OnBowWeapon;
+                @EquipSword.started += instance.OnEquipSword;
+                @EquipSword.performed += instance.OnEquipSword;
+                @EquipSword.canceled += instance.OnEquipSword;
+                @EquipBow.started += instance.OnEquipBow;
+                @EquipBow.performed += instance.OnEquipBow;
+                @EquipBow.canceled += instance.OnEquipBow;
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -792,8 +831,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         void OnHeavyAttack(InputAction.CallbackContext context);
         void OnHealthRefill(InputAction.CallbackContext context);
         void OnDodgeroll(InputAction.CallbackContext context);
-        void OnSwordWeapon(InputAction.CallbackContext context);
-        void OnBowWeapon(InputAction.CallbackContext context);
+        void OnEquipSword(InputAction.CallbackContext context);
+        void OnEquipBow(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

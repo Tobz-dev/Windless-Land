@@ -47,6 +47,13 @@ public class CharacterController : MonoBehaviour
     private bool resetAnim = false;
 
 
+    //accesibility input delay
+    private bool inputDelayOn = false;
+    private float  inputDelay = 0.5f;
+    private float delayTimer = 0;
+    private bool allowNextInput = false;
+    private bool runTimerOnce = true;
+
     //healthFlask
     private bool doneDrinkingFlask = false;
     private bool usingHealthFlask = false;
@@ -129,6 +136,14 @@ public class CharacterController : MonoBehaviour
     private float heavyAttackDelay;
 
 
+    //henrik prototyp
+    [SerializeField]
+    private Transform objectToFace;
+    private GameObject closestEnemy;
+    public bool autoAim = false;
+    Quaternion enemyLookRotation;
+
+
     //prototyp
     float extraInputTimeDelay = 0.05f;
     bool queueAttack = false;
@@ -197,6 +212,7 @@ public class CharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         originalFlaskUsesAmount = (int)flaskUses;
         playerRgb = transform.GetComponent<Rigidbody>();
         playerVFX = GetComponent<PlayerVFX>();
@@ -216,12 +232,23 @@ public class CharacterController : MonoBehaviour
 
 
         currentAttackTrigger = "Attack1";
-     //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
+        //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Debug.Log(closestEnemy);
+            closestEnemy = FindClosestEnemy();
+            objectToFace = closestEnemy.transform;
+            Debug.Log(closestEnemy);
+            transform.LookAt(objectToFace);
+        }
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (plane.Raycast(ray, out float enter) && canMove == true)
@@ -266,6 +293,13 @@ public class CharacterController : MonoBehaviour
             anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
             anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
         }
+
+
+        //if(attacking == true)
+        //{
+        //    playerRgb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+        //}
+        //else { playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY; }
     }
     private void FixedUpdate()
     {
@@ -375,15 +409,15 @@ public class CharacterController : MonoBehaviour
             {
                 bow.SetActive(true);
                 sword.SetActive(false);
-                swordEquipped = true;
-                bowEquipped = false;
+                swordEquipped = false;
+                bowEquipped = true;
             }
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 bow.SetActive(false);
                 sword.SetActive(true);
-                bowEquipped = true;
-                swordEquipped = false;
+                bowEquipped = false;
+                swordEquipped = true;
             }
 
         }
@@ -408,13 +442,35 @@ public class CharacterController : MonoBehaviour
 
                 if (drawBow)
                 {
-                    transform.rotation = lookRotation;
+                    if (autoAim == true && FindClosestEnemy() != null)
+                    {
+                        closestEnemy = FindClosestEnemy();
+                        objectToFace = closestEnemy.transform;
+                        transform.LookAt(objectToFace);
+                    }
+
+
+                    else
+                    {
+                        transform.rotation = lookRotation;
+                    }
                     DrawBow();
                 }
 
                 if (bowIsLoading)
                 {
-                    transform.rotation = lookRotation;
+                    if (autoAim == true && FindClosestEnemy() != null)
+                    {
+                        closestEnemy = FindClosestEnemy();
+                        objectToFace = closestEnemy.transform;
+                        transform.LookAt(objectToFace);
+                    }
+
+
+                    else
+                    {
+                        transform.rotation = lookRotation;
+                    }
 
                     BowLoading();
 
@@ -422,7 +478,18 @@ public class CharacterController : MonoBehaviour
                 if (bowIsFinishedLoading)
                 {
 
-                    transform.rotation = lookRotation;
+                    if (autoAim == true && FindClosestEnemy() != null)
+                    {
+                        closestEnemy = FindClosestEnemy();
+                        objectToFace = closestEnemy.transform;
+                        transform.LookAt(objectToFace);
+                    }
+
+
+                    else
+                    {
+                        transform.rotation = lookRotation;
+                    }
                 }
 
                 if (Input.GetKeyUp(KeyCode.Mouse0) && bowIsFinishedLoading == true)
@@ -545,7 +612,7 @@ public class CharacterController : MonoBehaviour
 
    private void HealthFlaskManager()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && usingHealthFlask == false && healthFlaskOfCooldown && flaskUses > 0 && attacking == false && dodgerolling == false && bowIsActive == false && gameObject.GetComponent<PlayerHealthScript>().GetHealth() < gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth() && moveAllow == true)
+        if (Input.GetKeyDown(KeyCode.Q) && usingHealthFlask == false && healthFlaskOfCooldown && flaskUses > 0 && attacking == false && dodgerollTimerRunning == false && bowIsActive == false && gameObject.GetComponent<PlayerHealthScript>().GetHealth() < gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth() && moveAllow == true)
         {
             anim.SetBool("DrinkingPot",true);
             playerVFX.PlayPotionEffect();
@@ -711,7 +778,7 @@ public class CharacterController : MonoBehaviour
 
    private void AttackManager()
     {
-      
+
 
             endOfAttack = transform.GetComponentInParent<PlayerAnimEvents>().GetEndOfAttack();
 
@@ -739,10 +806,16 @@ public class CharacterController : MonoBehaviour
 
    private void Attack()
     {
-  
+
+        if (inputDelayOn) {
+            delayTimer = 0;
+            allowNextInput = false;
+            runTimerOnce = true;
+        }
+
         //more anim things
         //Debug.Log("in player attack");
-      
+
         currentAttackTrigger = "Attack" + currentAttack;
         anim.SetTrigger(currentAttackTrigger);
         playerVFX.PlayLightAttackEffect();
@@ -752,11 +825,41 @@ public class CharacterController : MonoBehaviour
 
         transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
         transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
-       
-        transform.rotation = lookRotation;
-        attacking = true;
 
-       
+
+        //Vector3 hitPoint = ray.GetPoint(enter);
+        //plane.SetNormalAndPosition(Vector3.up, transform.position);
+        //Vector3 playerPositionOnPlane = plane.ClosestPointOnPlane(transform.position);
+
+        //lookRotation = Quaternion.LookRotation(hitPoint - playerPositionOnPlane);
+
+
+        if (autoAim == true && FindClosestEnemy() != null)
+        {
+            closestEnemy = FindClosestEnemy();
+            objectToFace = closestEnemy.transform;
+
+
+            // Vector3 hitPoint2 = closestEnemy.transform.position;
+            // Vector3 playerPositionOnPlane2 = plane.ClosestPointOnPlane(transform.position);
+            // enemyLookRotation = Quaternion.LookRotation(hitPoint2 - playerPositionOnPlane2);
+            // transform.rotation = enemyLookRotation;
+            
+            
+            transform.LookAt(objectToFace);
+        }
+
+
+        else
+        {
+            transform.rotation = lookRotation;
+        }
+
+
+        attacking = true;
+        playerRgb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+
+
 
     }
 
@@ -766,32 +869,76 @@ public class CharacterController : MonoBehaviour
         playerVFX.PlayHeavyAttackEffect();
 
         transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
-        transform.rotation = lookRotation;
+        if (autoAim == true && FindClosestEnemy() != null)
+        {
+            closestEnemy = FindClosestEnemy();
+            objectToFace = closestEnemy.transform;
+            transform.LookAt(objectToFace);
+        }
+
+
+        else
+        {
+            transform.rotation = lookRotation;
+        }
         attacking = true;
+        playerRgb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
 
     }
 
    
     private void InAttack()
     {
-   
-        if (attacking && endPlayerStunned == false && usingHealthFlask == false && dodgerolling == false )
+       
+
+        if (attacking && endPlayerStunned == false && usingHealthFlask == false && dodgerolling == false)
         {
-          
-           
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+
+            if (inputDelayOn == false)
+            {
+
+                if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                 
+
                     queueAttack = true;
                     queueDodge = false;
                 }
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                   
+
                     queueAttack = false;
                     queueDodge = true;
                 }
-         
+            } else if (inputDelayOn){
+
+                if (runTimerOnce == true) { 
+                
+              
+                if (InputDelayTimer())
+                {
+                    allowNextInput = true;
+                    runTimerOnce = false;
+
+                }
+                }
+
+                if (allowNextInput == true) { 
+
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+
+                    queueAttack = true;
+                    queueDodge = false;
+                }
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+
+                    queueAttack = false;
+                    queueDodge = true;
+                }
+                }
+            }
+        
             if (endOfAttack == false)
             {
                 playerRgb.velocity = ((transform.forward).normalized * 2f) + new Vector3(0, playerRgb.velocity.y, 0);
@@ -805,6 +952,7 @@ public class CharacterController : MonoBehaviour
                 if (AttackWaitTimer(lightSwingCooldown)) {
                      anim.SetTrigger("StopAttack");
                     attacking = false;
+                    playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
                     transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
                     transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
                 }
@@ -818,6 +966,7 @@ public class CharacterController : MonoBehaviour
 
                         anim.SetTrigger("StopAttack");
                         attacking = false;
+                        playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
                         transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
                         transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
                         attackTimer = 0;
@@ -830,6 +979,7 @@ public class CharacterController : MonoBehaviour
                     queueDodge = false;
                     anim.SetTrigger("StopAttack");
                     attacking = false;
+                    playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
                     transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
                     transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
                     attackTimer = 0;
@@ -856,7 +1006,8 @@ public class CharacterController : MonoBehaviour
 
 
             attacking = false;
-            attackTimer = 0;
+        playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+        attackTimer = 0;
             transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
             transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
             queueDodge = false;
@@ -941,7 +1092,7 @@ public class CharacterController : MonoBehaviour
    
     
     public void PullLever() {
-        if (moveAllow == true && attacking == false && usingHealthFlask == false && bowIsActive == false) {
+        if (moveAllow == true && attacking == false && usingHealthFlask == false && bowIsActive == false && dodgerollTimerRunning == false) {
             anim.SetBool("PullingLever", true);
         }
       
@@ -1057,6 +1208,33 @@ public class CharacterController : MonoBehaviour
         flaskUses = x;
     }
 
+    public bool InputDelayTimer()
+    {
+
+        delayTimer += Time.deltaTime;
+
+        if (delayTimer >= inputDelay)
+        {
+
+            delayTimer = 0;
+            return true;
+
+        }
+
+        return false;
+    }
+
+    public void ChangeInputDelayOn() {
+        if (inputDelayOn == false)
+        {
+            inputDelayOn = true;
+        }
+        else {
+            inputDelayOn = false;
+        }
+    
+    }
+
 
     // Configs
 
@@ -1076,7 +1254,36 @@ public class CharacterController : MonoBehaviour
         return moveSpeed;
     }
 
+
+
     // END Configs
+
+    public GameObject FindClosestEnemy()
+    {
+        GameObject[] enemies;
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject go in enemies)
+        {
+            Vector3 diff = go.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = go;
+                distance = curDistance;
+            }
+        }
+        return closest;
+    }
+
+    public void setAutoaim(bool x)
+    {
+        autoAim = x;
+    }
+
+    
 
 }
 

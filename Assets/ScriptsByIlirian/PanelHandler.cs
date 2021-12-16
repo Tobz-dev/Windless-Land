@@ -8,7 +8,7 @@ using TMPro;
 public class PanelHandler : MonoBehaviour
 {
     //private PauseMenu pm;
-    [SerializeField] private GameObject panel;
+    //[SerializeField] private GameObject panel;
     [SerializeField] private GameObject logPanel;
     //[SerializeField] private Text logText;
     [SerializeField] private TextMeshProUGUI pressText;
@@ -19,69 +19,87 @@ public class PanelHandler : MonoBehaviour
 
     [SerializeField] private GameObject PressE;
 
+    private PlayerInputs inputActions;
+    
+    /*
+    private void Awake()
+    {
+        inputActions = InputManager.inputActions;
+    }
 
+    private void OnEnable()
+    {
+        inputActions.WindlessLand.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputActions.WindlessLand.Disable();
+    }
+    */
 
     void Start()
     {
         logPanel.SetActive(false);
         //pm = GetComponent<PauseMenu>();
-        PressE.SetActive(false);        
+        PressE.SetActive(false);
 
     }
     void Update()
     {
-        if (readLog && Input.GetKeyDown(KeyCode.E))
+        if (readLog && /*inputActions.WindlessLand.Interact.triggered*/Input.GetKeyUp(KeyCode.E))
         {
-            
-            logPanel.SetActive(true);
-
-            PageOpen = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/PageOpen");
-            PageOpen.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
-            PageOpen.start();
-            PageOpen.release();
-
-
-
-
-            if (logPanel == isActiveAndEnabled)
+            if (!logPanel.activeSelf)
             {
-              panel.SetActive(false);
-                PressE.SetActive(false);
-            }
+                logPanel.SetActive(true);
+
+                PageOpen = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/PageOpen");
+                PageOpen.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+                PageOpen.start();
+                PageOpen.release();
 
 
-            switch (logNumber)
-            {
-                //TODO. have them change if the player is using a controller. 
-                //or if they have rebound the controls.
-                case 1:
-                    textmesh.text = "WASD to walk, \n \n  Spacebar to roll, \n \n  Left Mouse Button to attack";
-                    break;
-                case 2:
-                    textmesh.text = "Q to drink a healing potion";
-                    break;
-                case 3:
-                    textmesh.text = "Press the Right Mouse Button for a heavy attack. Heavy attacks consume mana";
-                    break;
-                case 4:
-                    textmesh.text = "Hitting enemies will restore your mana. Another way is to go near a Mana Fountain";
-                    break;
-                case 5:
-                    textmesh.text = "Enemies respawn when a checkpoint is activated. Be careful.";
-                    break;
-                default:
-                    textmesh.text = "Default";
-                    break;
 
 
+                if (logPanel == isActiveAndEnabled)
+                {
+                    //panel.SetActive(false);
+                    PressE.SetActive(false);
+                }
+
+
+                switch (logNumber)
+                {
+                    //TODO. have them change if the player is using a controller. 
+                    //or if they have rebound the controls.
+                    case 1:
+                        textmesh.text = "WASD to walk, \n \n  Spacebar to roll, \n \n  Left Mouse Button to attack";
+                        break;
+                    case 2:
+                        textmesh.text = "Q to drink a healing potion";
+                        break;
+                    case 3:
+                        textmesh.text = "Press the Right Mouse Button for a heavy attack. Heavy attacks consume mana";
+                        break;
+                    case 4:
+                        textmesh.text = "Hitting enemies will restore your mana. Another way is to go near a Mana Fountain";
+                        break;
+                    case 5:
+                        textmesh.text = "Enemies respawn when a checkpoint is activated. Be careful.";
+                        break;
+                    default:
+                        textmesh.text = "Default";
+                        break;
+
+
+                }
             }
         }
-
-        if (logPanel == isActiveAndEnabled && Input.GetKeyDown(KeyCode.Escape))
+        else if (logPanel == isActiveAndEnabled && Input.anyKeyDown /* Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)  /* && !inputActions.WindlessLand.Interact.triggered*/)
         {
             logPanel.SetActive(false);
-
         }
+
     }
 
 
@@ -89,7 +107,7 @@ public class PanelHandler : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            panel.SetActive(true);
+            //panel.SetActive(true);
             pressText.text = "Press E to read Log";
             readLog = true;
             PressE.SetActive(true);
@@ -101,7 +119,7 @@ public class PanelHandler : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            panel.SetActive(false);
+            //panel.SetActive(false);
             readLog = false;
             PressE.SetActive(false);
         }

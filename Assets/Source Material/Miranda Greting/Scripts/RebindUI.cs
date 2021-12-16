@@ -33,6 +33,20 @@ public class RebindUI : MonoBehaviour
 
     public GameObject rebindWarning;
 
+    private string buttonName;
+
+    private void Start()
+    {
+        rebindScripts = GameObject.FindGameObjectsWithTag("Binding");
+
+    }
+
+    private void Awake()
+    {
+        InputManager.LoadBindingOverride(actionName);
+        ResetAllBindings();
+    }
+
     private void OnEnable()
     {
         rebindButton.onClick.AddListener(() => ChangeBinding());
@@ -46,7 +60,6 @@ public class RebindUI : MonoBehaviour
         }
         InputManager.rebindComplete += UpdateUI;
         InputManager.rebindCanceled += UpdateUI;
-        rebindScripts = GameObject.FindGameObjectsWithTag("Binding");
     }
 
     private void OnDisable()
@@ -86,19 +99,19 @@ public class RebindUI : MonoBehaviour
         {
             actionText.text = actionName;
 
-            if(actionName.Equals("Move") && (selectedBinding == 3 || selectedBinding == 8))
+            if(actionName.Equals("Move") && (selectedBinding == 3 || selectedBinding == 8 || selectedBinding == 13))
             {
                 actionText.text = "Move Left";
             }
-            if(actionName.Equals("Move") && (selectedBinding == 4 || selectedBinding == 9))
+            if(actionName.Equals("Move") && (selectedBinding == 4 || selectedBinding == 9 || selectedBinding == 14))
             {
                 actionText.text = "Move Right";
             }
-            if (actionName.Equals("Move") && (selectedBinding == 2 || selectedBinding == 7))
+            if (actionName.Equals("Move") && (selectedBinding == 2 || selectedBinding == 7 || selectedBinding == 12))
             {
                 actionText.text = "Move Down";
             }
-            if (actionName.Equals("Move") && (selectedBinding == 1 || selectedBinding == 6))
+            if (actionName.Equals("Move") && (selectedBinding == 1 || selectedBinding == 6 || selectedBinding == 11))
             {
                 actionText.text = "Move Up";
             }
@@ -108,6 +121,13 @@ public class RebindUI : MonoBehaviour
         {
             if (Application.isPlaying)
             {
+                /*
+                if (inputActionReference.action.bindings[bindingIndex].effectivePath.StartsWith("<Gamepad>"))
+                {
+                    rebindText.text = "/";
+                    return;
+                }
+                */
                 rebindText.text = InputManager.GetBindingName(actionName, bindingIndex);
                 int splitIndex = rebindText.text.IndexOf('/');
 
@@ -119,6 +139,42 @@ public class RebindUI : MonoBehaviour
                     {
                         rebindText.text = "Mouse/" + bindingString;
                     }
+                    else if (bindingString.Equals("RightShoulder"))
+                    {
+                        rebindText.text = "R1";
+                    }
+                    else if (bindingString.Equals("RightTrigger"))
+                    {
+                        rebindText.text = "R2";
+                    }
+                    else if (bindingString.Equals("LeftShoulder"))
+                    {
+                        rebindText.text = "L1";
+                    }
+                    else if (bindingString.Equals("LeftTrigger"))
+                    {
+                        rebindText.text = "L2";
+                    }
+                    else if (bindingString.Equals("ButtonSouth"))
+                    {
+                        rebindText.text = "A/X";
+                    }
+                    else if (bindingString.Equals("ButtonWest"))
+                    {
+                        rebindText.text = "X/Square";
+                    }
+                    else if (bindingString.Equals("ButtonNorth"))
+                    {
+                        rebindText.text = "Y/Triangle";
+                    }
+                    else if (bindingString.Equals("ButtonEast"))
+                    {
+                        rebindText.text = "B/Circle";
+                    }
+                    else if (bindingString.Equals("Start"))
+                    {
+                        rebindText.text = "Menu/Options";
+                    }
                     else
                     {
                         rebindText.text = bindingString;
@@ -127,6 +183,14 @@ public class RebindUI : MonoBehaviour
             }
             else
             {
+                /*
+                if (inputActionReference.action.bindings[bindingIndex].effectivePath.StartsWith("<Gamepad>"))
+                {
+                    //rebindText.text = inputActionReference.action.bindings[bindingIndex].GetBindingDisplayString();
+                    return;
+                }
+                */
+                
                 rebindText.text = inputActionReference.action.bindings[bindingIndex].effectivePath;
                 int splitIndex = rebindText.text.IndexOf('/');
                 
@@ -137,6 +201,42 @@ public class RebindUI : MonoBehaviour
                     if (rebindText.text[1].Equals('M'))
                     {
                         rebindText.text = "Mouse/" + bindingString;
+                    }
+                    else if (bindingString.Equals("RightShoulder"))
+                    {
+                        rebindText.text = "R1";
+                    }
+                    else if (bindingString.Equals("RightTrigger"))
+                    {
+                        rebindText.text = "R2";
+                    }
+                    else if (bindingString.Equals("LeftShoulder"))
+                    {
+                        rebindText.text = "L1";
+                    }
+                    else if (bindingString.Equals("LeftTrigger"))
+                    {
+                        rebindText.text = "L2";
+                    }
+                    else if (bindingString.Equals("ButtonSouth"))
+                    {
+                        rebindText.text = "A/X";
+                    }
+                    else if (bindingString.Equals("ButtonWest"))
+                    {
+                        rebindText.text = "X/Square";
+                    }
+                    else if (bindingString.Equals("ButtonNorth"))
+                    {
+                        rebindText.text = "Y/Triangle";
+                    }
+                    else if (bindingString.Equals("ButtonEast"))
+                    {
+                        rebindText.text = "B/Circle";
+                    }
+                    else if (bindingString.Equals("Start"))
+                    {
+                        rebindText.text = "Menu/Options";
                     }
                     else
                     {
@@ -155,6 +255,7 @@ public class RebindUI : MonoBehaviour
                 rebindText.text = "A";
             }
             //rebindText.text = rebindText.text.ToUpper();
+            buttonName = rebindText.text;
         }
     }
 
@@ -175,6 +276,11 @@ public class RebindUI : MonoBehaviour
     {
         InputManager.ResetBinding(actionName, bindingIndex);
         UpdateUI();
+    }
+
+    public string GetPathName()
+    {
+        return buttonName;
     }
 
     public void ResetAllBindings()
