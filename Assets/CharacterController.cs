@@ -129,6 +129,13 @@ public class CharacterController : MonoBehaviour
     private float heavyAttackDelay;
 
 
+    //henrik prototyp
+    [SerializeField]
+    private Transform objectToFace;
+    private GameObject closestEnemy;
+    public bool autoAim = false;
+
+
     //prototyp
     float extraInputTimeDelay = 0.05f;
     bool queueAttack = false;
@@ -219,6 +226,16 @@ public class CharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Debug.Log(closestEnemy);
+            closestEnemy = FindClosestEnemy();
+            objectToFace = closestEnemy.transform;
+            Debug.Log(closestEnemy);
+            transform.LookAt(objectToFace);
+        }
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (plane.Raycast(ray, out float enter) && canMove == true)
@@ -733,10 +750,10 @@ public class CharacterController : MonoBehaviour
 
    private void Attack()
     {
-  
+
         //more anim things
         //Debug.Log("in player attack");
-      
+
         currentAttackTrigger = "Attack" + currentAttack;
         anim.SetTrigger(currentAttackTrigger);
 
@@ -746,8 +763,22 @@ public class CharacterController : MonoBehaviour
 
         transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
         transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
-       
-        transform.rotation = lookRotation;
+
+
+        if (autoAim == true)
+        {
+            closestEnemy = FindClosestEnemy();
+            objectToFace = closestEnemy.transform;
+            transform.LookAt(objectToFace);
+        }
+
+
+        if (autoAim == false) 
+        {
+            transform.rotation = lookRotation;
+        }
+
+
         attacking = true;
 
        
@@ -1070,6 +1101,31 @@ public class CharacterController : MonoBehaviour
     }
 
     // END Configs
+
+    public GameObject FindClosestEnemy()
+    {
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject go in gos)
+        {
+            Vector3 diff = go.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = go;
+                distance = curDistance;
+            }
+        }
+        return closest;
+    }
+
+    public void setAutoaim(bool x)
+    {
+        autoAim = x;
+    }
 
 }
 
