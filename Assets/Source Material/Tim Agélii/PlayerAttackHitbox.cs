@@ -68,4 +68,15 @@ public class PlayerAttackHitbox : MonoBehaviour
         }
 
     }
+
+
+    public void setConfig(int newmanaPerHit)
+    {
+        manaPerHit = newmanaPerHit;
+    }
+
+    public int getManaPerHit()
+    {
+        return manaPerHit;
+    }
 }
