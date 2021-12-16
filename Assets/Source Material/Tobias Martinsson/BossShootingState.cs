@@ -14,6 +14,8 @@ public class BossShootingState : State
     public float aggroDistance;
     public GameObject addEnemy;
     private Transform CurrentPatrol;
+    public float switchStateCooldown = 2f;
+    private bool shotBigArrow = false;
 
     protected override void Initialize()
     {
@@ -59,7 +61,7 @@ public class BossShootingState : State
         {
             if (totalArrows > 0)
             {
-                
+
                 Agent.NavAgent.updateRotation = false;
                 Vector3 targetPosition = new Vector3(Agent.Player.position.x,
                                             Agent.transform.position.y,
@@ -77,18 +79,38 @@ public class BossShootingState : State
             }
             else if (totalArrows == 0)
             {
-                CurrentPatrol = Agent.GetPatrolPointByindex(0);
-                Agent.NavAgent.SetDestination(CurrentPatrol.position);
-                Agent.GetComponent<BossMechanicsScript>().DestroyRandomPillar();
-                StateMachine.ChangeState<BossChooseAttackState>();
+                if (shotBigArrow == false)
+                {
+                    shotBigArrow = true;
+
+
+                    Transform pillarTransform = Agent.GetComponent<BossMechanicsScript>().GetRandomPillar();
+                    Vector3 pillarPosition = new Vector3(pillarTransform.position.x,
+                                               pillarTransform.transform.position.y,
+                                               pillarTransform.position.z);
+                    Agent.transform.LookAt(pillarPosition);
+                    Vector3.RotateTowards(Agent.transform.position, pillarPosition, 2, 0);
+
+                    Agent.GetComponent<ArrowScript>().shootBigArrow();
+
+
+
+                }
+
+                switchStateCooldown -= Time.deltaTime;
+                if (switchStateCooldown < 0)
+                {
+                    shotBigArrow = false;
+                    switchStateCooldown = 2f;
+                    StateMachine.ChangeState<BossChooseAttackState>();
+
+                }
             }
         }
         else
         {
-            Agent.GetComponent<BossMechanicsScript>().DestroyRandomPillar();
             StateMachine.ChangeState<BossChooseAttackState>();
         }
-        
     }
 
     public void SpawnLeftEnemy()
