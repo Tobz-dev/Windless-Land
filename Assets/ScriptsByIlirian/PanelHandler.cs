@@ -8,7 +8,7 @@ using TMPro;
 public class PanelHandler : MonoBehaviour
 {
     //private PauseMenu pm;
-    [SerializeField] private GameObject panel;
+    //[SerializeField] private GameObject panel;
     [SerializeField] private GameObject logPanel;
     //[SerializeField] private Text logText;
     [SerializeField] private TextMeshProUGUI pressText;
@@ -45,7 +45,7 @@ public class PanelHandler : MonoBehaviour
 
             if (logPanel == isActiveAndEnabled)
             {
-              panel.SetActive(false);
+              //panel.SetActive(false);
                 PressE.SetActive(false);
             }
 
@@ -90,7 +90,7 @@ public class PanelHandler : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            panel.SetActive(true);
+            //panel.SetActive(true);
             pressText.text = "Press E to read Log";
             readLog = true;
             PressE.SetActive(true);
@@ -102,7 +102,7 @@ public class PanelHandler : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            panel.SetActive(false);
+            //panel.SetActive(false);
             readLog = false;
             PressE.SetActive(false);
         }

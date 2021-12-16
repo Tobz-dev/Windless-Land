@@ -38,7 +38,7 @@ public class LeverAnim : MonoBehaviour
         if (canPress && Input.GetKeyDown(KeyCode.E))
         {
             GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>().PullLever();
-
+            PressE.SetActive(false);
 
         }
         if (canPress && GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAnimEvents>().GetLeverPulled() == true)
@@ -60,7 +60,7 @@ public class LeverAnim : MonoBehaviour
         trigger.enabled = false;
         anim2.SetBool("Open", true);
         TriggerEvent.Invoke();
-        PressE.SetActive(false);
+        
         if (leverPulled)
         {
             //panel.SetActive(false);
