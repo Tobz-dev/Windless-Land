@@ -48,7 +48,7 @@ public class CharacterController : MonoBehaviour
 
 
     //accesibility input delay
-    private bool inputDelayOn = true;
+    private bool inputDelayOn = false;
     private float  inputDelay = 0.5f;
     private float delayTimer = 0;
     private bool allowNextInput = false;
