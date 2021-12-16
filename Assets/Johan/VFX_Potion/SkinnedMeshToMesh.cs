@@ -10,7 +10,7 @@ public class SkinnedMeshToMesh : MonoBehaviour
     [SerializeField]
     private VisualEffect VFXGraph;
 
-    private float activationTime = 1.5f;
+    private float activationTime = 2f;
     private bool isActive;
 
     private void Update()
@@ -37,7 +37,7 @@ public class SkinnedMeshToMesh : MonoBehaviour
         if(activationTime <= 0)
         {
             isActive = false;
-            activationTime = 1.5f;
+            activationTime = 2f;
         }
     }
 

@@ -14,6 +14,12 @@ public class PlayerArrowUpdate : MonoBehaviour
         ArrowRgb.velocity = transform.forward * speed;
     }
 
+    public void StopArrow()
+    {
+        speed = 0f;
+        ArrowRgb.velocity = transform.forward * speed;
+    }
+
     // Update is called once per frame
  
 }
