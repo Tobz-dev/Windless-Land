@@ -116,17 +116,20 @@ public class PlayerHealthScript : MonoBehaviour
 
     public void regainHealth(int x)
     {
-        if (Maxhealth - health > 0 && x <= Maxhealth - health)
+
+        if (health > Maxhealth || x > (Maxhealth - health))
+        {
+            health = Maxhealth;
+        }
+
+        if (x <= Maxhealth - health)
         {
             health += x;
             //decrease available potion amount & update UI 
             currentFlaskAmount--;
             //flaskAmountText.text = flaskAmount + "/" + maxFlasks;
         }
-        if (Maxhealth - health > 0 && x > Maxhealth - health)
-        {
-            health = Maxhealth;
-        }
+      
         //HealthSetup();
         Debug.Log("REGAINED" + x + " HEALTH,  MAX IS NOW " + health);
     }
