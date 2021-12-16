@@ -24,6 +24,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
   
     [SerializeField] private Slider scaleSlider;
     private ScaleManager scaleScript;
+    private float previousScaleValue;
 
     [SerializeField] private Toggle individualEditToggle;
     private bool individualEditMode = false;
@@ -334,48 +335,57 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     private void ScaleUI()
     {
-        GameObject scaledObject;
-        if (individualEditToggle.isOn)
+        GameObject scaledObject = movableObject.gameObject;
+        if (scaleScript.GetSelected())
         {
-            for (int i = 0; i <= editableObjects.Length-1; i++)
+            if (individualEditToggle.isOn)
             {
-                if (editableObjects[i].GetComponent<MoveObject>().GetSelected())
+                for (int i = 0; i <= editableObjects.Length - 1; i++)
                 {
-                    if (scaleScript.GetSelected())
+                    if (editableObjects[i].GetComponent<MoveObject>().GetSelected())
                     {
-                        //editableObjects[i].transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, 1);
-                        editableObjects[i].transform.localScale = new Vector3(originalScales[i].x * scaleSlider.value, originalScales[i].y * scaleSlider.value, 1);
-                        if (i == 0 || i == 2)
+                        if (scaleScript.GetSelected())
                         {
-                            //editableObjects[i].transform.GetChild(1).localScale = new Vector3(originalScales[editableObjects.Length].x * scaleSlider.value, originalScales[editableObjects.Length].y * scaleSlider.value, 1);
-                            Debug.Log(i + editableObjects[i].name);
+                            //editableObjects[i].transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, 1);
+                            editableObjects[i].transform.localScale = new Vector3(originalScales[i].x * scaleSlider.value, originalScales[i].y * scaleSlider.value, 1);
+                            previousScaleValue = scaleSlider.value;
+                            if (i == 0 || i == 2)
+                            {
+                                //editableObjects[i].transform.GetChild(1).localScale = new Vector3(originalScales[editableObjects.Length].x * scaleSlider.value, originalScales[editableObjects.Length].y * scaleSlider.value, 1);
+                                Debug.Log(i + editableObjects[i].name);
 
-                        }
-                        else if(i == 1 || i == 3)
-                        {
-                            //editableObjects[i].transform.GetChild(1).localScale = new Vector3(originalScales[editableObjects.Length+1].x, originalScales[editableObjects.Length+1].y, 1);
-                            Debug.Log(i + editableObjects[i].name);
+                            }
+                            else if (i == 1 || i == 3)
+                            {
+                                //editableObjects[i].transform.GetChild(1).localScale = new Vector3(originalScales[editableObjects.Length+1].x, originalScales[editableObjects.Length+1].y, 1);
+                                Debug.Log(i + editableObjects[i].name);
 
+                            }
+                            //editableObjects[i].transform.GetChild(0).localScale = new Vector3originalScales[i] * new Vector3(scaleSlider.value, scaleSlider.value, 1);
+                            scaledObject = editableObjects[i];
                         }
-                        //editableObjects[i].transform.GetChild(0).localScale = new Vector3originalScales[i] * new Vector3(scaleSlider.value, scaleSlider.value, 1);
-                        scaledObject = editableObjects[i];
+                        currentScaleSlideValues[i] = scaleScript.GetValueAtDeselect();
                     }
-                    currentScaleSlideValues[i] = scaleScript.GetValueAtDeselect();
                 }
             }
+            else
+            {
+                movableObject.localScale = new Vector3(originalScale.x * scaleSlider.value, originalScale.y * scaleSlider.value, 1);
+                previousScaleValue = scaleSlider.value;
+            }
+            RectTransform rectTransform = scaledObject.GetComponent<RectTransform>();
+            Vector2 anchorPos = rectTransform.anchoredPosition;
+            float ypos = anchorPos.y;
+            float xpos = anchorPos.x;
+            xpos = Mathf.Clamp(xpos, 0, Screen.width - rectTransform.sizeDelta.x);
+            ypos = Mathf.Clamp(ypos, 10, Screen.height - rectTransform.sizeDelta.y);
+            rectTransform.anchoredPosition = new Vector2(xpos, ypos);
+
         }
         else
         {
-            movableObject.localScale = new Vector3(originalScale.x * scaleSlider.value, originalScale.y * scaleSlider.value, 1);
-            scaledObject = movableObject.gameObject;
+            scaleSlider.value = previousScaleValue;
         }
-        RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
-        Vector2 anchorPos = rectTransform.anchoredPosition;
-        float ypos = anchorPos.y;
-        float xpos = anchorPos.x;
-        xpos = Mathf.Clamp(xpos, 0, Screen.width - rectTransform.sizeDelta.x);
-        ypos = Mathf.Clamp(ypos, 10, Screen.height - rectTransform.sizeDelta.y);
-        rectTransform.anchoredPosition = new Vector2(xpos, ypos);
     }
 
     public void ChangeAnchoredPos(string buttonPos)

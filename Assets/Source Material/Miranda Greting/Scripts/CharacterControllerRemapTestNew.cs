@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 // Main Authour : Tim Agélii
 public class CharacterControllerRemapTestNew : MonoBehaviour
@@ -181,17 +182,25 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
     private bool attackDone = false;
     private bool attackCanceled = false;
     private bool keyboardUsed;
+    private string controlUsed;
 
 
     private void OnEnable()
     {
         //inputActions.WindlessLand.Dodgeroll.started += Dodgeroll;
-        inputActions.WindlessLand.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
+        //inputActions.WindlessLand.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
+        inputActions.WindlessLand.Move.performed += MovePerformed;
         inputActions.WindlessLand.Attack.started += ctx => attackActivated = true;
         inputActions.WindlessLand.Attack.performed += ctx => attackDone = true;
         inputActions.WindlessLand.Attack.canceled += ctx => attackCanceled = true;
         inputActions.WindlessLand.Dodgeroll.performed += ctx => dodgerollActivated = true;
         inputActions.WindlessLand.Enable();
+    }
+
+    private void MovePerformed(InputAction.CallbackContext ctx)
+    {
+        movementInput = ctx.ReadValue<Vector2>();
+        controlUsed = ctx.control.path;
     }
 
     private void AttackStarted()
@@ -276,13 +285,14 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
     {
         if (moveAllow && (Mathf.Abs(movementInput.x) + Mathf.Abs(movementInput.y)) != 0)
         {
+            Debug.Log(controlUsed);
             Vector3 horizontal = movementInput.x * right;
             Vector3 vertical = movementInput.y * forward;
-            if ((inputActions.WindlessLand.Move.bindings[3].effectivePath.Equals("<Keyboard>/a") || inputActions.WindlessLand.Move.bindings[3].effectivePath.Equals("<Keyboard>/leftArrow")) && (inputActions.WindlessLand.Move.bindings[4].effectivePath.Equals("<Keyboard>/d") || inputActions.WindlessLand.Move.bindings[4].effectivePath.Equals("<Keyboard>/rightArrow"))) {
+            if ((inputActions.WindlessLand.Move.bindings[3].effectivePath.Equals("<Keyboard>/a") || inputActions.WindlessLand.Move.bindings[3].effectivePath.Equals("<Keyboard>/leftArrow")) && (inputActions.WindlessLand.Move.bindings[4].effectivePath.Equals("<Keyboard>/d") || inputActions.WindlessLand.Move.bindings[4].effectivePath.Equals("<Keyboard>/rightArrow")) && !controlUsed.Contains("Gamepad")) {
                 horizontal = (Input.GetAxis("Horizontal") * right);
             }
 
-            if ((inputActions.WindlessLand.Move.bindings[1].effectivePath.Equals("<Keyboard>/w") || inputActions.WindlessLand.Move.bindings[1].effectivePath.Equals("<Keyboard>/upArrow")) && (inputActions.WindlessLand.Move.bindings[2].effectivePath.Equals("<Keyboard>/s") || inputActions.WindlessLand.Move.bindings[2].effectivePath.Equals("<Keyboard>/downArrow")))
+            if ((inputActions.WindlessLand.Move.bindings[1].effectivePath.Equals("<Keyboard>/w") || inputActions.WindlessLand.Move.bindings[1].effectivePath.Equals("<Keyboard>/upArrow")) && (inputActions.WindlessLand.Move.bindings[2].effectivePath.Equals("<Keyboard>/s") || inputActions.WindlessLand.Move.bindings[2].effectivePath.Equals("<Keyboard>/downArrow")) && !controlUsed.Contains("Gamepad"))
             {
                 vertical = (Input.GetAxis("Vertical") * forward);
             }
@@ -396,14 +406,14 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
         if (bowIsActive == false && startAttackDelay == false && startAttackCooldown == false)
         {
 
-            if (/*Input.GetKeyDown(KeyCode.Alpha2)*/ inputActions.WindlessLand.BowWeapon.triggered) //detects when Weapon2 rebinding is triggered
+            if (/*Input.GetKeyDown(KeyCode.Alpha2)*/ inputActions.WindlessLand.EquipBow.triggered) //detects when Weapon2 rebinding is triggered
             {
                 mana = 100; //testing - remove later
                 bow.SetActive(true);
                 sword.SetActive(false);
                 Debug.Log("Bow equipped");
             }
-            if (/*Input.GetKeyDown(KeyCode.Alpha1)*/ inputActions.WindlessLand.SwordWeapon.triggered) // detects when weapon1 rebinding trigger
+            if (/*Input.GetKeyDown(KeyCode.Alpha1)*/ inputActions.WindlessLand.EquipSword.triggered) // detects when weapon1 rebinding trigger
             {
                 bow.SetActive(false);
                 sword.SetActive(true);
