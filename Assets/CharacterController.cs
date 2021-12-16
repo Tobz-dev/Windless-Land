@@ -540,7 +540,7 @@ public class CharacterController : MonoBehaviour
 
    private void HealthFlaskManager()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && usingHealthFlask == false && healthFlaskOfCooldown && flaskUses > 0 && attacking == false && dodgerolling == false && bowIsActive == false && gameObject.GetComponent<PlayerHealthScript>().GetHealth() < gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth() && moveAllow == true)
+        if (Input.GetKeyDown(KeyCode.Q) && usingHealthFlask == false && healthFlaskOfCooldown && flaskUses > 0 && attacking == false && dodgerollTimerRunning == false && bowIsActive == false && gameObject.GetComponent<PlayerHealthScript>().GetHealth() < gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth() && moveAllow == true)
         {
             anim.SetBool("DrinkingPot",true);
             
