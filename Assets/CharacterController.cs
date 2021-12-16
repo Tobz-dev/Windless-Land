@@ -285,11 +285,11 @@ public class CharacterController : MonoBehaviour
         }
 
 
-        if(attacking == true)
-        {
-            playerRgb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
-        }
-        else { playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY; }
+        //if(attacking == true)
+        //{
+        //    playerRgb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+        //}
+        //else { playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY; }
     }
     private void FixedUpdate()
     {
@@ -824,13 +824,10 @@ public class CharacterController : MonoBehaviour
             // Vector3 hitPoint2 = closestEnemy.transform.position;
             // Vector3 playerPositionOnPlane2 = plane.ClosestPointOnPlane(transform.position);
             // enemyLookRotation = Quaternion.LookRotation(hitPoint2 - playerPositionOnPlane2);
-
             // transform.rotation = enemyLookRotation;
-            playerRgb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+            
             
             transform.LookAt(objectToFace);
-
-            playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
         }
 
 
@@ -841,8 +838,9 @@ public class CharacterController : MonoBehaviour
 
 
         attacking = true;
+        playerRgb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
 
-       
+
 
     }
 
@@ -864,6 +862,7 @@ public class CharacterController : MonoBehaviour
             transform.rotation = lookRotation;
         }
         attacking = true;
+        playerRgb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
 
     }
 
@@ -901,6 +900,7 @@ public class CharacterController : MonoBehaviour
                 if (AttackWaitTimer(lightSwingCooldown)) {
                      anim.SetTrigger("StopAttack");
                     attacking = false;
+                    playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
                     transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
                     transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
                 }
@@ -914,6 +914,7 @@ public class CharacterController : MonoBehaviour
 
                         anim.SetTrigger("StopAttack");
                         attacking = false;
+                        playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
                         transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
                         transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
                         attackTimer = 0;
@@ -926,6 +927,7 @@ public class CharacterController : MonoBehaviour
                     queueDodge = false;
                     anim.SetTrigger("StopAttack");
                     attacking = false;
+                    playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
                     transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
                     transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
                     attackTimer = 0;
@@ -952,7 +954,8 @@ public class CharacterController : MonoBehaviour
 
 
             attacking = false;
-            attackTimer = 0;
+        playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+        attackTimer = 0;
             transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
             transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
             queueDodge = false;
@@ -1176,12 +1179,12 @@ public class CharacterController : MonoBehaviour
 
     public GameObject FindClosestEnemy()
     {
-        GameObject[] gos;
-        gos = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject[] enemies;
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
         GameObject closest = null;
         float distance = Mathf.Infinity;
         Vector3 position = transform.position;
-        foreach (GameObject go in gos)
+        foreach (GameObject go in enemies)
         {
             Vector3 diff = go.transform.position - position;
             float curDistance = diff.sqrMagnitude;
