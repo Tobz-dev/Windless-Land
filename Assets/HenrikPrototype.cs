@@ -68,12 +68,12 @@ public class HenrikPrototype : MonoBehaviour
         if (moreDamage == false)
         {
             moreDamage = true;
-            playerAttackHitbox.gameObject.GetComponent<PlayerAttackHitbox>().setDamage(2);
+            playerAttackHitbox.gameObject.GetComponent<PlayerAttackHitbox>().setDamage(1);
         }
         else
         {
             moreDamage = false;
-            playerAttackHitbox.gameObject.GetComponent<PlayerAttackHitbox>().setDamage(3);
+            playerAttackHitbox.gameObject.GetComponent<PlayerAttackHitbox>().setDamage(2);
         }
     }
 
