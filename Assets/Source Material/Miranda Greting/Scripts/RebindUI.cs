@@ -41,6 +41,11 @@ public class RebindUI : MonoBehaviour
 
     }
 
+    private void Awake()
+    {
+        InputManager.LoadBindingOverride(actionName);
+    }
+
     private void OnEnable()
     {
         rebindButton.onClick.AddListener(() => ChangeBinding());
