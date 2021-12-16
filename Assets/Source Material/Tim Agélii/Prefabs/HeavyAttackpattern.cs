@@ -242,17 +242,16 @@ public class HeavyAttackpattern : State
             {
                 Agent.animator.SetTrigger("StartAttack2");
             }
-            else if(randomAttack <= 5)
+            else
             {
 
 
                 Agent.animator.SetTrigger("StartAttack");
 
             }
+          
 
             startAttack = false;
-
-
 
         }
     }
