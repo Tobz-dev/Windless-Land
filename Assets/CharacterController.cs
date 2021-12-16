@@ -932,6 +932,21 @@ public class CharacterController : MonoBehaviour
         Debug.Log("Player Dead");
         GetComponent<PlayerHealthScript>().regainHealth(100);
         ResetPotionsToOriginal();
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            if (go.name != "Boss")
+            {
+                Destroy(go);
+            }
+        }
+
+
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Respawner"))
+        {
+
+            go.GetComponent<EnemyRespawnScript>().RespawnEnemy();
+
+        }
         Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
         Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         Dead.start();
