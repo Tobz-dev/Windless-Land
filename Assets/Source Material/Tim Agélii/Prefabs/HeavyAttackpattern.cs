@@ -92,7 +92,10 @@ public class HeavyAttackpattern : State
     }
     public override void RunUpdate()
     {
-
+        if (waitToAttack == false && startAttack == false && inAttack == false) {
+            startAttack = true;
+            Agent.animator.SetBool("StartAttack2", true);
+        }
 
         moveSpeed = GetSpeed();
         Agent.NavAgent.speed = moveSpeed;
@@ -134,7 +137,6 @@ public class HeavyAttackpattern : State
         {
             randomAttack = (int)(Random.value*10);
         }
-    
 
 
 
@@ -149,6 +151,7 @@ public class HeavyAttackpattern : State
             StateMachine.ChangeState<HeavyChase>();
 
         }
+
     }
 
     float GetSpeed()
@@ -199,7 +202,7 @@ public class HeavyAttackpattern : State
         if (stopAttack == true)
         {
             ResetPattern();
-            inAttack = false;
+         
         }
 
 
@@ -242,13 +245,12 @@ public class HeavyAttackpattern : State
 
             if (randomAttack > 5)
             {
-                Agent.animator.SetTrigger("StartAttack2");
+                Agent.animator.SetBool("StartAttack2", true);
             }
             else
             {
 
-
-                Agent.animator.SetTrigger("StartAttack");
+                Agent.animator.SetBool("StartAttack", true);
 
             }
           
@@ -265,9 +267,10 @@ public class HeavyAttackpattern : State
     {
         allowStop = true;
         waitToAttack = true;
-
+        inAttack = false;
         SetStopAttackFalse();
-        Agent.animator.SetTrigger("StopAttack");
+        Agent.animator.SetBool("StartAttack2", false);
+        Agent.animator.SetBool("StartAttack", false);
     }
 
 
