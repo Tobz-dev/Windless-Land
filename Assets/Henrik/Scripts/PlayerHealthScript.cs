@@ -84,7 +84,7 @@ public class PlayerHealthScript : MonoBehaviour
         {
 
             health -= x;
-
+            GetComponent<PlayerVFX>().PlayBloodEffect();
             
                 //HealthSetup();
                 damageIsOnCooldown = true;

@@ -156,6 +156,8 @@ public class CharacterController : MonoBehaviour
 
     [SerializeField]
     private Animator anim;
+    private PlayerVFX playerVFX;
+
     int attackComboLenght = 3;
     int currentAttack = 1;
     string currentAttackTrigger;
@@ -206,6 +208,7 @@ public class CharacterController : MonoBehaviour
 
         originalFlaskUsesAmount = (int)flaskUses;
         playerRgb = transform.GetComponent<Rigidbody>();
+        playerVFX = GetComponent<PlayerVFX>();
         swordEquipped = true;
         bowEquipped = false;
         bow.SetActive(false);
@@ -509,7 +512,8 @@ public class CharacterController : MonoBehaviour
    private void StartBowDraw() {
 
         bowIsActive = true;
-            anim.SetTrigger("DrawBow");
+        anim.SetTrigger("DrawBow");
+        playerVFX.PlayArrowChannelEffect();
         playerRgb.velocity = new Vector3(0, playerRgb.velocity.y, 0);
         transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
 
@@ -525,8 +529,8 @@ public class CharacterController : MonoBehaviour
 
             if (queueBowCancel == false) {
                 bowIsLoading = true;
-            anim.SetTrigger("StopBow");
-            anim.SetTrigger("BowAim");
+                anim.SetTrigger("StopBow");
+                anim.SetTrigger("BowAim");
             }
         }
         else
@@ -562,12 +566,13 @@ public class CharacterController : MonoBehaviour
      bowIsFinishedLoading = false;
      anim.SetTrigger("StopBow");
      anim.SetTrigger("BowRecoil");
-
+        playerVFX.StopArrowChannelEffect();
         startBowCooldown = true;
      
     }
    private void BowCancel() {
         anim.SetTrigger("StopBow");
+        playerVFX.StopArrowChannelEffect();
         transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
         queueBowCancel = false;
         attackTimer = 0;
@@ -603,6 +608,7 @@ public class CharacterController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) && usingHealthFlask == false && healthFlaskOfCooldown && flaskUses > 0 && attacking == false && dodgerollTimerRunning == false && bowIsActive == false && gameObject.GetComponent<PlayerHealthScript>().GetHealth() < gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth() && moveAllow == true)
         {
             anim.SetBool("DrinkingPot",true);
+            playerVFX.PlayPotionEffect();
             
             HealthRefill = FMODUnity.RuntimeManager.CreateInstance("event:/Game/HealthRefill");
             HealthRefill.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
@@ -799,7 +805,7 @@ public class CharacterController : MonoBehaviour
 
         currentAttackTrigger = "Attack" + currentAttack;
         anim.SetTrigger(currentAttackTrigger);
-
+        playerVFX.PlayLightAttackEffect();
 
         playerRgb.velocity = new Vector3(0, playerRgb.velocity.y, 0);
 
@@ -847,6 +853,7 @@ public class CharacterController : MonoBehaviour
    private void HeavyAttack() {
 
         anim.SetTrigger("HeavyAttack");
+        playerVFX.PlayHeavyAttackEffect();
 
         transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
         if (autoAim == true && FindClosestEnemy() != null)
