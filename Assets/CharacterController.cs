@@ -234,6 +234,8 @@ public class CharacterController : MonoBehaviour
         currentAttackTrigger = "Attack1";
         //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
 
+        updateAutoaim();
+
     }
 
     // Update is called once per frame
@@ -1278,9 +1280,17 @@ public class CharacterController : MonoBehaviour
         return closest;
     }
 
-    public void setAutoaim(bool x)
+    public void updateAutoaim()
     {
-        autoAim = x;
+
+
+        INIParser ini = new INIParser();
+        ini.Open(Application.persistentDataPath + "ProtoConfig.ini");
+        autoAim = ini.ReadValue("Henrik", "autoAim;", true);
+        ini.Close();
+
+
+        //autoAim = x;
     }
 
     
