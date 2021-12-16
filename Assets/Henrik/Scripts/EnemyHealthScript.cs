@@ -28,6 +28,8 @@ public class EnemyHealthScript : MonoBehaviour
     private FMOD.Studio.EventInstance EnemyHurt;
     private FMOD.Studio.EventInstance EnemyDead;
 
+    public string type;
+
     Scene scene;
 
     [SerializeField]
@@ -173,6 +175,45 @@ public class EnemyHealthScript : MonoBehaviour
     float GetHealthPercentage()
     {
         return (float)health / (float)Maxhealth;
+    }
+
+
+    public void setConfig(int newMaxhealth)
+    {
+        Maxhealth = newMaxhealth;
+    }
+
+    public void updateConfig()
+    {
+        if (type == "Light" || type == "Heavy")
+        {
+
+            INIParser ini = new INIParser();
+            ini.Open(Application.persistentDataPath + "Config.ini");
+
+
+            if (type == "Light")
+            {
+                Maxhealth = ini.ReadValue("Enemy", "LightMaxhealth;", 7);
+                //health = Maxhealth;
+            }
+
+            if (type == "Heavy")
+            {
+                Maxhealth = ini.ReadValue("Enemy", "HeavyMaxhealth;", 12);
+                //health = Maxhealth;
+            }
+
+            ini.Close();
+
+            health = Maxhealth;
+
+        }
+    }
+
+    public int getMaxhealth()
+    {
+        return Maxhealth;
     }
 
 }
