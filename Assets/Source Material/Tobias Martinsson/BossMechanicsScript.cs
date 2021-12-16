@@ -94,12 +94,19 @@ public class BossMechanicsScript : MonoBehaviour
         
     }
 
+    public Transform GetRandomPillar()
+    {
+        GameObject go = tempPillarList[Random.Range(0, tempPillarList.Count)];
+        tempPillarList.Remove(go);
+        return go.transform;
+    } 
+
     public void DestroyRandomPillar()
     {
 
         GameObject go = tempPillarList[Random.Range(0, tempPillarList.Count)];
+
         go.GetComponent<MeshRenderer>().enabled = false;
         go.GetComponent<BoxCollider>().enabled = false;
-        tempPillarList.Remove(go);
     }
 }
