@@ -23,6 +23,7 @@ public class LightEnemyParticles : MonoBehaviour
 
     public void PlayBloodEffect(int slashNumber)
     {
+        /*/
         //Byter riktning på blodet beroende på vilken av spelarens attacker som används
         switch(slashNumber){
             case 1:
@@ -50,14 +51,14 @@ public class LightEnemyParticles : MonoBehaviour
         }
 
         bloodEffect.SetVector3("BloodVelocity", currentBloodValues);
-
+        */
         
-        switch (PlayerArrowShowOff.particleDensitySetting)
+        switch (ParticleDensityScript.particleDensitySetting)
         {
             case 1:
                 bloodEffect.SetFloat("ImpactSparkCount", 4);
-                bloodEffect.SetFloat("BurstCountMin", 10);
-                bloodEffect.SetFloat("BurstCountMax", 40);
+                bloodEffect.SetFloat("BurstCountMin", 20);
+                bloodEffect.SetFloat("BurstCountMax", 60);
                 break;
             case 2:
                 bloodEffect.SetFloat("ImpactSparkCount", 0);

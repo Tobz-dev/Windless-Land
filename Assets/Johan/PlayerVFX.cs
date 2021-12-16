@@ -38,7 +38,7 @@ public class PlayerVFX : MonoBehaviour
 
     public void PlayArrowChannelEffect()
     {
-        switch (PlayerArrowShowOff.particleDensitySetting)
+        switch (ParticleDensityScript.particleDensitySetting)
         {
             case 1:
                 arrowChannelVFX.SetFloat("OuterPullInCount", 7);
@@ -76,11 +76,10 @@ public class PlayerVFX : MonoBehaviour
     {
         skinnedMeshToMesh.SetSkinnedMeshAsMesh();
 
-        switch (PlayerArrowShowOff.particleDensitySetting)
+        switch (ParticleDensityScript.particleDensitySetting)
         {
             case 1:
                 potionEffect.SendEvent("PlayPotionEffect");
-                Debug.Log("play effect");
                 break;
             case 2:
                 potionEffect.SendEvent("PlayPotionEffectReduced");

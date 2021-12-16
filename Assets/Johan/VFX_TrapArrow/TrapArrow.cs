@@ -12,8 +12,7 @@ public class TrapArrow : MonoBehaviour
 
     void Awake()
     {
-
-        switch (PlayerArrowShowOff.particleDensitySetting)
+        switch (ParticleDensityScript.particleDensitySetting)
         {
             case 1:
                 trailObject.SetActive(true);
