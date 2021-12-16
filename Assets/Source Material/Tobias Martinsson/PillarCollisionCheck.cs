@@ -14,10 +14,12 @@ public class PillarCollisionCheck : MonoBehaviour
             collision.gameObject.GetComponent<BoxCollider>().enabled = false;
             Destroy(gameObject);
         }
+        
         else if (collision.gameObject.tag == "Player")
         {
             collision.gameObject.GetComponent<PlayerHealthScript>().takeDamage(3);
         }
+        
 
     }
 }

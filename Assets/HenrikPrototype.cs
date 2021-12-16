@@ -38,15 +38,33 @@ public class HenrikPrototype : MonoBehaviour
             //Debug.Log("Auto Aim On");
             player = GameObject.FindGameObjectWithTag("Player");
             autoAim = true;
-            player.gameObject.GetComponent<CharacterController>().setAutoaim(true);
+
+            INIParser ini = new INIParser();
+            ini.Open(Application.persistentDataPath + "ProtoConfig.ini");
+            ini.WriteValue("Henrik", "autoAim;", true);
+            ini.Close();
+
+            //player.gameObject.GetComponent<CharacterController>().setAutoaim(true);
         }
         else
         {
             //Debug.Log("Auto Aim Off");
             player = GameObject.FindGameObjectWithTag("Player");
             autoAim = false;
-            player.gameObject.GetComponent<CharacterController>().setAutoaim(false);
+
+            INIParser ini = new INIParser();
+            ini.Open(Application.persistentDataPath + "ProtoConfig.ini");
+            ini.WriteValue("Henrik", "autoAim;", false);
+            ini.Close();
+
+            //player.gameObject.GetComponent<CharacterController>().setAutoaim(false);
         }
+
+        if (player != null)
+        {
+            player.gameObject.GetComponent<CharacterController>().updateAutoaim();
+        }
+
     }
 
     public void cooldownIdikatorButton()
@@ -68,12 +86,24 @@ public class HenrikPrototype : MonoBehaviour
         if (moreDamage == false)
         {
             moreDamage = true;
-            playerAttackHitbox.gameObject.GetComponent<PlayerAttackHitbox>().setDamage(1);
+
+            INIParser ini = new INIParser();
+            ini.Open(Application.persistentDataPath + "ProtoConfig.ini");
+            ini.WriteValue("Henrik", "moreDamage;", 1);
+            ini.Close();
+
+            //playerAttackHitbox.gameObject.GetComponent<PlayerAttackHitbox>().setDamage(1);
         }
         else
         {
             moreDamage = false;
-            playerAttackHitbox.gameObject.GetComponent<PlayerAttackHitbox>().setDamage(2);
+
+            INIParser ini = new INIParser();
+            ini.Open(Application.persistentDataPath + "ProtoConfig.ini");
+            ini.WriteValue("Henrik", "moreDamage;", 2);
+            ini.Close();
+
+            //playerAttackHitbox.gameObject.GetComponent<PlayerAttackHitbox>().setDamage(2);
         }
     }
 

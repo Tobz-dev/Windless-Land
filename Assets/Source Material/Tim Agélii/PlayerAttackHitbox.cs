@@ -45,6 +45,7 @@ public class PlayerAttackHitbox : MonoBehaviour
     private void Awake()
     {
         deathTimer = 0f;
+        updateDamage();
     }
 
 
@@ -84,4 +85,19 @@ public class PlayerAttackHitbox : MonoBehaviour
     {
             damage = newDamage;
     }
+
+    public void updateDamage()
+    {
+
+
+        INIParser ini = new INIParser();
+        ini.Open(Application.persistentDataPath + "ProtoConfig.ini");
+        damage = ini.ReadValue("Henrik", "moreDamage;", 1);
+        ini.Close();
+
+
+        //autoAim = x;
+    }
+
+
 }
