@@ -8,7 +8,7 @@ public class SaveSpawnPoint : MonoBehaviour
 {
     public GameObject panel;
     public TextMeshProUGUI pressText;
-    public TextMeshProUGUI bindingText;
+    public TextMeshProUGUI bindingText; //RebindingMenu > KeyboardMenu > RebindLayoutgroup > Interact > InteractBinding > TriggerRebindButton > BindingText
     private bool playerOnCheckpoint = false;
     private bool usedCheckpoint = false;
 
