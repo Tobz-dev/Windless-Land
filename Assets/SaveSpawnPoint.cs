@@ -18,21 +18,8 @@ public class SaveSpawnPoint : MonoBehaviour
         {
             usedCheckpoint = true;
             panel.SetActive(false);
-            foreach (GameObject go in GameObject.FindGameObjectsWithTag("Enemy"))
-            {
-                if (go.name != "Boss")
-                {
-                    Destroy(go);
-                }
-            }
 
-
-            foreach (GameObject go in GameObject.FindGameObjectsWithTag("Respawner"))
-            {
-
-                go.GetComponent<EnemyRespawnScript>().RespawnEnemy();
-
-            }
+            RespawnEnemies();
             GetComponent<CheckpointVFX>().StartEffect();
 
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -55,6 +42,25 @@ public class SaveSpawnPoint : MonoBehaviour
             panel.SetActive(true);
             playerOnCheckpoint = true;
             
+        }
+    }
+
+    public void RespawnEnemies()
+    {
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            if (go.name != "Boss")
+            {
+                Destroy(go);
+            }
+        }
+
+
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Respawner"))
+        {
+
+            go.GetComponent<EnemyRespawnScript>().RespawnEnemy();
+
         }
     }
 }
