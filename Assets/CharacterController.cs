@@ -921,6 +921,30 @@ public class CharacterController : MonoBehaviour
         anim.SetBool("PlayerIsStunned", false);
         resetAnim = true;
     }
+    /*
+     public void StartPlayerStun() {
+       
+            AttackCancel();
+        
+        if (bowIsActive == true)
+        {
+            BowCancel();
+        }
+        if (usingHealthFlask == true) {
+            HealthFlaskCancel();
+        }
+        if (startPlayerStunned == true) {
+            ResetStunAnim();
+        }
+        CancelLeverPull();
+
+
+            startPlayerStunned = true;
+      
+
+
+    }
+     * */
     public void PullLever() {
         if (moveAllow == true && attacking == false && usingHealthFlask == false && bowIsActive == false) {
             anim.SetBool("PullingLever", true);
