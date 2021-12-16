@@ -486,6 +486,7 @@ GameObject:
   - component: {fileID: 4784782965333042069}
   - component: {fileID: 7112518134472883988}
   - component: {fileID: 3391269844268055967}
+  - component: {fileID: 6594043339266848374}
   m_Layer: 0
   m_Name: Boss_Minion_v2
   m_TagString: Enemy
@@ -510,6 +511,7 @@ Transform:
   - {fileID: 143561279433785420}
   - {fileID: 7885384154679649268}
   - {fileID: 3950145617256097670}
+  - {fileID: 7370924755010229922}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -591,6 +593,7 @@ MonoBehaviour:
   Maxhealth: 3
   material: {fileID: 2100000, guid: c103ed8a6e675b5479be69ce128d0892, type: 2}
   healthSlider: {fileID: 6434119393528542886}
+  type: 
   playerInvincibilityTime: 0
 --- !u!54 &1495293452733671172
 Rigidbody:
@@ -706,6 +709,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93b56f241f955de4daf66f3c9eee1534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6594043339266848374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495293452733671195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 892d4676a4288fd4a826e0f7a8608b63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodEffect: {fileID: 1217468598249391891}
 --- !u!1 &1569300223821233226
 GameObject:
   m_ObjectHideFlags: 0
@@ -1463,6 +1479,37 @@ Transform:
   - {fileID: 9128193351313437735}
   m_Father: {fileID: 1519454779882461829}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3648543019069052568
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7370924755010229922}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7370924755010229922
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3648543019069052568}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1217468598249391889}
+  m_Father: {fileID: 2273061987402923425}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3929607047216719002
 GameObject:
@@ -2630,6 +2677,85 @@ Transform:
   m_Father: {fileID: 7078369021596670235}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &6494073025545624803
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7370924755010229922}
+    m_Modifications:
+    - target: {fileID: 5402846478430297073, guid: 5e3364b814e0fb041bd5542205ae13a8, type: 3}
+      propertyPath: m_Name
+      value: VFX_Blood
+      objectReference: {fileID: 0}
+    - target: {fileID: 5402846478430297074, guid: 5e3364b814e0fb041bd5542205ae13a8, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5402846478430297074, guid: 5e3364b814e0fb041bd5542205ae13a8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5402846478430297074, guid: 5e3364b814e0fb041bd5542205ae13a8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.2850001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5402846478430297074, guid: 5e3364b814e0fb041bd5542205ae13a8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5402846478430297074, guid: 5e3364b814e0fb041bd5542205ae13a8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5402846478430297074, guid: 5e3364b814e0fb041bd5542205ae13a8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5402846478430297074, guid: 5e3364b814e0fb041bd5542205ae13a8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5402846478430297074, guid: 5e3364b814e0fb041bd5542205ae13a8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5402846478430297074, guid: 5e3364b814e0fb041bd5542205ae13a8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5402846478430297074, guid: 5e3364b814e0fb041bd5542205ae13a8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5402846478430297074, guid: 5e3364b814e0fb041bd5542205ae13a8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5402846478430297075, guid: 5e3364b814e0fb041bd5542205ae13a8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5402846478430297075, guid: 5e3364b814e0fb041bd5542205ae13a8, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5402846478430297075, guid: 5e3364b814e0fb041bd5542205ae13a8, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5e3364b814e0fb041bd5542205ae13a8, type: 3}
+--- !u!4 &1217468598249391889 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5402846478430297074, guid: 5e3364b814e0fb041bd5542205ae13a8, type: 3}
+  m_PrefabInstance: {fileID: 6494073025545624803}
+  m_PrefabAsset: {fileID: 0}
+--- !u!2083052967 &1217468598249391891 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 5402846478430297072, guid: 5e3364b814e0fb041bd5542205ae13a8, type: 3}
+  m_PrefabInstance: {fileID: 6494073025545624803}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6819656233410384478
 PrefabInstance:
   m_ObjectHideFlags: 0
