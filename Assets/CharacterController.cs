@@ -864,7 +864,7 @@ public class CharacterController : MonoBehaviour
     }
 
     
-    //note: ibland kan man spamclicka sig ur f�r att g�ra en attack
+
     private void StunHandler() {
 
         if (startPlayerStunned == true) {
@@ -899,20 +899,28 @@ public class CharacterController : MonoBehaviour
     }
 
 
-    public void StartPlayerStun() {
-       
-            AttackCancel();
-        
+    public void StartPlayerStun()
+    {
+
+        AttackCancel();
+
         if (bowIsActive == true)
         {
             BowCancel();
         }
-     //   if (usingHealthFlask == true || healthFlaskOfCooldown == false) {
+        if (usingHealthFlask == true)
+        {
             HealthFlaskCancel();
-      //  }
+        }
+        if (startPlayerStunned == true)
+        {
+            ResetStunAnim();
+        }
+        CancelLeverPull();
+
 
         startPlayerStunned = true;
-        anim.SetBool("PlayerStunned", true);
+
 
 
     }
@@ -921,30 +929,9 @@ public class CharacterController : MonoBehaviour
         anim.SetBool("PlayerIsStunned", false);
         resetAnim = true;
     }
-    /*
-     public void StartPlayerStun() {
-       
-            AttackCancel();
-        
-        if (bowIsActive == true)
-        {
-            BowCancel();
-        }
-        if (usingHealthFlask == true) {
-            HealthFlaskCancel();
-        }
-        if (startPlayerStunned == true) {
-            ResetStunAnim();
-        }
-        CancelLeverPull();
-
-
-            startPlayerStunned = true;
-      
-
-
-    }
-     * */
+  
+   
+    
     public void PullLever() {
         if (moveAllow == true && attacking == false && usingHealthFlask == false && bowIsActive == false) {
             anim.SetBool("PullingLever", true);
