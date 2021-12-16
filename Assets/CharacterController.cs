@@ -195,7 +195,8 @@ public class CharacterController : MonoBehaviour
     {
         originalFlaskUsesAmount = (int)flaskUses;
         playerRgb = transform.GetComponent<Rigidbody>();
-      
+        swordEquipped = true;
+        bowEquipped = false;
         bow.SetActive(false);
         healthPot.SetActive(false);
         canMove = true;
@@ -568,7 +569,14 @@ public class CharacterController : MonoBehaviour
             GetComponentInParent<PlayerAnimEvents>().SetDoneDrinkingPotFalse();
 
             healthPot.SetActive(false);
-
+            if (bowEquipped)
+            {
+                bow.SetActive(true);
+            }
+            if (swordEquipped)
+            {
+                sword.SetActive(true);
+            }
         }
 
         if (healthFlaskOfCooldown == false)
@@ -594,10 +602,10 @@ public class CharacterController : MonoBehaviour
 
 
     private void HealthFlaskCancel() {
-        GetComponentInParent<PlayerAnimEvents>().SetDoneDrinkingPotFalse();
+        anim.SetBool("DrinkingPot", false);
         GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeedFactor(1);
         healthFlaskOfCooldown = true;
-        anim.SetBool("DrinkingPot", false);
+       
         flaskTimer = 0;
         healthPot.SetActive(false);
         if (bowEquipped) {
@@ -762,7 +770,7 @@ public class CharacterController : MonoBehaviour
     private void InAttack()
     {
    
-        if (attacking && endPlayerStunned == false)
+        if (attacking && endPlayerStunned == false && usingHealthFlask == false && dodgerolling == false )
         {
           
            
@@ -863,7 +871,7 @@ public class CharacterController : MonoBehaviour
             playerRgb.velocity = (-(transform.forward).normalized * 1.5f) + new Vector3(0, playerRgb.velocity.y, 0);
 
             if (endPlayerStunned == true) {
-                anim.SetTrigger("StopPlayerStun");
+                anim.SetBool("PlayerStunned",false);
                 transform.GetComponentInParent<PlayerAnimEvents>().SetEndPlayerStunnedFalse();
            
 
@@ -897,14 +905,14 @@ public class CharacterController : MonoBehaviour
         {
             BowCancel();
         }
-        if (usingHealthFlask == true) {
+     //   if (usingHealthFlask == true || healthFlaskOfCooldown == false) {
             HealthFlaskCancel();
-        }
+      //  }
 
         startPlayerStunned = true;
-        anim.SetTrigger("PlayerStun");
+        anim.SetBool("PlayerStunned", true);
 
-      
+
     }
 
     public void PullLever() {
