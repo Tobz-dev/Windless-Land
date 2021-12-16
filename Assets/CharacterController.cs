@@ -55,15 +55,9 @@ public class CharacterController : MonoBehaviour
     private bool usingHealthFlask = false;
     private bool healthFlaskOfCooldown = true;
 
-<<<<<<< Updated upstream
+
     private float flaskUses = 2;
-    private float healthFlaskSpeedFactor = 0.3f;
-    private float healthFlaskDuration = 1f;
-=======
-    private int flaskUses = 2;
-    private int originalFlaskUsesAmount;
-    
->>>>>>> Stashed changes
+  
     private float healthFlaskCooldown = 0.5f;
 
     //attack
