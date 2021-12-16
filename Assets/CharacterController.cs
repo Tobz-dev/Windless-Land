@@ -594,12 +594,8 @@ public class CharacterController : MonoBehaviour
             }
         }
 
-            if (dodgerollStart == true)
-            {
-
-                HealthFlaskCancel();
-
-            }
+        if (dodgerollStart == true)
+            HealthFlaskCancel();
         }
 
 
@@ -607,7 +603,7 @@ public class CharacterController : MonoBehaviour
         anim.SetBool("DrinkingPot", false);
         GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeedFactor(1);
         healthFlaskOfCooldown = true;
-       
+        usingHealthFlask = false;
         flaskTimer = 0;
         healthPot.SetActive(false);
         if (bowEquipped) {
@@ -863,19 +859,26 @@ public class CharacterController : MonoBehaviour
 
     }
 
-    
 
-    private void StunHandler() {
 
-        if (startPlayerStunned == true) {
-          
+    private void StunHandler()
+    {
+
+        if (startPlayerStunned == true)
+        {
+            if (resetAnim == false)
+            {
+                anim.SetBool("PlayerIsStunned", true);
+            }
+            resetAnim = false;
 
             playerRgb.velocity = (-(transform.forward).normalized * 1.5f) + new Vector3(0, playerRgb.velocity.y, 0);
 
-            if (endPlayerStunned == true) {
-                anim.SetBool("PlayerStunned",false);
+            if (endPlayerStunned == true)
+            {
+                anim.SetBool("PlayerIsStunned", false);
                 transform.GetComponentInParent<PlayerAnimEvents>().SetEndPlayerStunnedFalse();
-           
+
 
                 if (attacking == true)
                 {
@@ -895,11 +898,9 @@ public class CharacterController : MonoBehaviour
 
         }
 
-
     }
 
-
-    public void StartPlayerStun()
+        public void StartPlayerStun()
     {
 
         AttackCancel();
