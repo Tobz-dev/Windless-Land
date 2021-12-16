@@ -8,13 +8,20 @@ public class SaveSpawnPoint : MonoBehaviour
 {
     public GameObject panel;
     public TextMeshProUGUI pressText;
+    public TextMeshProUGUI bindingText;
     private bool playerOnCheckpoint = false;
     private bool usedCheckpoint = false;
 
+    private PlayerInputs inputActions;
+
+    private void Awake()
+    {
+        inputActions = InputManager.inputActions;
+    }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && playerOnCheckpoint && usedCheckpoint == false)
+        if (/*Input.GetKeyDown(KeyCode.E)*/ inputActions.WindlessLand.Interact.triggered && playerOnCheckpoint && usedCheckpoint == false)
         {
             usedCheckpoint = true;
             panel.SetActive(false);
@@ -31,8 +38,11 @@ public class SaveSpawnPoint : MonoBehaviour
 
     private void OnTriggerExit(Collider collision)
     {
-        panel.SetActive(false);
-        playerOnCheckpoint = false;
+        if (collision.tag == "Player")
+        {
+            panel.SetActive(false);
+            playerOnCheckpoint = false;
+        }
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -41,7 +51,7 @@ public class SaveSpawnPoint : MonoBehaviour
         {
             panel.SetActive(true);
             playerOnCheckpoint = true;
-            
+            pressText.text = "Press " + bindingText.text + " to interact";          
         }
     }
 
