@@ -27,6 +27,8 @@ public class CheckpointVFX : MonoBehaviour
     private float forceTimerCurrent = 70;
     private float spawnRateCurrent = 10;
 
+    private FMOD.Studio.EventInstance Checkpoint;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +60,11 @@ public class CheckpointVFX : MonoBehaviour
         //Börjar spela shadern och sänka elden
         playShine = true;
         shinePlanes.SetActive(true);
+
+        Checkpoint = FMODUnity.RuntimeManager.CreateInstance("event:/Game/Checkpoint");
+        Checkpoint.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        Checkpoint.start();
+        Checkpoint.release();
 
         StartCoroutine(StartShockwave());
 

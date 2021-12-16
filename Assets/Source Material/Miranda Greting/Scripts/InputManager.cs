@@ -191,6 +191,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    
     public static void LoadBindingOverride(string actionName)
     {
         if(inputActions == null)
@@ -207,6 +208,7 @@ public class InputManager : MonoBehaviour
             }
         }
     }
+    
 
     private static bool CheckDuplicateBindings(InputAction action, int bindingIndex, bool allCompositeParts, GameObject rebindWarning)
     {

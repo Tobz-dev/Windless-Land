@@ -34,9 +34,18 @@ public class LeverAnim : MonoBehaviour
 
     void Update()
     {
-        if(canPress && Input.GetKeyDown(KeyCode.E))
+        if (canPress && Input.GetKeyDown(KeyCode.E))
+        {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>().PullLever();
+
+
+        }
+        if (canPress && GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAnimEvents>().GetLeverPulled() == true)
         {
             pullLever();
+
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAnimEvents>().SetLeverPulledFalse();
+            GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>().CancelLeverPull();
         }
 
     }

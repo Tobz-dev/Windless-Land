@@ -81,4 +81,15 @@ public class newHitbox : MonoBehaviour
         }
 
     }
+
+
+    public void setConfig(int newdamage)
+    {
+        damage = newdamage;
+    }
+
+    public int getDamage()
+    {
+        return damage;
+    }
 }

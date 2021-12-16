@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Main Authour : Tim Agélii
+// Main Authour : Tim Agï¿½lii
 public class CharacterController : MonoBehaviour
 {
 
@@ -44,16 +44,19 @@ public class CharacterController : MonoBehaviour
     private bool endPlayerStunned = false;
     private bool startPlayerStunned = false;
 
+    private bool resetAnim = false;
+
 
     //healthFlask
-    private bool healthFlaskTimerRunning = true;
-    private bool healthFlaskStart = false;
+    private bool doneDrinkingFlask = false;
+    private bool usingHealthFlask = false;
     private bool healthFlaskOfCooldown = true;
 
-    private int flaskUses = 2;
+
+    private float flaskUses = 2;
+
     private int originalFlaskUsesAmount;
-    private float healthFlaskSpeedFactor = 0.3f;
-    private float healthFlaskDuration = 1f;
+
     private float healthFlaskCooldown = 0.5f;
 
     //attack
@@ -157,12 +160,21 @@ public class CharacterController : MonoBehaviour
 
     Vector3 forward, right;
 
-
+    //equips
     [SerializeField]
     private GameObject bow;
     [SerializeField]
     private GameObject sword;
+    [SerializeField]
+    private GameObject healthPot;
 
+    private bool swordEquipped = true;
+
+    private bool bowEquipped = false;
+
+ 
+
+    //bow
     [SerializeField]
     private float bowChargeTime;
     [SerializeField]
@@ -183,10 +195,12 @@ public class CharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        originalFlaskUsesAmount = flaskUses;
+        originalFlaskUsesAmount = (int)flaskUses;
         playerRgb = transform.GetComponent<Rigidbody>();
-      
+        swordEquipped = true;
+        bowEquipped = false;
         bow.SetActive(false);
+        healthPot.SetActive(false);
         canMove = true;
         plane = new Plane(Vector3.up, Vector3.zero);
         forward = Camera.main.transform.forward;
@@ -195,8 +209,8 @@ public class CharacterController : MonoBehaviour
         right = Quaternion.Euler(new Vector3(0, 90, 0)) * forward;
 
         moveSpeedDefault = moveSpeed;
+        transform.GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeedFactor(1);
 
-        transform.GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeed(moveSpeedDefault);
 
         currentAttackTrigger = "Attack1";
      //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
@@ -284,10 +298,10 @@ public class CharacterController : MonoBehaviour
 
     private void UpdateEventVariables()
     {
-       moveSpeed = transform.GetComponentInParent<PlayerAnimEvents>().GetPlayerMoveSpeed();
-       moveAllow = transform.GetComponentInParent<PlayerAnimEvents>().GetAllowMovement();
-       endPlayerStunned = transform.GetComponentInParent<PlayerAnimEvents>().GetEndPlayerStunned();
-
+       moveSpeed = moveSpeedDefault * GetComponentInParent<PlayerAnimEvents>().GetPlayerMoveSpeedFactor();
+       moveAllow = GetComponentInParent<PlayerAnimEvents>().GetAllowMovement();
+       endPlayerStunned = GetComponentInParent<PlayerAnimEvents>().GetEndPlayerStunned();
+        doneDrinkingFlask = GetComponentInParent<PlayerAnimEvents>().GetDoneDrinkingPot();
     }
 
    private void UpdateMoveInput() {
@@ -351,18 +365,22 @@ public class CharacterController : MonoBehaviour
 
 
    private void EquipManager() {
-        if (bowIsActive == false && startAttackDelay == false && attacking == false && moveAllow == true)
+        if (bowIsActive == false && startAttackDelay == false && attacking == false && moveAllow == true && usingHealthFlask == false)
         {
        
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 bow.SetActive(true);
                 sword.SetActive(false);
+                swordEquipped = true;
+                bowEquipped = false;
             }
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 bow.SetActive(false);
                 sword.SetActive(true);
+                bowEquipped = true;
+                swordEquipped = false;
             }
 
         }
@@ -370,7 +388,7 @@ public class CharacterController : MonoBehaviour
     }
 
    private void BowManager() {
-       if (bow.activeSelf == true && dodgerollTimerRunning == false && healthFlaskStart == false && moveAllow == true)
+       if (bow.activeSelf == true && dodgerollTimerRunning == false && usingHealthFlask == false && startPlayerStunned == false)
         {
             if (bowIsActive == false && mana >= bowManaCost) {
                 if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -522,76 +540,83 @@ public class CharacterController : MonoBehaviour
 
    private void HealthFlaskManager()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0 && attacking == false && dodgerolling == false && bowIsActive == false && gameObject.GetComponent<PlayerHealthScript>().GetHealth() < gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth() && moveAllow == true)
+        if (Input.GetKeyDown(KeyCode.Q) && usingHealthFlask == false && healthFlaskOfCooldown && flaskUses > 0 && attacking == false && dodgerollTimerRunning == false && bowIsActive == false && gameObject.GetComponent<PlayerHealthScript>().GetHealth() < gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth() && moveAllow == true)
         {
-            healthFlaskStart = true;
+            anim.SetBool("DrinkingPot",true);
+            
             HealthRefill = FMODUnity.RuntimeManager.CreateInstance("event:/Game/HealthRefill");
             HealthRefill.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
             HealthRefill.start();
             HealthRefill.release();
+            usingHealthFlask = true;
+            healthPot.SetActive(true);
 
+            if (bowEquipped)
+            {
+                bow.SetActive(false);
+            }
+            if (swordEquipped)
+            {
+                sword.SetActive(false);
+            }
         }
 
+        if (doneDrinkingFlask == true) {
+            GetComponentInParent<PlayerHealthScript>().regainHealth(2);
+            GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeedFactor(1);
+            flaskUses--;
+            anim.SetBool("DrinkingPot", false);
+            healthFlaskOfCooldown = false;
+            usingHealthFlask = false;
+            GetComponentInParent<PlayerAnimEvents>().SetDoneDrinkingPotFalse();
 
+            healthPot.SetActive(false);
+            if (bowEquipped)
+            {
+                bow.SetActive(true);
+            }
+            if (swordEquipped)
+            {
+                sword.SetActive(true);
+            }
+        }
 
-        if (healthFlaskStart == true)
+        if (healthFlaskOfCooldown == false)
         {
-
-
-
-
-            if (healthFlaskTimerRunning == true)
+            if (FlaskWaitTimer(healthFlaskCooldown))
             {
-                if (FlaskWaitTimer(healthFlaskDuration))
-                {
-
-                    GetComponentInParent<PlayerHealthScript>().regainHealth(2);
-                  
-                    healthFlaskTimerRunning = false;
-                    moveSpeed = moveSpeedDefault;
-                }
-                else
-                {
-
-
-             
-
-                    moveSpeed = moveSpeedDefault * healthFlaskSpeedFactor;
-
-                    healthFlaskOfCooldown = false;
-
-                }
-            }
-            else
-            {
-                if (FlaskWaitTimer(healthFlaskCooldown))
-                {
-                    flaskUses--;
-                    healthFlaskStart = false;
-                    healthFlaskOfCooldown = true;
-                    healthFlaskTimerRunning = true;
-
-                }
-            }
-
-            if (dodgerollStart == true)
-            {
-
-                HealthFlaskCancel();
+                
+    
+                healthFlaskOfCooldown = true;
+              
+                
 
             }
         }
-    }
 
-   private void HealthFlaskCancel() {
-        healthFlaskStart = false;
+        if (dodgerollStart == true)
+            HealthFlaskCancel();
+        }
+
+
+    private void HealthFlaskCancel() {
+        anim.SetBool("DrinkingPot", false);
+        GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeedFactor(1);
         healthFlaskOfCooldown = true;
-        healthFlaskTimerRunning = true;
-        moveSpeed = moveSpeedDefault;
+        usingHealthFlask = false;
         flaskTimer = 0;
+        healthPot.SetActive(false);
+        if (bowEquipped) {
+            bow.SetActive(true);
+        }
+        if (swordEquipped)
+        {
+            sword.SetActive(true);
+        }
+
     }
 
-   private void StartDodgeroll() {
+    private void StartDodgeroll() {
         
             dodgerollStart = true;
             dodgerollTimerRunning = true;
@@ -686,7 +711,7 @@ public class CharacterController : MonoBehaviour
 
             InAttack();
 
-            if (sword.activeSelf == true && attacking == false && dodgerollTimerRunning == false && healthFlaskStart == false && moveAllow == true)
+            if (sword.activeSelf == true && attacking == false && dodgerollTimerRunning == false && usingHealthFlask == false && moveAllow == true)
             {
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
@@ -743,7 +768,7 @@ public class CharacterController : MonoBehaviour
     private void InAttack()
     {
    
-        if (attacking && endPlayerStunned == false)
+        if (attacking && endPlayerStunned == false && usingHealthFlask == false && dodgerolling == false )
         {
           
            
@@ -834,19 +859,26 @@ public class CharacterController : MonoBehaviour
 
     }
 
-    
-    //note: ibland kan man spamclicka sig ur för att göra en attack
-    private void StunHandler() {
 
-        if (startPlayerStunned == true) {
-          
+
+    private void StunHandler()
+    {
+
+        if (startPlayerStunned == true)
+        {
+            if (resetAnim == false)
+            {
+                anim.SetBool("PlayerIsStunned", true);
+            }
+            resetAnim = false;
 
             playerRgb.velocity = (-(transform.forward).normalized * 1.5f) + new Vector3(0, playerRgb.velocity.y, 0);
 
-            if (endPlayerStunned == true) {
-                anim.SetTrigger("StopPlayerStun");
+            if (endPlayerStunned == true)
+            {
+                anim.SetBool("PlayerIsStunned", false);
                 transform.GetComponentInParent<PlayerAnimEvents>().SetEndPlayerStunnedFalse();
-           
+
 
                 if (attacking == true)
                 {
@@ -856,7 +888,7 @@ public class CharacterController : MonoBehaviour
                 {
                     BowCancel();
                 }
-                if (healthFlaskStart == true)
+                if (usingHealthFlask == true)
                 {
                     HealthFlaskCancel();
                 }
@@ -866,28 +898,56 @@ public class CharacterController : MonoBehaviour
 
         }
 
-
     }
 
+        public void StartPlayerStun()
+    {
 
-    public void StartPlayerStun() {
-       
-            AttackCancel();
-        
+        AttackCancel();
+
         if (bowIsActive == true)
         {
             BowCancel();
         }
-        if (healthFlaskStart == true) {
+        if (usingHealthFlask == true)
+        {
             HealthFlaskCancel();
         }
+        if (startPlayerStunned == true)
+        {
+            ResetStunAnim();
+        }
+        CancelLeverPull();
+
 
         startPlayerStunned = true;
-        anim.SetTrigger("PlayerStun");
 
+
+
+    }
+    private void ResetStunAnim()
+    {
+        anim.SetBool("PlayerIsStunned", false);
+        resetAnim = true;
+    }
+  
+   
+    
+    public void PullLever() {
+        if (moveAllow == true && attacking == false && usingHealthFlask == false && bowIsActive == false) {
+            anim.SetBool("PullingLever", true);
+        }
       
     }
 
+    public void CancelLeverPull() {
+        if(anim.GetBool("PullingLever") == true)
+        anim.SetBool("PullingLever", false);
+        
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+    }
+
+    
 
     private bool AttackWaitTimer(float seconds)
     {
@@ -932,6 +992,21 @@ public class CharacterController : MonoBehaviour
         Debug.Log("Player Dead");
         GetComponent<PlayerHealthScript>().regainHealth(100);
         ResetPotionsToOriginal();
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            if (go.name != "Boss")
+            {
+                Destroy(go);
+            }
+        }
+
+
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Respawner"))
+        {
+
+            go.GetComponent<EnemyRespawnScript>().RespawnEnemy();
+
+        }
         Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
         Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         Dead.start();
