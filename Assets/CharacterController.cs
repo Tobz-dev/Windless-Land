@@ -44,6 +44,8 @@ public class CharacterController : MonoBehaviour
     private bool endPlayerStunned = false;
     private bool startPlayerStunned = false;
 
+    private bool resetAnim = false;
+
 
     //healthFlask
     private bool doneDrinkingFlask = false;
@@ -914,7 +916,11 @@ public class CharacterController : MonoBehaviour
 
 
     }
-
+    private void ResetStunAnim()
+    {
+        anim.SetBool("PlayerIsStunned", false);
+        resetAnim = true;
+    }
     public void PullLever() {
         if (moveAllow == true && attacking == false && usingHealthFlask == false && bowIsActive == false) {
             anim.SetBool("PullingLever", true);
