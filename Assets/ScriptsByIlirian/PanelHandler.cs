@@ -31,6 +31,11 @@ public class PanelHandler : MonoBehaviour
         inputActions.WindlessLand.Enable();
     }
 
+    private void OnDisable()
+    {
+        inputActions.WindlessLand.Disable();
+    }
+
     void Start()
     {
         logPanel.SetActive(false);
@@ -40,7 +45,7 @@ public class PanelHandler : MonoBehaviour
     }
     void Update()
     {
-        if (inputActions.WindlessLand.Interact.triggered/*Input.GetKeyDown(KeyCode.E)*/)
+        if (readLog && inputActions.WindlessLand.Interact.triggered/*Input.GetKeyDown(KeyCode.E)*/)
         {
             if (!logPanel.activeSelf)
             {
@@ -87,13 +92,8 @@ public class PanelHandler : MonoBehaviour
 
                 }
             }
-            else
-            {
-                return;
-            }
-
         }
-        else if (logPanel == isActiveAndEnabled && Input.anyKeyDown)
+        else if (logPanel == isActiveAndEnabled && Input.anyKeyDown && !inputActions.WindlessLand.Interact.triggered)
         {
             logPanel.SetActive(false);
         }
