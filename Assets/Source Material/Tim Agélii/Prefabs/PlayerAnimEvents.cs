@@ -15,15 +15,17 @@ public class PlayerAnimEvents : MonoBehaviour
 
     private int comboNumber = 1;
 
-    private float playerMoveSpeed;
+    private float playerMoveSpeedFactor;
 
     private bool allowMovement = true;
 
     private bool endOfAttack = false;
 
-    private bool EndPlayerStunned = false;
+    private bool endPlayerStunned = false;
 
-    private bool LeverPulled = false;
+    private bool leverPulled = false;
+
+    private bool doneDrinkingPot = false;
     public void instantiateLightHitbox() {
 
         var newHitbox = Instantiate(lightAttackHitbox, transform.position + (transform.rotation * new Vector3(0, 0.5f, 1.7f)), transform.rotation);
@@ -46,11 +48,11 @@ public class PlayerAnimEvents : MonoBehaviour
     }
 
 
-    public void SetPlayerMoveSpeed(float f) {
-        playerMoveSpeed = f;
+    public void SetPlayerMoveSpeedFactor(float f) {
+        playerMoveSpeedFactor = f;
     }
-    public float GetPlayerMoveSpeed() {
-        return playerMoveSpeed;
+    public float GetPlayerMoveSpeedFactor() {
+        return playerMoveSpeedFactor;
     }
 
 
@@ -92,32 +94,46 @@ public class PlayerAnimEvents : MonoBehaviour
 
     public void SetEndPlayerStunnedTrue()
     {
-        EndPlayerStunned = true;
+        endPlayerStunned = true;
     }
 
     public void SetEndPlayerStunnedFalse()
     {
-        EndPlayerStunned = false;
+        endPlayerStunned = false;
     }
 
     public bool GetEndPlayerStunned()
     {
-        return EndPlayerStunned;
+        return endPlayerStunned;
     }
 
     public void SetLeverPulledTrue()
     {
-        LeverPulled = true;
+        leverPulled = true;
     }
 
     public void SetLeverPulledFalse()
     {
-        LeverPulled = false;
+        leverPulled = false;
     }
 
     public bool GetLeverPulled()
     {
-        return LeverPulled;
+        return leverPulled;
+    }
+    public void SetDoneDrinkingPotTrue()
+    {
+        doneDrinkingPot = true;
+    }
+
+    public void SetDoneDrinkingPotFalse()
+    {
+        doneDrinkingPot = false;
+    }
+
+    public bool GetDoneDrinkingPot()
+    {
+        return doneDrinkingPot;
     }
 
 }

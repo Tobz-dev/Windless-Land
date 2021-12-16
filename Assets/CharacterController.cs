@@ -51,13 +51,19 @@ public class CharacterController : MonoBehaviour
     private bool resetAnim = false;
 
     //healthFlask
-    private bool healthFlaskTimerRunning = true;
-    private bool healthFlaskStart = false;
+    private bool doneDrinkingFlask = false;
+    private bool usingHealthFlask = false;
     private bool healthFlaskOfCooldown = true;
 
+<<<<<<< Updated upstream
     private float flaskUses = 2;
     private float healthFlaskSpeedFactor = 0.3f;
     private float healthFlaskDuration = 1f;
+=======
+    private int flaskUses = 2;
+    private int originalFlaskUsesAmount;
+    
+>>>>>>> Stashed changes
     private float healthFlaskCooldown = 0.5f;
 
     //attack
@@ -161,12 +167,21 @@ public class CharacterController : MonoBehaviour
 
     Vector3 forward, right;
 
-
+    //equips
     [SerializeField]
     private GameObject bow;
     [SerializeField]
     private GameObject sword;
+    [SerializeField]
+    private GameObject healthPot;
 
+    private bool swordEquipped = true;
+
+    private bool bowEquipped = false;
+
+ 
+
+    //bow
     [SerializeField]
     private float bowChargeTime;
     [SerializeField]
@@ -191,6 +206,7 @@ public class CharacterController : MonoBehaviour
         playerRgb = transform.GetComponent<Rigidbody>();
       
         bow.SetActive(false);
+        healthPot.SetActive(false);
         canMove = true;
         plane = new Plane(Vector3.up, Vector3.zero);
         forward = Camera.main.transform.forward;
@@ -199,8 +215,8 @@ public class CharacterController : MonoBehaviour
         right = Quaternion.Euler(new Vector3(0, 90, 0)) * forward;
 
         moveSpeedDefault = moveSpeed;
+        transform.GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeedFactor(1);
 
-        transform.GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeed(moveSpeedDefault);
 
         currentAttackTrigger = "Attack1";
      //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
@@ -288,10 +304,10 @@ public class CharacterController : MonoBehaviour
 
     private void UpdateEventVariables()
     {
-       moveSpeed = transform.GetComponentInParent<PlayerAnimEvents>().GetPlayerMoveSpeed();
-       moveAllow = transform.GetComponentInParent<PlayerAnimEvents>().GetAllowMovement();
-       endPlayerStunned = transform.GetComponentInParent<PlayerAnimEvents>().GetEndPlayerStunned();
-
+       moveSpeed = moveSpeedDefault * GetComponentInParent<PlayerAnimEvents>().GetPlayerMoveSpeedFactor();
+       moveAllow = GetComponentInParent<PlayerAnimEvents>().GetAllowMovement();
+       endPlayerStunned = GetComponentInParent<PlayerAnimEvents>().GetEndPlayerStunned();
+        doneDrinkingFlask = GetComponentInParent<PlayerAnimEvents>().GetDoneDrinkingPot();
     }
 
    private void UpdateMoveInput() {
@@ -355,18 +371,22 @@ public class CharacterController : MonoBehaviour
 
 
    private void EquipManager() {
-        if (bowIsActive == false && startAttackDelay == false && attacking == false && moveAllow == true)
+        if (bowIsActive == false && startAttackDelay == false && attacking == false && moveAllow == true && usingHealthFlask == false)
         {
        
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 bow.SetActive(true);
                 sword.SetActive(false);
+                swordEquipped = true;
+                bowEquipped = false;
             }
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 bow.SetActive(false);
                 sword.SetActive(true);
+                bowEquipped = true;
+                swordEquipped = false;
             }
 
         }
@@ -374,7 +394,7 @@ public class CharacterController : MonoBehaviour
     }
 
    private void BowManager() {
-       if (bow.activeSelf == true && dodgerollTimerRunning == false && healthFlaskStart == false && startPlayerStunned == false)
+       if (bow.activeSelf == true && dodgerollTimerRunning == false && usingHealthFlask == false && startPlayerStunned == false)
         {
             if (bowIsActive == false && mana >= bowManaCost) {
                 if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -526,57 +546,52 @@ public class CharacterController : MonoBehaviour
 
    private void HealthFlaskManager()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && healthFlaskOfCooldown && flaskUses > 0 && attacking == false && dodgerolling == false && bowIsActive == false && gameObject.GetComponent<PlayerHealthScript>().GetHealth() < gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth() && moveAllow == true)
+        if (Input.GetKeyDown(KeyCode.Q) && usingHealthFlask == false && healthFlaskOfCooldown && flaskUses > 0 && attacking == false && dodgerolling == false && bowIsActive == false && gameObject.GetComponent<PlayerHealthScript>().GetHealth() < gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth() && moveAllow == true)
         {
-            healthFlaskStart = true;
+            anim.SetBool("DrinkingPot",true);
+            
             HealthRefill = FMODUnity.RuntimeManager.CreateInstance("event:/Game/HealthRefill");
             HealthRefill.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
             HealthRefill.start();
             HealthRefill.release();
+            usingHealthFlask = true;
+            healthPot.SetActive(true);
+
+            if (bowEquipped)
+            {
+                bow.SetActive(false);
+            }
+            if (swordEquipped)
+            {
+                sword.SetActive(false);
+            }
+        }
+
+        if (doneDrinkingFlask == true) {
+            GetComponentInParent<PlayerHealthScript>().regainHealth(2);
+            GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeedFactor(1);
+            flaskUses--;
+            anim.SetBool("DrinkingPot", false);
+            healthFlaskOfCooldown = false;
+            usingHealthFlask = false;
+            GetComponentInParent<PlayerAnimEvents>().SetDoneDrinkingPotFalse();
+
+            healthPot.SetActive(false);
 
         }
 
-
-
-        if (healthFlaskStart == true)
+        if (healthFlaskOfCooldown == false)
         {
-
-
-
-
-            if (healthFlaskTimerRunning == true)
+            if (FlaskWaitTimer(healthFlaskCooldown))
             {
-                if (FlaskWaitTimer(healthFlaskDuration))
-                {
+                
+    
+                healthFlaskOfCooldown = true;
+              
+                
 
-                    GetComponentInParent<PlayerHealthScript>().regainHealth(2);
-                  
-                    healthFlaskTimerRunning = false;
-                    moveSpeed = moveSpeedDefault;
-                }
-                else
-                {
-
-
-             
-
-                    moveSpeed = moveSpeedDefault * healthFlaskSpeedFactor;
-
-                    healthFlaskOfCooldown = false;
-
-                }
             }
-            else
-            {
-                if (FlaskWaitTimer(healthFlaskCooldown))
-                {
-                    flaskUses--;
-                    healthFlaskStart = false;
-                    healthFlaskOfCooldown = true;
-                    healthFlaskTimerRunning = true;
-
-                }
-            }
+        }
 
             if (dodgerollStart == true)
             {
@@ -585,17 +600,26 @@ public class CharacterController : MonoBehaviour
 
             }
         }
-    }
 
-   private void HealthFlaskCancel() {
-        healthFlaskStart = false;
+
+    private void HealthFlaskCancel() {
+        GetComponentInParent<PlayerAnimEvents>().SetDoneDrinkingPotFalse();
+        GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeedFactor(1);
         healthFlaskOfCooldown = true;
-        healthFlaskTimerRunning = true;
-        moveSpeed = moveSpeedDefault;
+        anim.SetBool("DrinkingPot", false);
         flaskTimer = 0;
+        healthPot.SetActive(false);
+        if (bowEquipped) {
+            bow.SetActive(true);
+        }
+        if (swordEquipped)
+        {
+            sword.SetActive(true);
+        }
+
     }
 
-   private void StartDodgeroll() {
+    private void StartDodgeroll() {
         
             dodgerollStart = true;
             dodgerollTimerRunning = true;
@@ -690,7 +714,7 @@ public class CharacterController : MonoBehaviour
 
             InAttack();
 
-            if (sword.activeSelf == true && attacking == false && dodgerollTimerRunning == false && healthFlaskStart == false && moveAllow == true)
+            if (sword.activeSelf == true && attacking == false && dodgerollTimerRunning == false && usingHealthFlask == false && moveAllow == true)
             {
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
@@ -863,7 +887,7 @@ public class CharacterController : MonoBehaviour
                 {
                     BowCancel();
                 }
-                if (healthFlaskStart == true)
+                if (usingHealthFlask == true)
                 {
                     HealthFlaskCancel();
                 }
@@ -885,7 +909,7 @@ public class CharacterController : MonoBehaviour
         {
             BowCancel();
         }
-        if (healthFlaskStart == true) {
+        if (usingHealthFlask == true) {
             HealthFlaskCancel();
         }
         if (startPlayerStunned == true) {
@@ -907,7 +931,7 @@ public class CharacterController : MonoBehaviour
     
 
     public void PullLever() {
-        if (moveAllow == true && attacking == false && healthFlaskStart == false && bowIsActive == false) {
+        if (moveAllow == true && attacking == false && usingHealthFlask == false && bowIsActive == false) {
             anim.SetBool("PullingLever", true);
         }
       
