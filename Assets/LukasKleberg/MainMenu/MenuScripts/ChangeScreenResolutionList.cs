@@ -88,7 +88,7 @@ public class ChangeScreenResolutionList : MonoBehaviour
     public void ToggleWindow(bool setToFullscreen)
     {
 
-        if (setToFullscreen == true)
+        if (setToFullscreen == false)
         {
             //Debug.Log("ChangeScreenResolution. set to windowed");
             Screen.fullScreen = false;
