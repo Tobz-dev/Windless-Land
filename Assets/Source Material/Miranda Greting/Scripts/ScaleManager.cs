@@ -33,7 +33,7 @@ public class ScaleManager : MonoBehaviour, IBeginDragHandler, IEndDragHandler, I
         selectedUp = slider.navigation.selectOnUp.gameObject.GetComponent<Button>();
         selectedDown = slider.navigation.selectOnDown.gameObject.GetComponent<Button>();
         customNav.mode = Navigation.Mode.Explicit;
-        slider.navigation = customNav;
+        //slider.navigation = customNav;
         customNav.selectOnLeft = selectedLeft;
         customNav.selectOnRight = selectedRight;
         customNav.selectOnUp = selectedUp;

@@ -7,68 +7,149 @@ using UnityEngine.InputSystem;
 public class CharacterControllerRemapTest : MonoBehaviour
 {
 
-    private PlayerInput playerInput;
-    private PlayerInputs inputActions;
-    [SerializeField] private InputManager inputManager;
+    [SerializeField]
+    float moveSpeed;
+
 
     [SerializeField]
-    float moveSpeed = 4f;
-    float dodgerollSpeed = 18f;
-    float dodgerollDuration = 0.35f;
-    float dodgerollCooldown = 0.2f;
+    private int maxMana;
+    private int mana = 0;
+
+    [SerializeField]
+    private int bowManaCost;
+    [SerializeField]
+    private int heavyManaCost;
+
 
     float moveSpeedDefault;
 
+    private Rigidbody playerRgb;
 
+    float attackTimer = 0;
 
     float dodgeTimer = 0;
 
     float flaskTimer = 0;
 
+    Vector3 rotationOffset = new Vector3(90, 0, 0);
 
     Quaternion lookRotation;
 
 
     private Plane plane;
 
-    bool moveAllow = true;
+    private bool moveAllow = true;
 
-    bool invincibility = false;
+    private bool invincibility = false;
+
+    private bool endPlayerStunned = false;
+    private bool startPlayerStunned = false;
+
+    private bool resetAnim = false;
 
 
+    //accesibility input delay
+    private bool inputDelayOn = false;
+    private float inputDelay = 0.5f;
+    private float delayTimer = 0;
+    private bool allowNextInput = false;
+    private bool runTimerOnce = true;
 
     //healthFlask
-    bool healthFlaskTimerRunning = true;
-    bool healthFlaskStart = false;
-    bool healthFlaskOfCooldown = true;
+    private bool doneDrinkingFlask = false;
+    private bool usingHealthFlask = false;
+    private bool healthFlaskOfCooldown = true;
 
-    float flaskUses = 4;
-    float healthFlaskSpeedFactor = 0.2f;
-    float healthFlaskDuration = 1.5f;
-    float healthFlaskCooldown = 0.5f;
+
+    private float flaskUses = 2;
+
+    private int originalFlaskUsesAmount;
+
+    private float healthFlaskCooldown = 0.5f;
 
     //attack
-    bool startAttackCooldown = false;
-    float attackTimer = 0;
+    private bool attacking = false;
 
     //dodgeroll
-    bool dodgerollTimerRunning = false;
-    bool dodgerollStart = false;
-    bool dodgerollRemapTrigger = false;
-    bool dodgerolling = false;
-    bool dodgerollOfCooldown = true;
+    [SerializeField]
+    private float dodgerollDuration = 0.7f;
+    [SerializeField]
+    private float dodgerollCooldown = 0.2f;
+
+
+    [SerializeField]
+    private float dodgerollSpeed = 11f;
+    [SerializeField]
+    private float dodgerollDropSpeed = 3f;
+    private bool dodgerollTimerRunning = false;
+    private bool dodgerollStart = false;
+    private bool dodgerolling = false;
+    private bool dodgerollOfCooldown = true;
     Vector3 inputDirection;
+
+    private bool playerInputActive = false;
+
+    Vector3 playerMovement;
 
     private bool canMove = true;
 
 
+    [SerializeField]
+    private float dodgeDropOffTime;
     //hitbox variables
 
     [SerializeField]
+    private GameObject lightAttackHitbox;
+
     private GameObject attackHitbox;
 
     [SerializeField]
-    private float swingTime;
+    private GameObject heavyAttackHitbox;
+
+    [SerializeField]
+    private float timeToNextSwing;
+
+    [SerializeField]
+    private float timeToNextSwingLight;
+    [SerializeField]
+    private float timeToNextSwingHeavy;
+
+    private bool startAttackDelay = false;
+
+    [SerializeField]
+    private float lightAttackDelay;
+
+
+    private bool endOfAttack = false;
+
+    private float attackDelay;
+
+
+
+    [SerializeField]
+    private float lightSwingCooldown = 0.6f;
+
+    private float swingCooldown;
+
+    [SerializeField]
+    private float heavySwingCooldown;
+    [SerializeField]
+    private float heavyAttackDelay;
+
+
+    //henrik prototyp
+    [SerializeField]
+    private Transform objectToFace;
+    private GameObject closestEnemy;
+    public bool autoAim = false;
+    Quaternion enemyLookRotation;
+
+
+    //prototyp
+    float extraInputTimeDelay = 0.05f;
+    bool queueAttack = false;
+    bool queueDodge = false;
+
     [SerializeField]
     private Vector3 hitboxOffset;
 
@@ -83,18 +164,70 @@ public class CharacterControllerRemapTest : MonoBehaviour
 
     [SerializeField]
     private Animator anim;
+    private PlayerVFX playerVFX;
+
+    int attackComboLenght = 3;
+    int currentAttack = 1;
+    string currentAttackTrigger;
 
     public Transform respawnPoint;
 
+    private FMOD.Studio.EventInstance HealthRefill;
+    private FMOD.Studio.EventInstance Dead;
+
+
     Vector3 forward, right;
 
-    //Move
-    Vector2 movementInput;
+    //equips
+    [SerializeField]
+    private GameObject bow;
+    [SerializeField]
+    private GameObject sword;
+    [SerializeField]
+    private GameObject healthPot;
+
+    private bool swordEquipped = true;
+
+    private bool bowEquipped = false;
+
+
+
+    //bow
+    [SerializeField]
+    private float bowChargeTime;
+    [SerializeField]
+    private GameObject arrow;
+    private bool bowIsLoading = false;
+    private bool bowIsFinishedLoading = false;
+    private bool startBowCooldown = false;
+    private bool drawBow = false;
+    [SerializeField]
+    private float bowCooldownTime;
+    [SerializeField]
+    private float bowDrawTime;
+    private bool queueBowCancel = false;
+    private bool bowIsActive = false;
+
+    //rebinding
+    PlayerInputs inputActions;
+    Vector2 movementInput; //movement rebindings
+    private bool dodgerollActivated;
+    private bool attackActivated;
+    private bool attackDone;
+    private bool attackCanceled;
+    private bool keyboardUsed;
+    private bool mouseUsed;
+    private bool gamepadUsed;
+    private string controlUsed;
+    private string movePath;
 
     private void OnEnable()
     {
-        inputActions.WindlessLand.Dodgeroll.started += Dodgeroll;
-        inputActions.WindlessLand.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
+        inputActions.WindlessLand.Move.performed += MovePerformed;
+        inputActions.WindlessLand.Attack.started += ctx => attackActivated = true;
+        inputActions.WindlessLand.Attack.performed += ctx => attackDone = true;
+        inputActions.WindlessLand.Attack.canceled += ctx => attackCanceled = true;
+        inputActions.WindlessLand.Dodgeroll.performed += ctx => dodgerollActivated = true;
         inputActions.WindlessLand.Enable();
     }
 
@@ -103,9 +236,28 @@ public class CharacterControllerRemapTest : MonoBehaviour
         inputActions.Disable();
     }
 
-    // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
+        inputActions = InputManager.inputActions;
+    }
+
+    private void MovePerformed(InputAction.CallbackContext ctx)
+    {
+        movementInput = ctx.ReadValue<Vector2>();
+        controlUsed = ctx.control.path;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+        originalFlaskUsesAmount = (int)flaskUses;
+        playerRgb = transform.GetComponent<Rigidbody>();
+        playerVFX = GetComponent<PlayerVFX>();
+        swordEquipped = true;
+        bowEquipped = false;
+        bow.SetActive(false);
+        healthPot.SetActive(false);
         canMove = true;
         plane = new Plane(Vector3.up, Vector3.zero);
         forward = Camera.main.transform.forward;
@@ -114,14 +266,30 @@ public class CharacterControllerRemapTest : MonoBehaviour
         right = Quaternion.Euler(new Vector3(0, 90, 0)) * forward;
 
         moveSpeedDefault = moveSpeed;
+        transform.GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeedFactor(1);
 
-        playerInput = GetComponent<PlayerInput>();
-        inputActions = new PlayerInputs();
+
+        currentAttackTrigger = "Attack1";
+        //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
+
+        updateAutoaim();
+        controlUsed = "Mouse";
     }
 
     // Update is called once per frame
     void Update()
     {
+
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Debug.Log(closestEnemy);
+            closestEnemy = FindClosestEnemy();
+            objectToFace = closestEnemy.transform;
+            Debug.Log(closestEnemy);
+            transform.LookAt(objectToFace);
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (plane.Raycast(ray, out float enter) && canMove == true)
         {
@@ -131,32 +299,71 @@ public class CharacterControllerRemapTest : MonoBehaviour
 
             lookRotation = Quaternion.LookRotation(hitPoint - playerPositionOnPlane);
 
-            PlayerRotationUpdate();
+            StunHandler();
 
-            HealthFlaskManager();
-
-            DodgerollManager();
-
-            AttackManager();
-
-            if (Input.anyKey && moveAllow == true)
+            if (startPlayerStunned == false)
             {
-                Move();
+                AttackManager();
+
+
+                BowManager();
+
+
+                DodgerollManager();
+
+                HealthFlaskManager();
+
             }
 
+            EquipManager();
+
+
+
+            UpdateEventVariables();
+
+
+            PlayerRotationUpdate();
+
+            UpdateMoveInput();
+
+
+
+
+
             //anim stuff here. 
-            anim.SetFloat("XSpeed", movementInput.x);//Input.GetAxis("HorizontalKey"));
+            anim.SetFloat("XSpeed", movementInput.x);//HorizontalKey"));
             anim.SetFloat("YSpeed", movementInput.y);//Input.GetAxis("VerticalKey"));
         }
+
+
+        //if(attacking == true)
+        //{
+        //    playerRgb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+        //}
+        //else { playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY; }
     }
 
     private void PlayerRotationUpdate()
     {
 
-        if (moveAllow && (Mathf.Abs(movementInput.x) + Mathf.Abs(movementInput.y)) !=0) //Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey"))) != 0)
+        if (moveAllow && (Mathf.Abs(movementInput.x) + Mathf.Abs(movementInput.y)) != 0)//Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey")) != 0)
         {
             Vector3 horizontal = movementInput.x * right; //(Input.GetAxis("Horizontal") * right);
-            Vector3 vertical = movementInput.y * forward; // (Input.GetAxis("Vertical") * forward);
+            Vector3 vertical = movementInput.y * forward; //(Input.GetAxis("Vertical") * forward);
+
+            //sets horizontal to Input.GetAxis("Horizontal") if rebinding is a button that triggers it
+            if ((inputActions.WindlessLand.Move.bindings[3].effectivePath.Equals("<Keyboard>/a") || inputActions.WindlessLand.Move.bindings[3].effectivePath.Equals("<Keyboard>/leftArrow")) && (inputActions.WindlessLand.Move.bindings[4].effectivePath.Equals("<Keyboard>/d") || inputActions.WindlessLand.Move.bindings[4].effectivePath.Equals("<Keyboard>/rightArrow")) && !controlUsed.Contains("Gamepad"))
+            {
+                horizontal = (Input.GetAxis("Horizontal") * right);
+            }
+
+            //sets vertical to Input.GetAxis("Vertical") if rebinding is a button that triggers it
+            //rebinding & smooth turns do not go well together :blobsad:
+            if ((inputActions.WindlessLand.Move.bindings[1].effectivePath.Equals("<Keyboard>/w") || inputActions.WindlessLand.Move.bindings[1].effectivePath.Equals("<Keyboard>/upArrow")) && (inputActions.WindlessLand.Move.bindings[2].effectivePath.Equals("<Keyboard>/s") || inputActions.WindlessLand.Move.bindings[2].effectivePath.Equals("<Keyboard>/downArrow")) && !controlUsed.Contains("Gamepad"))
+            {
+                vertical = (Input.GetAxis("Vertical") * forward);
+            }
+
             Vector3 rotation = horizontal + vertical;
 
             transform.rotation = Quaternion.LookRotation(rotation);
@@ -176,133 +383,489 @@ public class CharacterControllerRemapTest : MonoBehaviour
         */
     }
 
-    void Move()
+    private void UpdateEventVariables()
     {
-        /*
-        int horizontalMovement = 0;
-        int verticalMovement = 0;
-        if (playerInput.actions["Move Up"].triggered)
-        {
-            verticalMovement = 1;
-        }
-        else if (playerInput.actions["Move Down"].triggered)
-        {
-            verticalMovement = -1;
-        }
-        if (playerInput.actions["Move Right"].triggered)
-        {
-            horizontalMovement = 1;
-        }
-        else if (playerInput.actions["Move Left"].triggered)
-        {
-            horizontalMovement = -1;
-        }
-        */
+        moveSpeed = moveSpeedDefault * GetComponentInParent<PlayerAnimEvents>().GetPlayerMoveSpeedFactor();
+        moveAllow = GetComponentInParent<PlayerAnimEvents>().GetAllowMovement();
+        endPlayerStunned = GetComponentInParent<PlayerAnimEvents>().GetEndPlayerStunned();
+        doneDrinkingFlask = GetComponentInParent<PlayerAnimEvents>().GetDoneDrinkingPot();
+    }
 
-        Vector3 rightMovement = right * moveSpeed * Time.deltaTime * Input.GetAxis("HorizontalKey");
-        Vector3 upMovement = forward * moveSpeed * Time.deltaTime * Input.GetAxis("VerticalKey");
-        Vector3 horizontalMovement = right * moveSpeed * Time.deltaTime * movementInput.x;
-        Vector3 verticalMovement = forward * moveSpeed * Time.deltaTime * movementInput.y;
-        //Debug.Log("speed x:" + movementInput.x + "speed y:" + movementInput.y);
-        //Vector3 playerMovement = rightMovement + upMovement;
-        Vector3 playerMovement = horizontalMovement + verticalMovement;
+    private void UpdateMoveInput()
+    {
+        Vector3 rightMovement = right * moveSpeed * movementInput.x;//Input.GetAxis("HorizontalKey");
+        Vector3 upMovement = forward * moveSpeed * movementInput.y;//Input.GetAxis("VerticalKey");
+
+        playerMovement = rightMovement + upMovement;
 
         inputDirection = playerMovement.normalized;
 
-        if (playerMovement.magnitude > moveSpeed * Time.deltaTime)
+
+
+        if (playerMovement.magnitude > moveSpeed)
         {
-            playerMovement = playerMovement.normalized * moveSpeed * Time.deltaTime;
+            playerMovement = playerMovement.normalized * moveSpeed;
         }
 
-        transform.position += playerMovement;
+        if (moveAllow == true)
+        {
+            Move();
+        }
+
+        if (playerMovement.magnitude == 0)
+        {
+            playerInputActive = false;
+        }
+        else
+        {
+            playerInputActive = true;
+        }
+
+
 
     }
 
-    void HealthFlaskManager()
-    {
-        if (inputActions.WindlessLand.HealthRefill.triggered/*playerInput.actions["Health Refill"].triggered,,,, Input.GetKeyDown(KeyCode.Q)*/ && healthFlaskOfCooldown && flaskUses > 0)
-        {
-            healthFlaskStart = true;
 
+
+    private void Move()
+    {
+
+        playerRgb.velocity = playerMovement + new Vector3(0, playerRgb.velocity.y, 0);
+
+
+    }
+
+    public void ManaIncreased(int i)
+    {
+        mana = mana + i;
+        if (mana > maxMana)
+        {
+            mana = maxMana;
+        }
+        //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
+    }
+
+    public int GetMaxMana()
+    {
+        return maxMana;
+    }
+
+    public int GetMana()
+    {
+        return mana;
+    }
+
+
+    private void EquipManager()
+    {
+        if (bowIsActive == false && startAttackDelay == false && attacking == false && moveAllow == true && usingHealthFlask == false)
+        {
+            //detects when Equip Bow rebinding is triggered
+            if (inputActions.WindlessLand.EquipBow.triggered)//Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                bow.SetActive(true);
+                sword.SetActive(false);
+                swordEquipped = false;
+                bowEquipped = true;
+                //gameObject.GetComponent<CharacterController>().enabled = true;
+                //gameObject.GetComponent<CharacterControllerRemapTest>().enabled = false;
+            }
+            //detects when Equip Sword rebinding is triggered
+            if (inputActions.WindlessLand.EquipSword.triggered)//Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                bow.SetActive(false);
+                sword.SetActive(true);
+                bowEquipped = false;
+                swordEquipped = true;
+            }
+
+        }
+
+    }
+
+    private void BowManager()
+    {
+        //long annoying code for checking & converting binding.effectivePath 
+        //to a format that works with Input.GetKeyDown etc etc
+        //i'm sure there are better ways to do this but it was the first one that worked after lots of testing & googling
+        //string keyboardPath = InputManager.GetBindingPath(inputActions.WindlessLand.Attack, 0);
+        //string mousePath = InputManager.GetBindingPath(inputActions.WindlessLand.Attack, 1);
+        string keyboardPath = inputActions.WindlessLand.Attack.bindings[0].effectivePath;
+        string mousePath = inputActions.WindlessLand.Attack.bindings[1].effectivePath;
+        int pathNameIndex = keyboardPath.IndexOf('/') + 1;
+        int pathNameIndexMouse = mousePath.IndexOf('/') + 1;
+        if (mousePath.Equals("<Mouse>/leftButton") || mousePath.Equals("<Mouse>/middleButton") || mousePath.Equals("<Mouse>/rightButton"))
+        {
+            if (mousePath.Equals("<Mouse>/leftButton"))
+            {
+                mousePath = "mouse 0";
+            }
+            else if (keyboardPath.Equals("<Mouse>/middleButton"))
+            {
+                keyboardPath = "mouse 1";
+            }
+            else if (keyboardPath.Equals("<Mouse>/rightButton"))
+            {
+                keyboardPath = "mouse 2";
+            }
+            pathNameIndexMouse = 0;
+        }
+
+        if (keyboardPath.Equals("<Mouse>/leftButton") || keyboardPath.Equals("<Mouse>/middleButton") || keyboardPath.Equals("<Mouse>/rightButton"))
+        {
+            if (keyboardPath.Equals("<Mouse>/leftButton"))
+            {
+                keyboardPath = "mouse 0";
+            }
+            else if (keyboardPath.Equals("<Mouse>/middleButton"))
+            {
+                keyboardPath = "mouse 1";
+            }
+            else if (keyboardPath.Equals("<Mouse>/rightButton"))
+            {
+                keyboardPath = "mouse 2";
+            }
+            pathNameIndex = 0;
+        }
+        keyboardPath = keyboardPath.Substring(pathNameIndex);
+        mousePath = mousePath.Substring(pathNameIndexMouse);
+
+        if (bow.activeSelf == true && dodgerollTimerRunning == false && usingHealthFlask == false && startPlayerStunned == false)
+        {
+            if (bowIsActive == false && mana >= bowManaCost)
+            {
+                if (Input.GetKey(keyboardPath))//KeyCode.Mouse1))
+                {
+                    StartBowDraw();
+                    keyboardUsed = true;
+                    mouseUsed = false;
+                    gamepadUsed = false;
+                    //usedPath = keyboardPath;
+                }
+
+                if (Input.GetKey(mousePath))
+                {
+                    StartBowDraw();
+                    mouseUsed = true;
+                    keyboardUsed = false;
+                    gamepadUsed = false;
+                    //usedPath = mousePath;
+                }
+                /*
+                else if(Input.GetKey(InputManager.GetBindingPath(inputActions.WindlessLand.Attack, 2)))
+                {
+                    StartBowDraw();
+                    gamepadUsed = true;
+                    keyboardUsed = false;
+                    mouseUsed = false;
+                    usedPath = InputManager.GetBindingPath(inputActions.WindlessLand.Attack, 2);
+                }
+                */
+
+
+            }
+
+            if (bowIsActive == true)
+            {
+
+
+                if (drawBow)
+                {
+                    if (autoAim == true && FindClosestEnemy() != null)
+                    {
+                        closestEnemy = FindClosestEnemy();
+                        objectToFace = closestEnemy.transform;
+                        transform.LookAt(objectToFace);
+                    }
+
+
+                    else
+                    {
+                        transform.rotation = lookRotation;
+                    }
+                    DrawBow(keyboardPath, mousePath);
+                }
+
+                if (bowIsLoading)
+                {
+                    if (autoAim == true && FindClosestEnemy() != null)
+                    {
+                        closestEnemy = FindClosestEnemy();
+                        objectToFace = closestEnemy.transform;
+                        transform.LookAt(objectToFace);
+                    }
+
+
+                    else
+                    {
+                        transform.rotation = lookRotation;
+                    }
+
+                    BowLoading();
+
+                }
+                if (bowIsFinishedLoading)
+                {
+
+                    if (autoAim == true && FindClosestEnemy() != null)
+                    {
+                        closestEnemy = FindClosestEnemy();
+                        objectToFace = closestEnemy.transform;
+                        transform.LookAt(objectToFace);
+                    }
+
+
+                    else
+                    {
+                        transform.rotation = lookRotation;
+                    }
+                }
+
+                if (((Input.GetKeyUp(keyboardPath) && keyboardUsed) || (Input.GetKeyUp(mousePath)&&!keyboardUsed)/*Input.GetKeyUp(KeyCode.Mouse0)*/ && bowIsFinishedLoading == true))
+                {
+
+                    BowFire();
+                }
+
+                if (startBowCooldown)
+                {
+                    BowCooldown();
+
+                }
+
+                if ((((Input.GetKeyUp(keyboardPath) && keyboardUsed) || (Input.GetKeyUp(mousePath) && !keyboardUsed) /*Input.GetKeyUp(KeyCode.Mouse0)*/ && drawBow == false && bowIsFinishedLoading == false && startBowCooldown == false && drawBow == false) || drawBow == false && queueBowCancel == true))
+                {
+
+                    BowCancel();
+                }
+            }
         }
 
 
 
-        if (healthFlaskStart == true)
+
+    }
+    private void StartBowDraw()
+    {
+
+        bowIsActive = true;
+        anim.SetTrigger("DrawBow");
+        playerVFX.PlayArrowChannelEffect();
+        playerRgb.velocity = new Vector3(0, playerRgb.velocity.y, 0);
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
+
+        drawBow = true;
+
+    }
+    private void DrawBow(string keyboardPath, string mousePath)
+    {
+        if (AttackWaitTimer(bowDrawTime))
         {
 
 
+            drawBow = false;
 
-
-            if (healthFlaskTimerRunning == true)
+            if (queueBowCancel == false)
             {
-                if (FlaskWaitTimer(healthFlaskDuration))
-                {
-
-                    GetComponentInParent<HealthScript>().regainHealth(1);
-
-                    healthFlaskTimerRunning = false;
-                    moveSpeed = moveSpeedDefault;
-                }
-                else
-                {
-
-
-
-
-                    moveSpeed = moveSpeedDefault * healthFlaskSpeedFactor;
-
-                    healthFlaskOfCooldown = false;
-
-                }
+                bowIsLoading = true;
+                anim.SetTrigger("StopBow");
+                anim.SetTrigger("BowAim");
             }
-            else
+        }
+        else
+        {
+            string path = mousePath;
+            if (keyboardUsed)
             {
-                if (FlaskWaitTimer(healthFlaskCooldown))
-                {
-                    flaskUses--;
-                    healthFlaskStart = false;
-                    healthFlaskOfCooldown = true;
-                    healthFlaskTimerRunning = true;
-
-                }
+                path = keyboardPath;
+            }
+            if (!Input.GetKey(path/*KeyCode.Mouse0*/))
+            {
+                queueBowCancel = true;
             }
 
-            if (dodgerollStart == true || startAttackCooldown == true)
+        }
+
+    }
+
+    private void BowLoading()
+    {
+
+
+        if (AttackWaitTimer(bowChargeTime))
+        {
+            bowIsFinishedLoading = true;
+            bowIsLoading = false;
+        }
+        else
+        {
+
+        }
+    }
+
+    private void BowFire()
+    {
+
+        mana = mana - bowManaCost;
+        Debug.Log(mana + "  manaleft");
+        //   gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
+        bowIsFinishedLoading = false;
+        anim.SetTrigger("StopBow");
+        anim.SetTrigger("BowRecoil");
+        playerVFX.StopArrowChannelEffect();
+        startBowCooldown = true;
+
+    }
+    private void BowCancel()
+    {
+        anim.SetTrigger("StopBow");
+        playerVFX.StopArrowChannelEffect();
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+        queueBowCancel = false;
+        attackTimer = 0;
+        drawBow = false;
+        bowIsLoading = false;
+        bowIsFinishedLoading = false;
+        startBowCooldown = false;
+
+        bowIsActive = false;
+
+    }
+
+
+
+    private void BowCooldown()
+    {
+        if (AttackWaitTimer(bowCooldownTime))
+        {
+            transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+            startBowCooldown = false;
+            bowIsActive = false;
+            anim.SetTrigger("StopBow");
+
+        }
+        else
+        {
+
+        }
+    }
+
+
+    private void HealthFlaskManager()
+    {
+        if (inputActions.WindlessLand.HealthRefill.triggered/*Input.GetKeyDown(KeyCode.Q)*/ && usingHealthFlask == false && healthFlaskOfCooldown && flaskUses > 0 && attacking == false && dodgerollTimerRunning == false && bowIsActive == false && gameObject.GetComponent<PlayerHealthScript>().GetHealth() < gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth() && moveAllow == true)
+        {
+            anim.SetBool("DrinkingPot", true);
+            playerVFX.PlayPotionEffect();
+
+            HealthRefill = FMODUnity.RuntimeManager.CreateInstance("event:/Game/HealthRefill");
+            HealthRefill.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+            HealthRefill.start();
+            HealthRefill.release();
+            usingHealthFlask = true;
+            healthPot.SetActive(true);
+
+            if (bowEquipped)
+            {
+                bow.SetActive(false);
+            }
+            if (swordEquipped)
+            {
+                sword.SetActive(false);
+            }
+        }
+
+        if (doneDrinkingFlask == true)
+        {
+            GetComponentInParent<PlayerHealthScript>().regainHealth(2);
+            GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeedFactor(1);
+            flaskUses--;
+            anim.SetBool("DrinkingPot", false);
+            healthFlaskOfCooldown = false;
+            usingHealthFlask = false;
+            GetComponentInParent<PlayerAnimEvents>().SetDoneDrinkingPotFalse();
+
+            healthPot.SetActive(false);
+            if (bowEquipped)
+            {
+                bow.SetActive(true);
+            }
+            if (swordEquipped)
+            {
+                sword.SetActive(true);
+            }
+        }
+
+        if (healthFlaskOfCooldown == false)
+        {
+            if (FlaskWaitTimer(healthFlaskCooldown))
             {
 
-                healthFlaskStart = false;
+
                 healthFlaskOfCooldown = true;
-                healthFlaskTimerRunning = true;
-                moveSpeed = moveSpeedDefault;
-                flaskTimer = 0;
+
+
 
             }
         }
+
+        if (dodgerollStart == true)
+            HealthFlaskCancel();
     }
 
 
-    void Dodgeroll(InputAction.CallbackContext obj)
+    private void HealthFlaskCancel()
     {
-        dodgerollRemapTrigger = true;
-        Debug.Log("dodgerollworks");
-    }
-
-    void DodgerollManager()
-    {
-        if (/*inputActions.WindlessLand.Dodgeroll.triggered ,,
-playerInput.actions["Dodgeroll"].triggered &&*/ dodgerollRemapTrigger && dodgerollOfCooldown)
-        //Input.GetKeyDown(KeyCode.Space) && dodgerollOfCooldown)
+        anim.SetBool("DrinkingPot", false);
+        GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeedFactor(1);
+        healthFlaskOfCooldown = true;
+        usingHealthFlask = false;
+        flaskTimer = 0;
+        healthPot.SetActive(false);
+        if (bowEquipped)
         {
-            dodgerollStart = true;
-            dodgerollTimerRunning = true;
-            dodgerollRemapTrigger = false;
-
-            //more anim things
-            Debug.Log("in player Dodgeroll");
-            anim.SetTrigger("DodgeRoll");
+            bow.SetActive(true);
+        }
+        if (swordEquipped)
+        {
+            sword.SetActive(true);
         }
 
+    }
+
+    private void StartDodgeroll()
+    {
+
+        dodgerollStart = true;
+        dodgerollTimerRunning = true;
+        dodgerollActivated = false; //new, for rebinding
+
+        //more anim things
+        //Debug.Log("in player Dodgeroll");
+        anim.SetTrigger("DodgeRoll");
+
+
+
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
+
+        if (playerInputActive)
+        {
+            transform.rotation = Quaternion.LookRotation(inputDirection);
+        }
+
+
+
+        dodgerolling = true;
+        dodgerollOfCooldown = false;
+        invincibility = true;
+    }
+
+    private void DodgerollManager()
+    {
+        if (dodgerollActivated /*Input.GetKeyDown(KeyCode.Space)*/ && dodgerollOfCooldown && attacking == false && bowIsActive == false && moveAllow == true)
+        {
+            StartDodgeroll();
+        }
         if (dodgerollStart == true)
         {
 
@@ -311,19 +874,22 @@ playerInput.actions["Dodgeroll"].triggered &&*/ dodgerollRemapTrigger && dodgero
                 if (DodgeWaitTimer(dodgerollDuration))
                 {
 
-                    moveAllow = true;
+                    transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
                     dodgerolling = false;
                     dodgerollTimerRunning = false;
-                    invincibility = false;
+
                 }
                 else
                 {
-                    transform.rotation = Quaternion.LookRotation(inputDirection);
-                    transform.position += (transform.forward).normalized * dodgerollSpeed * Time.deltaTime;
-                    moveAllow = false;
-                    dodgerolling = true;
-                    dodgerollOfCooldown = false;
-                    invincibility = true;
+                    if (dodgeTimer < dodgeDropOffTime)
+                    {
+                        playerRgb.velocity = ((transform.forward).normalized * dodgerollSpeed) + new Vector3(0, playerRgb.velocity.y, 0); ;
+                    }
+                    else
+                    {
+                        invincibility = false;
+                        playerRgb.velocity = ((transform.forward).normalized * dodgerollDropSpeed) + new Vector3(0, playerRgb.velocity.y, 0);
+                    }
 
 
                 }
@@ -333,7 +899,6 @@ playerInput.actions["Dodgeroll"].triggered &&*/ dodgerollRemapTrigger && dodgero
                 if (DodgeWaitTimer(dodgerollCooldown))
                 {
                     dodgerollStart = false;
-                    dodgerollRemapTrigger = false;
                     dodgerollOfCooldown = true;
 
 
@@ -358,61 +923,345 @@ playerInput.actions["Dodgeroll"].triggered &&*/ dodgerollRemapTrigger && dodgero
         return false;
     }
 
-    void AttackManager()
+    private void AttackManager()
     {
-        if (inputActions.WindlessLand.Attack.triggered/*playerInput.actions["Attack"].triggered,, /*Input.GetKeyDown(KeyCode.Mouse0)*/ && startAttackCooldown == false && dodgerollTimerRunning == false && healthFlaskStart == false)
+
+
+        endOfAttack = transform.GetComponentInParent<PlayerAnimEvents>().GetEndOfAttack();
+
+        InAttack();
+
+        if (sword.activeSelf == true && attacking == false && dodgerollTimerRunning == false && usingHealthFlask == false && moveAllow == true)
         {
-            Attack();
+            if (inputActions.WindlessLand.Attack.triggered/*Input.GetKeyDown(KeyCode.Mouse0)*/)
+            {
+                currentAttack = 1;
 
+                Attack();
+            }
+            if (inputActions.WindlessLand.HeavyAttack.triggered/*Input.GetKeyDown(KeyCode.Mouse1)*/ && mana >= heavyManaCost)
+            {
+                mana = mana - heavyManaCost;
+
+                HeavyAttack();
+            }
         }
-
-        AttackCoolDown();
     }
 
-    void Attack()
+    private void Attack()
     {
-        transform.rotation = lookRotation;
-        InstantiateAttackHitbox();
-        startAttackCooldown = true;
+
+        if (inputDelayOn)
+        {
+            delayTimer = 0;
+            allowNextInput = false;
+            runTimerOnce = true;
+        }
 
         //more anim things
         //Debug.Log("in player attack");
-        anim.SetTrigger("Attack");
-    }
-    void AttackCoolDown()
-    {
-        if (startAttackCooldown == true)
-        {
-            if (AttackWaitTimer(swingTime))
-            {
-                moveAllow = true;
 
-                startAttackCooldown = false;
-            }
-            else
+        currentAttackTrigger = "Attack" + currentAttack;
+        anim.SetTrigger(currentAttackTrigger);
+        playerVFX.PlayLightAttackEffect();
+
+        playerRgb.velocity = new Vector3(0, playerRgb.velocity.y, 0);
+
+
+        transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
+
+
+        //Vector3 hitPoint = ray.GetPoint(enter);
+        //plane.SetNormalAndPosition(Vector3.up, transform.position);
+        //Vector3 playerPositionOnPlane = plane.ClosestPointOnPlane(transform.position);
+
+        //lookRotation = Quaternion.LookRotation(hitPoint - playerPositionOnPlane);
+
+
+        if (autoAim == true && FindClosestEnemy() != null)
+        {
+            closestEnemy = FindClosestEnemy();
+            objectToFace = closestEnemy.transform;
+
+
+            // Vector3 hitPoint2 = closestEnemy.transform.position;
+            // Vector3 playerPositionOnPlane2 = plane.ClosestPointOnPlane(transform.position);
+            // enemyLookRotation = Quaternion.LookRotation(hitPoint2 - playerPositionOnPlane2);
+            // transform.rotation = enemyLookRotation;
+
+
+            transform.LookAt(objectToFace);
+        }
+
+
+        else
+        {
+            transform.rotation = lookRotation;
+        }
+
+
+        attacking = true;
+        playerRgb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+
+
+
+    }
+
+    private void HeavyAttack()
+    {
+
+        anim.SetTrigger("HeavyAttack");
+        playerVFX.PlayHeavyAttackEffect();
+
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
+        if (autoAim == true && FindClosestEnemy() != null)
+        {
+            closestEnemy = FindClosestEnemy();
+            objectToFace = closestEnemy.transform;
+            transform.LookAt(objectToFace);
+        }
+
+
+        else
+        {
+            transform.rotation = lookRotation;
+        }
+        attacking = true;
+        playerRgb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+
+    }
+
+
+    private void InAttack()
+    {
+
+
+        if (attacking && endPlayerStunned == false && usingHealthFlask == false && dodgerolling == false)
+        {
+
+            if (inputDelayOn == false)
             {
-                moveAllow = false;
+
+                if (inputActions.WindlessLand.Attack.triggered)//Input.GetKeyDown(KeyCode.Mouse0))
+                {
+
+                    queueAttack = true;
+                    queueDodge = false;
+                }
+                if (inputActions.WindlessLand.Dodgeroll.triggered)//Input.GetKeyDown(KeyCode.Space))
+                {
+
+                    queueAttack = false;
+                    queueDodge = true;
+                }
             }
+            else if (inputDelayOn)
+            {
+
+                if (runTimerOnce == true)
+                {
+
+
+                    if (InputDelayTimer())
+                    {
+                        allowNextInput = true;
+                        runTimerOnce = false;
+
+                    }
+                }
+
+                if (allowNextInput == true)
+                {
+
+                    if (inputActions.WindlessLand.Attack.triggered)//Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+
+                        queueAttack = true;
+                        queueDodge = false;
+                    }
+                    if (inputActions.WindlessLand.Dodgeroll.triggered)//Input.GetKeyDown(KeyCode.Space))
+                    {
+
+                        queueAttack = false;
+                        queueDodge = true;
+                    }
+                }
+            }
+
+            if (endOfAttack == false)
+            {
+                playerRgb.velocity = ((transform.forward).normalized * 2f) + new Vector3(0, playerRgb.velocity.y, 0);
+            }
+
+
+            if (endOfAttack == true)
+            {
+                playerRgb.velocity = new Vector3(0, playerRgb.velocity.y, 0);
+
+                if (AttackWaitTimer(lightSwingCooldown))
+                {
+                    anim.SetTrigger("StopAttack");
+                    attacking = false;
+                    playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+                    transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+                    transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
+                }
+
+
+                if (queueAttack == true)
+                {
+                    currentAttack++;
+                    queueAttack = false;
+                    if (currentAttack <= 3)
+                    {
+
+                        anim.SetTrigger("StopAttack");
+                        attacking = false;
+                        playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+                        transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
+                        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+                        attackTimer = 0;
+                        Attack();
+                    }
+                }
+
+                if (queueDodge == true)
+                {
+                    queueDodge = false;
+                    anim.SetTrigger("StopAttack");
+                    attacking = false;
+                    playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+                    transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
+                    transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+                    attackTimer = 0;
+                    StartDodgeroll();
+
+                }
+
+
+
+
+
+            }
+
+        }
+
+
+    }
+
+    void AttackCancel()
+    {
+        if (attacking == true)
+        {
+            anim.SetTrigger("StopAttack");
+        }
+
+
+        attacking = false;
+        playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+        attackTimer = 0;
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+        transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
+        queueDodge = false;
+        queueAttack = false;
+
+
+
+    }
+
+
+
+    private void StunHandler()
+    {
+
+        if (startPlayerStunned == true)
+        {
+            if (resetAnim == false)
+            {
+                anim.SetBool("PlayerIsStunned", true);
+            }
+            resetAnim = false;
+
+            playerRgb.velocity = (-(transform.forward).normalized * 1.5f) + new Vector3(0, playerRgb.velocity.y, 0);
+
+            if (endPlayerStunned == true)
+            {
+                anim.SetBool("PlayerIsStunned", false);
+                transform.GetComponentInParent<PlayerAnimEvents>().SetEndPlayerStunnedFalse();
+
+
+                if (attacking == true)
+                {
+                    AttackCancel();
+                }
+                if (bowIsActive == true)
+                {
+                    BowCancel();
+                }
+                if (usingHealthFlask == true)
+                {
+                    HealthFlaskCancel();
+                }
+                startPlayerStunned = false;
+                transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+            }
+
         }
 
     }
 
-    void InstantiateAttackHitbox()
+    public void StartPlayerStun()
     {
 
-        Instantiate(attackHitbox, transform.position + (transform.rotation * new Vector3(0, 0, 2f)), transform.rotation);
-        //GameObject hitBox = (GameObject)Instantiate(attackHitbox, transform.position + (transform.rotation * hitboxOffset), transform.rotation * Quaternion.Euler(xRotationOffset, yRotationOffset, zRotationOffset));
+        AttackCancel();
 
-        //hitBox.transform.localScale = hitboxScale;
+        if (bowIsActive == true)
+        {
+            BowCancel();
+        }
+        if (usingHealthFlask == true)
+        {
+            HealthFlaskCancel();
+        }
+        if (startPlayerStunned == true)
+        {
+            ResetStunAnim();
+        }
+        CancelLeverPull();
 
 
-        //hitBox.GetComponent<newHitbox>().SetTarget("Enemy");
-        //hitBox.GetComponent<newHitbox>().SetDamage(damage);
-        //hitBox.GetComponent<newHitbox>().SetSwingTime(swingTime);
+        startPlayerStunned = true;
 
 
 
     }
+    private void ResetStunAnim()
+    {
+        anim.SetBool("PlayerIsStunned", false);
+        resetAnim = true;
+    }
+
+
+
+    public void PullLever()
+    {
+        if (moveAllow == true && attacking == false && usingHealthFlask == false && bowIsActive == false && dodgerollTimerRunning == false)
+        {
+            anim.SetBool("PullingLever", true);
+        }
+
+    }
+
+    public void CancelLeverPull()
+    {
+        if (anim.GetBool("PullingLever") == true)
+            anim.SetBool("PullingLever", false);
+
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+    }
+
+
 
     private bool AttackWaitTimer(float seconds)
     {
@@ -425,24 +1274,10 @@ playerInput.actions["Dodgeroll"].triggered &&*/ dodgerollRemapTrigger && dodgero
             attackTimer = 0;
             return true;
 
-
         }
+
         return false;
     }
-    public void CanMove()
-    {
-        if (canMove == true)
-        {
-            canMove = false;
-            Debug.Log("canMove = false");
-        }
-        else
-        {
-            canMove = true;
-            Debug.Log("canMove = true");
-        }
-    }
-
 
 
     private bool FlaskWaitTimer(float seconds)
@@ -470,9 +1305,38 @@ playerInput.actions["Dodgeroll"].triggered &&*/ dodgerollRemapTrigger && dodgero
     public void Respawn()
     {
         Debug.Log("Player Dead");
-        GetComponent<HealthScript>().regainHealth(100);
+        GetComponent<PlayerHealthScript>().regainHealth(100);
+        ResetPotionsToOriginal();
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            if (go.name != "Boss")
+            {
+                Destroy(go);
+            }
+        }
+
+
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Respawner"))
+        {
+
+            go.GetComponent<EnemyRespawnScript>().RespawnEnemy();
+
+        }
+        Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
+        Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        Dead.start();
+        Dead.release();
+        gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
         transform.position = respawnPoint.transform.position;
     }
+
+    public void SetRespawnPoint(Vector3 position)
+    {
+        //Debug.Log("Respawnpoint Set");
+        respawnPoint.transform.position = new Vector3(position.x, position.y + 2f, position.z);
+    }
+
+
 
     public float GetFlaskUses()
     {
@@ -480,6 +1344,112 @@ playerInput.actions["Dodgeroll"].triggered &&*/ dodgerollRemapTrigger && dodgero
         return flaskUses;
     }
 
+    public void ResetPotions()
+    {
+        if (flaskUses < originalFlaskUsesAmount)
+        {
+            SetFlaskUses(originalFlaskUsesAmount);
+        }
+
+    }
+
+    public void ResetPotionsToOriginal()
+    {
+        SetFlaskUses(originalFlaskUsesAmount);
+    }
+
+
+
+
+    public void SetFlaskUses(int x)
+    {
+        flaskUses = x;
+    }
+
+    public bool InputDelayTimer()
+    {
+
+        delayTimer += Time.deltaTime;
+
+        if (delayTimer >= inputDelay)
+        {
+
+            delayTimer = 0;
+            return true;
+
+        }
+
+        return false;
+    }
+
+    public void ChangeInputDelayOn()
+    {
+        if (inputDelayOn == false)
+        {
+            inputDelayOn = true;
+        }
+        else
+        {
+            inputDelayOn = false;
+        }
+
+    }
+
+
+    // Configs
+
+    public void setConfig(int newMaxMana, float newMoveSpeed)
+    {
+        maxMana = newMaxMana;
+        moveSpeed = newMoveSpeed;
+    }
+
+    public int getMaxMana()
+    {
+        return maxMana;
+    }
+
+    public float getMoveSpeed()
+    {
+        return moveSpeed;
+    }
+
+
+
+    // END Configs
+
+    public GameObject FindClosestEnemy()
+    {
+        GameObject[] enemies;
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject go in enemies)
+        {
+            Vector3 diff = go.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = go;
+                distance = curDistance;
+            }
+        }
+        return closest;
+    }
+
+    public void updateAutoaim()
+    {
+
+
+        INIParser ini = new INIParser();
+        ini.Open(Application.persistentDataPath + "ProtoConfig.ini");
+        autoAim = ini.ReadValue("Henrik", "autoAim;", true);
+        ini.Close();
+
+
+        //autoAim = x;
+    }
 }
 
 

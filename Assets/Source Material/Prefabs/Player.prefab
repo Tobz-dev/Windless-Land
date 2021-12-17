@@ -1992,6 +1992,7 @@ GameObject:
   - component: {fileID: 1427691672052367343}
   - component: {fileID: 1427691672052367344}
   - component: {fileID: 1427691672052367346}
+  - component: {fileID: 7454885690952539294}
   - component: {fileID: 8770593732380206627}
   - component: {fileID: 1427691672052367347}
   - component: {fileID: 8156951210086529455}
@@ -2079,6 +2080,51 @@ MonoBehaviour:
   zRotationOffset: 0
   anim: {fileID: 1427691672052367347}
   respawnPoint: {fileID: 1427691672052367343}
+  bow: {fileID: 8064645379238873386}
+  sword: {fileID: 1427691672213526296}
+  healthPot: {fileID: 4980676525226274299}
+  bowChargeTime: 0.2
+  arrow: {fileID: 2113062896949794006, guid: 247cb7b509011504c95c41129a94135a, type: 3}
+  bowCooldownTime: 0.2
+  bowDrawTime: 0.15
+--- !u!114 &7454885690952539294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427691672052367348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f72ac3ec0bee474b97ad93217c7bb56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5.5
+  maxMana: 100
+  bowManaCost: 30
+  heavyManaCost: 50
+  dodgerollDuration: 0.8
+  dodgerollCooldown: 0.2
+  dodgerollSpeed: 9
+  dodgerollDropSpeed: 5
+  dodgeDropOffTime: 0.4
+  lightAttackHitbox: {fileID: 3483705884616122953, guid: 4e7239f0fd86c2e4c96d38353dfb8412, type: 3}
+  heavyAttackHitbox: {fileID: 3483705884616122953, guid: 64b24f8498a572547a2d8e587a50b698, type: 3}
+  timeToNextSwing: 0.2
+  timeToNextSwingLight: 0.2
+  timeToNextSwingHeavy: 0.4
+  lightAttackDelay: 0.3
+  lightSwingCooldown: 0.3
+  heavySwingCooldown: 0.6
+  heavyAttackDelay: 0.6
+  objectToFace: {fileID: 0}
+  autoAim: 0
+  hitboxOffset: {x: 0, y: 0, z: 0}
+  xRotationOffset: 0
+  yRotationOffset: 0
+  zRotationOffset: 0
+  anim: {fileID: 1427691672052367347}
+  respawnPoint: {fileID: 0}
   bow: {fileID: 8064645379238873386}
   sword: {fileID: 1427691672213526296}
   healthPot: {fileID: 4980676525226274299}

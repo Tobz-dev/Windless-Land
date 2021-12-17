@@ -257,4 +257,28 @@ public class InputManager : MonoBehaviour
         rebindWarning.SetActive(false);
         Debug.Log("setactivefalse");
     }
+
+    public static string GetBindingPath(InputAction action, int bindingIndex)
+    {
+        string path = action.bindings[bindingIndex].effectivePath;
+        int pathNameIndex = path.IndexOf('/') + 1;
+        if (path.Equals("<Mouse>/leftButton") || path.Equals("<Mouse>/middleButton") || path.Equals("<Mouse>/rightButton"))
+        {
+            if (path.Equals("<Mouse>/leftButton"))
+            {
+                path = "mouse 0";
+            }
+            else if (path.Equals("<Mouse>/middleButton"))
+            {
+                path = "mouse 1";
+            }
+            else if (path.Equals("<Mouse>/rightButton"))
+            {
+                path = "mouse 2";
+            }
+            pathNameIndex = 0;
+        }
+
+        return path.Substring(pathNameIndex);
+    }
 }

@@ -8,7 +8,7 @@ public class SaveSpawnPoint : MonoBehaviour
 {
     public GameObject panel;
     public TextMeshProUGUI pressText;
-    //public TextMeshProUGUI bindingText; //RebindingMenu > KeyboardMenu > RebindLayoutgroup > Interact > InteractBinding > TriggerRebindButton > BindingText
+    public TextMeshProUGUI bindingText; //RebindingMenu > KeyboardMenu > RebindLayoutgroup > Interact > InteractBinding > TriggerRebindButton > BindingText
     private bool playerOnCheckpoint = false;
     private bool usedCheckpoint = false;
 
@@ -21,7 +21,7 @@ public class SaveSpawnPoint : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) /*inputActions.WindlessLand.Interact.triggered*/ && playerOnCheckpoint && usedCheckpoint == false)
+        if ((Input.GetKeyDown(KeyCode.E) || inputActions.WindlessLand.Interact.triggered) && playerOnCheckpoint && usedCheckpoint == false)
         {
             usedCheckpoint = true;
             panel.SetActive(false);

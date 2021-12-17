@@ -1084,3 +1084,277 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
 }
 
 
+/* newer script bow code fail
+ * //long annoying code for checking & converting binding.effectivePath 
+        //to a format that works with Input.GetKeyDown etc etc
+        //i'm sure there are better ways to do this but it was the first one that worked after lots of testing & googling
+        //string keyboardPath = InputManager.GetBindingPath(inputActions.WindlessLand.Attack, 0);
+        //string mousePath = InputManager.GetBindingPath(inputActions.WindlessLand.Attack, 1);
+        int bindingIndex = 0;
+        if (controlUsed.Contains("Gamepad"))
+        {
+            bindingIndex = 2;
+        }
+        else if (controlUsed.Contains("Mouse"))
+        {
+            bindingIndex = 1;
+        }
+        else if (controlUsed.Contains("Keyboard"))
+        {
+            bindingIndex = 0;
+        }
+        Debug.Log(controlUsed);
+        Debug.Log(bindingIndex);
+        string path = InputManager.GetBindingPath(inputActions.WindlessLand.Attack, bindingIndex);
+
+        string keyboardPath = inputActions.WindlessLand.Attack.bindings[0].effectivePath;
+        string mousePath = inputActions.WindlessLand.Attack.bindings[1].effectivePath;
+        int pathNameIndex = keyboardPath.IndexOf('/') + 1;
+        int pathNameIndexMouse = mousePath.IndexOf('/') + 1;
+        if (mousePath.Equals("<Mouse>/leftButton") || mousePath.Equals("<Mouse>/middleButton") || mousePath.Equals("<Mouse>/rightButton"))
+        {
+            if (mousePath.Equals("<Mouse>/leftButton"))
+            {
+                mousePath = "mouse 0";
+            }
+            else if (keyboardPath.Equals("<Mouse>/middleButton"))
+            {
+                keyboardPath = "mouse 1";
+            }
+            else if (keyboardPath.Equals("<Mouse>/rightButton"))
+            {
+                keyboardPath = "mouse 2";
+            }
+            pathNameIndexMouse = 0;
+        }
+
+        if (keyboardPath.Equals("<Mouse>/leftButton") || keyboardPath.Equals("<Mouse>/middleButton") || keyboardPath.Equals("<Mouse>/rightButton"))
+        {
+            if (keyboardPath.Equals("<Mouse>/leftButton"))
+            {
+                keyboardPath = "mouse 0";
+            }
+            else if (keyboardPath.Equals("<Mouse>/middleButton"))
+            {
+                keyboardPath = "mouse 1";
+            }
+            else if (keyboardPath.Equals("<Mouse>/rightButton"))
+            {
+                keyboardPath = "mouse 2";
+            }
+            pathNameIndex = 0;
+        }
+        keyboardPath = keyboardPath.Substring(pathNameIndex);
+        mousePath = mousePath.Substring(pathNameIndexMouse);
+
+        if (bow.activeSelf == true && dodgerollTimerRunning == false && usingHealthFlask == false && startPlayerStunned == false)
+        {
+            if (bowIsActive == false && mana >= bowManaCost)
+            {
+                if (Input.GetKeyDown(KeyCode.Mouse0))//keyboardpath))
+                {
+                    Debug.Log(path);
+                    StartBowDraw();
+                    keyboardUsed = true;
+                    mouseUsed = false;
+                    gamepadUsed = false;
+                }
+                /*
+                if (Input.GetKeyDown(mousePath))
+                {
+                    StartBowDraw();
+                    mouseUsed = true;
+                    keyboardUsed = false;
+                    gamepadUsed = false;
+                }
+                else if(Input.GetKeyDown(InputManager.GetBindingPath(inputActions.WindlessLand.Attack, 2)))
+                {
+                    StartBowDraw();
+                    gamepadUsed = true;
+                    keyboardUsed = false;
+                    mouseUsed = false;
+                }
+                
+
+            }
+
+            if (bowIsActive == true)
+{
+
+
+    if (drawBow)
+    {
+        if (autoAim == true && FindClosestEnemy() != null)
+        {
+            closestEnemy = FindClosestEnemy();
+            objectToFace = closestEnemy.transform;
+            transform.LookAt(objectToFace);
+        }
+
+
+        else
+        {
+            transform.rotation = lookRotation;
+        }
+        DrawBow(path);
+    }
+
+    if (bowIsLoading)
+    {
+        if (autoAim == true && FindClosestEnemy() != null)
+        {
+            closestEnemy = FindClosestEnemy();
+            objectToFace = closestEnemy.transform;
+            transform.LookAt(objectToFace);
+        }
+
+
+        else
+        {
+            transform.rotation = lookRotation;
+        }
+
+        BowLoading();
+
+    }
+    if (bowIsFinishedLoading)
+    {
+
+        if (autoAim == true && FindClosestEnemy() != null)
+        {
+            closestEnemy = FindClosestEnemy();
+            objectToFace = closestEnemy.transform;
+            transform.LookAt(objectToFace);
+        }
+
+
+        else
+        {
+            transform.rotation = lookRotation;
+        }
+    }
+
+    if (/*((!Input.GetKey(keyboardPath) && keyboardUsed) || (!Input.GetKey(mousePath) && mouseUsed) || (!Input.GetKey(InputManager.GetBindingPath(inputActions.WindlessLand.Attack, 2)) && gamepadUsedInput.GetKeyUp(KeyCode.Mouse0) && bowIsFinishedLoading == true)
+    {
+
+        BowFire();
+    }
+
+    if (startBowCooldown)
+    {
+        BowCooldown();
+
+    }
+
+    if ((/*((!Input.GetKey(keyboardPath) && keyboardUsed) || (!Input.GetKey(mousePath) && mouseUsed) || (!Input.GetKey(InputManager.GetBindingPath(inputActions.WindlessLand.Attack, 2)) && gamepadUsed)Input.GetKeyUp(KeyCode.Mouse0) && drawBow == false && bowIsFinishedLoading == false && startBowCooldown == false && drawBow == false) || drawBow == false && queueBowCancel == true)
+    {
+
+        BowCancel();
+    }
+}
+        }
+
+
+
+
+    }
+    private void StartBowDraw()
+{
+
+    bowIsActive = true;
+    anim.SetTrigger("DrawBow");
+    playerVFX.PlayArrowChannelEffect();
+    playerRgb.velocity = new Vector3(0, playerRgb.velocity.y, 0);
+    transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
+
+    drawBow = true;
+
+}
+private void DrawBow(string rebindPath)
+{
+    if (AttackWaitTimer(bowDrawTime))
+    {
+
+
+        drawBow = false;
+
+        if (queueBowCancel == false)
+        {
+            bowIsLoading = true;
+            anim.SetTrigger("StopBow");
+            anim.SetTrigger("BowAim");
+        }
+    }
+    else
+    {
+        if (Input.GetKeyUp(rebindPath/*KeyCode.Mouse0))
+        {
+            queueBowCancel = true;
+        }
+
+    }
+
+}
+
+private void BowLoading()
+{
+
+
+    if (AttackWaitTimer(bowChargeTime))
+    {
+        bowIsFinishedLoading = true;
+        bowIsLoading = false;
+    }
+    else
+    {
+
+    }
+}
+
+private void BowFire()
+{
+
+    mana = mana - bowManaCost;
+    Debug.Log(mana + "  manaleft");
+    //   gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
+    bowIsFinishedLoading = false;
+    anim.SetTrigger("StopBow");
+    anim.SetTrigger("BowRecoil");
+    playerVFX.StopArrowChannelEffect();
+    startBowCooldown = true;
+
+}
+private void BowCancel()
+{
+    anim.SetTrigger("StopBow");
+    playerVFX.StopArrowChannelEffect();
+    transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+    queueBowCancel = false;
+    attackTimer = 0;
+    drawBow = false;
+    bowIsLoading = false;
+    bowIsFinishedLoading = false;
+    startBowCooldown = false;
+
+    bowIsActive = false;
+
+}
+
+
+
+private void BowCooldown()
+{
+    if (AttackWaitTimer(bowCooldownTime))
+    {
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+        startBowCooldown = false;
+        bowIsActive = false;
+        anim.SetTrigger("StopBow");
+
+    }
+    else
+    {
+
+    }
+}
+*/

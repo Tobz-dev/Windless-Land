@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2947,7 +2947,7 @@ PrefabInstance:
     - target: {fileID: 62050489139344893, guid: e8fb343cc8181324d90fcd0b148d65d5, type: 3}
       propertyPath: logpanel
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 846203642}
     - target: {fileID: 62050489139344893, guid: e8fb343cc8181324d90fcd0b148d65d5, type: 3}
       propertyPath: playerHP
       value: 
@@ -2959,6 +2959,10 @@ PrefabInstance:
     - target: {fileID: 62050489139344893, guid: e8fb343cc8181324d90fcd0b148d65d5, type: 3}
       propertyPath: arrowAmmo
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 62050489139344893, guid: e8fb343cc8181324d90fcd0b148d65d5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 62050489139344893, guid: e8fb343cc8181324d90fcd0b148d65d5, type: 3}
       propertyPath: playerHUD
@@ -3211,7 +3215,7 @@ PrefabInstance:
     - target: {fileID: 186463391684247985, guid: e8fb343cc8181324d90fcd0b148d65d5, type: 3}
       propertyPath: objectsToGetTextFromAndSetInactive.Array.data[7]
       value: 
-      objectReference: {fileID: 658460592}
+      objectReference: {fileID: 599236003}
     - target: {fileID: 186463391684247985, guid: e8fb343cc8181324d90fcd0b148d65d5, type: 3}
       propertyPath: objectsToGetTextFromAndSetInactive.Array.data[12]
       value: 
@@ -3336,6 +3340,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3221247594429941417, guid: e8fb343cc8181324d90fcd0b148d65d5, type: 3}
+      propertyPath: logpanel
+      value: 
+      objectReference: {fileID: 846203642}
     - target: {fileID: 3293670679105514371, guid: e8fb343cc8181324d90fcd0b148d65d5, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -3951,6 +3959,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 708040291920363192, guid: e8fb343cc8181324d90fcd0b148d65d5, type: 3}
   m_PrefabInstance: {fileID: 599235997}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &599236003 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6665753971906306297, guid: e8fb343cc8181324d90fcd0b148d65d5, type: 3}
+  m_PrefabInstance: {fileID: 599235997}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &631328982
 GameObject:
   m_ObjectHideFlags: 0
@@ -4465,6 +4478,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1427691672052367346, guid: 88452f2814ba9584ca4e7b2a38114a19, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427691672052367346, guid: 88452f2814ba9584ca4e7b2a38114a19, type: 3}
       propertyPath: respawnPoint
       value: 
       objectReference: {fileID: 1790035186}
@@ -4472,6 +4489,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7454885690952539294, guid: 88452f2814ba9584ca4e7b2a38114a19, type: 3}
+      propertyPath: respawnPoint
+      value: 
+      objectReference: {fileID: 1790035186}
     - target: {fileID: 8770593732380206627, guid: 88452f2814ba9584ca4e7b2a38114a19, type: 3}
       propertyPath: cameraFollow
       value: 
@@ -5169,6 +5190,11 @@ MonoBehaviour:
 --- !u!1 &846203641 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9033434445838785900, guid: caa63adc09041a345b095b7351537a06, type: 3}
+  m_PrefabInstance: {fileID: 846203639}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &846203642 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 468247826665945795, guid: caa63adc09041a345b095b7351537a06, type: 3}
   m_PrefabInstance: {fileID: 846203639}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &848168267 stripped

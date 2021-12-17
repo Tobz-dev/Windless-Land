@@ -263,7 +263,10 @@ public class RebindUI : MonoBehaviour
     {
         foreach (GameObject script in rebindScripts)
         {
-            script.GetComponent<RebindUI>().UpdateUI();
+            if (script.GetComponent<RebindUI>() != null)
+            {
+                script.GetComponent<RebindUI>().UpdateUI();
+            }
         }
     }
 

@@ -12,7 +12,14 @@ public class ManaFountain : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             Debug.Log("ManaFountain. hit player");
-            collision.gameObject.GetComponent<CharacterController>().ManaIncreased(manaRestoreValue);
+            if (collision.gameObject.GetComponent<CharacterController>().enabled)
+            {
+                collision.gameObject.GetComponent<CharacterController>().ManaIncreased(manaRestoreValue);
+            }
+            else
+            {
+                collision.gameObject.GetComponent<CharacterControllerRemapTest>().ManaIncreased(manaRestoreValue);
+            }
         }
     }
 }
