@@ -75,6 +75,7 @@ public class InputManager : MonoBehaviour
                 return;
             }
 
+            /*
             if(actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/enter") || actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/escape") || actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/numpadEnter") 
             || actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/leftMeta")) //cancels rebinding if chosen key isn't allowed/is otherwise occupied (escape, enter, windows/meta key etc)
             {
@@ -84,6 +85,7 @@ public class InputManager : MonoBehaviour
                 instance.StartCoroutine(DelayInactivation(2f, rebindPanel.transform.GetChild(2).gameObject));
                 return;
             }
+            */
 
             if (compositeBinding)
             {
@@ -109,7 +111,6 @@ public class InputManager : MonoBehaviour
             rebindCanceled?.Invoke();
             rebindPanel.SetActive(false);
         }); //same functionality as above when rebinding is canceled
-        rebind.WithControlsExcluding("<Keyboard>/escape");
         rebind.WithCancelingThrough("<Keyboard>/escape");
         rebind.WithCancelingThrough("<Gamepad>/buttonEast");
 

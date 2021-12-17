@@ -51,7 +51,7 @@ public class SaveSpawnPoint : MonoBehaviour
         {
             panel.SetActive(true);
             playerOnCheckpoint = true;
-            //pressText.text = "Press " + bindingText.text + " to interact";          
+            pressText.text = "Press " + bindingText.text + " to interact";          
         }
     }
 
