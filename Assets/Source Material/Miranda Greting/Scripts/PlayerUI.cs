@@ -20,6 +20,7 @@ public class PlayerUI : MonoBehaviour
     private int maxMana;
     private PlayerHealthScript hpScript;
     private CharacterController characterController;
+    private CharacterControllerRemapTest altCharacterController;
     private int previousHealth;
     private int previousFlaskAmt;
     private int previousMana;
@@ -38,6 +39,7 @@ public class PlayerUI : MonoBehaviour
         previousHealth = maxHealth;
         health = maxHealth;
         characterController = player.GetComponent<CharacterController>();
+        altCharacterController = player.GetComponent<CharacterControllerRemapTest>();
         HealthSetup(health, maxHealth);
         maxFlasks = (int)characterController.GetFlaskUses();
         flaskAmount = previousFlaskAmt = maxFlasks;
@@ -49,11 +51,24 @@ public class PlayerUI : MonoBehaviour
 
     private void Update()
     {
-        flaskAmount = (int)characterController.GetFlaskUses();
-        if (flaskAmount != previousFlaskAmt)
+        if (characterController.enabled)
         {
-            flaskAmountText.text = characterController.GetFlaskUses().ToString();
-            previousFlaskAmt = flaskAmount;
+            flaskAmount = (int)characterController.GetFlaskUses();
+
+            if (flaskAmount != previousFlaskAmt)
+            {
+                flaskAmountText.text = characterController.GetFlaskUses().ToString();
+                previousFlaskAmt = flaskAmount;
+            }
+        }
+        else
+        {
+            flaskAmount = (int)altCharacterController.GetFlaskUses();
+            if(flaskAmount != previousFlaskAmt)
+            {
+                flaskAmountText.text = altCharacterController.GetFlaskUses().ToString();
+                previousFlaskAmt = flaskAmount;
+            }
         }
 
         //check for health value change
@@ -63,13 +78,27 @@ public class PlayerUI : MonoBehaviour
             HealthSetup(health, maxHealth);
         }
 
-        mana = characterController.GetMana();
-        if(mana != previousMana && mana >= 0)
+        if (characterController.enabled)
         {
-            Debug.Log(mana);
-            manaSlider.value = mana;
-            previousMana = mana;
-            Debug.Log("mana = " + mana);
+            mana = characterController.GetMana();
+            if (mana != previousMana && mana >= 0)
+            {
+                Debug.Log(mana);
+                manaSlider.value = mana;
+                previousMana = mana;
+                Debug.Log("mana = " + mana);
+            }
+        }
+        else
+        {
+            mana = altCharacterController.GetMana();
+            if (mana != previousMana && mana >= 0)
+            {
+                Debug.Log(mana);
+                manaSlider.value = mana;
+                previousMana = mana;
+                Debug.Log("mana = " + mana);
+            }
         }
 
         //testing

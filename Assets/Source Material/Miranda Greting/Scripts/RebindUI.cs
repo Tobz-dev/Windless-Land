@@ -43,7 +43,7 @@ public class RebindUI : MonoBehaviour
 
     private void Awake()
     {
-        InputManager.LoadBindingOverride(actionName);
+        //InputManager.LoadBindingOverride(actionName);
         //ResetAllBindings();
     }
 
@@ -263,7 +263,10 @@ public class RebindUI : MonoBehaviour
     {
         foreach (GameObject script in rebindScripts)
         {
-            script.GetComponent<RebindUI>().UpdateUI();
+            if (script.GetComponent<RebindUI>() != null)
+            {
+                script.GetComponent<RebindUI>().UpdateUI();
+            }
         }
     }
 

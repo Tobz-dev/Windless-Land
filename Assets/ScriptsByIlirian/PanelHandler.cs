@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using TMPro;
 
 
@@ -16,38 +17,57 @@ public class PanelHandler : MonoBehaviour
     private bool readLog;
     public int logNumber;
     private FMOD.Studio.EventInstance PageOpen;
+    private PauseMenuRebindTest pauseMenu;
 
     [SerializeField] private GameObject PressE;
 
     private PlayerInputs inputActions;
+    private string bindingName;
+    private string controllerType;
     
-    /*
     private void Awake()
     {
         inputActions = InputManager.inputActions;
     }
-
+    
     private void OnEnable()
     {
         inputActions.WindlessLand.Enable();
+        inputActions.WindlessLand.Interact.performed += Triggered;
+    }
+
+    private void Triggered(InputAction.CallbackContext ctx)
+    {
+        if (ctx.control.path.Contains("Gamepad"))
+        {
+            controllerType = "Gamepad";
+            bindingName = InputManager.GetBindingPath(inputActions.WindlessLand.Interact, 1);
+        }
+        else
+        {
+            controllerType = "Keyboard";
+            bindingName = InputManager.GetBindingPath(inputActions.WindlessLand.Interact, 0);
+        }
     }
 
     private void OnDisable()
     {
         inputActions.WindlessLand.Disable();
     }
-    */
+    
 
     void Start()
     {
         logPanel.SetActive(false);
         //pm = GetComponent<PauseMenu>();
         PressE.SetActive(false);
-
+        pauseMenu = GameObject.Find("MenuCanvas").GetComponent<PauseMenuRebindTest>();
+        readLog = false;
+        bindingName = InputManager.GetBindingPath(inputActions.WindlessLand.Interact, 0);
     }
     void Update()
     {
-        if (readLog && /*inputActions.WindlessLand.Interact.triggered*/Input.GetKeyUp(KeyCode.E))
+        if (readLog && /*Input.GetKeyUp(bindingName)*/inputActions.WindlessLand.Interact.triggered && !pauseMenu.CheckIfPaused()) /*Input.GetKeyUp(KeyCode.E)*/
         {
             if (!logPanel.activeSelf)
             {
@@ -57,6 +77,7 @@ public class PanelHandler : MonoBehaviour
                 PageOpen.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
                 PageOpen.start();
                 PageOpen.release();
+                Debug.Log(this.gameObject.name);
 
 
 
@@ -73,7 +94,18 @@ public class PanelHandler : MonoBehaviour
                     //TODO. have them change if the player is using a controller. 
                     //or if they have rebound the controls.
                     case 1:
-                        textmesh.text = "WASD to walk, \n \n  Spacebar to roll, \n \n  Left Mouse Button to attack";
+                        textmesh.text = "WASD to walk, \n \n  Space to roll, \n \n  Left Mouse Button or X to attack";
+                        /*
+                        if (controllerType.Equals("Keyboard"))
+                        {
+                            textmesh.text = "WASD to walk, \n \n  " + InputManager.GetBindingPath(inputActions.WindlessLand.Dodgeroll, 0) + " to roll, \n \n  " + InputManager.GetBindingPath(inputActions.WindlessLand.Attack, 0) + " or " + InputManager.GetBindingPath(inputActions.WindlessLand.Attack, 1) + " to attack";
+                            return;
+                        }
+                        else
+                        {
+                            textmesh.text = "Left stick to walk, \n \n  " + InputManager.GetBindingPath(inputActions.WindlessLand.Dodgeroll, 1) + " to roll, \n \n  " + InputManager.GetBindingPath(inputActions.WindlessLand.Attack, 3) + " to attack";
+                        }
+                        */
                         break;
                     case 2:
                         textmesh.text = "Q to drink a healing potion";
@@ -95,11 +127,10 @@ public class PanelHandler : MonoBehaviour
                 }
             }
         }
-        else if (logPanel == isActiveAndEnabled && Input.anyKeyDown /* Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)  /* && !inputActions.WindlessLand.Interact.triggered*/)
+        else if (logPanel == isActiveAndEnabled && Input.anyKeyDown && !Input.GetKeyDown(bindingName)/* Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)  /* && !inputActions.WindlessLand.Interact.triggered */)
         {
             logPanel.SetActive(false);
         }
-
     }
 
 
@@ -114,7 +145,6 @@ public class PanelHandler : MonoBehaviour
         }
     }
 
-
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -122,6 +152,7 @@ public class PanelHandler : MonoBehaviour
             //panel.SetActive(false);
             readLog = false;
             PressE.SetActive(false);
+            logPanel.SetActive(false);
         }
     }
 
