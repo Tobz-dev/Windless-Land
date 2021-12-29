@@ -59,11 +59,26 @@ public class PauseMenuRebindTest : MonoBehaviour
         pauseMenuBackground.SetActive(false);
 
         Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.ForceSoftware);
+
+
+
+        if (prototypeController.GetComponent<PrototypeScript>().prototypeEnabled == true)
+        {
+
+            Time.timeScale = prototypeController.GetComponent<PrototypeScript>().timeScaleVariable;
+            //Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("time scale is " + Time.timeScale);
+
         //TODO this via events so it can be remapped
         if (/*Input.GetKeyDown(KeyCode.Escape)*/inputActions.WindlessLand.Pause.triggered)
         {

@@ -42,6 +42,19 @@ public class PauseMenu : MonoBehaviour
 
         eventSystemHelper.SetActive(false);
         pauseMenuBackground.SetActive(false);
+
+
+
+        if (prototypeController.GetComponent<PrototypeScript>().prototypeEnabled == true)
+        {
+
+            Time.timeScale = prototypeController.GetComponent<PrototypeScript>().timeScaleVariable;
+            //Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
     }
 
     // Update is called once per frame
