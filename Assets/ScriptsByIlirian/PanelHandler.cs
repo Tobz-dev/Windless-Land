@@ -94,7 +94,7 @@ public class PanelHandler : MonoBehaviour
                     //TODO. have them change if the player is using a controller. 
                     //or if they have rebound the controls.
                     case 1:
-                        textmesh.text = "WASD to walk, \n \n  Space to roll, \n \n  Left Mouse Button or X to attack";
+                        textmesh.text = "WASD to walk, Space to roll, Left Mouse Button or X to attack";
                         /*
                         if (controllerType.Equals("Keyboard"))
                         {
@@ -108,7 +108,7 @@ public class PanelHandler : MonoBehaviour
                         */
                         break;
                     case 2:
-                        textmesh.text = "Q to drink a healing potion";
+                        textmesh.text = "Press Q to drink a healing potion";
                         break;
                     case 3:
                         textmesh.text = "Press the Right Mouse Button for a heavy attack. Heavy attacks consume mana";
