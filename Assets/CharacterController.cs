@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 // Main Authour : Tim Ag�lii
 public class CharacterController : MonoBehaviour
@@ -206,8 +207,43 @@ public class CharacterController : MonoBehaviour
     private float bowDrawTime;
     private bool queueBowCancel = false;
     private bool bowIsActive = false;
-   
 
+    //control rebinding
+    PlayerInputs inputActions;
+    Vector2 movementInput; //player walk rebindings
+    private bool attackActivated; //will probably be needed to get bow to work for gamepad
+    private bool attackDone;
+    private bool attackCanceled;
+    private bool keyboardUsed;
+    private bool mouseUsed;
+    private bool gamepadUsed;
+    private string controlUsed;
+    private string movePath;
+
+    private void OnEnable()
+    {
+        inputActions.WindlessLand.Enable();
+        inputActions.WindlessLand.Move.performed += MovePerformed;
+        inputActions.WindlessLand.Attack.started += ctx => attackActivated = true;
+        inputActions.WindlessLand.Attack.performed += ctx => attackDone = true;
+        inputActions.WindlessLand.Attack.canceled += ctx => attackCanceled = true;
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Disable();
+    }
+
+    private void Awake()
+    {
+        inputActions = InputManager.inputActions;
+    }
+
+    private void MovePerformed(InputAction.CallbackContext ctx)
+    {
+        movementInput = ctx.ReadValue<Vector2>(); //saves which direction character is moving in
+        controlUsed = ctx.control.path; //saves if player is using keyboard or gamepad
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -235,7 +271,7 @@ public class CharacterController : MonoBehaviour
         //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
 
         updateAutoaim();
-
+        controlUsed = "Mouse";
     }
 
     // Update is called once per frame
@@ -263,7 +299,8 @@ public class CharacterController : MonoBehaviour
 
             StunHandler();
 
-            if (startPlayerStunned == false) {
+            if (startPlayerStunned == false) 
+            {
                 AttackManager();
 
 
@@ -288,12 +325,12 @@ public class CharacterController : MonoBehaviour
             UpdateMoveInput();
 
 
-           
+
 
 
             //anim stuff here. 
-            anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
-            anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
+            anim.SetFloat("XSpeed", movementInput.x);//Input.GetAxis("HorizontalKey"));
+            anim.SetFloat("YSpeed", movementInput.y);//Input.GetAxis("VerticalKey"));
         }
 
 
@@ -303,19 +340,28 @@ public class CharacterController : MonoBehaviour
         //}
         //else { playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY; }
     }
-    private void FixedUpdate()
-    {
-      
-
-    }
 
     private void PlayerRotationUpdate()
     {
 
-        if (moveAllow && Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey")) != 0)
+        if (moveAllow && (Mathf.Abs(movementInput.x) + Mathf.Abs(movementInput.y)) != 0)//Mathf.Abs(Input.GetAxis("HorizontalKey")) + Mathf.Abs(Input.GetAxis("VerticalKey")) != 0)
         {
-            Vector3 horizontal = (Input.GetAxis("Horizontal") * right);
-            Vector3 vertical = (Input.GetAxis("Vertical") * forward);
+            Vector3 horizontal = movementInput.x * right; //(Input.GetAxis("Horizontal") * right);
+            Vector3 vertical = movementInput.y * forward; //(Input.GetAxis("Vertical") * forward);
+
+            //sets horizontal to Input.GetAxis("Horizontal") if chosen rebinding is a button that triggers it
+            if ((inputActions.WindlessLand.Move.bindings[3].effectivePath.Equals("<Keyboard>/a") || inputActions.WindlessLand.Move.bindings[3].effectivePath.Equals("<Keyboard>/leftArrow")) && (inputActions.WindlessLand.Move.bindings[4].effectivePath.Equals("<Keyboard>/d") || inputActions.WindlessLand.Move.bindings[4].effectivePath.Equals("<Keyboard>/rightArrow")) && !controlUsed.Contains("Gamepad"))
+            {
+                horizontal = (Input.GetAxis("Horizontal") * right);
+            }
+
+            //sets vertical to Input.GetAxis("Vertical") if chosen rebinding is a button that triggers it
+            //control rebinding & smooth turns do not go well together :blobsad:
+            if ((inputActions.WindlessLand.Move.bindings[1].effectivePath.Equals("<Keyboard>/w") || inputActions.WindlessLand.Move.bindings[1].effectivePath.Equals("<Keyboard>/upArrow")) && (inputActions.WindlessLand.Move.bindings[2].effectivePath.Equals("<Keyboard>/s") || inputActions.WindlessLand.Move.bindings[2].effectivePath.Equals("<Keyboard>/downArrow")) && !controlUsed.Contains("Gamepad"))
+            {
+                vertical = (Input.GetAxis("Vertical") * forward);
+            }
+
             Vector3 rotation = horizontal + vertical;
 
             transform.rotation = Quaternion.LookRotation(rotation);
@@ -343,9 +389,10 @@ public class CharacterController : MonoBehaviour
         doneDrinkingFlask = GetComponentInParent<PlayerAnimEvents>().GetDoneDrinkingPot();
     }
 
-   private void UpdateMoveInput() {
-        Vector3 rightMovement = right * moveSpeed *  Input.GetAxis("HorizontalKey");
-        Vector3 upMovement = forward * moveSpeed * Input.GetAxis("VerticalKey");
+   private void UpdateMoveInput() 
+   {
+        Vector3 rightMovement = right * moveSpeed * movementInput.x; //Input.GetAxis("HorizontalKey");
+        Vector3 upMovement = forward * moveSpeed * movementInput.y; //Input.GetAxis("VerticalKey");
 
         playerMovement = rightMovement + upMovement;
 
@@ -367,7 +414,8 @@ public class CharacterController : MonoBehaviour
         {
             playerInputActive = false;
         }
-        else {
+        else 
+        {
             playerInputActive = true;
         }
 
@@ -385,15 +433,18 @@ public class CharacterController : MonoBehaviour
   
     }
 
-    public void ManaIncreased(int i) {
+    public void ManaIncreased(int i) 
+    {
         mana = mana + i;
-        if (mana > maxMana) {
+        if (mana > maxMana) 
+        {
             mana = maxMana;
         }
         //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
     }
 
-    public int GetMaxMana() {
+    public int GetMaxMana() 
+    {
         return maxMana;
     }
 
@@ -403,18 +454,20 @@ public class CharacterController : MonoBehaviour
     }
 
 
-   private void EquipManager() {
+   private void EquipManager() 
+   {
         if (bowIsActive == false && startAttackDelay == false && attacking == false && moveAllow == true && usingHealthFlask == false)
         {
-       
-            if (Input.GetKeyDown(KeyCode.Alpha2))
+            //detects when Equip Bow rebinding is triggered
+            if (inputActions.WindlessLand.EquipBow.triggered)//Input.GetKeyDown(KeyCode.Alpha2))
             {
                 bow.SetActive(true);
                 sword.SetActive(false);
                 swordEquipped = false;
                 bowEquipped = true;
             }
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            //detects when Equip Sword rebinding is triggered
+            if (inputActions.WindlessLand.EquipSword.triggered)//Input.GetKeyDown(KeyCode.Alpha1))
             {
                 bow.SetActive(false);
                 sword.SetActive(true);
@@ -426,16 +479,70 @@ public class CharacterController : MonoBehaviour
 
     }
 
-   private void BowManager() {
-       if (bow.activeSelf == true && dodgerollTimerRunning == false && usingHealthFlask == false && startPlayerStunned == false)
+   private void BowManager() 
+    {
+        //long annoying code for checking & converting binding.effectivePath 
+        //to a format that works with Input.GetKeyDown etc etc
+        //i'm sure there are better ways to do this but it was the first one that worked after lots of testing & googling
+        string keyboardPath = inputActions.WindlessLand.Attack.bindings[0].effectivePath;
+        string mousePath = inputActions.WindlessLand.Attack.bindings[1].effectivePath;
+        int pathNameIndex = keyboardPath.IndexOf('/') + 1;
+        int pathNameIndexMouse = mousePath.IndexOf('/') + 1;
+        if (mousePath.Equals("<Mouse>/leftButton") || mousePath.Equals("<Mouse>/middleButton") || mousePath.Equals("<Mouse>/rightButton"))
         {
-            if (bowIsActive == false && mana >= bowManaCost) {
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (mousePath.Equals("<Mouse>/leftButton"))
+            {
+                mousePath = "mouse 0";
+            }
+            else if (keyboardPath.Equals("<Mouse>/middleButton"))
+            {
+                keyboardPath = "mouse 1";
+            }
+            else if (keyboardPath.Equals("<Mouse>/rightButton"))
+            {
+                keyboardPath = "mouse 2";
+            }
+            pathNameIndexMouse = 0;
+        }
+
+        if (keyboardPath.Equals("<Mouse>/leftButton") || keyboardPath.Equals("<Mouse>/middleButton") || keyboardPath.Equals("<Mouse>/rightButton"))
+        {
+            if (keyboardPath.Equals("<Mouse>/leftButton"))
+            {
+                keyboardPath = "mouse 0";
+            }
+            else if (keyboardPath.Equals("<Mouse>/middleButton"))
+            {
+                keyboardPath = "mouse 1";
+            }
+            else if (keyboardPath.Equals("<Mouse>/rightButton"))
+            {
+                keyboardPath = "mouse 2";
+            }
+            pathNameIndex = 0;
+        }
+        keyboardPath = keyboardPath.Substring(pathNameIndex);
+        mousePath = mousePath.Substring(pathNameIndexMouse);
+
+        if (bow.activeSelf == true && dodgerollTimerRunning == false && usingHealthFlask == false && startPlayerStunned == false)
+        {
+            if (bowIsActive == false && mana >= bowManaCost) 
+            {
+                if (Input.GetKeyDown(keyboardPath))//KeyCode.Mouse0))
                 {
                     StartBowDraw();
-
+                    keyboardUsed = true;
+                    mouseUsed = false;
+                    gamepadUsed = false;
                 }
 
+                if (Input.GetKeyDown(mousePath))
+                {
+                    StartBowDraw();
+                    mouseUsed = true;
+                    keyboardUsed = false;
+                    gamepadUsed = false;
+                }
             }
 
             if (bowIsActive == true)
@@ -456,7 +563,7 @@ public class CharacterController : MonoBehaviour
                     {
                         transform.rotation = lookRotation;
                     }
-                    DrawBow();
+                    DrawBow(keyboardPath, mousePath);
                 }
 
                 if (bowIsLoading)
@@ -494,7 +601,7 @@ public class CharacterController : MonoBehaviour
                     }
                 }
 
-                if (Input.GetKeyUp(KeyCode.Mouse0) && bowIsFinishedLoading == true)
+                if (((Input.GetKeyUp(keyboardPath) && keyboardUsed) || (Input.GetKeyUp(mousePath) && !keyboardUsed)/*Input.GetKeyUp(KeyCode.Mouse0)*/ && bowIsFinishedLoading == true))
                 {
 
                     BowFire();
@@ -506,7 +613,7 @@ public class CharacterController : MonoBehaviour
 
                 }
 
-                if ((Input.GetKeyUp(KeyCode.Mouse0) && drawBow == false && bowIsFinishedLoading == false && startBowCooldown == false && drawBow == false) || drawBow == false && queueBowCancel == true)
+                if ((((Input.GetKeyUp(keyboardPath) && keyboardUsed) || (Input.GetKeyUp(mousePath) && !keyboardUsed) /*Input.GetKeyUp(KeyCode.Mouse0)*/ && drawBow == false && bowIsFinishedLoading == false && startBowCooldown == false && drawBow == false) || drawBow == false && queueBowCancel == true))
                 {
 
                     BowCancel();
@@ -518,7 +625,8 @@ public class CharacterController : MonoBehaviour
    
 
     }
-   private void StartBowDraw() {
+   private void StartBowDraw() 
+   {
 
         bowIsActive = true;
         anim.SetTrigger("DrawBow");
@@ -529,14 +637,16 @@ public class CharacterController : MonoBehaviour
         drawBow = true;
         
     }
-   private void DrawBow() {
+   private void DrawBow(string keyboardPath, string mousePath) 
+   {
         if (AttackWaitTimer(bowDrawTime))
         {
             
             
             drawBow = false;
 
-            if (queueBowCancel == false) {
+            if (queueBowCancel == false) 
+            {
                 bowIsLoading = true;
                 anim.SetTrigger("StopBow");
                 anim.SetTrigger("BowAim");
@@ -544,16 +654,22 @@ public class CharacterController : MonoBehaviour
         }
         else
         {
-            if (Input.GetKeyUp(KeyCode.Mouse0)){
+            string path = mousePath;
+            if (keyboardUsed)
+            {
+                path = keyboardPath;
+            }
+            if (Input.GetKeyUp(path))//Input.GetKeyUp(KeyCode.Mouse0))
+            {
                 queueBowCancel = true;
             }
           
         }
 
-    }
+   }
 
    private void BowLoading()
-    {
+   {
       
 
         if (AttackWaitTimer(bowChargeTime))
@@ -567,7 +683,8 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-   private void BowFire() {
+   private void BowFire() 
+   {
       
         mana = mana - bowManaCost;
         Debug.Log(mana + "  manaleft");
@@ -578,8 +695,9 @@ public class CharacterController : MonoBehaviour
         playerVFX.StopArrowChannelEffect();
         startBowCooldown = true;
      
-    }
-   private void BowCancel() {
+   }
+   private void BowCancel() 
+   {
         anim.SetTrigger("StopBow");
         playerVFX.StopArrowChannelEffect();
         transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
@@ -592,7 +710,7 @@ public class CharacterController : MonoBehaviour
 
         bowIsActive = false;
      
-    }
+   }
 
     
 
@@ -613,8 +731,8 @@ public class CharacterController : MonoBehaviour
 
 
    private void HealthFlaskManager()
-    {
-        if (Input.GetKeyDown(KeyCode.Q) && usingHealthFlask == false && healthFlaskOfCooldown && flaskUses > 0 && attacking == false && dodgerollTimerRunning == false && bowIsActive == false && gameObject.GetComponent<PlayerHealthScript>().GetHealth() < gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth() && moveAllow == true)
+   {
+        if (inputActions.WindlessLand.HealthRefill.triggered/*Input.GetKeyDown(KeyCode.Q)*/ && usingHealthFlask == false && healthFlaskOfCooldown && flaskUses > 0 && attacking == false && dodgerollTimerRunning == false && bowIsActive == false && gameObject.GetComponent<PlayerHealthScript>().GetHealth() < gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth() && moveAllow == true)
         {
             anim.SetBool("DrinkingPot",true);
             playerVFX.PlayPotionEffect();
@@ -636,7 +754,8 @@ public class CharacterController : MonoBehaviour
             }
         }
 
-        if (doneDrinkingFlask == true) {
+        if (doneDrinkingFlask == true) 
+        {
             GetComponentInParent<PlayerHealthScript>().regainHealth(2);
             GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeedFactor(1);
             flaskUses--;
@@ -671,7 +790,7 @@ public class CharacterController : MonoBehaviour
 
         if (dodgerollStart == true)
             HealthFlaskCancel();
-        }
+   }
 
 
     private void HealthFlaskCancel() {
@@ -718,7 +837,7 @@ public class CharacterController : MonoBehaviour
 
    private void DodgerollManager()
     {
-    if (Input.GetKeyDown(KeyCode.Space) && dodgerollOfCooldown && attacking == false && bowIsActive == false && moveAllow == true)
+    if (inputActions.WindlessLand.Dodgeroll.triggered/*Input.GetKeyDown(KeyCode.Space)*/ && dodgerollOfCooldown && attacking == false && bowIsActive == false && moveAllow == true)
     {
         StartDodgeroll();
         }
@@ -788,13 +907,13 @@ public class CharacterController : MonoBehaviour
 
             if (sword.activeSelf == true && attacking == false && dodgerollTimerRunning == false && usingHealthFlask == false && moveAllow == true)
             {
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (inputActions.WindlessLand.Attack.triggered/*Input.GetKeyDown(KeyCode.Mouse0)*/)
                 {
                     currentAttack = 1;
 
                     Attack();
                 }
-                if (Input.GetKeyDown(KeyCode.Mouse1) && mana >= heavyManaCost)
+                if (inputActions.WindlessLand.HeavyAttack.triggered/*Input.GetKeyDown(KeyCode.Mouse1)*/ && mana >= heavyManaCost)
                 {
                     mana = mana - heavyManaCost;
 
@@ -899,21 +1018,23 @@ public class CharacterController : MonoBehaviour
             if (inputDelayOn == false)
             {
 
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (inputActions.WindlessLand.Attack.triggered)//Input.GetKeyDown(KeyCode.Mouse0))
                 {
 
                     queueAttack = true;
                     queueDodge = false;
                 }
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (inputActions.WindlessLand.Dodgeroll.triggered)//Input.GetKeyDown(KeyCode.Space))
                 {
 
                     queueAttack = false;
                     queueDodge = true;
                 }
-            } else if (inputDelayOn){
+            } else if (inputDelayOn)
+            {
 
-                if (runTimerOnce == true) { 
+                if (runTimerOnce == true) 
+                { 
                 
               
                 if (InputDelayTimer())
@@ -924,15 +1045,16 @@ public class CharacterController : MonoBehaviour
                 }
                 }
 
-                if (allowNextInput == true) { 
+                if (allowNextInput == true) 
+                { 
 
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (inputActions.WindlessLand.Attack.triggered)//Input.GetKeyDown(KeyCode.Mouse0))
                 {
 
                     queueAttack = true;
                     queueDodge = false;
                 }
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (inputActions.WindlessLand.Dodgeroll.triggered)//Input.GetKeyDown(KeyCode.Space))
                 {
 
                     queueAttack = false;
