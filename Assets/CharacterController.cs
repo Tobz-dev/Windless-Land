@@ -271,7 +271,7 @@ public class CharacterController : MonoBehaviour
         //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
 
         updateAutoaim();
-
+        controlUsed = "Mouse";
     }
 
     // Update is called once per frame
@@ -325,12 +325,12 @@ public class CharacterController : MonoBehaviour
             UpdateMoveInput();
 
 
-           
+
 
 
             //anim stuff here. 
-            anim.SetFloat("XSpeed", Input.GetAxis("HorizontalKey"));
-            anim.SetFloat("YSpeed", Input.GetAxis("VerticalKey"));
+            anim.SetFloat("XSpeed", movementInput.x);//Input.GetAxis("HorizontalKey"));
+            anim.SetFloat("YSpeed", movementInput.y);//Input.GetAxis("VerticalKey"));
         }
 
 
