@@ -6,8 +6,11 @@ using UnityEngine.UI;
 
 public class EventSystemHelper : MonoBehaviour
 {
+    [SerializeField]
     private GameObject currentSelectedGameObject;
+    [SerializeField]
     private bool isKeyBoardActive = true;
+    [SerializeField]
     private bool shouldSetToStartObject = false;
      
 

@@ -75,6 +75,7 @@ public class InputManager : MonoBehaviour
                 return;
             }
 
+            /*
             if(actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/enter") || actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/escape") || actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/numpadEnter") 
             || actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/leftMeta")) //cancels rebinding if chosen key isn't allowed/is otherwise occupied (escape, enter, windows/meta key etc)
             {
@@ -84,6 +85,7 @@ public class InputManager : MonoBehaviour
                 instance.StartCoroutine(DelayInactivation(2f, rebindPanel.transform.GetChild(2).gameObject));
                 return;
             }
+            */
 
             if (compositeBinding)
             {
@@ -109,7 +111,6 @@ public class InputManager : MonoBehaviour
             rebindCanceled?.Invoke();
             rebindPanel.SetActive(false);
         }); //same functionality as above when rebinding is canceled
-        rebind.WithControlsExcluding("<Keyboard>/escape");
         rebind.WithCancelingThrough("<Keyboard>/escape");
         rebind.WithCancelingThrough("<Gamepad>/buttonEast");
 
@@ -256,5 +257,29 @@ public class InputManager : MonoBehaviour
         }
         rebindWarning.SetActive(false);
         Debug.Log("setactivefalse");
+    }
+
+    public static string GetBindingPath(InputAction action, int bindingIndex)
+    {
+        string path = action.bindings[bindingIndex].effectivePath;
+        int pathNameIndex = path.IndexOf('/') + 1;
+        if (path.Equals("<Mouse>/leftButton") || path.Equals("<Mouse>/middleButton") || path.Equals("<Mouse>/rightButton"))
+        {
+            if (path.Equals("<Mouse>/leftButton"))
+            {
+                path = "mouse 0";
+            }
+            else if (path.Equals("<Mouse>/middleButton"))
+            {
+                path = "mouse 1";
+            }
+            else if (path.Equals("<Mouse>/rightButton"))
+            {
+                path = "mouse 2";
+            }
+            pathNameIndex = 0;
+        }
+
+        return path.Substring(pathNameIndex);
     }
 }

@@ -39,13 +39,13 @@ public class ParticleDensityScript : MonoBehaviour
 
     public void SetDensityReduced()
     {
-        particleDensitySetting = 1;
+        particleDensitySetting = 2;
         ChangeFireToReduced();
     }
 
     public void SetDensityMinimal()
     {
-        particleDensitySetting = 1;
+        particleDensitySetting = 3;
         ChangeFireToMinimal();
     }
 

@@ -24,7 +24,11 @@ public class PauseMenu : MonoBehaviour
     private GameObject prototypeController;
 
     [SerializeField] private GameObject logpanel;
+    //what does this bool do? or, what is it supposed to do?
     private bool logIsUp;
+
+    //bossHUD isn't present in every scene. so it checks if it exists before interacting with it.
+    [SerializeField] private GameObject bossHUD;
 
     private void Start()
     {
@@ -33,11 +37,24 @@ public class PauseMenu : MonoBehaviour
         {
             logpanel.SetActive(false);
         }
-        
+
         gameIsPaused = false;
 
         eventSystemHelper.SetActive(false);
         pauseMenuBackground.SetActive(false);
+
+
+
+        if (prototypeController.GetComponent<PrototypeScript>().prototypeEnabled == true)
+        {
+
+            Time.timeScale = prototypeController.GetComponent<PrototypeScript>().timeScaleVariable;
+            //Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
     }
 
     // Update is called once per frame
@@ -77,6 +94,11 @@ public class PauseMenu : MonoBehaviour
 
         playerHUD.SetActive(true);
 
+        if (bossHUD != null)
+        {
+            bossHUD.SetActive(true);
+        }
+
         if (prototypeController.GetComponent<PrototypeScript>().prototypeEnabled == true)
         {
 
@@ -103,6 +125,11 @@ public class PauseMenu : MonoBehaviour
         eventSystemHelper.SetActive(true);
 
         playerHUD.SetActive(false);
+
+        if (bossHUD != null)
+        {
+            bossHUD.SetActive(false);
+        }
 
         Time.timeScale = 0.0f;
         gameIsPaused = true;

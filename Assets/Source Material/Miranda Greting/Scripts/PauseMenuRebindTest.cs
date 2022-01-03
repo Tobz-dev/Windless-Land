@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class PauseMenuRebindTest : MonoBehaviour
 {
@@ -21,29 +22,27 @@ public class PauseMenuRebindTest : MonoBehaviour
     private GameObject[] subMenus;
 
     [SerializeField]
-    private GameObject prototypeController => GameObject.Find("TobiasPrototypeController");
-
-    [SerializeField]
-    private Texture2D cursorTexture;
+    private GameObject prototypeController;
 
     [SerializeField] private GameObject logpanel;
     private bool logIsUp;
 
-    PlayerInputs inputActions; //asset with all actions available to player
+    [SerializeField]
+    private Texture2D cursorTexture;
+
+    private PlayerInputs inputActions; //asset with all actions available to player
+    private string bindingName;
 
     private void Awake()
     {
         inputActions = InputManager.inputActions; //links inputActions to the instance created from InputManager
+        bindingName = InputManager.GetBindingPath(inputActions.WindlessLand.Pause, 0);
     }
 
     private void OnEnable()
     {
         inputActions.WindlessLand.Enable();
-    }
-
-    private void OnDisable()
-    {
-        inputActions.WindlessLand.Disable();
+        inputActions.WindlessLand.Pause.canceled += PausePressed;
     }
 
     private void Start()
@@ -61,38 +60,55 @@ public class PauseMenuRebindTest : MonoBehaviour
 
         Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.ForceSoftware);
 
+
+
+        if (prototypeController.GetComponent<PrototypeScript>().prototypeEnabled == true)
+        {
+
+            Time.timeScale = prototypeController.GetComponent<PrototypeScript>().timeScaleVariable;
+            //Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("time scale is " + Time.timeScale);
+
         //TODO this via events so it can be remapped
         if (/*Input.GetKeyDown(KeyCode.Escape)*/inputActions.WindlessLand.Pause.triggered)
         {
-            Debug.Log("pressed");
             if (gameIsPaused)
             {
                 Resume();
             }
-            else if (logpanel != isActiveAndEnabled) //possible solution to pause bug? only pauses when log != active
+            else if (!logIsUp) //possible solution to pause bug? only pauses when log != active
             {
                 Pause();
             }
-
-
-
         }
-        if (logpanel == isActiveAndEnabled && /*Input.GetKeyDown(KeyCode.LeftControl)*/ Input.anyKeyDown) //any keypress inactivates log panel - will players know it's left ctrl?
+
+        if (logIsUp && /*Input.GetKeyDown(KeyCode.LeftControl)*/ Input.anyKeyDown) //any keypress inactivates log panel - will players know it's left ctrl?
         {
             logpanel.SetActive(false);
+            Debug.Log("LogpanelUp!!");
         }
 
+        if (gameIsPaused && logIsUp)
+        {
+            inputActions.WindlessLand.Interact.Disable();
+            logpanel.SetActive(false);
+            Debug.Log("LogpanelUp!!");
 
+        }
     }
 
     public void Resume()
     {
-
         pauseMenuBackground.SetActive(false);
         pauseMenuUI.SetActive(false);
         eventSystemHelper.GetComponent<EventSystemHelper>().UnlockMouseCursor();
@@ -124,6 +140,7 @@ public class PauseMenuRebindTest : MonoBehaviour
         pauseMenuBackground.SetActive(true);
         pauseMenuUI.SetActive(true);
         eventSystemHelper.SetActive(true);
+        eventSystemHelper.GetComponent<EventSystemHelper>().ChangeFirstSelectedObject(pauseMenuUI.transform.GetChild(1).GetChild(0).gameObject);
 
         playerHUD.SetActive(false);
 
@@ -139,9 +156,11 @@ public class PauseMenuRebindTest : MonoBehaviour
 
     public void checkIfLog()
     {
-        if (logpanel == isActiveAndEnabled)
+        if (logpanel.activeInHierarchy)
         {
             logIsUp = true;
+            Debug.Log("LogpanelUp!!");
+
         }
         else
         {
@@ -149,5 +168,20 @@ public class PauseMenuRebindTest : MonoBehaviour
         }
     }
 
+    private void PausePressed(InputAction.CallbackContext ctx)
+    {
+        if (ctx.control.path.Contains("Gamepad"))
+        {
+            bindingName = InputManager.GetBindingPath(inputActions.WindlessLand.Pause, 1);
+        }
+        else
+        {
+            bindingName = InputManager.GetBindingPath(inputActions.WindlessLand.Pause, 0);
+        }
+    }
 
+    public bool CheckIfPaused()
+    {
+        return gameIsPaused;
+    }
 }
