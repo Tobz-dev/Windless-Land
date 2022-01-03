@@ -119,6 +119,9 @@ public class PanelHandler : MonoBehaviour
                     case 5:
                         textmesh.text = "Enemies respawn when a checkpoint is activated. Be careful.";
                         break;
+                    case 6:
+                        textmesh.text = "Press 1 & 2 to switch between the sword and the bow. Hold Left Mouse Button to aim the bow, release to fire";
+                        break;
                     default:
                         textmesh.text = "Default";
                         break;
