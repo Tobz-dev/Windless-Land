@@ -99,7 +99,7 @@ public class PlayerHealthScript : MonoBehaviour
 
                 FMODUnity.RuntimeManager.StudioSystem.setParameterByName("TakeDamageEffect", 1);
 
-                gameObject.GetComponent<CharacterControllerRemapTest>().StartPlayerStun();
+                gameObject.GetComponent<CharacterController>().StartPlayerStun();
 
 
 

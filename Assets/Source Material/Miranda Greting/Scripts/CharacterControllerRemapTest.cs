@@ -467,8 +467,6 @@ public class CharacterControllerRemapTest : MonoBehaviour
                 sword.SetActive(false);
                 swordEquipped = false;
                 bowEquipped = true;
-                //gameObject.GetComponent<CharacterController>().enabled = true;
-                //gameObject.GetComponent<CharacterControllerRemapTest>().enabled = false;
             }
             //detects when Equip Sword rebinding is triggered
             if (inputActions.WindlessLand.EquipSword.triggered)//Input.GetKeyDown(KeyCode.Alpha1))
@@ -488,8 +486,6 @@ public class CharacterControllerRemapTest : MonoBehaviour
         //long annoying code for checking & converting binding.effectivePath 
         //to a format that works with Input.GetKeyDown etc etc
         //i'm sure there are better ways to do this but it was the first one that worked after lots of testing & googling
-        //string keyboardPath = InputManager.GetBindingPath(inputActions.WindlessLand.Attack, 0);
-        //string mousePath = InputManager.GetBindingPath(inputActions.WindlessLand.Attack, 1);
         string keyboardPath = inputActions.WindlessLand.Attack.bindings[0].effectivePath;
         string mousePath = inputActions.WindlessLand.Attack.bindings[1].effectivePath;
         int pathNameIndex = keyboardPath.IndexOf('/') + 1;
@@ -540,7 +536,6 @@ public class CharacterControllerRemapTest : MonoBehaviour
                     keyboardUsed = true;
                     mouseUsed = false;
                     gamepadUsed = false;
-                    //usedPath = keyboardPath;
                 }
 
                 if (Input.GetKey(mousePath))
@@ -549,20 +544,7 @@ public class CharacterControllerRemapTest : MonoBehaviour
                     mouseUsed = true;
                     keyboardUsed = false;
                     gamepadUsed = false;
-                    //usedPath = mousePath;
                 }
-                /*
-                else if(Input.GetKey(InputManager.GetBindingPath(inputActions.WindlessLand.Attack, 2)))
-                {
-                    StartBowDraw();
-                    gamepadUsed = true;
-                    keyboardUsed = false;
-                    mouseUsed = false;
-                    usedPath = InputManager.GetBindingPath(inputActions.WindlessLand.Attack, 2);
-                }
-                */
-
-
             }
 
             if (bowIsActive == true)
@@ -862,7 +844,7 @@ public class CharacterControllerRemapTest : MonoBehaviour
 
     private void DodgerollManager()
     {
-        if (dodgerollActivated /*Input.GetKeyDown(KeyCode.Space)*/ && dodgerollOfCooldown && attacking == false && bowIsActive == false && moveAllow == true)
+        if (inputActions.WindlessLand.Dodgeroll.triggered/*dodgerollActivated /*Input.GetKeyDown(KeyCode.Space)*/ && dodgerollOfCooldown && attacking == false && bowIsActive == false && moveAllow == true)
         {
             StartDodgeroll();
         }
