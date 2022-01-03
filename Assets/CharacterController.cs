@@ -601,7 +601,7 @@ public class CharacterController : MonoBehaviour
                     }
                 }
 
-                if ((Input.GetKeyUp(keyboardPath) && keyboardUsed) || (Input.GetKeyUp(mousePath) && !keyboardUsed) /*Input.GetKeyUp(KeyCode.Mouse0)*/ && bowIsFinishedLoading == true)
+                if (((Input.GetKeyUp(keyboardPath) && keyboardUsed) || (Input.GetKeyUp(mousePath) && !keyboardUsed)/*Input.GetKeyUp(KeyCode.Mouse0)*/ && bowIsFinishedLoading == true))
                 {
 
                     BowFire();
@@ -613,7 +613,7 @@ public class CharacterController : MonoBehaviour
 
                 }
 
-                if (((Input.GetKeyUp(keyboardPath) && keyboardUsed) || (Input.GetKeyUp(mousePath) && !keyboardUsed) /*Input.GetKeyUp(KeyCode.Mouse0)*/ && drawBow == false && bowIsFinishedLoading == false && startBowCooldown == false && drawBow == false) || drawBow == false && queueBowCancel == true)
+                if ((((Input.GetKeyUp(keyboardPath) && keyboardUsed) || (Input.GetKeyUp(mousePath) && !keyboardUsed) /*Input.GetKeyUp(KeyCode.Mouse0)*/ && drawBow == false && bowIsFinishedLoading == false && startBowCooldown == false && drawBow == false) || drawBow == false && queueBowCancel == true))
                 {
 
                     BowCancel();
