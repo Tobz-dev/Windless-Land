@@ -1273,6 +1273,11 @@ public class CharacterController : MonoBehaviour
 
     public void Respawn()
     {
+        GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
+        playerRgb.velocity = new Vector3(0, 0, 0);
+        playerRgb.constraints = RigidbodyConstraints.FreezePosition;
+        invincibility = true;
+        
         Debug.Log("Player Dead"); 
         anim.SetBool("Dying", true);
         Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
@@ -1289,6 +1294,9 @@ public class CharacterController : MonoBehaviour
     {
        
         yield return new WaitForSeconds(5.0f);
+        GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+        playerRgb.constraints = RigidbodyConstraints.None;
+        playerRgb.constraints = RigidbodyConstraints.FreezeRotation;
         anim.SetBool("Dying", false);
         ResetPotionsToOriginal();
         foreach (GameObject go in GameObject.FindGameObjectsWithTag("Enemy"))
@@ -1310,12 +1318,14 @@ public class CharacterController : MonoBehaviour
         playerRgb.velocity = new Vector3(0, 0, 0);
         GetComponent<PlayerHealthScript>().regainHealth(100);
         transform.position = respawnPoint.transform.position;
+        invincibility = false;
+
     }
 
     public void SetRespawnPoint(Vector3 position)
     {
         //Debug.Log("Respawnpoint Set");
-        respawnPoint.transform.position = new Vector3(position.x, position.y + 2f, position.z);
+        respawnPoint.transform.position = new Vector3(position.x, position.y + 1f, position.z);
     }
 
    
