@@ -24,7 +24,7 @@ public class ManaFountain : MonoBehaviour
     {
         if ((inputActions.WindlessLand.Interact.triggered || Input.GetKeyDown(KeyCode.E)))
         {
-            if (fountainFull) 
+            if (fountainFull && canInteract) 
             {
                 Debug.Log("ManaFountain. interact key pressed");
 
