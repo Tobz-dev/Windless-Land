@@ -1225,7 +1225,7 @@ public class CharacterController : MonoBehaviour
     public void CancelLeverPull() {
         if(anim.GetBool("PullingLever") == true)
         anim.SetBool("PullingLever", false);
-        
+       
         transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
     }
 
