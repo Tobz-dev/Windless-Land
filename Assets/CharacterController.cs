@@ -248,7 +248,6 @@ public class CharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         originalFlaskUsesAmount = (int)flaskUses;
         playerRgb = transform.GetComponent<Rigidbody>();
         playerVFX = GetComponent<PlayerVFX>();
@@ -277,7 +276,10 @@ public class CharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            Respawn();
+        }
 
         if (Input.GetKeyDown(KeyCode.T))
         {
@@ -1271,8 +1273,23 @@ public class CharacterController : MonoBehaviour
 
     public void Respawn()
     {
-        Debug.Log("Player Dead");
+        Debug.Log("Player Dead"); 
+        anim.SetBool("Dying", true);
+        Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
+        Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        Dead.start();
+        Dead.release();
+        StartCoroutine(PlayRespawnAnimation());
         GetComponent<PlayerHealthScript>().regainHealth(100);
+
+
+    }
+
+    private IEnumerator PlayRespawnAnimation()
+    {
+       
+        yield return new WaitForSeconds(5.0f);
+        anim.SetBool("Dying", false);
         ResetPotionsToOriginal();
         foreach (GameObject go in GameObject.FindGameObjectsWithTag("Enemy"))
         {
@@ -1289,11 +1306,9 @@ public class CharacterController : MonoBehaviour
             go.GetComponent<EnemyRespawnScript>().RespawnEnemy();
 
         }
-        Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
-        Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
-        Dead.start();
-        Dead.release();
-        gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+        
+        playerRgb.velocity = new Vector3(0, 0, 0);
+        GetComponent<PlayerHealthScript>().regainHealth(100);
         transform.position = respawnPoint.transform.position;
     }
 
