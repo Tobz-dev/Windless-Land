@@ -7,6 +7,8 @@ public class HealthPotionPickup : MonoBehaviour
     [SerializeField]
     private int amountOfPotionsGiven;
 
+    private FMOD.Studio.EventInstance PotionPickUp;
+
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Player")
@@ -16,6 +18,10 @@ public class HealthPotionPickup : MonoBehaviour
             //collision.gameObject.GetComponent<PlayerHealthScript>().IncreasePotionAmount(amountOfPotionsGiven);
             int potionAmount = (int)script.GetFlaskUses();
             script.SetFlaskUses(potionAmount + amountOfPotionsGiven);
+            PotionPickUp = FMODUnity.RuntimeManager.CreateInstance("event:/Game/HealthPickup");
+            PotionPickUp.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+            PotionPickUp.start();
+            PotionPickUp.release();
             Destroy(gameObject);
             //Destroy(this.GetComponentInParent<GameObject>());
         }
