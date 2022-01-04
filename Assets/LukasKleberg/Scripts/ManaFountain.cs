@@ -11,7 +11,9 @@ public class ManaFountain : MonoBehaviour
 
     [SerializeField] private GameObject PressE;
 
-    private bool canPress, fountainFull = true;
+    [SerializeField]
+
+    private bool canInteract, fountainFull = true;
 
     private void Awake()
     {
@@ -35,6 +37,7 @@ public class ManaFountain : MonoBehaviour
 
     private void EmptyFountain()
     {
+        //this changes on all the fountains. less than ideal. turn off the trigger box collider?
         fountainFull = false;
         //change mats of fountain parts here.
         PressE.SetActive(false);
@@ -43,6 +46,7 @@ public class ManaFountain : MonoBehaviour
     public void RestoreFountain() 
     {
         fountainFull = true;
+        Debug.Log("in ManaFountain, RestoreFountain(). fountainFull is now = " + fountainFull);
         //change mats of fountain parts here.
     }
 
@@ -50,7 +54,7 @@ public class ManaFountain : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            canPress = true;
+            canInteract = true;
 
             if (fountainFull)
             {
@@ -64,7 +68,7 @@ public class ManaFountain : MonoBehaviour
 
         if (other.gameObject.CompareTag("Player"))
         {
-            canPress = false;
+            canInteract = false;
             //panel.SetActive(false);
             PressE.SetActive(false);
         }
