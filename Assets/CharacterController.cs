@@ -10,6 +10,8 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     float moveSpeed;
 
+    [SerializeField]
+    GameObject fadeToBlack;
 
     [SerializeField]
     private int maxMana;
@@ -1280,8 +1282,10 @@ public class CharacterController : MonoBehaviour
     {
         GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
         playerRgb.velocity = new Vector3(0, 0, 0);
+        fadeToBlack.GetComponent<FadeToBlack>().ActivateBlackScreen();
         playerRgb.constraints = RigidbodyConstraints.FreezePosition;
         invincibility = true;
+
         
         Debug.Log("Player Dead"); 
         anim.SetBool("Dying", true);
@@ -1289,13 +1293,13 @@ public class CharacterController : MonoBehaviour
         Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         Dead.start();
         Dead.release();
-        StartCoroutine(PlayRespawnAnimation());
+        StartCoroutine(TrueRespawn());
         GetComponent<PlayerHealthScript>().regainHealth(100);
 
 
     }
 
-    private IEnumerator PlayRespawnAnimation()
+    private IEnumerator TrueRespawn()
     {
        
         yield return new WaitForSeconds(5.0f);
@@ -1320,8 +1324,8 @@ public class CharacterController : MonoBehaviour
             go.GetComponent<EnemyRespawnScript>().RespawnEnemy();
 
         }
-        
         playerRgb.velocity = new Vector3(0, 0, 0);
+        fadeToBlack.GetComponent<FadeToBlack>().DisableBlackScreen();
         GetComponent<PlayerHealthScript>().regainHealth(100);
         transform.position = respawnPoint.transform.position;
         invincibility = false;
