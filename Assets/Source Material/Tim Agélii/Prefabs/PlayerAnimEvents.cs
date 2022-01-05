@@ -8,7 +8,11 @@ public class PlayerAnimEvents : MonoBehaviour
     private GameObject heavyAttackHitbox;
 
     [SerializeField]
-    private GameObject lightAttackHitbox;
+    private GameObject lightAttackHitbox1;
+    [SerializeField]
+    private GameObject lightAttackHitbox2;
+    [SerializeField]
+    private GameObject lightAttackHitbox3;
 
     [SerializeField]
     private GameObject arrow;
@@ -26,9 +30,25 @@ public class PlayerAnimEvents : MonoBehaviour
     private bool leverPulled = false;
 
     private bool doneDrinkingPot = false;
-    public void instantiateLightHitbox() {
+    public void instantiateLightHitbox1() {
 
-        var newHitbox = Instantiate(lightAttackHitbox, transform.position + (transform.rotation * new Vector3(0, 0.5f, 1.7f)), transform.rotation);
+        var newHitbox = Instantiate(lightAttackHitbox1, transform.position + (transform.rotation * new Vector3(0, 0.5f, 1.7f)), transform.rotation);
+
+        newHitbox.transform.parent = gameObject.transform;
+    }
+
+    public void instantiateLightHitbox2()
+    {
+
+        var newHitbox = Instantiate(lightAttackHitbox2, transform.position + (transform.rotation * new Vector3(0, 0.5f, 1.7f)), transform.rotation);
+
+        newHitbox.transform.parent = gameObject.transform;
+    }
+
+    public void instantiateLightHitbox3()
+    {
+
+        var newHitbox = Instantiate(lightAttackHitbox3, transform.position + (transform.rotation * new Vector3(0, 0.5f, 1.7f)), transform.rotation);
 
         newHitbox.transform.parent = gameObject.transform;
     }
