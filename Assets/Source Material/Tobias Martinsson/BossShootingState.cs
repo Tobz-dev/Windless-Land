@@ -67,10 +67,11 @@ public class BossShootingState : State
 
                 Agent.NavAgent.updateRotation = false;
                 Vector3 targetPosition = new Vector3(Agent.Player.position.x,
-                                            Agent.transform.position.y,
+                                            Agent.transform.position.y + 2f,
                                             Agent.Player.position.z);
-                bossHead.transform.LookAt(targetPosition);
-                Vector3.RotateTowards(bossHead.transform.position, Agent.PlayerPosition, 2, 0);
+                //bossHead.transform.LookAt(targetPosition);
+                Agent.transform.LookAt(targetPosition);
+                Vector3.RotateTowards(Agent.transform.position, Agent.PlayerPosition, 2, 0);
 
                 attackCooldown -= Time.deltaTime;
                 if (attackCooldown < 0)
@@ -89,7 +90,7 @@ public class BossShootingState : State
 
                     Transform pillarTransform = Agent.GetComponent<BossMechanicsScript>().GetRandomPillar();
                     Vector3 pillarPosition = new Vector3(pillarTransform.position.x,
-                                               pillarTransform.transform.position.y,
+                                               pillarTransform.transform.position.y + 2f,
                                                pillarTransform.position.z);
                     Agent.transform.LookAt(pillarPosition);
                     Vector3.RotateTowards(Agent.transform.position, pillarPosition, 2, 0);
