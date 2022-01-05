@@ -20,6 +20,8 @@ public class PrototypeScript : MonoBehaviour
 
     public bool prototypeEnabled = false;
 
+    public float newTimeScaleVariable;
+
     // Update is called once per frame
     void Update()
     {
@@ -30,7 +32,12 @@ public class PrototypeScript : MonoBehaviour
         else if(checkbox.enabled == false)
         {
             prototypeEnabled = false;
-        }        
+        }
+
+        if (prototypeEnabled == true)
+        {
+            timeScaleVariable = newTimeScaleVariable;
+        }
     }
 
     public void FreezeEnemies()
@@ -43,11 +50,7 @@ public class PrototypeScript : MonoBehaviour
         //timeScaleText.text = (x % 1).ToString();
         timeScaleText.text = Math.Round(x, 2).ToString();
 
-        if (prototypeEnabled == true)
-        {
-
-            timeScaleVariable = x;
-        }
-       
+        newTimeScaleVariable = x;
+        
     }
 }

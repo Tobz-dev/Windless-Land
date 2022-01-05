@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using TMPro;
 
-
+//Main Author: Ilirian Zuta, Secondary Author: Miranda Greting
 public class PanelHandler : MonoBehaviour
 {
     //private PauseMenu pm;
