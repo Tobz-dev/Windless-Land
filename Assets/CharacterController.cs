@@ -450,6 +450,11 @@ public class CharacterController : MonoBehaviour
         return maxMana;
     }
 
+    public void SetMana(int x)
+    {
+        mana = x;
+    }
+
     public int GetMana()
     {
         return mana;
@@ -1299,6 +1304,7 @@ public class CharacterController : MonoBehaviour
         playerRgb.constraints = RigidbodyConstraints.FreezeRotation;
         anim.SetBool("Dying", false);
         ResetPotionsToOriginal();
+        SetMana(0);
         foreach (GameObject go in GameObject.FindGameObjectsWithTag("Enemy"))
         {
             if (go.name != "Boss")
