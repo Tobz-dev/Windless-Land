@@ -14,6 +14,8 @@ public class PlayerAttackHitbox : MonoBehaviour
     [SerializeField]
     private int manaPerHit;
 
+    [SerializeField] private string barrel;
+
 
     private float deathTimer;
 
@@ -39,6 +41,13 @@ public class PlayerAttackHitbox : MonoBehaviour
             Debug.Log("gained " + manaPerHit);
 
         }
+
+        if(other.gameObject.tag == barrel)
+        {
+            other.GetComponent<DestroyBarrels>().destroyBarrel();
+        }
+
+        
 
     }
 
