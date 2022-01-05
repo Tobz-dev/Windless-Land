@@ -37,7 +37,6 @@ public class ManaFountain : MonoBehaviour
 
     private void EmptyFountain()
     {
-        //this changes on all the fountains. less than ideal. turn off the trigger box collider?
         fountainFull = false;
         //change mats of fountain parts here.
         PressE.SetActive(false);

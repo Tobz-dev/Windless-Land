@@ -1327,6 +1327,14 @@ public class CharacterController : MonoBehaviour
             go.GetComponent<EnemyRespawnScript>().RespawnEnemy();
 
         }
+
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("ManaFountain"))
+        {
+
+            go.GetComponentInChildren<ManaFountain>().RestoreFountain();
+
+        }
+
         playerRgb.velocity = new Vector3(0, 0, 0);
         fadeToBlack.GetComponent<FadeToBlack>().DisableBlackScreen();
         GetComponent<PlayerHealthScript>().regainHealth(100);
