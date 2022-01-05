@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+//Main Author: Ilirian Zuta
+
 public class KeyBindingChanger : MonoBehaviour
 {
     //public RebindUI rebindscript;
