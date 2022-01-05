@@ -717,10 +717,7 @@ public class CharacterController : MonoBehaviour
    private void BowCooldown() {
         if (AttackWaitTimer(bowCooldownTime))
         {
-            transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
-            startBowCooldown = false;
-            bowIsActive = false;
-            anim.SetTrigger("StopBow");
+            BowCancel();
 
         }
         else { 
@@ -1197,7 +1194,7 @@ public class CharacterController : MonoBehaviour
         }
         if (startPlayerStunned == true)
         {
-            ResetStunAnim();
+            
         }
         CancelLeverPull();
 
