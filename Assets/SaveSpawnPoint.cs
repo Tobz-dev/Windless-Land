@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using TMPro;
 
 public class SaveSpawnPoint : MonoBehaviour
@@ -11,12 +12,25 @@ public class SaveSpawnPoint : MonoBehaviour
     public TextMeshProUGUI bindingText; //RebindingMenu > KeyboardMenu > RebindLayoutgroup > Interact > InteractBinding > TriggerRebindButton > BindingText
     private bool playerOnCheckpoint = false;
     private bool usedCheckpoint = false;
+    private bool gamepad = false;
 
     private PlayerInputs inputActions;
 
     private void Awake()
     {
         inputActions = InputManager.inputActions;
+    }
+
+    private void CheckControlType(InputAction.CallbackContext ctx)
+    {
+        if (ctx.control.name.Contains("Gamepad"))
+        {
+            gamepad = true;
+        }
+        else
+        {
+            gamepad = false;
+        }
     }
 
     private void Update()
@@ -49,6 +63,14 @@ public class SaveSpawnPoint : MonoBehaviour
     {
         if (collision.tag == "Player" && usedCheckpoint == false)
         {
+            if (gamepad)
+            {
+                bindingText.text = InputManager.GetBindingName("Interact", 1);
+            }
+            else
+            {
+                bindingText.text = InputManager.GetBindingName("Interact", 0);
+            }
             panel.SetActive(true);
             playerOnCheckpoint = true;
             pressText.text = "Press " + bindingText.text + " to interact";          

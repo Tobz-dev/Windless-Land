@@ -1,3 +1,4 @@
+//Main Author: Miranda Greting
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,9 +36,12 @@ public class RebindUI : MonoBehaviour
 
     private string buttonName;
 
+    private ChangeGamepadIcon gamepadScript;
+
     private void Start()
     {
         rebindScripts = GameObject.FindGameObjectsWithTag("Binding");
+        gamepadScript = gameObject.GetComponent<ChangeGamepadIcon>();
 
     }
 
@@ -121,130 +125,13 @@ public class RebindUI : MonoBehaviour
         {
             if (Application.isPlaying)
             {
-                /*
-                if (inputActionReference.action.bindings[bindingIndex].effectivePath.StartsWith("<Gamepad>"))
-                {
-                    rebindText.text = "/";
-                    return;
-                }
-                */
                 rebindText.text = InputManager.GetBindingName(actionName, bindingIndex);
-                int splitIndex = rebindText.text.IndexOf('/');
-
-                if (splitIndex >= 0)
-                {
-                    string bindingString = rebindText.text.Substring(splitIndex + 1);
-                    bindingString = bindingString[0].ToString().ToUpper() + bindingString.Substring(1);
-                    if (rebindText.text[1].Equals('M'))
-                    {
-                        rebindText.text = "Mouse/" + bindingString;
-                    }
-                    else if (bindingString.Equals("RightShoulder"))
-                    {
-                        rebindText.text = "R1";
-                    }
-                    else if (bindingString.Equals("RightTrigger"))
-                    {
-                        rebindText.text = "R2";
-                    }
-                    else if (bindingString.Equals("LeftShoulder"))
-                    {
-                        rebindText.text = "L1";
-                    }
-                    else if (bindingString.Equals("LeftTrigger"))
-                    {
-                        rebindText.text = "L2";
-                    }
-                    else if (bindingString.Equals("ButtonSouth"))
-                    {
-                        rebindText.text = "A/X";
-                    }
-                    else if (bindingString.Equals("ButtonWest"))
-                    {
-                        rebindText.text = "X/Square";
-                    }
-                    else if (bindingString.Equals("ButtonNorth"))
-                    {
-                        rebindText.text = "Y/Triangle";
-                    }
-                    else if (bindingString.Equals("ButtonEast"))
-                    {
-                        rebindText.text = "B/Circle";
-                    }
-                    else if (bindingString.Equals("Start"))
-                    {
-                        rebindText.text = "Menu/Options";
-                    }
-                    else
-                    {
-                        rebindText.text = bindingString;
-                    }
-                }
+                rebindText.text = UpdateBindingName(rebindText.text);
             }
             else
             {
-                /*
-                if (inputActionReference.action.bindings[bindingIndex].effectivePath.StartsWith("<Gamepad>"))
-                {
-                    //rebindText.text = inputActionReference.action.bindings[bindingIndex].GetBindingDisplayString();
-                    return;
-                }
-                */
-                
                 rebindText.text = inputActionReference.action.bindings[bindingIndex].effectivePath;
-                int splitIndex = rebindText.text.IndexOf('/');
-                
-                if (splitIndex >= 0) 
-                { 
-                    string bindingString = rebindText.text.Substring(splitIndex+1);
-                    bindingString = bindingString[0].ToString().ToUpper() + bindingString.Substring(1);
-                    if (rebindText.text[1].Equals('M'))
-                    {
-                        rebindText.text = "Mouse/" + bindingString;
-                    }
-                    else if (bindingString.Equals("RightShoulder"))
-                    {
-                        rebindText.text = "R1";
-                    }
-                    else if (bindingString.Equals("RightTrigger"))
-                    {
-                        rebindText.text = "R2";
-                    }
-                    else if (bindingString.Equals("LeftShoulder"))
-                    {
-                        rebindText.text = "L1";
-                    }
-                    else if (bindingString.Equals("LeftTrigger"))
-                    {
-                        rebindText.text = "L2";
-                    }
-                    else if (bindingString.Equals("ButtonSouth"))
-                    {
-                        rebindText.text = "A/X";
-                    }
-                    else if (bindingString.Equals("ButtonWest"))
-                    {
-                        rebindText.text = "X/Square";
-                    }
-                    else if (bindingString.Equals("ButtonNorth"))
-                    {
-                        rebindText.text = "Y/Triangle";
-                    }
-                    else if (bindingString.Equals("ButtonEast"))
-                    {
-                        rebindText.text = "B/Circle";
-                    }
-                    else if (bindingString.Equals("Start"))
-                    {
-                        rebindText.text = "Menu/Options";
-                    }
-                    else
-                    {
-                        rebindText.text = bindingString;
-                    }
-                }
-                    //inputActionReference.action.GetBindingDisplayString(bindingIndex).ToUpper();
-                //inputActionReference.action.controls[0].name;
+                rebindText.text = UpdateBindingName(rebindText.text);
             }
             if (rebindText.text.Equals("BLANKSTEG"))
             {
@@ -257,6 +144,93 @@ public class RebindUI : MonoBehaviour
             //rebindText.text = rebindText.text.ToUpper();
             buttonName = rebindText.text;
         }
+    }
+
+    private void NameChange(string name)
+    {
+
+    }
+
+    private string UpdateBindingName(string rebindText)
+    {
+        rebindText = InputManager.GetBindingName(actionName, bindingIndex);
+        /*
+        int splitIndex = rebindText.IndexOf('>')+1;
+        if (splitIndex >= 0)
+        {
+            string bindingString = rebindText.Substring(splitIndex + 1);
+            bindingString = bindingString[0].ToString().ToUpper() + bindingString.Substring(1);
+            if (rebindText[1].Equals('M'))
+            {
+                rebindText = "Mouse/" + bindingString;
+            }
+            else if (bindingString.Equals("RightShoulder"))
+            {
+                rebindText = "R1";
+                //gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon("R1");
+            }
+            else if (bindingString.Equals("RightTriggerButton") || bindingString.Equals("RightTrigger"))
+            {
+                rebindText = "R2";
+                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon("R2");
+            }
+            else if (bindingString.Equals("LeftShoulder"))
+            {
+                rebindText = "L1";
+                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon("L1");
+            }
+            else if (bindingString.Equals("LeftTriggerButton") || bindingString.Equals("LeftTrigger"))
+            {
+                rebindText = "L2";
+                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon("L2");
+            }
+            else if (bindingString.Equals("ButtonSouth"))
+            {
+                rebindText = "A/Cross";
+                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon("A/Cross");
+            }
+            else if (bindingString.Equals("ButtonWest"))
+            {
+                rebindText = "X/Square";
+                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon("X/Square");
+            }
+            else if (bindingString.Equals("ButtonNorth"))
+            {
+                rebindText = "Y/Triangle";
+                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon("Y/Triangle");
+            }
+            else if (bindingString.Equals("ButtonEast"))
+            {
+                rebindText = "B/Circle";
+                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon("B/Circle");
+            }
+            else if (bindingString.StartsWith("LeftStick"))
+            {
+                rebindText = bindingString;
+                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon(rebindText);
+            }
+            else if (bindingString.Equals("Start"))
+            {
+                rebindText = "Menu/Options";
+                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon("Menu/Options");
+            }
+            else if (bindingString.Equals("Select"))
+            {
+                rebindText = "View/Share";
+                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon(rebindText);
+            }
+            else
+            {
+                rebindText = bindingString;
+            }
+        }
+        */
+        if (gamepadScript != null && rebindText != null)
+        {
+            gamepadScript.ChangeIcon(rebindText);
+        }
+
+        return rebindText;
     }
 
     private void UpdateAllUI()
