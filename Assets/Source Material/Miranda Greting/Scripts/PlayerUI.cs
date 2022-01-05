@@ -76,10 +76,8 @@ public class PlayerUI : MonoBehaviour
             mana = characterController.GetMana();
             if (mana != previousMana && mana >= 0)
             {
-                Debug.Log(mana);
                 manaSlider.value = mana;
                 previousMana = mana;
-                Debug.Log("mana = " + mana);
             }
         }
 
