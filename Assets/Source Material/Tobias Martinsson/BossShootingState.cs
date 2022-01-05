@@ -16,12 +16,15 @@ public class BossShootingState : State
     private Transform CurrentPatrol;
     public float switchStateCooldown = 2f;
     private bool shotBigArrow = false;
+    private GameObject bossHead;
 
     protected override void Initialize()
     {
         Agent = (SomeAgent)Owner;
         Debug.Assert(Agent);
         originalTime = attackCooldown;
+
+        bossHead = GameObject.FindGameObjectWithTag("BossHead");
 
     }
 
@@ -66,8 +69,8 @@ public class BossShootingState : State
                 Vector3 targetPosition = new Vector3(Agent.Player.position.x,
                                             Agent.transform.position.y,
                                             Agent.Player.position.z);
-                Agent.transform.LookAt(targetPosition);
-                Vector3.RotateTowards(Agent.transform.position, Agent.PlayerPosition, 2, 0);
+                bossHead.transform.LookAt(targetPosition);
+                Vector3.RotateTowards(bossHead.transform.position, Agent.PlayerPosition, 2, 0);
 
                 attackCooldown -= Time.deltaTime;
                 if (attackCooldown < 0)
