@@ -8,7 +8,7 @@ public class FadeToBlack : MonoBehaviour
 {
     Color objectColor;
     // Start is called before the first frame update
-    float fadeSpeed = 0.2f;
+    float fadeSpeed = 0.35f;
 
     public void ActivateBlackScreen()
     {
@@ -55,6 +55,7 @@ public class FadeToBlack : MonoBehaviour
             Debug.Log("Faded to black");
             yield return null;
         }
+        gameObject.SetActive(false);
     }
 }
 

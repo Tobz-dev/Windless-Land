@@ -1280,11 +1280,14 @@ public class CharacterController : MonoBehaviour
 
     public void Respawn()
     {
+        fadeToBlack.SetActive(true);
+        AttackCancel();
         GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
         playerRgb.velocity = new Vector3(0, 0, 0);
         fadeToBlack.GetComponent<FadeToBlack>().ActivateBlackScreen();
         playerRgb.constraints = RigidbodyConstraints.FreezePosition;
         invincibility = true;
+        
 
         
         Debug.Log("Player Dead"); 
