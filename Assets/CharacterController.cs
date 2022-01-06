@@ -1226,6 +1226,7 @@ public class CharacterController : MonoBehaviour
     public void PullLever() {
         if (moveAllow == true && attacking == false && usingHealthFlask == false && bowIsActive == false && dodgerollTimerRunning == false) {
             anim.SetBool("PullingLever", true);
+            playerRgb.velocity = new Vector3(0, 0, 0);
         }
       
     }

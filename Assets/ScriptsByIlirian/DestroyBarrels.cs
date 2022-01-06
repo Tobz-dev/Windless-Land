@@ -9,7 +9,6 @@ public class DestroyBarrels : MonoBehaviour
 
 
     
-    //[SerializeField] private GameObject sword;
 
 
 
