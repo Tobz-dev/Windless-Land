@@ -442,6 +442,15 @@ public class CharacterController : MonoBehaviour
         }
         //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
     }
+    public void ManaDecreased(int i)
+    {
+        mana = mana - i;
+        if (mana < 0)
+        {
+            mana = 0;
+        }
+     
+    }
 
     public int GetMaxMana() 
     {
@@ -917,7 +926,7 @@ public class CharacterController : MonoBehaviour
                 }
                 if (inputActions.WindlessLand.HeavyAttack.triggered/*Input.GetKeyDown(KeyCode.Mouse1)*/ && mana >= heavyManaCost)
                 {
-                    mana = mana - heavyManaCost;
+                  
 
                     HeavyAttack();
                 }
