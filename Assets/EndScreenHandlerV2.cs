@@ -41,6 +41,7 @@ public class EndScreenHandlerV2 : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         endText.SetActive(true);
+        GameObject.Find("Player").SetActive(false);
     }
 
 
