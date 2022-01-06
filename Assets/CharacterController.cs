@@ -216,9 +216,6 @@ public class CharacterController : MonoBehaviour
     //control rebinding
     PlayerInputs inputActions;
     Vector2 movementInput; //player walk rebindings
-    private bool keyboardUsed;
-    private bool mouseUsed;
-    private bool gamepadUsed;
     private string controlUsed;
 
     private void OnEnable()
