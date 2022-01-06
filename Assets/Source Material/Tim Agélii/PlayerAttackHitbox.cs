@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 //Main Author: Henrik Rud�n
 //secondary Author: Tim Ag�lii
+//Minor Additions: Ilirian Zuta
 public class PlayerAttackHitbox : MonoBehaviour
 {
     [SerializeField]

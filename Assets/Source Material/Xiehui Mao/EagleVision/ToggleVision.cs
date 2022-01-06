@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//Main Author: Xie Hui Mao
+
 public class ToggleVision : MonoBehaviour
 {
     //Referens: https://answers.unity.com/questions/383391/setting-a-time-limit-on-actions.html and https://answers.unity.com/questions/894218/check-if-gameobjectsetactivetruefalse.html

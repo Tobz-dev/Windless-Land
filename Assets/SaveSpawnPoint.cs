@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using TMPro;
 
+
+//Minor changes: Ilirian Zuta
 public class SaveSpawnPoint : MonoBehaviour
 {
     //public GameObject panel;
