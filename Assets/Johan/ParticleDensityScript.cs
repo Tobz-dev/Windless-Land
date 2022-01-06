@@ -11,89 +11,78 @@ public class ParticleDensityScript : MonoBehaviour
     [SerializeField]
     private GameObject[] torchFiresReduced;
 
-
-    private void Awake()
-    {
-        switch (particleDensitySetting)
-        {
-            case 1:
-                ChangeFireToNormal();
-                break;
-            case 2:
-                ChangeFireToReduced();
-                break;
-            case 3:
-                ChangeFireToMinimal();
-                break;
-            default:
-                ChangeFireToNormal();
-                break;
-        }
-    }
+    //Child(0) = normal
+    //Child(1) = reduced
 
     public void SetDensityNormal()
     {
         particleDensitySetting = 1;
-        ChangeFireToNormal();
+        
+        foreach(GameObject enviromentVFX in GameObject.FindGameObjectsWithTag("EnviromentVFX"))
+        {
+            enviromentVFX.transform.GetChild(0).gameObject.SetActive(true);
+            enviromentVFX.transform.GetChild(1).gameObject.SetActive(false);
+
+        }
+
+        /*
+        for(int i = 0; i < torchFiresNormal.Length; i++)
+        {
+            torchFiresNormal[i].SetActive(true);
+        }
+
+        for (int i = 0; i < torchFiresReduced.Length; i++)
+        {
+            torchFiresReduced[i].SetActive(false);
+        }
+        */
     }
 
     public void SetDensityReduced()
     {
         particleDensitySetting = 2;
-        ChangeFireToReduced();
+
+        foreach (GameObject enviromentVFX in GameObject.FindGameObjectsWithTag("EnviromentVFX"))
+        {
+            enviromentVFX.transform.GetChild(0).gameObject.SetActive(false);
+            enviromentVFX.transform.GetChild(1).gameObject.SetActive(true);
+
+        }
+
+        /*
+        for (int i = 0; i < torchFiresNormal.Length; i++)
+        {
+            torchFiresNormal[i].SetActive(false);
+        }
+
+        for (int i = 0; i < torchFiresReduced.Length; i++)
+        {
+            torchFiresReduced[i].SetActive(true);
+        }
+        */
     }
 
     public void SetDensityMinimal()
     {
         particleDensitySetting = 3;
-        ChangeFireToMinimal();
-    }
 
-    private void ChangeFireToNormal()
-    {
-        if(torchFiresNormal != null && torchFiresReduced != null)
+        foreach (GameObject enviromentVFX in GameObject.FindGameObjectsWithTag("EnviromentVFX"))
         {
-            for (int i = 0; i < torchFiresNormal.Length; i++)
-            {
-                torchFiresNormal[i].SetActive(true);
-            }
+            enviromentVFX.transform.GetChild(0).gameObject.SetActive(false);
+            enviromentVFX.transform.GetChild(1).gameObject.SetActive(false);
 
-            for (int i = 0; i < torchFiresReduced.Length; i++)
-            {
-                torchFiresReduced[i].SetActive(false);
-            }
         }
-    }
 
-    private void ChangeFireToReduced()
-    {
-        if (torchFiresNormal != null && torchFiresReduced != null)
+        /*
+        for (int i = 0; i < torchFiresNormal.Length; i++)
         {
-            for (int i = 0; i < torchFiresNormal.Length; i++)
-            {
-                torchFiresNormal[i].SetActive(false);
-            }
-
-            for (int i = 0; i < torchFiresReduced.Length; i++)
-            {
-                torchFiresReduced[i].SetActive(true);
-            }
+            torchFiresNormal[i].SetActive(false);
         }
-    }
 
-    private void ChangeFireToMinimal()
-    {
-        if (torchFiresNormal != null && torchFiresReduced != null)
+        for (int i = 0; i < torchFiresReduced.Length; i++)
         {
-            for (int i = 0; i < torchFiresNormal.Length; i++)
-            {
-                torchFiresNormal[i].SetActive(false);
-            }
-
-            for (int i = 0; i < torchFiresReduced.Length; i++)
-            {
-                torchFiresReduced[i].SetActive(false);
-            }
+            torchFiresReduced[i].SetActive(false);
         }
+        */
     }
 }
