@@ -20,6 +20,8 @@ public class ConfigController : MonoBehaviour
     [SerializeField]
     private GameObject enemyHeavy;
 
+    public bool noData = true;
+
     public GameObject[] enemies;
 
 
@@ -29,18 +31,25 @@ public class ConfigController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         fontChanger = GameObject.FindGameObjectWithTag("FontChanger");
 
+        if (!System.IO.File.Exists(Application.persistentDataPath + "Config.ini"))
+        {
+            Debug.Log("Not Exists");
+            SaveDefault();
+        } else { Debug.Log("Exists"); }
+
+
         //Save();
         Load();
-        Save();
+        //Save();
+
+
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.J))
         {
-            Debug.Log("KEY TEST");
-            //enemyLight.GetComponent<EnemyHealthScript>().setConfig(12);
-            //Load();
+            SaveDefault();
         }
     }
 
@@ -103,7 +112,7 @@ public class ConfigController : MonoBehaviour
         ini.WriteValue("Enemy", "HeavyMaxhealth;", 12);
 
         ini.Close();
-        Debug.Log("Saved Config");
+        Debug.Log("Saved Default Config");
     }
 
 

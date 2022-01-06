@@ -16,7 +16,7 @@ public class PlayerAttackHitbox : MonoBehaviour
     [SerializeField]
     private int manaPerHit;
 
-    [SerializeField] private string barrel;
+    [SerializeField] private string Barrel;
 
 
     private float deathTimer;
@@ -26,6 +26,7 @@ public class PlayerAttackHitbox : MonoBehaviour
     private void Start()
     {
         hitboxCollider = GetComponent<Collider>();
+        Debug.Log(damage);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -44,8 +45,9 @@ public class PlayerAttackHitbox : MonoBehaviour
 
         }
 
-        if(other.gameObject.tag == barrel)
+        if(other.gameObject.tag == Barrel)
         {
+            Debug.Log("ASDASD");
             other.GetComponent<DestroyBarrels>().destroyBarrel();
         }
 
@@ -73,7 +75,11 @@ public class PlayerAttackHitbox : MonoBehaviour
 
         if (deathTimer >= seconds)
         {
-            hitboxObject.SetActive(false);
+            if(hitboxObject != null)
+            {
+                hitboxObject.SetActive(false);
+            }
+           
             gameObject.transform.parent = null;
         }
 

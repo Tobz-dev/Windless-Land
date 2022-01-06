@@ -8,7 +8,7 @@ public class DestroyBarrels : MonoBehaviour
 
 
     
-    [SerializeField] private GameObject sword;
+    //[SerializeField] private GameObject sword;
 
 
 

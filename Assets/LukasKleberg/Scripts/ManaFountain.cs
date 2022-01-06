@@ -10,15 +10,39 @@ public class ManaFountain : MonoBehaviour
     private PlayerInputs inputActions;
 
     [SerializeField] private GameObject PressE;
+    [SerializeField] private GameObject gamepadBindings;
 
     [SerializeField]
 
     private bool canInteract, fountainFull = true;
+    private string controlUsed = "Keyboard";
+
+    private string rebindPath;
+    private CharacterController playerScript;
+    private ChangeGamepadIcon gamepadScript;
 
     private void Awake()
     {
         inputActions = InputManager.inputActions;
-        PressE.transform.GetChild(0).GetComponent<TextMesh>().text = InputManager.GetBindingName("Interact", 0);
+    }
+
+    private void Start()
+    {
+        playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>();
+        controlUsed = playerScript.CheckControlUsed();
+        gamepadScript = gameObject.GetComponent<ChangeGamepadIcon>();
+        rebindPath = InputManager.GetBindingName("Interact", 0);
+        if (controlUsed.Contains("Gamepad") || controlUsed.Contains("XInputControllerWindows"))
+        {
+            rebindPath = InputManager.GetBindingName("Interact", 1);
+            gamepadScript.ChangeXboxIcon(rebindPath);
+            PressE.transform.GetChild(0).gameObject.SetActive(false);
+        }
+        else
+        {
+            PressE.transform.GetChild(0).GetComponent<TextMesh>().text = InputManager.GetBindingName("Interact", 0);
+            PressE.transform.GetChild(0).gameObject.SetActive(true);
+        }
     }
 
     private void Update()
@@ -41,11 +65,15 @@ public class ManaFountain : MonoBehaviour
         fountainFull = false;
         //change mats of fountain parts here.
         PressE.SetActive(false);
+
+        //Inactivates water
         Transform fountain = gameObject.transform.GetChild(0);
         int index = fountain.childCount-1;
         fountain.GetChild(index).gameObject.SetActive(false);
         fountain.GetChild(index - 1).gameObject.SetActive(false);
         fountain.GetChild(index - 2).gameObject.SetActive(false);
+
+        //Activates particle system
         Transform parent = gameObject.transform.parent;
         GameObject particleSystems = parent.GetChild(parent.childCount - 1).gameObject;
         particleSystems.SetActive(true);
@@ -61,11 +89,15 @@ public class ManaFountain : MonoBehaviour
         fountainFull = true;
         Debug.Log("in ManaFountain, RestoreFountain(). fountainFull is now = " + fountainFull);
         //change mats of fountain parts here.
+
+        //Activate water
         Transform fountain = gameObject.transform.GetChild(0);
         int index = fountain.childCount - 1;
         fountain.GetChild(index).gameObject.SetActive(true);
         fountain.GetChild(index - 1).gameObject.SetActive(true);
         fountain.GetChild(index - 2).gameObject.SetActive(true);
+
+        //Inactivate particle system, stops it from playing on respawn
         Transform parent = gameObject.transform.parent;
         GameObject particleSystems = parent.GetChild(parent.childCount - 1).gameObject;
         particleSystems.SetActive(true);
@@ -80,10 +112,21 @@ public class ManaFountain : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             canInteract = true;
-
             if (fountainFull)
             {
-                PressE.transform.GetChild(0).GetComponent<TextMesh>().text = InputManager.GetBindingName("Interact", 0);
+                controlUsed = playerScript.CheckControlUsed();
+                if (controlUsed.Contains("Gamepad") || controlUsed.ToUpper().Contains("XBOX") || controlUsed.Contains("XInputControllerWindows"))
+                {
+                    rebindPath = InputManager.GetBindingName("Interact", 1);
+                    gamepadScript.Activate();
+                    gamepadScript.ChangeXboxIcon(rebindPath);
+                    PressE.transform.GetChild(0).gameObject.SetActive(false);
+                }
+                else
+                {
+                    PressE.transform.GetChild(0).GetComponent<TextMesh>().text = InputManager.GetBindingName("Interact", 0);
+                    PressE.transform.GetChild(0).gameObject.SetActive(true);
+                }
                 PressE.SetActive(true);
             }
         }
@@ -97,6 +140,7 @@ public class ManaFountain : MonoBehaviour
             canInteract = false;
             //panel.SetActive(false);
             PressE.SetActive(false);
+            gamepadScript.Inactivate();
         }
     }
 }
