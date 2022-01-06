@@ -1397,11 +1397,11 @@ public class CharacterController : MonoBehaviour
         if (PlayerPrefs.GetInt("inputDelay") == 1)
         {
             PlayerPrefs.SetInt("inputDelay", 0);
-        } 
-        if (PlayerPrefs.GetInt("inputDelay") == 0)
-        {
+        } else {
             PlayerPrefs.SetInt("inputDelay", 1);
         }
+
+
 
     }
 
