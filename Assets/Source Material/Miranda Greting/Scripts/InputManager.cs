@@ -260,14 +260,21 @@ public class InputManager : MonoBehaviour
         {
             inputActions = new PlayerInputs();
         }
-
+        Debug.Log(actionName);
         InputAction action = inputActions.asset.FindAction(actionName);
-        for(int i = 0; i < action.bindings.Count; i++)
+        if (action != null)
         {
-            if(!string.IsNullOrEmpty(PlayerPrefs.GetString(action.actionMap + action.name + i)))
+            for (int i = 0; i < action.bindings.Count; i++)
             {
-                action.ApplyBindingOverride(i, PlayerPrefs.GetString(action.actionMap + action.name + i));
+                if (!string.IsNullOrEmpty(PlayerPrefs.GetString(action.actionMap + action.name + i)))
+                {
+                    action.ApplyBindingOverride(i, PlayerPrefs.GetString(action.actionMap + action.name + i));
+                }
             }
+        }
+        if(action == null)
+        {
+            Debug.Log(actionName);
         }
     }
     

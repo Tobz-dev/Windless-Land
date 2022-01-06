@@ -7,7 +7,7 @@ public class ToggleVision : MonoBehaviour
     //Referens: https://answers.unity.com/questions/383391/setting-a-time-limit-on-actions.html and https://answers.unity.com/questions/894218/check-if-gameobjectsetactivetruefalse.html
     public Camera cam1;
     public Camera cam2;
-    public Animator fade;
+    //public Animator fade;
     public GameObject visionedCamera;
     //public GameObject player;
     //private float timeLimit = 0f;
@@ -31,7 +31,7 @@ public class ToggleVision : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.V) && visionedCamera.activeInHierarchy != false)                                          // && visionOn == false)
         {
             Invoke ("Vision", 0.1f);
-            fade.SetBool("EA", true);
+            //fade.SetBool("EA", true);
             //player.SetActive(false);
 
             //visionOn = true;
