@@ -32,6 +32,8 @@ public class HenrikPrototype : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
 
 
+        SetCheckbox();
+
         if (moreDamageCheckbox.enabled == true)
         {
             //Debug.Log("More Damage");
@@ -135,6 +137,25 @@ public class HenrikPrototype : MonoBehaviour
         moreDamageCheckbox.enabled = false;
 
         Debug.Log("Saved Default Proto Config");
+    }
+
+
+    public void SetCheckbox()
+    {
+        INIParser ini = new INIParser();
+        ini.Open(Application.persistentDataPath + "ProtoConfig.ini");
+
+        if (ini.ReadValue("Henrik", "moreDamage;", 2) == 2)
+        {
+            moreDamageCheckbox.enabled = true;
+        }
+
+        if (ini.ReadValue("Henrik", "autoAim;", 1) == 1)
+        {
+            autoAimCheckbox.enabled = true;
+        }
+
+        ini.Close();
     }
 
 }
