@@ -36,20 +36,6 @@ public class EventSystemHelper : MonoBehaviour
             }
             
         }
-        
-        /*if (Input.GetAxis("Mouse X") > 0)
-        {
-            //Code for action on mouse moving right
-            //EventSystem.current.SetSelectedGameObject(null);
-            //Debug.Log("Mouse moved right");
-
-            if (isKeyBoardActive)
-            {
-                Cursor.lockState = CursorLockMode.None;
-
-                DisableSelection();
-            }
-        }*/
 
         if (Input.anyKeyDown)
         {
