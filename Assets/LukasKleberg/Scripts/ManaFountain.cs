@@ -18,6 +18,7 @@ public class ManaFountain : MonoBehaviour
     private void Awake()
     {
         inputActions = InputManager.inputActions;
+        PressE.transform.GetChild(0).GetComponent<TextMesh>().text = InputManager.GetBindingName("Interact", 0);
     }
 
     private void Update()
@@ -40,6 +41,19 @@ public class ManaFountain : MonoBehaviour
         fountainFull = false;
         //change mats of fountain parts here.
         PressE.SetActive(false);
+        Transform fountain = gameObject.transform.GetChild(0);
+        int index = fountain.childCount-1;
+        fountain.GetChild(index).gameObject.SetActive(false);
+        fountain.GetChild(index - 1).gameObject.SetActive(false);
+        fountain.GetChild(index - 2).gameObject.SetActive(false);
+        Transform parent = gameObject.transform.parent;
+        GameObject particleSystems = parent.GetChild(parent.childCount - 1).gameObject;
+        particleSystems.SetActive(true);
+        for(int i = 0; i <= particleSystems.transform.childCount-1; i++)
+        {
+            particleSystems.transform.GetChild(i).GetComponent<ParticleSystem>().Play();
+        }
+
     }
 
     public void RestoreFountain() 
@@ -47,6 +61,18 @@ public class ManaFountain : MonoBehaviour
         fountainFull = true;
         Debug.Log("in ManaFountain, RestoreFountain(). fountainFull is now = " + fountainFull);
         //change mats of fountain parts here.
+        Transform fountain = gameObject.transform.GetChild(0);
+        int index = fountain.childCount - 1;
+        fountain.GetChild(index).gameObject.SetActive(true);
+        fountain.GetChild(index - 1).gameObject.SetActive(true);
+        fountain.GetChild(index - 2).gameObject.SetActive(true);
+        Transform parent = gameObject.transform.parent;
+        GameObject particleSystems = parent.GetChild(parent.childCount - 1).gameObject;
+        particleSystems.SetActive(true);
+        for (int i = 0; i <= particleSystems.transform.childCount - 1; i++)
+        {
+            particleSystems.transform.GetChild(i).GetComponent<ParticleSystem>().Stop();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -57,6 +83,7 @@ public class ManaFountain : MonoBehaviour
 
             if (fountainFull)
             {
+                PressE.transform.GetChild(0).GetComponent<TextMesh>().text = InputManager.GetBindingName("Interact", 0);
                 PressE.SetActive(true);
             }
         }
