@@ -58,9 +58,9 @@ public class RebindUI : MonoBehaviour
 
         if(inputActionReference != null)
         {
+            UpdateUI();
             InputManager.LoadBindingOverride(actionName);
             GetBindingInfo();
-            UpdateUI();
         }
         InputManager.rebindComplete += UpdateUI;
         InputManager.rebindCanceled += UpdateUI;
