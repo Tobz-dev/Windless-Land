@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 //Main Author: Henrik Rud�n
 //secondary Author: Tim Ag�lii
+//Minor additions: Ilirian Zuta
 public class newHitbox : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject hitboxObject;
     [SerializeField]
     private float swingTime;
     [SerializeField]
@@ -81,10 +84,17 @@ public class newHitbox : MonoBehaviour
 
         if (deathTimer >= seconds)
         {
+            if (hitboxObject != null)
+            {
+                hitboxObject.SetActive(false);
+            }
 
-            Destroy(this.gameObject);
+            gameObject.transform.parent = null;
+        }
 
-
+        if (deathTimer >= seconds * 6)
+        {
+            Destroy(gameObject);
         }
 
     }

@@ -58,6 +58,11 @@ public class RebindUI : MonoBehaviour
 
         if(inputActionReference != null)
         {
+            if(actionName == null)
+            {
+                //Debug.Log("ActionName is Null!!!");
+                actionName = inputActionReference.action.name;
+            }
             InputManager.LoadBindingOverride(actionName);
             GetBindingInfo();
             UpdateUI();

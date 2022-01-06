@@ -177,7 +177,7 @@ public class VCAController : MonoBehaviour
         }
         else
         {
-            UI = FMODUnity.RuntimeManager.CreateInstance("event:/UI/Yes");
+            UI = FMODUnity.RuntimeManager.CreateInstance("event:/UI/Yes1");
             UI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(Attenuation));
             UI.start();
             UI.release();

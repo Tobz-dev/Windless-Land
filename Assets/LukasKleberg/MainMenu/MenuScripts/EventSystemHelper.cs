@@ -24,7 +24,7 @@ public class EventSystemHelper : MonoBehaviour
     public void Update()
     {
 
-        if (Input.GetAxis("Mouse X") < 0)
+        if (Input.GetAxis("Mouse X") < 0 || Input.GetAxis("Mouse X") > 0)
         {
             //Code for action on mouse moving left
             //EventSystem.current.SetSelectedGameObject(null);
@@ -35,19 +35,6 @@ public class EventSystemHelper : MonoBehaviour
                 DisableSelection();
             }
             
-        }
-        if (Input.GetAxis("Mouse X") > 0)
-        {
-            //Code for action on mouse moving right
-            //EventSystem.current.SetSelectedGameObject(null);
-            //Debug.Log("Mouse moved right");
-
-            if (isKeyBoardActive)
-            {
-                Cursor.lockState = CursorLockMode.None;
-
-                DisableSelection();
-            }
         }
 
         if (Input.anyKeyDown)

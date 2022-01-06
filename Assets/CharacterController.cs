@@ -1279,8 +1279,12 @@ public class CharacterController : MonoBehaviour
 
     public void Respawn()
     {
+
         fadeToBlack.SetActive(true);
         AttackCancel();
+        startPlayerStunned = false;
+        anim.SetBool("PlayerIsStunned", false);
+
         GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
         playerRgb.velocity = new Vector3(0, 0, 0);
         fadeToBlack.GetComponent<FadeToBlack>().ActivateBlackScreen();
@@ -1297,7 +1301,7 @@ public class CharacterController : MonoBehaviour
         Dead.release();
         StartCoroutine(TrueRespawn());
         GetComponent<PlayerHealthScript>().regainHealth(100);
-
+      
 
     }
 
