@@ -17,6 +17,8 @@ public class newHitbox : MonoBehaviour
 
     private Collider hitboxCollider;
 
+    [SerializeField] private string Barrel;
+
     private void Start()
     {
         hitboxCollider = GetComponent<Collider>();
@@ -52,6 +54,11 @@ public class newHitbox : MonoBehaviour
         }
         else if(invincibility == true) {
             invincibility = false;
+        }
+
+        if(other.gameObject.tag == Barrel)
+        {
+            other.GetComponent<DestroyBarrels>().destroyBarrel();
         }
     }
 
