@@ -73,7 +73,11 @@ public class PlayerAttackHitbox : MonoBehaviour
 
         if (deathTimer >= seconds)
         {
-            hitboxObject.SetActive(false);
+            if(hitboxObject != null)
+            {
+                hitboxObject.SetActive(false);
+            }
+           
             gameObject.transform.parent = null;
         }
 
