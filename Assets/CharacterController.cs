@@ -244,7 +244,6 @@ public class CharacterController : MonoBehaviour
     {
         if(controlUsed!= null)
         {
-            Debug.Log(controlUsed);
             return controlUsed; //returns which controltype is used
             //can be either Keyboard, Mouse or Gamepad, must be checked when calling this method
             //by using if(controlUsed.Contains("Gamepad")) OR
