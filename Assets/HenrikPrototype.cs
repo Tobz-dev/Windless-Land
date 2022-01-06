@@ -31,6 +31,15 @@ public class HenrikPrototype : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
+        if (!System.IO.File.Exists(Application.persistentDataPath + "ProtoConfig.ini"))
+        {
+            INIParser ini = new INIParser();
+            ini.Open(Application.persistentDataPath + "ProtoConfig.ini");
+            ini.WriteValue("Henrik", "moreDamage;", 1);
+            ini.WriteValue("Henrik", "autoAim;", 0);
+            ini.Close();
+        }
+
 
         SetCheckbox();
 
