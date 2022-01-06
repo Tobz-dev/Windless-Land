@@ -38,11 +38,13 @@ public class EnemyHealthScript : MonoBehaviour
 
     private void Awake()
     {
-        updateConfig();
-
         health = Maxhealth;
 
+        if (System.IO.File.Exists(Application.persistentDataPath + "Config.ini"))
+        {
+            updateConfig();
 
+        }
     }
 
     private void Start()
