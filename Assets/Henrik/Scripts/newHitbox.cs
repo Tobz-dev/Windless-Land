@@ -36,9 +36,13 @@ public class newHitbox : MonoBehaviour
             {
                 invincibility = true;
             }
+            if (other.gameObject.GetComponent<CharacterController>().GetInvincibility() == false)
+            {
+                invincibility = false;
+            }
 
 
-        }
+            }
 
         if (other.gameObject.tag == target && invincibility == false)
         {
@@ -55,9 +59,7 @@ public class newHitbox : MonoBehaviour
 
            
         }
-        else if(invincibility == true) {
-            invincibility = false;
-        }
+     
 
         if(other.gameObject.tag == Barrel)
         {
