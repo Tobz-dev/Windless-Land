@@ -15,6 +15,7 @@ public class EnemyHealthScript : MonoBehaviour
     public int Maxhealth;
     [SerializeField]
     private Material material;
+    [SerializeField]
     private Material originalMaterial;
     [SerializeField]
     private Slider healthSlider;
@@ -42,9 +43,13 @@ public class EnemyHealthScript : MonoBehaviour
 
     private void Start()
     {
-        if (gameObject.GetComponent<MeshRenderer>() != null)
+        if (gameObject.GetComponent<MeshRenderer>() != null && gameObject.name != "Boss")
         {
             originalMaterial = gameObject.GetComponent<MeshRenderer>().material;
+        }
+        else if(gameObject.name == "Boss")
+        {
+            originalMaterial = GetComponentInChildren<SkinnedMeshRenderer>().material;
         }
 
         scene = SceneManager.GetActiveScene();
@@ -140,7 +145,8 @@ public class EnemyHealthScript : MonoBehaviour
 
     private IEnumerator damagedMaterial()
     {
-        
+        if(gameObject.name != "Boss")
+        {
             for (int i = 0; i < chilldrenAmount; i++)
             {
 
@@ -162,6 +168,15 @@ public class EnemyHealthScript : MonoBehaviour
                 }
 
             }
+        }
+        else
+        {
+            GetComponentInChildren<SkinnedMeshRenderer>().material = material;
+
+            yield return new WaitForSeconds(0.3f);
+
+            GetComponentInChildren<SkinnedMeshRenderer>().material = originalMaterial;
+        }
         
 
     }
