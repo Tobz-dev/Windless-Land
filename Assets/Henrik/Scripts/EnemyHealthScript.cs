@@ -38,7 +38,11 @@ public class EnemyHealthScript : MonoBehaviour
 
     private void Awake()
     {
+        updateConfig();
+
         health = Maxhealth;
+
+
     }
 
     private void Start()
