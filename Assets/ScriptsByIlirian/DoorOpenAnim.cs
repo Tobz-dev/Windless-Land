@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+//Main Author: Ilirian Zuta
 public class DoorOpenAnim : MonoBehaviour
 {
 

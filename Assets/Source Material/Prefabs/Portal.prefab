@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 827854345840822156}
   - component: {fileID: 1165392656}
   - component: {fileID: 1165392657}
+  - component: {fileID: 8532116907477589831}
   m_Layer: 0
   m_Name: Portal
   m_TagString: Untagged
@@ -112,6 +113,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameOfLevelToLoad: Level 2
+--- !u!114 &8532116907477589831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188349229663561305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1138493804
+      Data2: 1099324728
+      Data3: 1252063408
+      Data4: -1738242535
+    Path: event:/Environment/PortalBed
+  Event: 
+  PlayEvent: 1
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 8.56
+  OverrideMaxDistance: 42.7
 --- !u!1 &5429055817499666922
 GameObject:
   m_ObjectHideFlags: 0

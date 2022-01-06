@@ -5,7 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 
-//Main Author: Ilirian Zuta, Secondary Authors: Tim Agélii & William Smith
+//Main Author: Ilirian Zuta
+//Secondary Authors: Tim Agélii & William Smith
 public class LeverAnim : MonoBehaviour
 {
     private Animator anim;
