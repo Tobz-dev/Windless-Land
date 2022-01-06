@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 6076784308160986332}
   - component: {fileID: 1454651500160376174}
   - component: {fileID: 8051459996870993282}
-  - component: {fileID: 6627370891734691061}
   - component: {fileID: 6508098297215501667}
+  - component: {fileID: 4941305914236459211}
   m_Layer: 0
   m_Name: BossAttackCircle
   m_TagString: Untagged
@@ -121,19 +121,6 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &6627370891734691061
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8459487401013743280}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 5.8734407
-  m_Center: {x: 0.000014221969, y: -1.330461, z: 3.340609}
 --- !u!114 &6508098297215501667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,6 +133,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57f3f9c7e3b9e9c479144267dc988418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swingTime: 1
+  swingTime: 1.3
   damage: 1
   target: Player
+  Barrel: 
+--- !u!136 &4941305914236459211
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8459487401013743280}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 4.8167267
+  m_Height: 9.633455
+  m_Direction: 1
+  m_Center: {x: 2.604457e-15, y: 1, z: 3.8167267}
