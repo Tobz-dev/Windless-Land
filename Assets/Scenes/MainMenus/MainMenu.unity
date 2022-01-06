@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -290,7 +290,7 @@ MonoBehaviour:
   VcaName: Master
   vcaVolume: 0
   checkBoxImage: {fileID: 2070523876}
-  Attenuation: {fileID: 0}
+  Attenuation: {fileID: 1694982110}
 --- !u!114 &4882126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,6 +346,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: VCAController, Assembly-CSharp
         m_MethodName: SetVolume
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4882125}
+        m_TargetAssemblyTypeName: VCAController, Assembly-CSharp
+        m_MethodName: PlayMasterSound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -789,6 +801,7 @@ GameObject:
   - component: {fileID: 45191543}
   - component: {fileID: 45191542}
   - component: {fileID: 45191541}
+  - component: {fileID: 45191545}
   m_Layer: 5
   m_Name: Back (2)
   m_TagString: Untagged
@@ -915,6 +928,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 45191545}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &45191543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -953,6 +978,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 45191539}
   m_CullTransparentMesh: 1
+--- !u!114 &45191545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 45191539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 380512641
+      Data2: 1082777125
+      Data3: 714772357
+      Data4: 2071776638
+    Path: event:/UI/No1
+  Event: event:/UI/No1
+  PlayOnAwake: 0
 --- !u!1 &50884780
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,6 +1012,7 @@ GameObject:
   - component: {fileID: 50884783}
   - component: {fileID: 50884782}
   - component: {fileID: 50884781}
+  - component: {fileID: 50884786}
   m_Layer: 5
   m_Name: Back (2)
   m_TagString: Untagged
@@ -1072,6 +1119,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 50884786}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &50884783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1130,6 +1189,27 @@ RectTransform:
   m_AnchoredPosition: {x: 476, y: 93}
   m_SizeDelta: {x: 799.45496, y: 120.18396}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &50884786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50884780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 380512641
+      Data2: 1082777125
+      Data3: 714772357
+      Data4: 2071776638
+    Path: event:/UI/No1
+  Event: event:/UI/No1
+  PlayOnAwake: 0
 --- !u!1 &61519464
 GameObject:
   m_ObjectHideFlags: 0
@@ -1474,7 +1554,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &74983429
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1530,8 +1610,8 @@ RectTransform:
   m_Father: {fileID: 408986702}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1941,7 +2021,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3004,6 +3084,7 @@ GameObject:
   - component: {fileID: 208003869}
   - component: {fileID: 208003868}
   - component: {fileID: 208003867}
+  - component: {fileID: 208003872}
   m_Layer: 5
   m_Name: Back (2)
   m_TagString: Untagged
@@ -3110,6 +3191,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 208003872}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &208003869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3168,6 +3261,27 @@ RectTransform:
   m_AnchoredPosition: {x: 423, y: 102}
   m_SizeDelta: {x: 800, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &208003872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208003866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 380512641
+      Data2: 1082777125
+      Data3: 714772357
+      Data4: 2071776638
+    Path: event:/UI/No1
+  Event: event:/UI/No1
+  PlayOnAwake: 0
 --- !u!1 &211691197
 GameObject:
   m_ObjectHideFlags: 0
@@ -6025,6 +6139,7 @@ GameObject:
   - component: {fileID: 417108611}
   - component: {fileID: 417108610}
   - component: {fileID: 417108609}
+  - component: {fileID: 417108614}
   m_Layer: 5
   m_Name: Back (2)
   m_TagString: Untagged
@@ -6131,6 +6246,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 417108614}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &417108611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6189,6 +6316,27 @@ RectTransform:
   m_AnchoredPosition: {x: 374.47, y: 95.8999}
   m_SizeDelta: {x: 578.62, y: 128.573}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &417108614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417108608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 380512641
+      Data2: 1082777125
+      Data3: 714772357
+      Data4: 2071776638
+    Path: event:/UI/No1
+  Event: event:/UI/No1
+  PlayOnAwake: 0
 --- !u!1 &423076217
 GameObject:
   m_ObjectHideFlags: 0
@@ -6414,7 +6562,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &429848220
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6450,6 +6598,7 @@ GameObject:
   - component: {fileID: 431216377}
   - component: {fileID: 431216376}
   - component: {fileID: 431216375}
+  - component: {fileID: 431216379}
   m_Layer: 5
   m_Name: ToPage1
   m_TagString: Untagged
@@ -6576,6 +6725,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 431216379}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &431216377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6614,6 +6775,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 431216373}
   m_CullTransparentMesh: 1
+--- !u!114 &431216379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 431216373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 543406870
+      Data2: 1125214011
+      Data3: 1879328432
+      Data4: -1048271658
+    Path: event:/UI/Yes1
+  Event: event:/UI/Yes1
+  PlayOnAwake: 0
 --- !u!1 &445995565
 GameObject:
   m_ObjectHideFlags: 0
@@ -7391,6 +7573,7 @@ GameObject:
   - component: {fileID: 498419100}
   - component: {fileID: 498419099}
   - component: {fileID: 498419098}
+  - component: {fileID: 498419103}
   m_Layer: 5
   m_Name: Back (2)
   m_TagString: Untagged
@@ -7497,6 +7680,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 498419103}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &498419100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7555,6 +7750,27 @@ RectTransform:
   m_AnchoredPosition: {x: 374.47, y: 95.8999}
   m_SizeDelta: {x: 578.62, y: 128.573}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &498419103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498419097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 380512641
+      Data2: 1082777125
+      Data3: 714772357
+      Data4: 2071776638
+    Path: event:/UI/No1
+  Event: event:/UI/No1
+  PlayOnAwake: 0
 --- !u!1 &504055985
 GameObject:
   m_ObjectHideFlags: 0
@@ -7568,6 +7784,7 @@ GameObject:
   - component: {fileID: 504055988}
   - component: {fileID: 504055987}
   - component: {fileID: 504055986}
+  - component: {fileID: 504055991}
   m_Layer: 5
   m_Name: Accesibility
   m_TagString: Untagged
@@ -7674,6 +7891,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 504055991}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &504055988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7732,6 +7961,27 @@ RectTransform:
   m_AnchoredPosition: {x: 1000, y: -595}
   m_SizeDelta: {x: 600, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &504055991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504055985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 543406870
+      Data2: 1125214011
+      Data3: 1879328432
+      Data4: -1048271658
+    Path: event:/UI/Yes1
+  Event: event:/UI/Yes1
+  PlayOnAwake: 0
 --- !u!1 &504527083
 GameObject:
   m_ObjectHideFlags: 0
@@ -9852,6 +10102,7 @@ GameObject:
   - component: {fileID: 597820442}
   - component: {fileID: 597820441}
   - component: {fileID: 597820440}
+  - component: {fileID: 597820444}
   m_Layer: 5
   m_Name: 'Visual '
   m_TagString: Untagged
@@ -9978,6 +10229,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 597820444}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &597820442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10016,6 +10279,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 597820438}
   m_CullTransparentMesh: 1
+--- !u!114 &597820444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597820438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 543406870
+      Data2: 1125214011
+      Data3: 1879328432
+      Data4: -1048271658
+    Path: event:/UI/Yes1
+  Event: event:/UI/Yes1
+  PlayOnAwake: 0
 --- !u!1 &605049414
 GameObject:
   m_ObjectHideFlags: 0
@@ -10332,6 +10616,7 @@ GameObject:
   - component: {fileID: 621924140}
   - component: {fileID: 621924139}
   - component: {fileID: 621924138}
+  - component: {fileID: 621924142}
   m_Layer: 5
   m_Name: Credits
   m_TagString: Untagged
@@ -10354,10 +10639,10 @@ RectTransform:
   m_Father: {fileID: 1312440877}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 730, y: -442.5}
-  m_SizeDelta: {x: 600, y: 175}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &621924138
 Animator:
@@ -10458,6 +10743,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 621924142}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &621924140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10496,6 +10793,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 621924136}
   m_CullTransparentMesh: 1
+--- !u!114 &621924142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 621924136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 543406870
+      Data2: 1125214011
+      Data3: 1879328432
+      Data4: -1048271658
+    Path: event:/UI/Yes1
+  Event: event:/UI/Yes1
+  PlayOnAwake: 0
 --- !u!1 &631885840
 GameObject:
   m_ObjectHideFlags: 0
@@ -10643,6 +10961,7 @@ GameObject:
   - component: {fileID: 634295097}
   - component: {fileID: 634295096}
   - component: {fileID: 634295095}
+  - component: {fileID: 634295099}
   m_Layer: 5
   m_Name: Back (2)
   m_TagString: Untagged
@@ -10769,6 +11088,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 634295099}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &634295097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10807,6 +11138,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 634295093}
   m_CullTransparentMesh: 1
+--- !u!114 &634295099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634295093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 380512641
+      Data2: 1082777125
+      Data3: 714772357
+      Data4: 2071776638
+    Path: event:/UI/No1
+  Event: event:/UI/No1
+  PlayOnAwake: 0
 --- !u!1 &637303679
 GameObject:
   m_ObjectHideFlags: 0
@@ -12231,6 +12583,7 @@ GameObject:
   - component: {fileID: 724285173}
   - component: {fileID: 724285172}
   - component: {fileID: 724285171}
+  - component: {fileID: 724285176}
   m_Layer: 5
   m_Name: Game Speed
   m_TagString: Untagged
@@ -12337,6 +12690,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 724285176}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &724285173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12395,6 +12760,27 @@ RectTransform:
   m_AnchoredPosition: {x: 1445, y: -492.5}
   m_SizeDelta: {x: 750, y: 175}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &724285176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724285170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 543406870
+      Data2: 1125214011
+      Data3: 1879328432
+      Data4: -1048271658
+    Path: event:/UI/Yes1
+  Event: event:/UI/Yes1
+  PlayOnAwake: 0
 --- !u!1 &724357417
 GameObject:
   m_ObjectHideFlags: 0
@@ -12878,6 +13264,7 @@ GameObject:
   - component: {fileID: 760305952}
   - component: {fileID: 760305951}
   - component: {fileID: 760305950}
+  - component: {fileID: 760305955}
   m_Layer: 5
   m_Name: AudioOptions
   m_TagString: Untagged
@@ -13008,6 +13395,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 760305955}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &760305952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13061,11 +13460,32 @@ RectTransform:
   m_Father: {fileID: 1312440877}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 730, y: -247.5}
-  m_SizeDelta: {x: 600, y: 175}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &760305955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760305949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 543406870
+      Data2: 1125214011
+      Data3: 1879328432
+      Data4: -1048271658
+    Path: event:/UI/Yes1
+  Event: event:/UI/Yes1
+  PlayOnAwake: 0
 --- !u!1 &761528649
 GameObject:
   m_ObjectHideFlags: 0
@@ -13919,7 +14339,7 @@ MonoBehaviour:
   VcaName: UI
   vcaVolume: 0
   checkBoxImage: {fileID: 2005137217}
-  Attenuation: {fileID: 0}
+  Attenuation: {fileID: 1694982110}
 --- !u!114 &790590777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13975,6 +14395,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: VCAController, Assembly-CSharp
         m_MethodName: SetVolume
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 790590776}
+        m_TargetAssemblyTypeName: VCAController, Assembly-CSharp
+        m_MethodName: PlayUISound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -14418,6 +14850,7 @@ GameObject:
   - component: {fileID: 819305800}
   - component: {fileID: 819305799}
   - component: {fileID: 819305798}
+  - component: {fileID: 819305803}
   m_Layer: 5
   m_Name: Back (2)
   m_TagString: Untagged
@@ -14524,6 +14957,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 819305803}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &819305800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14582,6 +15027,27 @@ RectTransform:
   m_AnchoredPosition: {x: 423, y: 102}
   m_SizeDelta: {x: 800, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &819305803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819305797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 380512641
+      Data2: 1082777125
+      Data3: 714772357
+      Data4: 2071776638
+    Path: event:/UI/No1
+  Event: event:/UI/No1
+  PlayOnAwake: 0
 --- !u!1 &848624800
 GameObject:
   m_ObjectHideFlags: 0
@@ -15844,6 +16310,7 @@ GameObject:
   - component: {fileID: 943710142}
   - component: {fileID: 943710141}
   - component: {fileID: 943710143}
+  - component: {fileID: 943710146}
   m_Layer: 5
   m_Name: Gameplay Assist
   m_TagString: Untagged
@@ -15931,6 +16398,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 943710146}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &943710142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16008,6 +16487,27 @@ RectTransform:
   m_AnchoredPosition: {x: 1445, y: -317.5}
   m_SizeDelta: {x: 750, y: 175}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &943710146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943710140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 543406870
+      Data2: 1125214011
+      Data3: 1879328432
+      Data4: -1048271658
+    Path: event:/UI/Yes1
+  Event: event:/UI/Yes1
+  PlayOnAwake: 0
 --- !u!1001 &949238198
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16596,6 +17096,7 @@ GameObject:
   - component: {fileID: 1035821589}
   - component: {fileID: 1035821588}
   - component: {fileID: 1035821587}
+  - component: {fileID: 1035821591}
   m_Layer: 5
   m_Name: Back (2)
   m_TagString: Untagged
@@ -16722,6 +17223,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1035821591}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1035821589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16760,6 +17273,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035821585}
   m_CullTransparentMesh: 1
+--- !u!114 &1035821591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035821585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 380512641
+      Data2: 1082777125
+      Data3: 714772357
+      Data4: 2071776638
+    Path: event:/UI/No1
+  Event: event:/UI/No1
+  PlayOnAwake: 0
 --- !u!1 &1035945034
 GameObject:
   m_ObjectHideFlags: 0
@@ -17210,10 +17744,10 @@ RectTransform:
   m_Father: {fileID: 83057311}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 963.25, y: -656}
+  m_SizeDelta: {x: 681.5, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1082893682
 MonoBehaviour:
@@ -17691,10 +18225,10 @@ RectTransform:
   m_Father: {fileID: 83057311}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 481.75, y: -656}
+  m_SizeDelta: {x: 681.5, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1097692488
 MonoBehaviour:
@@ -17806,6 +18340,7 @@ GameObject:
   - component: {fileID: 1109782175}
   - component: {fileID: 1109782174}
   - component: {fileID: 1109782173}
+  - component: {fileID: 1109782177}
   m_Layer: 5
   m_Name: Options
   m_TagString: Untagged
@@ -17932,6 +18467,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1109782177}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1109782175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17970,6 +18517,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1109782171}
   m_CullTransparentMesh: 1
+--- !u!114 &1109782177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1109782171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 543406870
+      Data2: 1125214011
+      Data3: 1879328432
+      Data4: -1048271658
+    Path: event:/UI/Yes1
+  Event: event:/UI/Yes1
+  PlayOnAwake: 0
 --- !u!1001 &1110516181
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18005,6 +18573,30 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 528414864}
+    - target: {fileID: 2256339982885190022, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2256339982885190022, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2256339982885190022, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 2256339982885190022, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 175
+      objectReference: {fileID: 0}
+    - target: {fileID: 2256339982885190022, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1030
+      objectReference: {fileID: 0}
+    - target: {fileID: 2256339982885190022, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -809.68
+      objectReference: {fileID: 0}
     - target: {fileID: 3872142078763264662, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -18180,6 +18772,30 @@ PrefabInstance:
     - target: {fileID: 3872142080804790399, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989153354796089952, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989153354796089952, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989153354796089952, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989153354796089952, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 175
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989153354796089952, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 730
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989153354796089952, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -484.84
       objectReference: {fileID: 0}
     - target: {fileID: 4456104528419076458, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -18292,6 +18908,30 @@ PrefabInstance:
     - target: {fileID: 6710781267461471143, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463018546883777919, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463018546883777919, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463018546883777919, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463018546883777919, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 175
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463018546883777919, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 730
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463018546883777919, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -247.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 187376667bd9ba243856e7ed42f3c957, type: 3}
@@ -18654,10 +19294,10 @@ RectTransform:
   m_Father: {fileID: 83057311}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 963.25, y: -416}
+  m_SizeDelta: {x: 681.5, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1130311799
 MonoBehaviour:
@@ -19104,8 +19744,8 @@ RectTransform:
   m_Father: {fileID: 2004537244}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -20273,6 +20913,7 @@ GameObject:
   - component: {fileID: 1207399778}
   - component: {fileID: 1207399777}
   - component: {fileID: 1207399776}
+  - component: {fileID: 1207399781}
   m_Layer: 5
   m_Name: ToPage2
   m_TagString: Untagged
@@ -20379,6 +21020,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1207399781}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1207399778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20437,6 +21090,27 @@ RectTransform:
   m_AnchoredPosition: {x: -478, y: 98}
   m_SizeDelta: {x: 799.45496, y: 120.18396}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1207399781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207399775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 543406870
+      Data2: 1125214011
+      Data3: 1879328432
+      Data4: -1048271658
+    Path: event:/UI/Yes1
+  Event: event:/UI/Yes1
+  PlayOnAwake: 0
 --- !u!1 &1212141046
 GameObject:
   m_ObjectHideFlags: 0
@@ -21447,10 +22121,10 @@ RectTransform:
   m_Father: {fileID: 83057311}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 481.75, y: -416}
+  m_SizeDelta: {x: 681.5, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1266469208
 MonoBehaviour:
@@ -22226,6 +22900,7 @@ GameObject:
   - component: {fileID: 1344138431}
   - component: {fileID: 1344138430}
   - component: {fileID: 1344138429}
+  - component: {fileID: 1344138434}
   m_Layer: 5
   m_Name: Back (2)
   m_TagString: Untagged
@@ -22332,6 +23007,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1344138434}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1344138431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22390,6 +23077,27 @@ RectTransform:
   m_AnchoredPosition: {x: 423, y: 102}
   m_SizeDelta: {x: 800, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1344138434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344138428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 380512641
+      Data2: 1082777125
+      Data3: 714772357
+      Data4: 2071776638
+    Path: event:/UI/No1
+  Event: event:/UI/No1
+  PlayOnAwake: 0
 --- !u!1 &1355948519
 GameObject:
   m_ObjectHideFlags: 0
@@ -22978,7 +23686,7 @@ MonoBehaviour:
   VcaName: Player SFX
   vcaVolume: 0
   checkBoxImage: {fileID: 1043470225}
-  Attenuation: {fileID: 0}
+  Attenuation: {fileID: 1694982110}
 --- !u!114 &1371315417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23034,6 +23742,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: VCAController, Assembly-CSharp
         m_MethodName: SetVolume
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1371315416}
+        m_TargetAssemblyTypeName: VCAController, Assembly-CSharp
+        m_MethodName: PlayPlayerSFXSound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -23578,7 +24298,7 @@ MonoBehaviour:
   VcaName: Music
   vcaVolume: 0
   checkBoxImage: {fileID: 1721298905}
-  Attenuation: {fileID: 0}
+  Attenuation: {fileID: 1694982110}
 --- !u!114 &1381393902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24828,6 +25548,7 @@ GameObject:
   - component: {fileID: 1473795550}
   - component: {fileID: 1473795549}
   - component: {fileID: 1473795548}
+  - component: {fileID: 1473795552}
   m_Layer: 5
   m_Name: Level Select
   m_TagString: Untagged
@@ -24850,10 +25571,10 @@ RectTransform:
   m_Father: {fileID: 1312440877}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 730, y: -637.5}
-  m_SizeDelta: {x: 600, y: 175}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1473795548
 Animator:
@@ -24954,6 +25675,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1473795552}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1473795550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24992,6 +25725,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1473795546}
   m_CullTransparentMesh: 1
+--- !u!114 &1473795552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473795546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 543406870
+      Data2: 1125214011
+      Data3: 1879328432
+      Data4: -1048271658
+    Path: event:/UI/Yes1
+  Event: event:/UI/Yes1
+  PlayOnAwake: 0
 --- !u!1 &1474560125
 GameObject:
   m_ObjectHideFlags: 0
@@ -25025,10 +25779,10 @@ RectTransform:
   m_Father: {fileID: 83057311}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 963.25, y: -176}
+  m_SizeDelta: {x: 681.5, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1474560127
 MonoBehaviour:
@@ -25543,6 +26297,7 @@ GameObject:
   - component: {fileID: 1521522195}
   - component: {fileID: 1521522194}
   - component: {fileID: 1521522193}
+  - component: {fileID: 1521522197}
   m_Layer: 5
   m_Name: Start
   m_TagString: Untagged
@@ -25645,6 +26400,18 @@ MonoBehaviour:
           m_StringArgument: Level 1
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1521522197}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1521522195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25683,6 +26450,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1521522191}
   m_CullTransparentMesh: 1
+--- !u!114 &1521522197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521522191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 543406870
+      Data2: 1125214011
+      Data3: 1879328432
+      Data4: -1048271658
+    Path: event:/UI/Yes1
+  Event: event:/UI/Yes1
+  PlayOnAwake: 0
 --- !u!1 &1522152348
 GameObject:
   m_ObjectHideFlags: 0
@@ -25832,6 +26620,7 @@ GameObject:
   - component: {fileID: 1524708838}
   - component: {fileID: 1524708837}
   - component: {fileID: 1524708836}
+  - component: {fileID: 1524708840}
   m_Layer: 5
   m_Name: UI Options
   m_TagString: Untagged
@@ -25854,10 +26643,10 @@ RectTransform:
   m_Father: {fileID: 1312440877}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1380, y: -442.5}
-  m_SizeDelta: {x: 600, y: 175}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1524708836
 Animator:
@@ -25958,6 +26747,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1524708840}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1524708838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25996,6 +26797,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1524708834}
   m_CullTransparentMesh: 1
+--- !u!114 &1524708840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524708834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 543406870
+      Data2: 1125214011
+      Data3: 1879328432
+      Data4: -1048271658
+    Path: event:/UI/Yes1
+  Event: event:/UI/Yes1
+  PlayOnAwake: 0
 --- !u!1 &1528674424
 GameObject:
   m_ObjectHideFlags: 0
@@ -26284,7 +27106,7 @@ MonoBehaviour:
   VcaName: Ambience
   vcaVolume: 0
   checkBoxImage: {fileID: 1465936014}
-  Attenuation: {fileID: 0}
+  Attenuation: {fileID: 1694982110}
 --- !u!114 &1552999348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28424,6 +29246,7 @@ GameObject:
   - component: {fileID: 1701631561}
   - component: {fileID: 1701631560}
   - component: {fileID: 1701631562}
+  - component: {fileID: 1701631565}
   m_Layer: 5
   m_Name: Back (2)
   m_TagString: Untagged
@@ -28511,6 +29334,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1701631565}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1701631561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28588,6 +29423,27 @@ RectTransform:
   m_AnchoredPosition: {x: 495, y: 108}
   m_SizeDelta: {x: 799.45496, y: 120.18396}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1701631565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701631559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 380512641
+      Data2: 1082777125
+      Data3: 714772357
+      Data4: 2071776638
+    Path: event:/UI/No1
+  Event: event:/UI/No1
+  PlayOnAwake: 0
 --- !u!1 &1706760112
 GameObject:
   m_ObjectHideFlags: 0
@@ -28890,7 +29746,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -29716,7 +30572,7 @@ MonoBehaviour:
   VcaName: Enemy SFX
   vcaVolume: 0
   checkBoxImage: {fileID: 165220320}
-  Attenuation: {fileID: 0}
+  Attenuation: {fileID: 1694982110}
 --- !u!114 &1735760438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29772,6 +30628,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: VCAController, Assembly-CSharp
         m_MethodName: SetVolume
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1735760437}
+        m_TargetAssemblyTypeName: VCAController, Assembly-CSharp
+        m_MethodName: PlayEnemySFXSound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -30687,7 +31555,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -30783,6 +31651,7 @@ GameObject:
   - component: {fileID: 1800434223}
   - component: {fileID: 1800434222}
   - component: {fileID: 1800434221}
+  - component: {fileID: 1800434225}
   m_Layer: 5
   m_Name: Back
   m_TagString: Untagged
@@ -30909,6 +31778,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1800434225}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1800434223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30947,6 +31828,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1800434219}
   m_CullTransparentMesh: 1
+--- !u!114 &1800434225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1800434219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 380512641
+      Data2: 1082777125
+      Data3: 714772357
+      Data4: 2071776638
+    Path: event:/UI/No1
+  Event: event:/UI/No1
+  PlayOnAwake: 0
 --- !u!1 &1808270176
 GameObject:
   m_ObjectHideFlags: 0
@@ -31149,10 +32051,10 @@ RectTransform:
   m_Father: {fileID: 1888667350}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 450, y: -187.5}
+  m_SizeDelta: {x: 300, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1819411461
 MonoBehaviour:
@@ -31357,10 +32259,10 @@ RectTransform:
   m_Father: {fileID: 83057311}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 481.75, y: -176}
+  m_SizeDelta: {x: 681.5, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1829145016
 MonoBehaviour:
@@ -31606,6 +32508,7 @@ GameObject:
   - component: {fileID: 1856288032}
   - component: {fileID: 1856288031}
   - component: {fileID: 1856288033}
+  - component: {fileID: 1856288036}
   m_Layer: 5
   m_Name: VideoOptions
   m_TagString: Untagged
@@ -31693,6 +32596,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1856288036}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1856288032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31765,11 +32680,32 @@ RectTransform:
   m_Father: {fileID: 1312440877}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1380, y: -247.5}
-  m_SizeDelta: {x: 600, y: 175}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1856288036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856288030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 543406870
+      Data2: 1125214011
+      Data3: 1879328432
+      Data4: -1048271658
+    Path: event:/UI/Yes1
+  Event: event:/UI/Yes1
+  PlayOnAwake: 0
 --- !u!1 &1866431632
 GameObject:
   m_ObjectHideFlags: 0
@@ -32663,9 +33599,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Wiliam Smith
-
-    Sound Designer / Level Designer'
+  m_text: "William Smith\nSound Designer / Composer \nLevel Artist / World Builder"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 814b4169af3b09842abae37b8f85fbad, type: 2}
   m_sharedMaterial: {fileID: -8124943007681638659, guid: 814b4169af3b09842abae37b8f85fbad, type: 2}
@@ -33935,6 +34869,7 @@ GameObject:
   - component: {fileID: 2037539839}
   - component: {fileID: 2037539838}
   - component: {fileID: 2037539837}
+  - component: {fileID: 2037539842}
   m_Layer: 5
   m_Name: Back (2)
   m_TagString: Untagged
@@ -34041,6 +34976,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 2037539842}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &2037539839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34099,6 +35046,27 @@ RectTransform:
   m_AnchoredPosition: {x: 516, y: 118}
   m_SizeDelta: {x: 824.75586, y: 106.13733}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2037539842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037539836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 380512641
+      Data2: 1082777125
+      Data3: 714772357
+      Data4: 2071776638
+    Path: event:/UI/No1
+  Event: event:/UI/No1
+  PlayOnAwake: 0
 --- !u!1 &2044867379
 GameObject:
   m_ObjectHideFlags: 0
@@ -34994,8 +35962,8 @@ RectTransform:
   m_Father: {fileID: 788077281}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -35086,6 +36054,7 @@ GameObject:
   - component: {fileID: 2080231256}
   - component: {fileID: 2080231255}
   - component: {fileID: 2080231254}
+  - component: {fileID: 2080231258}
   m_Layer: 5
   m_Name: Exit
   m_TagString: Untagged
@@ -35188,6 +36157,18 @@ MonoBehaviour:
           m_StringArgument: MainMenu
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2080231258}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2080231256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35226,6 +36207,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2080231252}
   m_CullTransparentMesh: 1
+--- !u!114 &2080231258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080231252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 380512641
+      Data2: 1082777125
+      Data3: 714772357
+      Data4: 2071776638
+    Path: event:/UI/No1
+  Event: event:/UI/No1
+  PlayOnAwake: 0
 --- !u!1 &2080324516
 GameObject:
   m_ObjectHideFlags: 0
@@ -35393,7 +36395,7 @@ MonoBehaviour:
   VcaName: SFX
   vcaVolume: 0
   checkBoxImage: {fileID: 454019908}
-  Attenuation: {fileID: 0}
+  Attenuation: {fileID: 1694982110}
 --- !u!114 &2080938797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35449,6 +36451,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: VCAController, Assembly-CSharp
         m_MethodName: SetVolume
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2080938796}
+        m_TargetAssemblyTypeName: VCAController, Assembly-CSharp
+        m_MethodName: PlaySFXSound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -36111,6 +37125,7 @@ GameObject:
   - component: {fileID: 2127163380}
   - component: {fileID: 2127163379}
   - component: {fileID: 2127163378}
+  - component: {fileID: 2127163383}
   m_Layer: 5
   m_Name: Font
   m_TagString: Untagged
@@ -36217,6 +37232,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 2127163383}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &2127163380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36275,6 +37302,27 @@ RectTransform:
   m_AnchoredPosition: {x: 645, y: -317.5}
   m_SizeDelta: {x: 750, y: 175}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2127163383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127163377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 543406870
+      Data2: 1125214011
+      Data3: 1879328432
+      Data4: -1048271658
+    Path: event:/UI/Yes1
+  Event: event:/UI/Yes1
+  PlayOnAwake: 0
 --- !u!1 &2131648672
 GameObject:
   m_ObjectHideFlags: 0
@@ -36404,6 +37452,7 @@ GameObject:
   - component: {fileID: 2142898669}
   - component: {fileID: 2142898668}
   - component: {fileID: 2142898667}
+  - component: {fileID: 2142898672}
   m_Layer: 5
   m_Name: Back (2)
   m_TagString: Untagged
@@ -36510,6 +37559,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 2142898672}
+        m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+        m_MethodName: PlayOneShot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &2142898669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36568,3 +37629,24 @@ RectTransform:
   m_AnchoredPosition: {x: 420, y: 90}
   m_SizeDelta: {x: 800, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2142898672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142898666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6caae7d63ccae40a404060b81f7c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISounds:
+    Guid:
+      Data1: 380512641
+      Data2: 1082777125
+      Data3: 714772357
+      Data4: 2071776638
+    Path: event:/UI/No1
+  Event: event:/UI/No1
+  PlayOnAwake: 0
