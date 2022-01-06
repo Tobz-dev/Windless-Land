@@ -6,6 +6,8 @@ using UnityEngine;
 public class PlayerAttackHitbox : MonoBehaviour
 {
     [SerializeField]
+    private GameObject hitboxObject;
+    [SerializeField]
     private float swingTime;
     [SerializeField]
     private int damage;
@@ -14,7 +16,7 @@ public class PlayerAttackHitbox : MonoBehaviour
     [SerializeField]
     private int manaPerHit;
 
-    [SerializeField] private string barrel;
+    [SerializeField] private string Barrel;
 
 
     private float deathTimer;
@@ -43,8 +45,9 @@ public class PlayerAttackHitbox : MonoBehaviour
 
         }
 
-        if(other.gameObject.tag == barrel)
+        if(other.gameObject.tag == Barrel)
         {
+            Debug.Log("ASDASD");
             other.GetComponent<DestroyBarrels>().destroyBarrel();
         }
 
@@ -72,10 +75,17 @@ public class PlayerAttackHitbox : MonoBehaviour
 
         if (deathTimer >= seconds)
         {
+            if(hitboxObject != null)
+            {
+                hitboxObject.SetActive(false);
+            }
+           
+            gameObject.transform.parent = null;
+        }
 
-            Destroy(this.gameObject);
-
-
+        if(deathTimer >= seconds * 6)
+        {
+            Destroy(gameObject);
         }
 
     }

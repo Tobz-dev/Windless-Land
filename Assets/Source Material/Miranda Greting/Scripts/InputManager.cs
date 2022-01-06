@@ -28,6 +28,10 @@ public class InputManager : MonoBehaviour
 
     public static void StartRebind(string actionName, int bindingIndex, TextMeshProUGUI statusText, bool excludeMouse, GameObject rebindPanel)
     {
+        if (inputActions == null)
+        {
+            inputActions = new PlayerInputs();
+        }
         InputAction action = inputActions.asset.FindAction(actionName);
         if(action == null || action.bindings.Count <= bindingIndex)
         {
@@ -138,10 +142,69 @@ public class InputManager : MonoBehaviour
         }
 
         InputAction action = inputActions.asset.FindAction(actionName);
-        return action.bindings[bindingIndex].effectivePath;
-        //action.GetBindingDisplayString(bindingIndex);
+        string rebindText = action.bindings[bindingIndex].effectivePath;
+        int splitIndex = rebindText.IndexOf('>') + 1;
+        if (splitIndex >= 0)
+        {
+            string bindingString = rebindText.Substring(splitIndex + 1);
+            bindingString = bindingString[0].ToString().ToUpper() + bindingString.Substring(1);
+            if (rebindText[1].Equals('M'))
+            {
+                rebindText = "Mouse/" + bindingString;
+            }
+            else if (bindingString.Equals("RightShoulder"))
+            {
+                rebindText = "R1";
+                //gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon("R1");
+            }
+            else if (bindingString.Equals("RightTriggerButton") || bindingString.Equals("RightTrigger"))
+            {
+                rebindText = "R2";
+            }
+            else if (bindingString.Equals("LeftShoulder"))
+            {
+                rebindText = "L1";
+            }
+            else if (bindingString.Equals("LeftTriggerButton") || bindingString.Equals("LeftTrigger"))
+            {
+                rebindText = "L2";
+            }
+            else if (bindingString.Equals("ButtonSouth"))
+            {
+                rebindText = "A/Cross";
+            }
+            else if (bindingString.Equals("ButtonWest"))
+            {
+                rebindText = "X/Square";
+            }
+            else if (bindingString.Equals("ButtonNorth"))
+            {
+                rebindText = "Y/Triangle";
+            }
+            else if (bindingString.Equals("ButtonEast"))
+            {
+                rebindText = "B/Circle";
+            }
+            else if (bindingString.StartsWith("LeftStick"))
+            {
+                rebindText = bindingString;
+            }
+            else if (bindingString.Equals("Start"))
+            {
+                rebindText = "Menu/Options";
+            }
+            else if (bindingString.Equals("Select"))
+            {
+                rebindText = "View/Share";
+            }
+            else
+            {
+                rebindText = bindingString;
+            }
+            //action.GetBindingDisplayString(bindingIndex);
+        }
+        return rebindText;
     }
-
     public static void ResetBinding(string actionName, int bindingIndex)
     {
         InputAction action = inputActions.asset.FindAction(actionName);
@@ -210,17 +273,17 @@ public class InputManager : MonoBehaviour
         }
     }
     
-
+    //checks if chosen rebinding already binds to another action
+    //if it does, the player is given the option to swap rebindings for the two actions
+    //or cancel the rebinding process
     private static bool CheckDuplicateBindings(InputAction action, int bindingIndex, bool allCompositeParts, GameObject rebindWarning)
     {
         InputBinding newBinding = action.bindings[bindingIndex];
         foreach (InputBinding binding in action.actionMap.bindings)
         {
-            if (binding.action == newBinding.action)
-            {
-                continue;
-            }
-            if (binding.effectivePath == newBinding.effectivePath)
+            if (binding.action != newBinding.action && (binding.effectivePath == newBinding.effectivePath 
+                || (binding.effectivePath.Contains("leftTrigger") && newBinding.effectivePath.Contains("leftTrigger"))
+                || (binding.effectivePath.Contains("rightTrigger") && newBinding.effectivePath.Contains("rightTrigger"))))
             {
                 //set gameobject active
                 rebindWarning.SetActive(true);
@@ -228,13 +291,17 @@ public class InputManager : MonoBehaviour
                 Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
                 return true;
             }
+            else if (binding.action == newBinding.action)
+            {
+                continue;
+            }
         }
         //Check for duplicate composite bindings
         if (allCompositeParts)
         {
-            for (int i = 1; i < bindingIndex; i++)
+            for (int i = 0; i <= bindingIndex; i++)
             {
-                if (action.bindings[i].effectivePath == newBinding.effectivePath)
+                if (action.actionMap.bindings[i].effectivePath == newBinding.effectivePath)
                 {
                     rebindWarning.SetActive(true);
                     instance.StartCoroutine(DelayInactivation(2f, rebindWarning));
@@ -280,6 +347,67 @@ public class InputManager : MonoBehaviour
             pathNameIndex = 0;
         }
 
+        if (path.Equals("<Gamepad>/buttonWest"))
+        {
+            path = "joystick button 0";
+            pathNameIndex = 0;
+        }
+
+        if (path.Equals("<Gamepad>/buttonNorth"))
+        {
+            path = "joystick button 3";
+            pathNameIndex = 0;
+        }
+
+        if (path.Equals("<Gamepad>/buttonSouth"))
+        {
+            path = "joystick button 3"; //FIX
+            pathNameIndex = 0;
+        }
+
         return path.Substring(pathNameIndex);
+    }
+
+    public static KeyCode GetGamepadButton(string buttonName)
+    {
+        KeyCode gamepadButton = 0;
+        if (buttonName.Equals("X"))
+        {
+            gamepadButton = KeyCode.JoystickButton0;
+        }
+        if (buttonName.Equals("A"))
+        {
+            gamepadButton = KeyCode.Joystick1Button1;
+        }
+        if (buttonName.Equals("B"))
+        {
+            gamepadButton = KeyCode.Joystick1Button2;
+        }
+        if (buttonName.Equals("Y"))
+        {
+            gamepadButton = KeyCode.Joystick1Button3;
+        }
+        if (buttonName.Equals("LeftShoulder"))
+        {
+            gamepadButton = KeyCode.Joystick1Button4;
+        }
+        if (buttonName.Equals("RightShoulder"))
+        {
+            gamepadButton = KeyCode.Joystick1Button5;
+        }
+        if (buttonName.Equals("LeftTrigger"))
+        {
+            gamepadButton = KeyCode.Joystick1Button6;
+        }
+        if (buttonName.Equals("RightTrigger"))
+        {
+            gamepadButton = KeyCode.Joystick1Button7;
+        }
+        if (buttonName.Equals("Start"))
+        {
+            gamepadButton = KeyCode.Joystick1Button9;
+        }
+
+        return gamepadButton;
     }
 }

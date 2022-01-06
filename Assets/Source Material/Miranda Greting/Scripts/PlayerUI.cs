@@ -20,7 +20,6 @@ public class PlayerUI : MonoBehaviour
     private int maxMana;
     private PlayerHealthScript hpScript;
     private CharacterController characterController;
-    private CharacterControllerRemapTest altCharacterController;
     private int previousHealth;
     private int previousFlaskAmt;
     private int previousMana;
@@ -39,7 +38,6 @@ public class PlayerUI : MonoBehaviour
         previousHealth = maxHealth;
         health = maxHealth;
         characterController = player.GetComponent<CharacterController>();
-        altCharacterController = player.GetComponent<CharacterControllerRemapTest>();
         HealthSetup(health, maxHealth);
         maxFlasks = (int)characterController.GetFlaskUses();
         flaskAmount = previousFlaskAmt = maxFlasks;
@@ -63,12 +61,7 @@ public class PlayerUI : MonoBehaviour
         }
         else
         {
-            flaskAmount = (int)altCharacterController.GetFlaskUses();
-            if(flaskAmount != previousFlaskAmt)
-            {
-                flaskAmountText.text = altCharacterController.GetFlaskUses().ToString();
-                previousFlaskAmt = flaskAmount;
-            }
+            Debug.Log("Activate CharacterController script!!!");
         }
 
         //check for health value change
@@ -83,21 +76,8 @@ public class PlayerUI : MonoBehaviour
             mana = characterController.GetMana();
             if (mana != previousMana && mana >= 0)
             {
-                Debug.Log(mana);
                 manaSlider.value = mana;
                 previousMana = mana;
-                Debug.Log("mana = " + mana);
-            }
-        }
-        else
-        {
-            mana = altCharacterController.GetMana();
-            if (mana != previousMana && mana >= 0)
-            {
-                Debug.Log(mana);
-                manaSlider.value = mana;
-                previousMana = mana;
-                Debug.Log("mana = " + mana);
             }
         }
 

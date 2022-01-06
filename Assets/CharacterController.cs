@@ -440,6 +440,15 @@ public class CharacterController : MonoBehaviour
         }
         //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
     }
+    public void ManaDecreased(int i)
+    {
+        mana = mana - i;
+        if (mana < 0)
+        {
+            mana = 0;
+        }
+     
+    }
 
     public int GetMaxMana() 
     {
@@ -632,13 +641,14 @@ public class CharacterController : MonoBehaviour
    {
 
         bowIsActive = true;
-        anim.SetTrigger("DrawBow");
+        anim.SetBool("StopBow", false);
         playerVFX.PlayArrowChannelEffect();
         playerRgb.velocity = new Vector3(0, playerRgb.velocity.y, 0);
         transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementFalse();
 
         drawBow = true;
-        
+        anim.SetBool("DrawBow", true);
+
     }
    private void DrawBow(string keyboardPath, string mousePath) 
    {
@@ -651,8 +661,9 @@ public class CharacterController : MonoBehaviour
             if (queueBowCancel == false) 
             {
                 bowIsLoading = true;
-                anim.SetTrigger("StopBow");
-                anim.SetTrigger("BowAim");
+
+                anim.SetBool("BowAim", true);
+                anim.SetBool("DrawBow", false);
             }
         }
         else
@@ -693,15 +704,18 @@ public class CharacterController : MonoBehaviour
         Debug.Log(mana + "  manaleft");
      //   gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
      bowIsFinishedLoading = false;
-     anim.SetTrigger("StopBow");
-     anim.SetTrigger("BowRecoil");
+        anim.SetBool("BowRecoil", true);
+        anim.SetBool("BowAim", false);
         playerVFX.StopArrowChannelEffect();
         startBowCooldown = true;
      
    }
    private void BowCancel() 
    {
-        anim.SetTrigger("StopBow");
+        anim.SetBool("StopBow", true);
+        anim.SetBool("BowAim", false);
+        anim.SetBool("DrawBow", false);
+        anim.SetBool("BowRecoil", false);
         playerVFX.StopArrowChannelEffect();
         transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
         queueBowCancel = false;
@@ -720,10 +734,7 @@ public class CharacterController : MonoBehaviour
    private void BowCooldown() {
         if (AttackWaitTimer(bowCooldownTime))
         {
-            transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
-            startBowCooldown = false;
-            bowIsActive = false;
-            anim.SetTrigger("StopBow");
+            BowCancel();
 
         }
         else { 
@@ -918,7 +929,7 @@ public class CharacterController : MonoBehaviour
                 }
                 if (inputActions.WindlessLand.HeavyAttack.triggered/*Input.GetKeyDown(KeyCode.Mouse1)*/ && mana >= heavyManaCost)
                 {
-                    mana = mana - heavyManaCost;
+                  
 
                     HeavyAttack();
                 }
@@ -1228,7 +1239,7 @@ public class CharacterController : MonoBehaviour
         }
         if (startPlayerStunned == true)
         {
-            ResetStunAnim();
+            
         }
         CancelLeverPull();
 
@@ -1256,7 +1267,7 @@ public class CharacterController : MonoBehaviour
     public void CancelLeverPull() {
         if(anim.GetBool("PullingLever") == true)
         anim.SetBool("PullingLever", false);
-        
+       
         transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
     }
 
