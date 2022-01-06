@@ -28,11 +28,11 @@ public class ManaFountain : MonoBehaviour
 
     private void Start()
     {
-        //playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>();
-        //controlUsed = playerScript.GetControlUsed();
+        playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>();
+        controlUsed = playerScript.CheckControlUsed();
         gamepadScript = gameObject.GetComponent<ChangeGamepadIcon>();
         rebindPath = InputManager.GetBindingName("Interact", 0);
-        if (controlUsed.Equals("Gamepad"))
+        if (controlUsed.Contains("Gamepad") || controlUsed.Contains("XInputControllerWindows"))
         {
             rebindPath = InputManager.GetBindingName("Interact", 1);
             gamepadScript.ChangeXboxIcon(rebindPath);
@@ -112,11 +112,10 @@ public class ManaFountain : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             canInteract = true;
-
             if (fountainFull)
             {
-                //controlUsed = playerScript.GetControlUsed();
-                if (controlUsed.Equals("Gamepad"))
+                controlUsed = playerScript.CheckControlUsed();
+                if (controlUsed.Contains("Gamepad") || controlUsed.ToUpper().Contains("XBOX") || controlUsed.Contains("XInputControllerWindows"))
                 {
                     rebindPath = InputManager.GetBindingName("Interact", 1);
                     gamepadScript.Activate();
