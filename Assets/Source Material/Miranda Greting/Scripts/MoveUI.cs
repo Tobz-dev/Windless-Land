@@ -40,7 +40,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     private float[] currentScaleSlideValues;
     private GameObject[] textObjects;
     private List<TextMeshProUGUI> textMeshProUGUIList = new List<TextMeshProUGUI>();
-
+    private bool fromSript = false;
     void OnEnable()
     {
         //InactivatePrototype(false);
@@ -230,9 +230,11 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             }
             else
             {
+                fromSript = true;
                 ChangeAnchoredPos("UpLeft");
-                editableObjects[i].GetComponent<RectTransform>().anchoredPosition = startPositions[i];
+                fromSript = false;
                 movableObject.anchoredPosition = startPos;
+                editableObjects[i].GetComponent<RectTransform>().anchoredPosition = startPositions[i];
                 editableObjects[i].transform.localScale = originalScales[i];
                 movableObject.localScale = originalScale;
             }
@@ -392,7 +394,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     {
         RectTransform selectedObject = movableObject;
         int objectInList = 0;
-        if (individualEditToggle.isOn)
+        if (individualEditToggle.isOn && fromSript == false)
         {
             for (int i = 0; i <= editableObjects.Length - 1; i++)
             {
