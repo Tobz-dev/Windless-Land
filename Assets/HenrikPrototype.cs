@@ -54,6 +54,13 @@ public class HenrikPrototype : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            SavePrototypeDefault();
+        }
+
+
         if (autoAimCheckbox.enabled == true)
         {
 
@@ -113,6 +120,21 @@ public class HenrikPrototype : MonoBehaviour
     public void moreDamageButton()
     {
         
+    }
+
+    public void SavePrototypeDefault()
+    {
+        INIParser ini = new INIParser();
+        ini.Open(Application.persistentDataPath + "ProtoConfig.ini");
+        ini.WriteValue("Henrik", "autoAim;", 0);
+        ini.WriteValue("Henrik", "moreDamage;", 1);
+        ini.Close();
+        player.gameObject.GetComponent<CharacterController>().updateAutoaim();
+
+        autoAimCheckbox.enabled = false;
+        moreDamageCheckbox.enabled = false;
+
+        Debug.Log("Saved Default Proto Config");
     }
 
 }

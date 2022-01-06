@@ -32,15 +32,16 @@ public class ConfigController : MonoBehaviour
         //Save();
         Load();
         Save();
+
+        
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.J))
         {
-            Debug.Log("KEY TEST");
-            //enemyLight.GetComponent<EnemyHealthScript>().setConfig(12);
-            //Load();
+            Debug.Log("SaveDefault");
+            SaveDefault();
         }
     }
 
