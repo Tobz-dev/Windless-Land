@@ -1478,12 +1478,8 @@ public class CharacterController : MonoBehaviour
         ini.Open(Application.persistentDataPath + "ProtoConfig.ini");
         autoAim = ini.ReadValue("Henrik", "autoAim;", true);
         ini.Close();
-
-
-        //autoAim = x;
     }
 
-    
 
 }
 

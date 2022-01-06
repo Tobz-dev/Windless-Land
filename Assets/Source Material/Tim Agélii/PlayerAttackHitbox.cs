@@ -24,6 +24,7 @@ public class PlayerAttackHitbox : MonoBehaviour
     private void Start()
     {
         hitboxCollider = GetComponent<Collider>();
+        Debug.Log(damage);
     }
     private void OnTriggerEnter(Collider other)
     {
