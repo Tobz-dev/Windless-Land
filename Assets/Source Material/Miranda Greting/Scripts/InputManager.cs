@@ -60,7 +60,7 @@ public class InputManager : MonoBehaviour
         {
             return; //exits function if InputAction is null or index is invalid/less than zero
         }
-
+        InputBinding previousBinding = actionToRebind.bindings[bindingIndex];
         statusText.text = "Press a " + "button"; //actionToRebind.expectedControlType; //gives feedback to player on which type of button is expected
         actionToRebind.Disable(); //disables action while rebinding is being performed
 
@@ -71,11 +71,15 @@ public class InputManager : MonoBehaviour
             actionToRebind.Enable();
             operation.Dispose();
 
-            if(CheckDuplicateBindings(actionToRebind, bindingIndex, compositeBinding, rebindPanel.transform.GetChild(2).gameObject))
+            if(CheckDuplicateBindings(actionToRebind, bindingIndex, compositeBinding, previousBinding, rebindPanel.transform.GetChild(2).gameObject))
             {
-                actionToRebind.RemoveBindingOverride(bindingIndex);
+                //InputBinding duplicateBinding = actionToRebind.bindings[bindingIndex];
+                //actionToRebind.RemoveBindingOverride(bindingIndex);
+                //actionToRebind.ApplyBindingOverride(previousBinding);
+                //SwapBindingsPrompt(rebindPanel.transform.GetChild(2).gameObject, previousBinding, duplicateBinding);
                 //CleanUp();
-                ChangeRebind(actionToRebind, bindingIndex, statusText, compositeBinding, excludeMouse, rebindPanel);
+                //ChangeRebind(actionToRebind, bindingIndex, statusText, compositeBinding, excludeMouse, rebindPanel);
+                rebind.Cancel();
                 return;
             }
 
@@ -105,7 +109,7 @@ public class InputManager : MonoBehaviour
             rebindPanel.SetActive(false);
             Debug.Log(actionToRebind.bindings[bindingIndex].effectivePath);
 
-        }); //assigns a delegat that enables the action when rebinding is complete, and disposes of delegate to prevent memory leaks
+        }); //assigns a delegate that enables the action when rebinding is complete, and disposes of delegate to prevent memory leaks
 
         rebind.OnCancel(operation =>
         {
@@ -121,12 +125,6 @@ public class InputManager : MonoBehaviour
         if (excludeMouse)
         {
             rebind.WithControlsExcluding("Mouse");
-            /*
-            rebind.WithControlsExcluding("<Mouse>/leftButton")
-                .WithControlsExcluding("<Mouse>/rightButton")
-                .WithControlsExcluding("<Mouse>/press")
-                .WithControlsExcluding("<Pointer>/position")
-            */
         }
 
         rebindStarted?.Invoke(actionToRebind, bindingIndex);
@@ -276,42 +274,74 @@ public class InputManager : MonoBehaviour
     //checks if chosen rebinding already binds to another action
     //if it does, the player is given the option to swap rebindings for the two actions
     //or cancel the rebinding process
-    private static bool CheckDuplicateBindings(InputAction action, int bindingIndex, bool allCompositeParts, GameObject rebindWarning)
+    private static bool CheckDuplicateBindings(InputAction actionToRebind, int bindingIndex, bool allCompositeParts, InputBinding previousBinding, GameObject rebindWarning)
     {
-        InputBinding newBinding = action.bindings[bindingIndex];
-        foreach (InputBinding binding in action.actionMap.bindings)
+        InputBinding newBinding = actionToRebind.bindings[bindingIndex];
+        foreach (InputBinding duplicateBinding in actionToRebind.actionMap.bindings)
         {
-            if (binding.action != newBinding.action && (binding.effectivePath == newBinding.effectivePath 
-                || (binding.effectivePath.Contains("leftTrigger") && newBinding.effectivePath.Contains("leftTrigger"))
-                || (binding.effectivePath.Contains("rightTrigger") && newBinding.effectivePath.Contains("rightTrigger"))))
+            if (duplicateBinding.action == newBinding.action)
+            {
+                continue;
+            }
+            if (duplicateBinding.action != newBinding.action && (duplicateBinding.effectivePath == newBinding.effectivePath 
+                || (duplicateBinding.effectivePath.Contains("leftTrigger") && newBinding.effectivePath.Contains("leftTrigger"))
+                || (duplicateBinding.effectivePath.Contains("rightTrigger") && newBinding.effectivePath.Contains("rightTrigger"))))
             {
                 //set gameobject active
+                //activate prompt if player wants to switch the bindings
                 rebindWarning.SetActive(true);
+                actionToRebind.RemoveBindingOverride(bindingIndex);
+                actionToRebind.ApplyBindingOverride(previousBinding);
+                SwapBindingsPrompt(rebindWarning, previousBinding, duplicateBinding);
                 instance.StartCoroutine(DelayInactivation(2f, rebindWarning));
                 Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
                 return true;
             }
-            else if (binding.action == newBinding.action)
+            //Check for duplicate composite bindings
+            if (allCompositeParts)
             {
-                continue;
-            }
-        }
-        //Check for duplicate composite bindings
-        if (allCompositeParts)
-        {
-            for (int i = 0; i <= bindingIndex; i++)
-            {
-                if (action.actionMap.bindings[i].effectivePath == newBinding.effectivePath)
+                for (int i = 0; i <= bindingIndex; i++)
                 {
-                    rebindWarning.SetActive(true);
-                    instance.StartCoroutine(DelayInactivation(2f, rebindWarning));
-                    Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
-                    return true;
+                    if (actionToRebind.actionMap.bindings[i].effectivePath == newBinding.effectivePath)
+                    {
+                        //SwapBindingPrompt();
+                        instance.StartCoroutine(DelayInactivation(2f, rebindWarning));
+                        Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
+                        return true;
+                    }
                 }
             }
         }
 
         return false;
+    }
+
+    private static void SwapBindingsPrompt(GameObject promptWindow, InputBinding bindingToSwap, InputBinding duplicateFound)
+    {
+        promptWindow.SetActive(true);
+        InputAction actionToSwap = inputActions.asset.FindAction(bindingToSwap.action);
+        InputAction duplicateAction = inputActions.asset.FindAction(duplicateFound.action);
+
+        Debug.Log("ActionsToSwap: " + actionToSwap.name + " & " + duplicateAction.name);
+        Debug.Log("BindingsToSwap: " + bindingToSwap.name + " & " + duplicateFound.name);
+
+        InputBinding temp = bindingToSwap;
+        //if (swap)
+        //{
+        actionToSwap.ApplyBindingOverride(duplicateFound);
+        duplicateAction.ApplyBindingOverride(bindingToSwap);
+        //}
+    }
+
+    public static void OnOkay(GameObject promptWindow)
+    {
+        promptWindow.SetActive(false);
+        //swap = true;
+    }
+
+    public static void OnCancel(GameObject promptWindow)
+    {
+        promptWindow.SetActive(false);
     }
 
     private static IEnumerator DelayInactivation(float waitTime, GameObject rebindWarning)
@@ -350,18 +380,56 @@ public class InputManager : MonoBehaviour
         if (path.Equals("<Gamepad>/buttonWest"))
         {
             path = "joystick button 0";
-            pathNameIndex = 0;
-        }
-
-        if (path.Equals("<Gamepad>/buttonNorth"))
-        {
-            path = "joystick button 3";
+            if (GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>().CheckControlUsed().Contains("XInputControllerWindows"))
+            {
+                path = "joystick button 1";
+            }
             pathNameIndex = 0;
         }
 
         if (path.Equals("<Gamepad>/buttonSouth"))
         {
-            path = "joystick button 3"; //FIX
+            path = "joystick button 1";
+            if (GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>().CheckControlUsed().Contains("XInputControllerWindows"))
+            {
+                path = "joystick button 0";
+            }
+            pathNameIndex = 0;
+        }
+
+        if (path.Equals("<Gamepad>/buttonNorth"))
+        {
+            path = "joystick button 2";
+            pathNameIndex = 0;
+        }
+
+        if (path.Equals("<Gamepad>/buttonEast"))
+        {
+            path = "joystick button 3";
+            pathNameIndex = 0;
+        }
+
+        if (path.Equals("<Gamepad>/leftShoulder"))
+        {
+            path = "joystick button 4";
+            pathNameIndex = 0;
+        }
+
+        if(path.Equals("<Gamepad>/rightShoulder"))
+        {
+            path = "joystick button 5";
+            pathNameIndex = 0;
+        }
+
+        if (path.Equals("<Gamepad>/leftTrigger"))
+        {
+            path = "joystick button 6";
+            pathNameIndex = 0;
+        }
+
+        if (path.Equals("<Gamepad>/rightTrigger"))
+        {
+            path = "joystick button 7";
             pathNameIndex = 0;
         }
 
