@@ -21,6 +21,8 @@ public class ManaFountain : MonoBehaviour
     private CharacterController playerScript;
     private ChangeGamepadIcon gamepadScript;
 
+    private FMOD.Studio.EventInstance ManaFountainSound;
+
     private void Awake()
     {
         inputActions = InputManager.inputActions;
@@ -81,6 +83,11 @@ public class ManaFountain : MonoBehaviour
         {
             particleSystems.transform.GetChild(i).GetComponent<ParticleSystem>().Play();
         }
+
+        ManaFountainSound = FMODUnity.RuntimeManager.CreateInstance("event:/Game/ManaFountain");
+        ManaFountainSound.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        ManaFountainSound.start();
+        ManaFountainSound.release();
 
     }
 
