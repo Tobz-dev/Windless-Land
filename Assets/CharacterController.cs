@@ -216,22 +216,15 @@ public class CharacterController : MonoBehaviour
     //control rebinding
     PlayerInputs inputActions;
     Vector2 movementInput; //player walk rebindings
-    private bool attackActivated; //will probably be needed to get bow to work for gamepad
-    private bool attackDone;
-    private bool attackCanceled;
     private bool keyboardUsed;
     private bool mouseUsed;
     private bool gamepadUsed;
     private string controlUsed;
-    private string movePath;
 
     private void OnEnable()
     {
         inputActions.WindlessLand.Enable();
         inputActions.WindlessLand.Move.performed += MovePerformed;
-        inputActions.WindlessLand.Attack.started += ctx => attackActivated = true;
-        inputActions.WindlessLand.Attack.performed += ctx => attackDone = true;
-        inputActions.WindlessLand.Attack.canceled += ctx => attackCanceled = true;
     }
 
     private void OnDisable()
@@ -248,6 +241,22 @@ public class CharacterController : MonoBehaviour
     {
         movementInput = ctx.ReadValue<Vector2>(); //saves which direction character is moving in
         controlUsed = ctx.control.path; //saves if player is using keyboard or gamepad
+    }
+
+    public string CheckControlUsed()
+    {
+        if(controlUsed!= null)
+        {
+            Debug.Log(controlUsed);
+            return controlUsed; //returns which controltype is used
+            //can be either Keyboard, Mouse or Gamepad, must be checked when calling this method
+            //by using if(controlUsed.Contains("Gamepad")) OR
+            //if(controlUsed.Contains("XInputControllerWindows") for XBOX GAMEPAD (because nothing is ever simple it seems)
+        }
+        else
+        {
+            return "Keyboard"; // assumes the player is using a keyboard
+        }
     }
 
     // Start is called before the first frame update
@@ -275,7 +284,6 @@ public class CharacterController : MonoBehaviour
         //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
 
         updateAutoaim();
-        controlUsed = "Mouse";
     }
 
     // Update is called once per frame
@@ -493,74 +501,24 @@ public class CharacterController : MonoBehaviour
 
    private void BowManager() 
     {
-        //long annoying code for checking & converting binding.effectivePath 
-        //to a format that works with Input.GetKeyDown etc etc
-        //i'm sure there are better ways to do this but it was the first one that worked after lots of testing & googling
-        string keyboardPath = inputActions.WindlessLand.Attack.bindings[0].effectivePath;
-        string mousePath = inputActions.WindlessLand.Attack.bindings[1].effectivePath;
-        int pathNameIndex = keyboardPath.IndexOf('/') + 1;
-        int pathNameIndexMouse = mousePath.IndexOf('/') + 1;
-        if (mousePath.Equals("<Mouse>/leftButton") || mousePath.Equals("<Mouse>/middleButton") || mousePath.Equals("<Mouse>/rightButton"))
-        {
-            if (mousePath.Equals("<Mouse>/leftButton"))
-            {
-                mousePath = "mouse 0";
-            }
-            else if (keyboardPath.Equals("<Mouse>/middleButton"))
-            {
-                keyboardPath = "mouse 1";
-            }
-            else if (keyboardPath.Equals("<Mouse>/rightButton"))
-            {
-                keyboardPath = "mouse 2";
-            }
-            pathNameIndexMouse = 0;
-        }
-
-        if (keyboardPath.Equals("<Mouse>/leftButton") || keyboardPath.Equals("<Mouse>/middleButton") || keyboardPath.Equals("<Mouse>/rightButton"))
-        {
-            if (keyboardPath.Equals("<Mouse>/leftButton"))
-            {
-                keyboardPath = "mouse 0";
-            }
-            else if (keyboardPath.Equals("<Mouse>/middleButton"))
-            {
-                keyboardPath = "mouse 1";
-            }
-            else if (keyboardPath.Equals("<Mouse>/rightButton"))
-            {
-                keyboardPath = "mouse 2";
-            }
-            pathNameIndex = 0;
-        }
-        keyboardPath = keyboardPath.Substring(pathNameIndex);
-        mousePath = mousePath.Substring(pathNameIndexMouse);
+        //code for checking & converting binding.effectivePath (control rebinding)
+        //to a format that works with Input.GetKeyDown
+        string keyboardPath = InputManager.GetBindingPath(inputActions.WindlessLand.Attack, 0);
+        string mousePath = InputManager.GetBindingPath(inputActions.WindlessLand.Attack, 1);
+        string gamepadPath = InputManager.GetBindingPath(inputActions.WindlessLand.Attack, 2);
 
         if (bow.activeSelf == true && dodgerollTimerRunning == false && usingHealthFlask == false && startPlayerStunned == false)
         {
             if (bowIsActive == false && mana >= bowManaCost) 
             {
-                if (Input.GetKeyDown(keyboardPath))//KeyCode.Mouse0))
+                if (Input.GetKeyDown(keyboardPath) || Input.GetKeyDown(mousePath) || Input.GetKeyDown(gamepadPath))//KeyCode.Mouse0))
                 {
                     StartBowDraw();
-                    keyboardUsed = true;
-                    mouseUsed = false;
-                    gamepadUsed = false;
-                }
-
-                if (Input.GetKeyDown(mousePath))
-                {
-                    StartBowDraw();
-                    mouseUsed = true;
-                    keyboardUsed = false;
-                    gamepadUsed = false;
                 }
             }
 
             if (bowIsActive == true)
             {
-           
-
                 if (drawBow)
                 {
                     if (autoAim == true && FindClosestEnemy() != null)
@@ -575,7 +533,7 @@ public class CharacterController : MonoBehaviour
                     {
                         transform.rotation = lookRotation;
                     }
-                    DrawBow(keyboardPath, mousePath);
+                    DrawBow(keyboardPath, mousePath, gamepadPath);
                 }
 
                 if (bowIsLoading)
@@ -613,7 +571,7 @@ public class CharacterController : MonoBehaviour
                     }
                 }
 
-                if (((Input.GetKeyUp(keyboardPath) && keyboardUsed) || (Input.GetKeyUp(mousePath) && !keyboardUsed)/*Input.GetKeyUp(KeyCode.Mouse0)*/ && bowIsFinishedLoading == true))
+                if ((Input.GetKeyUp(keyboardPath) || Input.GetKeyUp(mousePath) || Input.GetKeyUp(gamepadPath))/*Input.GetKeyUp(KeyCode.Mouse0)*/ && bowIsFinishedLoading == true)
                 {
 
                     BowFire();
@@ -625,7 +583,7 @@ public class CharacterController : MonoBehaviour
 
                 }
 
-                if ((((Input.GetKeyUp(keyboardPath) && keyboardUsed) || (Input.GetKeyUp(mousePath) && !keyboardUsed) /*Input.GetKeyUp(KeyCode.Mouse0)*/ && drawBow == false && bowIsFinishedLoading == false && startBowCooldown == false && drawBow == false) || drawBow == false && queueBowCancel == true))
+                if (((Input.GetKeyUp(keyboardPath) || Input.GetKeyUp(mousePath) || Input.GetKeyUp(gamepadPath)) /*Input.GetKeyUp(KeyCode.Mouse0)*/ && drawBow == false && bowIsFinishedLoading == false && startBowCooldown == false && drawBow == false) || drawBow == false && queueBowCancel == true)
                 {
 
                     BowCancel();
@@ -650,7 +608,7 @@ public class CharacterController : MonoBehaviour
         anim.SetBool("DrawBow", true);
 
     }
-   private void DrawBow(string keyboardPath, string mousePath) 
+   private void DrawBow(string keyboardPath, string mousePath, string gamepadPath) 
    {
         if (AttackWaitTimer(bowDrawTime))
         {
@@ -668,12 +626,7 @@ public class CharacterController : MonoBehaviour
         }
         else
         {
-            string path = mousePath;
-            if (keyboardUsed)
-            {
-                path = keyboardPath;
-            }
-            if (Input.GetKeyUp(path))//Input.GetKeyUp(KeyCode.Mouse0))
+            if (Input.GetKeyUp(mousePath) || Input.GetKeyUp(keyboardPath) || Input.GetKeyUp(gamepadPath))//Input.GetKeyUp(KeyCode.Mouse0))
             {
                 queueBowCancel = true;
             }
