@@ -258,6 +258,12 @@ public class CharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (!PlayerPrefs.HasKey("inputDelay"))
+        {
+            PlayerPrefs.SetInt("inputDelay", 0);
+        }
+                
+        
         originalFlaskUsesAmount = (int)flaskUses;
         playerRgb = transform.GetComponent<Rigidbody>();
         playerVFX = GetComponent<PlayerVFX>();
@@ -285,6 +291,9 @@ public class CharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
+
         if (Input.GetKeyDown(KeyCode.U))
         {
             Respawn();
@@ -385,12 +394,20 @@ public class CharacterController : MonoBehaviour
 
     private void UpdateEventVariables()
     {
-       moveSpeed = moveSpeedDefault * GetComponentInParent<PlayerAnimEvents>().GetPlayerMoveSpeedFactor();
-       moveAllow = GetComponentInParent<PlayerAnimEvents>().GetAllowMovement();
-       endPlayerStunned = GetComponentInParent<PlayerAnimEvents>().GetEndPlayerStunned();
+        moveSpeed = moveSpeedDefault * GetComponentInParent<PlayerAnimEvents>().GetPlayerMoveSpeedFactor();
+        moveAllow = GetComponentInParent<PlayerAnimEvents>().GetAllowMovement();
+        endPlayerStunned = GetComponentInParent<PlayerAnimEvents>().GetEndPlayerStunned();
         doneDrinkingFlask = GetComponentInParent<PlayerAnimEvents>().GetDoneDrinkingPot();
-    }
 
+        if (PlayerPrefs.GetInt("inputDelay") == 1)
+        {
+            inputDelayOn = true;
+        }
+        if (PlayerPrefs.GetInt("inputDelay") == 0)
+        {
+            inputDelayOn = false;
+        }
+    }
    private void UpdateMoveInput() 
    {
         Vector3 rightMovement = right * moveSpeed * movementInput.x; //Input.GetAxis("HorizontalKey");
@@ -1377,14 +1394,15 @@ public class CharacterController : MonoBehaviour
     }
 
     public void ChangeInputDelayOn() {
-        if (inputDelayOn == false)
+        if (PlayerPrefs.GetInt("inputDelay") == 1)
         {
-            inputDelayOn = true;
+            PlayerPrefs.SetInt("inputDelay", 0);
+        } else {
+            PlayerPrefs.SetInt("inputDelay", 1);
         }
-        else {
-            inputDelayOn = false;
-        }
-    
+
+
+
     }
 
 

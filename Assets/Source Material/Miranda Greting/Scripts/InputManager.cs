@@ -63,15 +63,15 @@ public class InputManager : MonoBehaviour
         InputBinding previousBinding = actionToRebind.bindings[bindingIndex];
         statusText.text = "Press a " + "button"; //actionToRebind.expectedControlType; //gives feedback to player on which type of button is expected
         actionToRebind.Disable(); //disables action while rebinding is being performed
-
-        var rebind = actionToRebind.PerformInteractiveRebinding(bindingIndex); //creates instance of the rebinding action (does Not start the rebinding process, just creates an instance of the object that's going to do the rebinding)
+        
+        InputActionRebindingExtensions.RebindingOperation rebind = actionToRebind.PerformInteractiveRebinding(bindingIndex); //creates instance of the rebinding action (does Not start the rebinding process, just creates an instance of the object that's going to do the rebinding)
 
         rebind.OnComplete(operation =>
         {
             actionToRebind.Enable();
             operation.Dispose();
 
-            if(CheckDuplicateBindings(actionToRebind, bindingIndex, compositeBinding, previousBinding, rebindPanel.transform.GetChild(2).gameObject))
+            if(CheckDuplicateBindings(actionToRebind, bindingIndex, compositeBinding, previousBinding, rebind, rebindPanel.transform.GetChild(2).gameObject))
             {
                 //InputBinding duplicateBinding = actionToRebind.bindings[bindingIndex];
                 //actionToRebind.RemoveBindingOverride(bindingIndex);
@@ -274,7 +274,7 @@ public class InputManager : MonoBehaviour
     //checks if chosen rebinding already binds to another action
     //if it does, the player is given the option to swap rebindings for the two actions
     //or cancel the rebinding process
-    private static bool CheckDuplicateBindings(InputAction actionToRebind, int bindingIndex, bool allCompositeParts, InputBinding previousBinding, GameObject rebindWarning)
+    private static bool CheckDuplicateBindings(InputAction actionToRebind, int bindingIndex, bool allCompositeParts, InputBinding previousBinding, InputActionRebindingExtensions.RebindingOperation rebind, GameObject rebindWarning)
     {
         InputBinding newBinding = actionToRebind.bindings[bindingIndex];
         foreach (InputBinding duplicateBinding in actionToRebind.actionMap.bindings)
@@ -293,7 +293,7 @@ public class InputManager : MonoBehaviour
                 actionToRebind.RemoveBindingOverride(bindingIndex);
                 actionToRebind.ApplyBindingOverride(previousBinding);
                 SwapBindingsPrompt(rebindWarning, previousBinding, duplicateBinding);
-                instance.StartCoroutine(DelayInactivation(2f, rebindWarning));
+                instance.StartCoroutine(DelayInactivation(2f, rebindWarning, rebind));
                 Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
                 return true;
             }
@@ -305,7 +305,7 @@ public class InputManager : MonoBehaviour
                     if (actionToRebind.actionMap.bindings[i].effectivePath == newBinding.effectivePath)
                     {
                         //SwapBindingPrompt();
-                        instance.StartCoroutine(DelayInactivation(2f, rebindWarning));
+                        instance.StartCoroutine(DelayInactivation(2f, rebindWarning, rebind));
                         Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
                         return true;
                     }
@@ -344,7 +344,7 @@ public class InputManager : MonoBehaviour
         promptWindow.SetActive(false);
     }
 
-    private static IEnumerator DelayInactivation(float waitTime, GameObject rebindWarning)
+    private static IEnumerator DelayInactivation(float waitTime, GameObject rebindWarning, InputActionRebindingExtensions.RebindingOperation rebind)
     {
         Debug.Log("Started");
         float startTime = Time.realtimeSinceStartup;
@@ -354,6 +354,7 @@ public class InputManager : MonoBehaviour
         }
         rebindWarning.SetActive(false);
         Debug.Log("setactivefalse");
+        //rebind.Cancel();
     }
 
     public static string GetBindingPath(InputAction action, int bindingIndex)
@@ -382,7 +383,7 @@ public class InputManager : MonoBehaviour
             path = "joystick button 0";
             if (GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>().CheckControlUsed().Contains("XInputControllerWindows"))
             {
-                path = "joystick button 1";
+                path = "joystick button 2";
             }
             pathNameIndex = 0;
         }
@@ -399,13 +400,13 @@ public class InputManager : MonoBehaviour
 
         if (path.Equals("<Gamepad>/buttonNorth"))
         {
-            path = "joystick button 2";
+            path = "joystick button 3";
             pathNameIndex = 0;
         }
 
         if (path.Equals("<Gamepad>/buttonEast"))
         {
-            path = "joystick button 3";
+            path = "joystick button 1";
             pathNameIndex = 0;
         }
 
