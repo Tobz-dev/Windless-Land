@@ -71,7 +71,11 @@ public class HenrikPrototype : MonoBehaviour
             ini.Open(Application.persistentDataPath + "ProtoConfig.ini");
             ini.WriteValue("Henrik", "autoAim;", 1);
             ini.Close();
-            player.gameObject.GetComponent<CharacterController>().updateAutoaim();
+
+            if (player != null)
+            {
+                player.gameObject.GetComponent<CharacterController>().updateAutoaim();
+            }
             
         }
         else if (autoAimCheckbox.enabled == false)
@@ -81,7 +85,11 @@ public class HenrikPrototype : MonoBehaviour
             ini.Open(Application.persistentDataPath + "ProtoConfig.ini");
             ini.WriteValue("Henrik", "autoAim;", 0);
             ini.Close();
-            player.gameObject.GetComponent<CharacterController>().updateAutoaim();
+
+            if (player != null)
+            {
+                player.gameObject.GetComponent<CharacterController>().updateAutoaim();
+            }
         }
 
 
@@ -131,7 +139,10 @@ public class HenrikPrototype : MonoBehaviour
         ini.WriteValue("Henrik", "autoAim;", 0);
         ini.WriteValue("Henrik", "moreDamage;", 1);
         ini.Close();
-        player.gameObject.GetComponent<CharacterController>().updateAutoaim();
+        if (player != null)
+        {
+            player.gameObject.GetComponent<CharacterController>().updateAutoaim();
+        }
 
         autoAimCheckbox.enabled = false;
         moreDamageCheckbox.enabled = false;
