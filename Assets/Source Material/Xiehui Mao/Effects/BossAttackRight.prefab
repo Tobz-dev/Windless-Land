@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6952166032751322495}
   - component: {fileID: 6952166032751322492}
+  - component: {fileID: 2056154218015555721}
   - component: {fileID: 6952166032751322493}
+  - component: {fileID: -7778356454011428116}
   m_Layer: 0
   m_Name: BossAttackRight
   m_TagString: Untagged
@@ -75,6 +77,19 @@ VisualEffect:
       m_Array: []
     m_Bool:
       m_Array: []
+--- !u!65 &2056154218015555721
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6952166032751322490}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 31.708405, y: 1, z: 18.430435}
+  m_Center: {x: 0.9347687, y: 0, z: 4.0202866}
 --- !u!73398921 &6952166032751322493
 VFXRenderer:
   m_ObjectHideFlags: 0
@@ -119,3 +134,18 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &-7778356454011428116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6952166032751322490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57f3f9c7e3b9e9c479144267dc988418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swingTime: 1
+  damage: 1
+  target: Player
