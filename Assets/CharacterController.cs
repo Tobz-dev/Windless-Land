@@ -144,6 +144,7 @@ public class CharacterController : MonoBehaviour
     private Transform objectToFace;
     private GameObject closestEnemy;
     public bool autoAim = false;
+    public bool autoAimMidAttack = false;
     Quaternion enemyLookRotation;
 
 
@@ -281,15 +282,6 @@ public class CharacterController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.U))
         {
             Respawn();
-        }
-
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            Debug.Log(closestEnemy);
-            closestEnemy = FindClosestEnemy();
-            objectToFace = closestEnemy.transform;
-            Debug.Log(closestEnemy);
-            transform.LookAt(objectToFace);
         }
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -987,7 +979,13 @@ public class CharacterController : MonoBehaviour
 
 
         attacking = true;
-        playerRgb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+
+        if(autoAim == true)
+        {
+            playerRgb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+            autoAimMidAttack = true;
+        }
+   
 
 
 
@@ -1012,7 +1010,13 @@ public class CharacterController : MonoBehaviour
             transform.rotation = lookRotation;
         }
         attacking = true;
-        playerRgb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+
+        if (autoAim == true)
+        {
+            playerRgb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+            autoAimMidAttack = true;
+        }
+        
 
     }
 
@@ -1085,7 +1089,11 @@ public class CharacterController : MonoBehaviour
                 if (AttackWaitTimer(lightSwingCooldown)) {
                      anim.SetTrigger("StopAttack");
                     attacking = false;
-                    playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+                    if(autoAimMidAttack == true)
+                    {
+                        playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+                        autoAimMidAttack = false;
+                    }
                     transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
                     transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
                 }
@@ -1099,7 +1107,11 @@ public class CharacterController : MonoBehaviour
 
                         anim.SetTrigger("StopAttack");
                         attacking = false;
-                        playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+                        if (autoAimMidAttack == true)
+                        {
+                            playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+                            autoAimMidAttack = false;
+                        }
                         transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
                         transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
                         attackTimer = 0;
@@ -1112,7 +1124,11 @@ public class CharacterController : MonoBehaviour
                     queueDodge = false;
                     anim.SetTrigger("StopAttack");
                     attacking = false;
-                    playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+                    if (autoAimMidAttack == true)
+                    {
+                        playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+                        autoAimMidAttack = false;
+                    }
                     transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
                     transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
                     attackTimer = 0;
@@ -1139,7 +1155,11 @@ public class CharacterController : MonoBehaviour
 
 
             attacking = false;
-        playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+        if (autoAimMidAttack == true)
+        {
+            playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+            autoAimMidAttack = false;
+        }
         attackTimer = 0;
             transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
             transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
