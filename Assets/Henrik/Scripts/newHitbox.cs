@@ -7,6 +7,8 @@ using UnityEngine;
 public class newHitbox : MonoBehaviour
 {
     [SerializeField]
+    private GameObject hitboxObject;
+    [SerializeField]
     private float swingTime;
     [SerializeField]
     private int damage;
@@ -82,10 +84,17 @@ public class newHitbox : MonoBehaviour
 
         if (deathTimer >= seconds)
         {
+            if (hitboxObject != null)
+            {
+                hitboxObject.SetActive(false);
+            }
 
-            Destroy(this.gameObject);
+            gameObject.transform.parent = null;
+        }
 
-
+        if (deathTimer >= seconds * 6)
+        {
+            Destroy(gameObject);
         }
 
     }
