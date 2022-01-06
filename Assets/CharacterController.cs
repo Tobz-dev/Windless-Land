@@ -143,8 +143,10 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private Transform objectToFace;
     private GameObject closestEnemy;
-    public bool autoAim = false;
-    public bool autoAimMidAttack = false;
+    [SerializeField]
+    private bool autoAim = false;
+    [SerializeField]
+    private bool autoAimMidAttack = false;
     Quaternion enemyLookRotation;
 
 
