@@ -47,6 +47,7 @@ public class EndScreenHandlerV2 : MonoBehaviour
 
     private IEnumerator FadeOut()
     {
+        secondFadeToBlack.SetActive(true);
         yield return new WaitForSeconds(15f);
         objectColor = secondFadeToBlack.GetComponent<Image>().color;
         float fadeAmount;
