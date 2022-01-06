@@ -7,7 +7,8 @@ using TMPro;
 
 public class SaveSpawnPoint : MonoBehaviour
 {
-    public GameObject panel;
+    //public GameObject panel;
+    [SerializeField] private GameObject PressE;
     public TextMeshProUGUI pressText;
     public TextMeshProUGUI bindingText; //RebindingMenu > KeyboardMenu > RebindLayoutgroup > Interact > InteractBinding > TriggerRebindButton > BindingText
     private bool playerOnCheckpoint = false;
@@ -38,7 +39,8 @@ public class SaveSpawnPoint : MonoBehaviour
         if ((Input.GetKeyDown(KeyCode.E) || inputActions.WindlessLand.Interact.triggered) && playerOnCheckpoint && usedCheckpoint == false)
         {
             usedCheckpoint = true;
-            panel.SetActive(false);
+            //panel.SetActive(false);
+            PressE.SetActive(false);
 
             RespawnEnemies();
             GetComponent<CheckpointVFX>().StartEffect();
@@ -54,7 +56,8 @@ public class SaveSpawnPoint : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            panel.SetActive(false);
+            //panel.SetActive(false);
+            PressE.SetActive(false);
             playerOnCheckpoint = false;
         }
     }
@@ -71,7 +74,8 @@ public class SaveSpawnPoint : MonoBehaviour
             {
                 bindingText.text = InputManager.GetBindingName("Interact", 0);
             }
-            panel.SetActive(true);
+            //panel.SetActive(true);
+            PressE.SetActive(true);
             playerOnCheckpoint = true;
             pressText.text = "Press " + bindingText.text + " to interact";          
         }
