@@ -32,34 +32,34 @@ public class PlayerAttackHitbox : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-       
 
 
-        
+
+
 
         if (other.gameObject.tag == target)
         {
             other.GetComponent<EnemyHealthScript>().takeDamage(damage);
-           
+
             GetComponentInParent<CharacterController>().ManaIncreased(manaPerHit);
             Debug.Log("gained " + manaPerHit);
 
         }
 
-        if(other.gameObject.tag == Barrel)
+        if (other.gameObject.tag == Barrel)
         {
             Debug.Log("ASDASD");
             other.GetComponent<DestroyBarrels>().destroyBarrel();
         }
 
-        
+
 
     }
 
     private void Awake()
     {
         deathTimer = 0f;
-        updateDamage();
+        UpdateDamage();
     }
 
 
@@ -76,15 +76,15 @@ public class PlayerAttackHitbox : MonoBehaviour
 
         if (deathTimer >= seconds)
         {
-            if(hitboxObject != null)
+            if (hitboxObject != null)
             {
                 hitboxObject.SetActive(false);
             }
-           
+
             gameObject.transform.parent = null;
         }
 
-        if(deathTimer >= seconds * 6)
+        if (deathTimer >= seconds * 6)
         {
             Destroy(gameObject);
         }
@@ -92,22 +92,22 @@ public class PlayerAttackHitbox : MonoBehaviour
     }
 
 
-    public void setConfig(int newmanaPerHit)
+    public void SetConfig(int newmanaPerHit)
     {
         manaPerHit = newmanaPerHit;
     }
 
-    public int getManaPerHit()
+    public int GetManaPerHit()
     {
         return manaPerHit;
     }
 
-    public void setDamage(int newDamage)
+    public void SetDamage(int newDamage)
     {
-            damage = newDamage;
+        damage = newDamage;
     }
 
-    public void updateDamage()
+    public void UpdateDamage()
     {
 
 

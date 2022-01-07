@@ -7,19 +7,21 @@ public class hitBox : MonoBehaviour
     [SerializeField]
     private int damage = 1;
 
-   
+
 
     private float deathTimer = 0;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player") {
-            if (other.gameObject.GetComponent<CharacterController>().GetInvincibility() == false) {
+        if (other.gameObject.tag == "Player")
+        {
+            if (other.gameObject.GetComponent<CharacterController>().GetInvincibility() == false)
+            {
                 other.gameObject.GetComponent<HealthScript>().takeDamage(damage);
                 Debug.Log("Dealt 1 damage");
 
                 Destroy(this.gameObject);
             }
-        
+
         }
     }
 
@@ -30,11 +32,11 @@ public class hitBox : MonoBehaviour
 
     private void Update()
     {
-      
-       DeathTimer(0.5f);
+
+        DeathTimer(0.5f);
     }
 
-    
+
 
     private void DeathTimer(float seconds)
     {
@@ -48,6 +50,6 @@ public class hitBox : MonoBehaviour
 
 
         }
-     
+
     }
 }

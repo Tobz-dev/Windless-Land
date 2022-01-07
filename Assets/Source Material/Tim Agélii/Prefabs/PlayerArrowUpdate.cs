@@ -11,7 +11,7 @@ public class PlayerArrowUpdate : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      ArrowRgb =  transform.GetComponent<Rigidbody>();
+        ArrowRgb = transform.GetComponent<Rigidbody>();
         ArrowRgb.velocity = transform.forward * speed;
     }
 
@@ -22,5 +22,5 @@ public class PlayerArrowUpdate : MonoBehaviour
     }
 
 
- 
+
 }
