@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
+//Main Author: Johan Nydahl
+
 public class LightEnemyParticles : MonoBehaviour
 {
 

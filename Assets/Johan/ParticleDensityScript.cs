@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//Main Author: Johan Nydahl
 
 public class ParticleDensityScript : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class ParticleDensityScript : MonoBehaviour
     [SerializeField]
     private GameObject[] torchFiresReduced;
 
+    //Hittar alla objekt taggade med EnviromentVFX och sätter det korrekta objektet aktivt
     //Child(0) = normal
     //Child(1) = reduced
 
@@ -24,18 +26,6 @@ public class ParticleDensityScript : MonoBehaviour
             enviromentVFX.transform.GetChild(1).gameObject.SetActive(false);
 
         }
-
-        /*
-        for(int i = 0; i < torchFiresNormal.Length; i++)
-        {
-            torchFiresNormal[i].SetActive(true);
-        }
-
-        for (int i = 0; i < torchFiresReduced.Length; i++)
-        {
-            torchFiresReduced[i].SetActive(false);
-        }
-        */
     }
 
     public void SetDensityReduced()
@@ -48,18 +38,6 @@ public class ParticleDensityScript : MonoBehaviour
             enviromentVFX.transform.GetChild(1).gameObject.SetActive(true);
 
         }
-
-        /*
-        for (int i = 0; i < torchFiresNormal.Length; i++)
-        {
-            torchFiresNormal[i].SetActive(false);
-        }
-
-        for (int i = 0; i < torchFiresReduced.Length; i++)
-        {
-            torchFiresReduced[i].SetActive(true);
-        }
-        */
     }
 
     public void SetDensityMinimal()
@@ -72,17 +50,5 @@ public class ParticleDensityScript : MonoBehaviour
             enviromentVFX.transform.GetChild(1).gameObject.SetActive(false);
 
         }
-
-        /*
-        for (int i = 0; i < torchFiresNormal.Length; i++)
-        {
-            torchFiresNormal[i].SetActive(false);
-        }
-
-        for (int i = 0; i < torchFiresReduced.Length; i++)
-        {
-            torchFiresReduced[i].SetActive(false);
-        }
-        */
     }
 }
