@@ -188,9 +188,4 @@ public class PlayerHealthScript : MonoBehaviour
         Maxhealth = newMaxHealth;
         health = Maxhealth;
     }
-
-    public int getMaxHealth()
-    {
-        return Maxhealth;
-    }
 }

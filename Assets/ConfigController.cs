@@ -63,9 +63,9 @@ public class ConfigController : MonoBehaviour
         //Player
         if (player != null)
         {
-            ini.WriteValue("Player", "maxMana;", player.gameObject.GetComponent<CharacterController>().getMaxMana());
-            ini.WriteValue("Player", "moveSpeed;", player.gameObject.GetComponent<CharacterController>().getMoveSpeed());
-            ini.WriteValue("Player", "maxhealth;", player.gameObject.GetComponent<PlayerHealthScript>().getMaxHealth());
+            ini.WriteValue("Player", "maxMana;", player.gameObject.GetComponent<CharacterController>().GetMaxMana());
+            ini.WriteValue("Player", "moveSpeed;", player.gameObject.GetComponent<CharacterController>().GetMoveSpeed());
+            ini.WriteValue("Player", "maxhealth;", player.gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth());
             ini.WriteValue("Player", "manaPerHit;", hitboxPlayer.gameObject.GetComponent<PlayerAttackHitbox>().GetManaPerHit());
         }
 
@@ -73,14 +73,14 @@ public class ConfigController : MonoBehaviour
         //Font
         if (fontChanger != null)
         {
-        ini.WriteValue("Font", "fontSize;", fontChanger.gameObject.GetComponent<FontChange>().getFontIndex());
-        ini.WriteValue("Font", "fontIndex;", fontChanger.gameObject.GetComponent<FontChange>().getFontSize());
+        ini.WriteValue("Font", "fontSize;", fontChanger.gameObject.GetComponent<FontChange>().GetFontIndex());
+        ini.WriteValue("Font", "fontIndex;", fontChanger.gameObject.GetComponent<FontChange>().GetFontSize());
         }
         //Enemy
-        ini.WriteValue("Enemy", "LightDamage;", hitboxLight.gameObject.GetComponent<newHitbox>().getDamage());
-        ini.WriteValue("Enemy", "HeavyDamage;", hitboxHeavy.gameObject.GetComponent<newHitbox>().getDamage());
-        ini.WriteValue("Enemy", "LightMaxhealth;", enemyLight.gameObject.GetComponent<EnemyHealthScript>().getMaxhealth());
-        ini.WriteValue("Enemy", "HeavyMaxhealth;", enemyHeavy.gameObject.GetComponent<EnemyHealthScript>().getMaxhealth());
+        ini.WriteValue("Enemy", "LightDamage;", hitboxLight.gameObject.GetComponent<newHitbox>().GetDamage());
+        ini.WriteValue("Enemy", "HeavyDamage;", hitboxHeavy.gameObject.GetComponent<newHitbox>().GetDamage());
+        ini.WriteValue("Enemy", "LightMaxhealth;", enemyLight.gameObject.GetComponent<EnemyHealthScript>().GetMaxhealth());
+        ini.WriteValue("Enemy", "HeavyMaxhealth;", enemyHeavy.gameObject.GetComponent<EnemyHealthScript>().GetMaxhealth());
 
 
         ini.Close();
@@ -146,7 +146,7 @@ public class ConfigController : MonoBehaviour
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemy in enemies)
         {
-            enemy.gameObject.GetComponent<EnemyHealthScript>().updateConfig();
+            enemy.gameObject.GetComponent<EnemyHealthScript>().UpdateConfig();
         }
 
 

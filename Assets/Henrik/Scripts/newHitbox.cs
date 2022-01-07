@@ -107,7 +107,7 @@ public class newHitbox : MonoBehaviour
         damage = newdamage;
     }
 
-    public int getDamage()
+    public int GetDamage()
     {
         return damage;
     }

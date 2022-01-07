@@ -1392,12 +1392,7 @@ public class CharacterController : MonoBehaviour
         moveSpeed = newMoveSpeed;
     }
 
-    public int getMaxMana()
-    {
-        return maxMana;
-    }
-
-    public float getMoveSpeed()
+    public float GetMoveSpeed()
     {
         return moveSpeed;
     }

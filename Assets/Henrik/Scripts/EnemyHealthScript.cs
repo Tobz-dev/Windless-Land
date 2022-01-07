@@ -44,7 +44,7 @@ public class EnemyHealthScript : MonoBehaviour
 
         if (System.IO.File.Exists(Application.persistentDataPath + "Config.ini"))
         {
-            updateConfig();
+            UpdateConfig();
 
         }
     }
@@ -206,7 +206,7 @@ public class EnemyHealthScript : MonoBehaviour
         Maxhealth = newMaxhealth;
     }
 
-    public void updateConfig()
+    public void UpdateConfig()
     {
         if (type == "Light" || type == "Heavy")
         {
@@ -234,7 +234,7 @@ public class EnemyHealthScript : MonoBehaviour
         }
     }
 
-    public int getMaxhealth()
+    public int GetMaxhealth()
     {
         return Maxhealth;
     }

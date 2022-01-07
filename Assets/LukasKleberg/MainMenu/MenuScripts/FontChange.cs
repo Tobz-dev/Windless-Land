@@ -114,12 +114,12 @@ public class FontChange : MonoBehaviour
         fontSize2 = newfontSize;
     }
 
-    public int getFontIndex()
+    public int GetFontIndex()
     {
         return fontIndex2;
     }
 
-    public int getFontSize()
+    public int GetFontSize()
     {
         return fontSize2;
     }
