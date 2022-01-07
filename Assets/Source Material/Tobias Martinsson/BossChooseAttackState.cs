@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Main Author: Tobias Martinsson
+
 [CreateAssetMenu()]
 public class BossChooseAttackState : State
 {
     SomeAgent Agent;
-    public float attackCooldown;
+    [SerializeField]
+    private float attackCooldown;
     private float originalTime;
     private Quaternion originalRotation;
-    public float aggroDistance;
+    [SerializeField]
+    private float aggroDistance;
     private Transform CurrentPatrol;
     private int enrageCounter = 0;
 
@@ -32,6 +35,7 @@ public class BossChooseAttackState : State
     }
     public override void RunUpdate()
     {
+        //Handles the enrage-counter, that decides when the boss enters its ranged state and spawns enemies (boss shooting state)
         Agent.transform.rotation = originalRotation;
         CurrentPatrol = Agent.GetPatrolPointByindex(0);
         Agent.NavAgent.SetDestination(CurrentPatrol.position);
@@ -53,12 +57,13 @@ public class BossChooseAttackState : State
         }
 
         attackCooldown -= Time.deltaTime;
+        //If the player gets out of distance, return to idle and reset enrage counter.
         if (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) > aggroDistance)
         {
             StateMachine.ChangeState<BossIdleScript>();
             enrageCounter = 0;
         }
-        else
+        else //If not, and attack cooldown is done, start an attack. Made to be able to include more attacks in the future, for easier additions of more mechanics.
         {
             if (attackCooldown < 0)
             {
@@ -77,6 +82,7 @@ public class BossChooseAttackState : State
                         break;
                 }
                 //StateMachine.ChangeState<randomAttackState>();
+                //Resets cooldown
                 attackCooldown = originalTime;
             }
 

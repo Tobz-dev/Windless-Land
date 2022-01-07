@@ -24,6 +24,7 @@ public class SomeAgent : MonoBehaviour
 
     private void Awake()
     {
+        //Sets patrolpoints
         if (gameObject.GetComponentInParent<EnemyRespawnScript>() != null)
         {
             SetPatrolPoints(GetComponentInParent<EnemyRespawnScript>().PatrolPoints);
@@ -33,7 +34,7 @@ public class SomeAgent : MonoBehaviour
             SetPatrolPoints(PatrolPoints);
         }
        
-        
+        //Sets their colliders, navagent, animator and statemachines. 
         collider = GetComponent<BoxCollider>();
         NavAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();

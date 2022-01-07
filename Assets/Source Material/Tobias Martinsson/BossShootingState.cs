@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Main Author: Tobias Martinsson
+
 [CreateAssetMenu()]
 public class BossShootingState : State
 {
@@ -16,7 +17,6 @@ public class BossShootingState : State
     private Transform CurrentPatrol;
     public float switchStateCooldown = 2f;
     private bool shotBigArrow = false;
-    private GameObject bossHead;
 
     protected override void Initialize()
     {
@@ -24,12 +24,11 @@ public class BossShootingState : State
         Debug.Assert(Agent);
         originalTime = attackCooldown;
 
-        bossHead = GameObject.FindGameObjectWithTag("BossHead");
-
     }
 
     public override void Enter()
     {
+        //Sets all needed variables upon entering this state, deciding how many enemies to spawn based on boss's HP.
         attackCooldown = 2;
         int currentHealth = Agent.GetComponent<EnemyHealthScript>().health;
         int maxHealth = Agent.GetComponent<EnemyHealthScript>().Maxhealth;
@@ -58,13 +57,14 @@ public class BossShootingState : State
 
     public override void RunUpdate()
     {
+        //Sets patrolpoint and makes boss walk to it.
         CurrentPatrol = Agent.GetPatrolPointByindex(1);
         Agent.NavAgent.SetDestination(CurrentPatrol.position);
-        if (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) <= aggroDistance)
+        if (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) <= aggroDistance) //If player is within aggrodistance (aka not in the spawn-area)
         {
-            if (totalArrows > 0)
+            if (totalArrows > 0) //and the boss has more than 0 arrows left
             {
-
+                //Rotate the boss towards the player, and shoot arrows at a specified interval. 
                 Agent.NavAgent.updateRotation = false;
                 Vector3 targetPosition = new Vector3(Agent.Player.position.x,
                                             Agent.transform.position.y + 2f,
@@ -81,7 +81,7 @@ public class BossShootingState : State
                     attackCooldown = originalTime;
                 }
             }
-            else if (totalArrows == 0)
+            else if (totalArrows == 0) //When boss runs out of arrows, shoot a big arrow, destroying a pillar and then return to BossChooseAttackState.
             {
                 if (shotBigArrow == false)
                 {
@@ -117,6 +117,7 @@ public class BossShootingState : State
         }
     }
 
+    //Spawns the enemies on either side.
     public void SpawnLeftEnemy()
     {
         GameObject add = Instantiate(addEnemy);

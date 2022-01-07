@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Main Author: Tobias Martinsson
+
 public class EnemyRespawnScript : MonoBehaviour
 {
-   public GameObject enemy;
-   public Transform spawnPosition;
+    [SerializeField]
+    private GameObject enemy;
+    [SerializeField]
+    private Transform spawnPosition;
+    [SerializeField]
     public List<Transform> PatrolPoints;
 
-    private void Start()
-    {
 
-    }
+    //Re-instantiates an enemy when called at their original spawn position. 
     public void RespawnEnemy()
     {
         
