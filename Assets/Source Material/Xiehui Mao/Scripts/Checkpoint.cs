@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//Main Author:Xiehui Mao
+
 public class Checkpoint : MonoBehaviour
 {
     [SerializeField]
