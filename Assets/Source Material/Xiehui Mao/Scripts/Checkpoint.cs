@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+//Secondary Author: William Smith
 public class Checkpoint : MonoBehaviour
 {
     [SerializeField]

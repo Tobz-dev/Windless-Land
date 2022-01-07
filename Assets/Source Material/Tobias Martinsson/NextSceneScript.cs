@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 //Main Author: Tobias Martinsson
+//Secondary Author: William Smith
 public class NextSceneScript : MonoBehaviour
 {
     [SerializeField]

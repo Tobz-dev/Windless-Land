@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Secondary Author: William Smith
 public class ShatterFallingPlatfom : MonoBehaviour
 {
     private Rigidbody rbd;

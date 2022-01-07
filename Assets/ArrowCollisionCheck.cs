@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Secondary Author: William Smith
 public class ArrowCollisionCheck : MonoBehaviour
 {
     private bool playerInvincible = false;

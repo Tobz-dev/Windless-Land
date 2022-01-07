@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+//Secondary Author: William Smith
 public class PickUpManager : MonoBehaviour
 {
     //public DoorOpenAnim anim;

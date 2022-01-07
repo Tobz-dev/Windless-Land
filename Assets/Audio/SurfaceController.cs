@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Main Authour : William Smith
+// Main Author : William Smith
 
 public class SurfaceController : MonoBehaviour
 {

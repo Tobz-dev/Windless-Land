@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-//secondary Author: Henrik Ruden
+//secondary Author: Henrik Ruden, William Smith
 
 public class EnemyHealthScript : MonoBehaviour
 {
