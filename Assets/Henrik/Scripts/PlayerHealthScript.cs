@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+//secondary Author: Tim Agelii
 public class PlayerHealthScript : MonoBehaviour
 {
 
@@ -134,50 +136,7 @@ public class PlayerHealthScript : MonoBehaviour
         Debug.Log("REGAINED" + x + " HEALTH,  MAX IS NOW " + health);
     }
 
-    /*
-    public bool RegainFlask()
-    {
-        if (flaskAmount < maxFlasks)
-        {
-            flaskAmount++;
-            //flaskAmountText.text = flaskAmount + "/" + maxFlasks;
-            GetComponent<CharacterController>().SetFlaskUses(flaskAmount);
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    */
-
-    /*
-    private void HealthSetup()
-    {
-        if (health >= 1)
-        {
-            //sets the EmptyHP gameobject active for amount of lost HP
-            for (int i = health - 1; i <= Maxhealth - 1; i++)
-            {
-                hpSlots[i].transform.GetChild(0).gameObject.SetActive(false);
-                hpSlots[i].transform.GetChild(2).gameObject.SetActive(false);
-                hpSlots[i].transform.GetChild(1).gameObject.SetActive(true);
-            }
-            //sets the NormalHP gameobject active for the amount of remaining HP
-            for (int i = 0; i <= health - 2; i++)
-            {
-                //Debug.Log("yeet");
-                hpSlots[i].transform.GetChild(0).gameObject.SetActive(false);
-                hpSlots[i].transform.GetChild(1).gameObject.SetActive(false);
-                hpSlots[i].transform.GetChild(2).gameObject.SetActive(true);
-            }
-            //sets the CurrentHP gameobject active at the player's current health
-            hpSlots[health - 1].transform.GetChild(2).gameObject.SetActive(false);
-            hpSlots[health - 1].transform.GetChild(1).gameObject.SetActive(false);
-            hpSlots[health - 1].transform.GetChild(0).gameObject.SetActive(true);
-        }
-    }
-    */
+   
 
     private bool DamageCooldown(float seconds)
     {
@@ -220,19 +179,6 @@ public class PlayerHealthScript : MonoBehaviour
         //flaskAmountText.text = flaskAmount + "/" + maxFlasks;
     }
 
-    public void IncreasePotionAmount(int amountOfPotions) 
-    {
-        startingFlasks += amountOfPotions;
-        currentFlaskAmount += amountOfPotions;
-        Debug.Log("in IncreasePotionAmount. new maxFlasks is: " + startingFlasks);
-
-        //flaskAmountText.text = flaskAmount + "/" + maxFlasks;
-    }
-
-    float GetHealthPercentage()
-    {
-        return (float)health / (float)Maxhealth;
-    }
 
     public void setConfig(int newMaxHealth)
     {

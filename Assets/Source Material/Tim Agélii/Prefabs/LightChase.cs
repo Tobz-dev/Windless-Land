@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//Main Author: Tim Agélii
-//kod tagen från AIChase
+//Main Author: Tim Agelii
+//State machine code taken from AIChase script
 [CreateAssetMenu()]
 public class LightChase : State
 {

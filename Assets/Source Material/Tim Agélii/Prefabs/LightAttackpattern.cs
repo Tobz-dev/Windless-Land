@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-//Main Author: Tim Agélii
-//statemachine kod tagen från aiattack
+//Main Author: Tim Agelii
+
 [CreateAssetMenu()]
 public class LightAttackpattern : State
 {

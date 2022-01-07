@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Main Authour : Tim Ag�lii
+// Main Authour : Tim Agelii
 public class CharacterController : MonoBehaviour
 {
 
@@ -32,8 +32,6 @@ public class CharacterController : MonoBehaviour
     float dodgeTimer = 0;
 
     float flaskTimer = 0;
-
-    Vector3 rotationOffset = new Vector3(90, 0, 0);
 
     Quaternion lookRotation;
 
@@ -100,45 +98,17 @@ public class CharacterController : MonoBehaviour
     private float dodgeDropOffTime;
     //hitbox variables
 
-    [SerializeField]
-    private GameObject lightAttackHitbox;
-
-    private GameObject attackHitbox;
-    
-    [SerializeField]
-    private GameObject heavyAttackHitbox;
-
-    [SerializeField]
-    private float timeToNextSwing;
-   
-    [SerializeField]
-    private float timeToNextSwingLight;
-    [SerializeField]
-    private float timeToNextSwingHeavy;
-
     private bool startAttackDelay = false;
     
-    [SerializeField]
-    private float lightAttackDelay;
-
 
     private bool endOfAttack = false;
 
-    private float attackDelay;
-
-
+   
 
     [SerializeField]
     private float lightSwingCooldown = 0.6f;
 
-    private float swingCooldown;
-
-    [SerializeField]
-    private float heavySwingCooldown;
-    [SerializeField]
-    private float heavyAttackDelay;
-
-
+ 
     //henrik prototyp
     [SerializeField]
     private Transform objectToFace;
@@ -147,31 +117,21 @@ public class CharacterController : MonoBehaviour
     private bool autoAim = false;
     [SerializeField]
     private bool autoAimMidAttack = false;
-    Quaternion enemyLookRotation;
+
 
 
     //prototyp
-    float extraInputTimeDelay = 0.05f;
+  
     bool queueAttack = false;
     bool queueDodge = false;
 
-    [SerializeField]
-    private Vector3 hitboxOffset;
-
-
-    [SerializeField]
-    private float xRotationOffset;
-    [SerializeField]
-    private float yRotationOffset;
-    [SerializeField]
-    private float zRotationOffset;
-
+ 
 
     [SerializeField]
     private Animator anim;
     private PlayerVFX playerVFX;
 
-    int attackComboLenght = 3;
+ 
     int currentAttack = 1;
     string currentAttackTrigger;
 
@@ -200,8 +160,7 @@ public class CharacterController : MonoBehaviour
     //bow
     [SerializeField]
     private float bowChargeTime;
-    [SerializeField]
-    private GameObject arrow;
+
     private bool bowIsLoading = false;
     private bool bowIsFinishedLoading = false;
     private bool startBowCooldown = false;
@@ -1215,14 +1174,8 @@ public class CharacterController : MonoBehaviour
 
 
     }
-    private void ResetStunAnim()
-    {
-        anim.SetBool("PlayerIsStunned", false);
-        resetAnim = true;
-    }
-  
+ 
    
-    
     public void PullLever() {
         if (moveAllow == true && attacking == false && usingHealthFlask == false && bowIsActive == false && dodgerollTimerRunning == false) {
             anim.SetBool("PullingLever", true);
