@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//Secondary Author: William Smith
+//Main Author:Xiehui Mao
 public class FallingPlatform : MonoBehaviour
 {
 
