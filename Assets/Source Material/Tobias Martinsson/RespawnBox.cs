@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//Main Author: Tobias Martinsson
 public class RespawnBox : MonoBehaviour
 {
 

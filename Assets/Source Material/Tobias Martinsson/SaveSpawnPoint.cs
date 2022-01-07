@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using TMPro;
 
-
+//Main Author: Tobias Martinsson
 //Minor changes: Ilirian Zuta
 public class SaveSpawnPoint : MonoBehaviour
 {
