@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//secondary Author: Henrik Ruden
+
 public class PlayerHealthScript : MonoBehaviour
 {
 

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//Main Author: Henrik Ruden
+
 public class ConfigController : MonoBehaviour
 {
 
@@ -20,9 +23,8 @@ public class ConfigController : MonoBehaviour
     [SerializeField]
     private GameObject enemyHeavy;
 
-    public bool noData = true;
-
-    public GameObject[] enemies;
+    [SerializeField]
+    private GameObject[] enemies;
 
 
     void Start()

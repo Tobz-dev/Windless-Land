@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Main Author: Henrik Ruden
+
 public class WeaponSwing : MonoBehaviour
 {
 
