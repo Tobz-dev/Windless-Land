@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+// Main Authour : William Smith
+//Secondary Author: Lukas Kleberg 
 public class VCAController : MonoBehaviour
 {
 
