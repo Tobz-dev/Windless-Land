@@ -1,3 +1,4 @@
+//Main Author: Miranda Greting
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,13 +21,14 @@ public class InputManager : MonoBehaviour
     {
         if(inputActions == null)
         {
-            inputActions = new PlayerInputs();
+            inputActions = new PlayerInputs(); //ties the generated C# class from the InputActionAsset PlayerInputs to this variable where actions and their bindings can be accessed and edited
+            //InputActionAsset found in Assets > Source Material > Miranda Greting > Inputs
         }
 
         instance = this;
     }
 
-    public static void StartRebind(string actionName, int bindingIndex, TextMeshProUGUI statusText, bool excludeMouse, GameObject rebindPanel)
+    public static void StartRebind(string actionName, int bindingIndex, TextMeshProUGUI statusText, bool excludeMouse, GameObject rebindPanel) //starts rebinding process
     {
         if (inputActions == null)
         {
@@ -38,9 +40,9 @@ public class InputManager : MonoBehaviour
             Debug.Log("Couldn't find action or binding!! Check inspector reference");
         }
 
-        rebindPanel.SetActive(true);
+        rebindPanel.SetActive(true); //sets a UI panel active with instruction to press the button to rebind the action to
 
-        if (action.bindings[bindingIndex].isComposite)
+        if (action.bindings[bindingIndex].isComposite) //if the action is composite all the bindings are looped through until each is rebound (not used at the moment, "Move" is the only composite binding but the subbindings can be rebound individually
         {
             var firstIndex = bindingIndex + 1;
             if(firstIndex < action.bindings.Count && action.bindings[firstIndex].isComposite)
@@ -66,36 +68,25 @@ public class InputManager : MonoBehaviour
         
         InputActionRebindingExtensions.RebindingOperation rebind = actionToRebind.PerformInteractiveRebinding(bindingIndex); //creates instance of the rebinding action (does Not start the rebinding process, just creates an instance of the object that's going to do the rebinding)
 
-        rebind.OnComplete(operation =>
+        rebind.OnComplete(operation => //assigns a delegate that enables the action when rebinding is complete, and disposes of delegate to prevent memory leaks
         {
             actionToRebind.Enable();
             operation.Dispose();
 
-            if(CheckDuplicateBindings(actionToRebind, bindingIndex, compositeBinding, previousBinding, rebind, rebindPanel.transform.GetChild(2).gameObject))
+            if(CheckDuplicateBindings(actionToRebind, bindingIndex, compositeBinding, previousBinding, rebind, rebindPanel.transform.GetChild(2).gameObject)) //checks if an action already binds to chosen keybinding
             {
+                //code for binding swap that i didn't get to work in time
                 //InputBinding duplicateBinding = actionToRebind.bindings[bindingIndex];
-                //actionToRebind.RemoveBindingOverride(bindingIndex);
-                //actionToRebind.ApplyBindingOverride(previousBinding);
+                actionToRebind.RemoveBindingOverride(bindingIndex);
+                actionToRebind.ApplyBindingOverride(previousBinding);                               //applies the previously used binding if a duplicate for the new one was found
                 //SwapBindingsPrompt(rebindPanel.transform.GetChild(2).gameObject, previousBinding, duplicateBinding);
                 //CleanUp();
-                //ChangeRebind(actionToRebind, bindingIndex, statusText, compositeBinding, excludeMouse, rebindPanel);
-                rebind.Cancel();
-                return;
-            }
-
-            /*
-            if(actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/enter") || actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/escape") || actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/numpadEnter") 
-            || actionToRebind.bindings[bindingIndex].effectivePath.Equals("<Keyboard>/leftMeta")) //cancels rebinding if chosen key isn't allowed/is otherwise occupied (escape, enter, windows/meta key etc)
-            {
-                actionToRebind.RemoveBindingOverride(bindingIndex);
                 ChangeRebind(actionToRebind, bindingIndex, statusText, compositeBinding, excludeMouse, rebindPanel);
-                rebindPanel.transform.GetChild(2).gameObject.SetActive(true);
-                instance.StartCoroutine(DelayInactivation(2f, rebindPanel.transform.GetChild(2).gameObject));
+                //rebind.Cancel();
                 return;
             }
-            */
 
-            if (compositeBinding)
+            if (compositeBinding) //loops through all bindings until each is rebound
             {
                 var nextBindingIndex = bindingIndex + 1;
                 if(nextBindingIndex < actionToRebind.bindings.Count && actionToRebind.bindings[nextBindingIndex].isComposite)
@@ -104,12 +95,12 @@ public class InputManager : MonoBehaviour
                 }
             }
 
-            SaveBindingOverride(actionToRebind);
-            rebindComplete?.Invoke();
+            SaveBindingOverride(actionToRebind); //saves keybindings so they can be loaded upon next playsession
+            rebindComplete?.Invoke(); 
             rebindPanel.SetActive(false);
             Debug.Log(actionToRebind.bindings[bindingIndex].effectivePath);
 
-        }); //assigns a delegate that enables the action when rebinding is complete, and disposes of delegate to prevent memory leaks
+        }); 
 
         rebind.OnCancel(operation =>
         {
@@ -260,7 +251,6 @@ public class InputManager : MonoBehaviour
         {
             inputActions = new PlayerInputs();
         }
-        Debug.Log(actionName);
         InputAction action = inputActions.asset.FindAction(actionName);
         if (action != null)
         {

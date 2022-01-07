@@ -9,13 +9,12 @@ using System;
 
 public class RebindUI : MonoBehaviour
 {
-    [SerializeField] private InputActionReference inputActionReference;
+    [SerializeField] private InputActionReference inputActionReference; //choose an Action from inspector
 
     [SerializeField] private bool excludeMouse = true;
-    //note to self: add exclude keyboard too?
 
     [Range(0, 20)]
-    [SerializeField] private int selectedBinding;
+    [SerializeField] private int selectedBinding; //choose one of the bindings for selected action (keyboard, mouse or gamepad)
     [SerializeField] private InputBinding.DisplayStringOptions displayStringOptions;
    
     [Header("Binding info - DO NOT EDIT")]
@@ -40,7 +39,7 @@ public class RebindUI : MonoBehaviour
 
     private void Start()
     {
-        rebindScripts = GameObject.FindGameObjectsWithTag("Binding");
+        rebindScripts = GameObject.FindGameObjectsWithTag("Binding"); //Get all objects with this script on them (needed for resetting all bindings at once or updating UI menu info for all bindings at once)
         gamepadScript = gameObject.GetComponent<ChangeGamepadIcon>();
 
     }
@@ -104,7 +103,7 @@ public class RebindUI : MonoBehaviour
 
     private void UpdateUI()
     {
-        if(actionText != null)
+        if(actionText != null) //"Move" is a composite binding (up, down, left, right), checks which subbinding is selected and sets name to include direction
         {
             actionText.text = actionName;
 
@@ -128,108 +127,23 @@ public class RebindUI : MonoBehaviour
 
         if(rebindText != null)
         {
-            if (Application.isPlaying)
+            if (Application.isPlaying) //updates UI while application is playing
             {
                 rebindText.text = InputManager.GetBindingName(actionName, bindingIndex);
                 rebindText.text = UpdateBindingName(rebindText.text);
             }
-            else
+            else //updates UI when changes are made in the editor
             {
                 rebindText.text = inputActionReference.action.bindings[bindingIndex].effectivePath;
                 rebindText.text = UpdateBindingName(rebindText.text);
             }
-            if (rebindText.text.Equals("BLANKSTEG"))
-            {
-                rebindText.text = "Space";
-            }
-            if (rebindText.text.Equals("À"))
-            {
-                rebindText.text = "A";
-            }
-            //rebindText.text = rebindText.text.ToUpper();
             buttonName = rebindText.text;
         }
     }
 
-    private void NameChange(string name)
-    {
-
-    }
-
-    private string UpdateBindingName(string rebindText)
+    private string UpdateBindingName(string rebindText) //updates binding name/path for selected binding tied to this script
     {
         rebindText = InputManager.GetBindingName(actionName, bindingIndex);
-        /*
-        int splitIndex = rebindText.IndexOf('>')+1;
-        if (splitIndex >= 0)
-        {
-            string bindingString = rebindText.Substring(splitIndex + 1);
-            bindingString = bindingString[0].ToString().ToUpper() + bindingString.Substring(1);
-            if (rebindText[1].Equals('M'))
-            {
-                rebindText = "Mouse/" + bindingString;
-            }
-            else if (bindingString.Equals("RightShoulder"))
-            {
-                rebindText = "R1";
-                //gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon("R1");
-            }
-            else if (bindingString.Equals("RightTriggerButton") || bindingString.Equals("RightTrigger"))
-            {
-                rebindText = "R2";
-                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon("R2");
-            }
-            else if (bindingString.Equals("LeftShoulder"))
-            {
-                rebindText = "L1";
-                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon("L1");
-            }
-            else if (bindingString.Equals("LeftTriggerButton") || bindingString.Equals("LeftTrigger"))
-            {
-                rebindText = "L2";
-                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon("L2");
-            }
-            else if (bindingString.Equals("ButtonSouth"))
-            {
-                rebindText = "A/Cross";
-                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon("A/Cross");
-            }
-            else if (bindingString.Equals("ButtonWest"))
-            {
-                rebindText = "X/Square";
-                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon("X/Square");
-            }
-            else if (bindingString.Equals("ButtonNorth"))
-            {
-                rebindText = "Y/Triangle";
-                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon("Y/Triangle");
-            }
-            else if (bindingString.Equals("ButtonEast"))
-            {
-                rebindText = "B/Circle";
-                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon("B/Circle");
-            }
-            else if (bindingString.StartsWith("LeftStick"))
-            {
-                rebindText = bindingString;
-                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon(rebindText);
-            }
-            else if (bindingString.Equals("Start"))
-            {
-                rebindText = "Menu/Options";
-                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon("Menu/Options");
-            }
-            else if (bindingString.Equals("Select"))
-            {
-                rebindText = "View/Share";
-                gameObject.GetComponent<ChangeGamepadIcon>().ChangeIcon(rebindText);
-            }
-            else
-            {
-                rebindText = bindingString;
-            }
-        }
-        */
         if (gamepadScript != null && rebindText != null)
         {
             gamepadScript.ChangeIcon(rebindText);
@@ -238,7 +152,7 @@ public class RebindUI : MonoBehaviour
         return rebindText;
     }
 
-    private void UpdateAllUI()
+    private void UpdateAllUI() //updates binding name for all bindings at once
     {
         foreach (GameObject script in rebindScripts)
         {
@@ -249,12 +163,12 @@ public class RebindUI : MonoBehaviour
         }
     }
 
-    private void ChangeBinding()
+    private void ChangeBinding() //starts rebindingprocess for the binding tied to this script
     {
         InputManager.StartRebind(actionName, bindingIndex, rebindText, excludeMouse, rebindWarning);
     }
 
-    private void ResetBinding()
+    private void ResetBinding() //resets only the selected binding tied to this script
     {
         InputManager.ResetBinding(actionName, bindingIndex);
         UpdateUI();
@@ -265,7 +179,7 @@ public class RebindUI : MonoBehaviour
         return buttonName;
     }
 
-    public void ResetAllBindings()
+    public void ResetAllBindings() //resets all bindings (accessed by OnClick() in AdjustUI/HUD
     {
         InputManager.ResetAllBindings();
         UpdateAllUI();
