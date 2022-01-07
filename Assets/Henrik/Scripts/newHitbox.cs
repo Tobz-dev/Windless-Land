@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 //Main Author: Henrik Rud�n
-//secondary Author: Tim Ag�lii
+//secondary Author: Tim Agelii
 //Minor additions: Ilirian Zuta
 public class newHitbox : MonoBehaviour
 {

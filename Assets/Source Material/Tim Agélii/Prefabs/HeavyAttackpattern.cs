@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-//Main Author: Tim Ag�lii
-//statemachine kod tagen fr�n aiattack
+//Main Author: Tim Agelii
+
 [CreateAssetMenu()]
 public class HeavyAttackpattern : State
 {

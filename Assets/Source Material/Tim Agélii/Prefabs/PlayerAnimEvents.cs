@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-// Main Authour : Tim Agélii
+// Main Authour : Tim Agelii
 public class PlayerAnimEvents : MonoBehaviour
 {
     [SerializeField]
