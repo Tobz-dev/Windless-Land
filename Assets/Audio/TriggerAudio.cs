@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Main Authour : William Smith
 public class TriggerAudio : MonoBehaviour
 {
     public FMODUnity.EventReference UISounds;

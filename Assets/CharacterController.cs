@@ -626,7 +626,7 @@ public class CharacterController : MonoBehaviour
     {
 
         mana = mana - bowManaCost;
-        Debug.Log(mana + "  manaleft");
+
         //   gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
         bowIsFinishedLoading = false;
         anim.SetBool("BowRecoil", true);
@@ -760,7 +760,7 @@ public class CharacterController : MonoBehaviour
         dodgerollTimerRunning = true;
 
         //more anim things
-        //Debug.Log("in player Dodgeroll");
+
         anim.SetTrigger("DodgeRoll");
 
 
@@ -881,7 +881,7 @@ public class CharacterController : MonoBehaviour
         }
 
         //more anim things
-        //Debug.Log("in player attack");
+
 
         currentAttackTrigger = "Attack" + currentAttack;
         anim.SetTrigger(currentAttackTrigger);
@@ -1263,7 +1263,7 @@ public class CharacterController : MonoBehaviour
 
 
 
-        Debug.Log("Player Dead");
+
         anim.SetBool("Dying", true);
         Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
         Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
@@ -1318,7 +1318,7 @@ public class CharacterController : MonoBehaviour
 
     public void SetRespawnPoint(Vector3 position)
     {
-        //Debug.Log("Respawnpoint Set");
+
         respawnPoint.transform.position = new Vector3(position.x, position.y + 1f, position.z);
     }
 

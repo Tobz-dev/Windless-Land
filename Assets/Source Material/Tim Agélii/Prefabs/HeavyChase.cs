@@ -28,13 +28,13 @@ public class HeavyChase : State
 
         if (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) <= AttackDistance)
         {
-            Debug.Log("Entering attack pattern");
+
             StateMachine.ChangeState<HeavyAttackpattern>();
         }
 
         if (Physics.Linecast(Agent.transform.position, Agent.PlayerPosition, Agent.CollisionLayer))
         {
-            Debug.Log("Entering patrol");
+
             StateMachine.ChangeState<HeavyPatrol>();
         }
 
