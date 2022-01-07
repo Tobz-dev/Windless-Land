@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Main Author: Lukas Kleberg
 public class FlexibleGridLayout : LayoutGroup
 {
     public enum FitType 
@@ -95,15 +96,4 @@ public class FlexibleGridLayout : LayoutGroup
         
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -66,7 +66,7 @@ public class ConfigController : MonoBehaviour
             ini.WriteValue("Player", "maxMana;", player.gameObject.GetComponent<CharacterController>().getMaxMana());
             ini.WriteValue("Player", "moveSpeed;", player.gameObject.GetComponent<CharacterController>().getMoveSpeed());
             ini.WriteValue("Player", "maxhealth;", player.gameObject.GetComponent<PlayerHealthScript>().getMaxHealth());
-            ini.WriteValue("Player", "manaPerHit;", hitboxPlayer.gameObject.GetComponent<PlayerAttackHitbox>().getManaPerHit());
+            ini.WriteValue("Player", "manaPerHit;", hitboxPlayer.gameObject.GetComponent<PlayerAttackHitbox>().GetManaPerHit());
         }
 
 
@@ -130,7 +130,7 @@ public class ConfigController : MonoBehaviour
             Debug.Log(player);
             player.gameObject.GetComponent<CharacterController>().setConfig(ini.ReadValue("Player", "maxMana;", 100), (float)ini.ReadValue("Player", "moveSpeed;", 5.5f));
             player.gameObject.GetComponent<PlayerHealthScript>().setConfig(ini.ReadValue("Player", "maxhealth;", 5));
-            hitboxPlayer.gameObject.GetComponent<PlayerAttackHitbox>().setConfig(ini.ReadValue("Player", "manaPerHit;", 10));
+            hitboxPlayer.gameObject.GetComponent<PlayerAttackHitbox>().SetConfig(ini.ReadValue("Player", "manaPerHit;", 10));
         }
 
         if (fontChanger != null)

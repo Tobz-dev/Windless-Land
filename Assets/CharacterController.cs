@@ -51,7 +51,7 @@ public class CharacterController : MonoBehaviour
 
     //accesibility input delay
     private bool inputDelayOn = false;
-    private float  inputDelay = 0.5f;
+    private float inputDelay = 0.5f;
     private float delayTimer = 0;
     private bool allowNextInput = false;
     private bool runTimerOnce = true;
@@ -93,47 +93,47 @@ public class CharacterController : MonoBehaviour
     Vector3 playerMovement;
 
     private bool canMove = true;
-  
+
 
     [SerializeField]
     private float dodgeDropOffTime;
     //hitbox variables
 
     private bool startAttackDelay = false;
-    
+
 
     private bool endOfAttack = false;
 
-   
+
 
     [SerializeField]
     private float lightSwingCooldown = 0.6f;
 
- 
+
     //henrik prototyp
     [SerializeField]
     private Transform objectToFace;
     private GameObject closestEnemy;
-    
+
     private bool autoAim = false;
     private bool autoAimMidAttack = false;
 
 
 
     //prototyp
-  
-    bool queueAttack = false;
-    bool queueDodge = false;
 
- 
+    private bool queueAttack = false;
+    private bool queueDodge = false;
+
+
 
     [SerializeField]
     private Animator anim;
     private PlayerVFX playerVFX;
 
- 
-    int currentAttack = 1;
-    string currentAttackTrigger;
+
+    private int currentAttack = 1;
+    private string currentAttackTrigger;
 
     public Transform respawnPoint;
 
@@ -155,7 +155,7 @@ public class CharacterController : MonoBehaviour
 
     private bool bowEquipped = false;
 
- 
+
 
     //bow
     [SerializeField]
@@ -201,7 +201,7 @@ public class CharacterController : MonoBehaviour
 
     public string CheckControlUsed()
     {
-        if(controlUsed!= null)
+        if (controlUsed != null)
         {
             return controlUsed; //returns which controltype is used
             //can be either Keyboard, Mouse or Gamepad, must be checked when calling this method
@@ -215,14 +215,14 @@ public class CharacterController : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         if (!PlayerPrefs.HasKey("inputDelay"))
         {
             PlayerPrefs.SetInt("inputDelay", 0);
         }
-                
-        
+
+
         originalFlaskUsesAmount = (int)flaskUses;
         playerRgb = transform.GetComponent<Rigidbody>();
         playerVFX = GetComponent<PlayerVFX>();
@@ -244,11 +244,11 @@ public class CharacterController : MonoBehaviour
         currentAttackTrigger = "Attack1";
         //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
 
-        updateAutoaim();
+        UpdateAutoaim();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
 
 
@@ -269,7 +269,7 @@ public class CharacterController : MonoBehaviour
 
             StunHandler();
 
-            if (startPlayerStunned == false) 
+            if (startPlayerStunned == false)
             {
                 AttackManager();
 
@@ -278,7 +278,7 @@ public class CharacterController : MonoBehaviour
 
 
                 DodgerollManager();
-              
+
                 HealthFlaskManager();
 
             }
@@ -289,7 +289,7 @@ public class CharacterController : MonoBehaviour
 
             UpdateEventVariables();
 
-       
+
             PlayerRotationUpdate();
 
             UpdateMoveInput();
@@ -367,15 +367,15 @@ public class CharacterController : MonoBehaviour
             inputDelayOn = false;
         }
     }
-   private void UpdateMoveInput() 
-   {
+    private void UpdateMoveInput()
+    {
         Vector3 rightMovement = right * moveSpeed * movementInput.x; //Input.GetAxis("HorizontalKey");
         Vector3 upMovement = forward * moveSpeed * movementInput.y; //Input.GetAxis("VerticalKey");
 
         playerMovement = rightMovement + upMovement;
 
         inputDirection = playerMovement.normalized;
-      
+
 
 
         if (playerMovement.magnitude > moveSpeed)
@@ -392,29 +392,29 @@ public class CharacterController : MonoBehaviour
         {
             playerInputActive = false;
         }
-        else 
+        else
         {
             playerInputActive = true;
         }
 
 
-      
+
     }
 
-    
-    
-   private void Move()
+
+
+    private void Move()
     {
-     
-        playerRgb.velocity = playerMovement + new Vector3(0, playerRgb.velocity.y,0);
-   
-  
+
+        playerRgb.velocity = playerMovement + new Vector3(0, playerRgb.velocity.y, 0);
+
+
     }
 
-    public void ManaIncreased(int i) 
+    public void ManaIncreased(int i)
     {
         mana = mana + i;
-        if (mana > maxMana) 
+        if (mana > maxMana)
         {
             mana = maxMana;
         }
@@ -427,10 +427,10 @@ public class CharacterController : MonoBehaviour
         {
             mana = 0;
         }
-     
+
     }
 
-    public int GetMaxMana() 
+    public int GetMaxMana()
     {
         return maxMana;
     }
@@ -446,8 +446,8 @@ public class CharacterController : MonoBehaviour
     }
 
 
-   private void EquipManager() 
-   {
+    private void EquipManager()
+    {
         if (bowIsActive == false && startAttackDelay == false && attacking == false && moveAllow == true && usingHealthFlask == false)
         {
             //detects when Equip Bow rebinding is triggered
@@ -471,7 +471,7 @@ public class CharacterController : MonoBehaviour
 
     }
 
-   private void BowManager() 
+    private void BowManager()
     {
         //code for checking & converting binding.effectivePath (control rebinding)
         //to a format that works with Input.GetKeyDown
@@ -481,7 +481,7 @@ public class CharacterController : MonoBehaviour
 
         if (bow.activeSelf == true && dodgerollTimerRunning == false && usingHealthFlask == false && startPlayerStunned == false)
         {
-            if (bowIsActive == false && mana >= bowManaCost) 
+            if (bowIsActive == false && mana >= bowManaCost)
             {
                 if (Input.GetKeyDown(keyboardPath) || Input.GetKeyDown(mousePath) || Input.GetKeyDown(gamepadPath))//KeyCode.Mouse0))
                 {
@@ -564,11 +564,11 @@ public class CharacterController : MonoBehaviour
         }
 
 
-   
+
 
     }
-   private void StartBowDraw() 
-   {
+    private void StartBowDraw()
+    {
 
         bowIsActive = true;
         anim.SetBool("StopBow", false);
@@ -580,15 +580,15 @@ public class CharacterController : MonoBehaviour
         anim.SetBool("DrawBow", true);
 
     }
-   private void DrawBow(string keyboardPath, string mousePath, string gamepadPath) 
-   {
+    private void DrawBow(string keyboardPath, string mousePath, string gamepadPath)
+    {
         if (AttackWaitTimer(bowDrawTime))
         {
-            
-            
+
+
             drawBow = false;
 
-            if (queueBowCancel == false) 
+            if (queueBowCancel == false)
             {
                 bowIsLoading = true;
 
@@ -602,14 +602,14 @@ public class CharacterController : MonoBehaviour
             {
                 queueBowCancel = true;
             }
-          
+
         }
 
-   }
+    }
 
-   private void BowLoading()
-   {
-      
+    private void BowLoading()
+    {
+
 
         if (AttackWaitTimer(bowChargeTime))
         {
@@ -618,25 +618,25 @@ public class CharacterController : MonoBehaviour
         }
         else
         {
-           
+
         }
     }
 
-   private void BowFire() 
-   {
-      
+    private void BowFire()
+    {
+
         mana = mana - bowManaCost;
-        Debug.Log(mana + "  manaleft");
-     //   gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
-     bowIsFinishedLoading = false;
+
+        //   gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
+        bowIsFinishedLoading = false;
         anim.SetBool("BowRecoil", true);
         anim.SetBool("BowAim", false);
         playerVFX.StopArrowChannelEffect();
         startBowCooldown = true;
-     
-   }
-   private void BowCancel() 
-   {
+
+    }
+    private void BowCancel()
+    {
         anim.SetBool("StopBow", true);
         anim.SetBool("BowAim", false);
         anim.SetBool("DrawBow", false);
@@ -651,31 +651,33 @@ public class CharacterController : MonoBehaviour
         startBowCooldown = false;
 
         bowIsActive = false;
-     
-   }
 
-    
+    }
 
-   private void BowCooldown() {
+
+
+    private void BowCooldown()
+    {
         if (AttackWaitTimer(bowCooldownTime))
         {
             BowCancel();
 
         }
-        else { 
-        
+        else
+        {
+
         }
     }
 
 
 
-   private void HealthFlaskManager()
-   {
+    private void HealthFlaskManager()
+    {
         if (inputActions.WindlessLand.HealthRefill.triggered/*Input.GetKeyDown(KeyCode.Q)*/ && usingHealthFlask == false && healthFlaskOfCooldown && flaskUses > 0 && attacking == false && dodgerollTimerRunning == false && bowIsActive == false && gameObject.GetComponent<PlayerHealthScript>().GetHealth() < gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth() && moveAllow == true)
         {
-            anim.SetBool("DrinkingPot",true);
+            anim.SetBool("DrinkingPot", true);
             playerVFX.PlayPotionEffect();
-            
+
             HealthRefill = FMODUnity.RuntimeManager.CreateInstance("event:/Game/HealthRefill");
             HealthRefill.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
             HealthRefill.start();
@@ -693,7 +695,7 @@ public class CharacterController : MonoBehaviour
             }
         }
 
-        if (doneDrinkingFlask == true) 
+        if (doneDrinkingFlask == true)
         {
             GetComponentInParent<PlayerHealthScript>().regainHealth(2);
             GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeedFactor(1);
@@ -718,28 +720,30 @@ public class CharacterController : MonoBehaviour
         {
             if (FlaskWaitTimer(healthFlaskCooldown))
             {
-                
-    
+
+
                 healthFlaskOfCooldown = true;
-              
-                
+
+
 
             }
         }
 
         if (dodgerollStart == true)
             HealthFlaskCancel();
-   }
+    }
 
 
-    private void HealthFlaskCancel() {
+    private void HealthFlaskCancel()
+    {
         anim.SetBool("DrinkingPot", false);
         GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeedFactor(1);
         healthFlaskOfCooldown = true;
         usingHealthFlask = false;
         flaskTimer = 0;
         healthPot.SetActive(false);
-        if (bowEquipped) {
+        if (bowEquipped)
+        {
             bow.SetActive(true);
         }
         if (swordEquipped)
@@ -749,14 +753,15 @@ public class CharacterController : MonoBehaviour
 
     }
 
-    private void StartDodgeroll() {
-        
-            dodgerollStart = true;
-            dodgerollTimerRunning = true;
+    private void StartDodgeroll()
+    {
 
-            //more anim things
-            //Debug.Log("in player Dodgeroll");
-            anim.SetTrigger("DodgeRoll");
+        dodgerollStart = true;
+        dodgerollTimerRunning = true;
+
+        //more anim things
+
+        anim.SetTrigger("DodgeRoll");
 
 
 
@@ -766,19 +771,19 @@ public class CharacterController : MonoBehaviour
         {
             transform.rotation = Quaternion.LookRotation(inputDirection);
         }
-        
-  
+
+
 
         dodgerolling = true;
         dodgerollOfCooldown = false;
         invincibility = true;
     }
 
-   private void DodgerollManager()
+    private void DodgerollManager()
     {
-    if (inputActions.WindlessLand.Dodgeroll.triggered/*Input.GetKeyDown(KeyCode.Space)*/ && dodgerollOfCooldown && attacking == false && bowIsActive == false && moveAllow == true)
-    {
-        StartDodgeroll();
+        if (inputActions.WindlessLand.Dodgeroll.triggered/*Input.GetKeyDown(KeyCode.Space)*/ && dodgerollOfCooldown && attacking == false && bowIsActive == false && moveAllow == true)
+        {
+            StartDodgeroll();
         }
         if (dodgerollStart == true)
         {
@@ -791,20 +796,21 @@ public class CharacterController : MonoBehaviour
                     transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
                     dodgerolling = false;
                     dodgerollTimerRunning = false;
-                   
+
                 }
                 else
                 {
                     if (dodgeTimer < dodgeDropOffTime)
                     {
-                        playerRgb.velocity = ((transform.forward).normalized * dodgerollSpeed ) +new Vector3(0, playerRgb.velocity.y, 0); ;
+                        playerRgb.velocity = ((transform.forward).normalized * dodgerollSpeed) + new Vector3(0, playerRgb.velocity.y, 0); ;
                     }
-                    else {
+                    else
+                    {
                         invincibility = false;
-                        playerRgb.velocity = ((transform.forward).normalized * dodgerollDropSpeed) + new Vector3 (0,playerRgb.velocity.y,0);
+                        playerRgb.velocity = ((transform.forward).normalized * dodgerollDropSpeed) + new Vector3(0, playerRgb.velocity.y, 0);
                     }
-                   
-                 
+
+
                 }
             }
             else
@@ -813,7 +819,7 @@ public class CharacterController : MonoBehaviour
                 {
                     dodgerollStart = false;
                     dodgerollOfCooldown = true;
-                    
+
 
                 }
             }
@@ -836,45 +842,46 @@ public class CharacterController : MonoBehaviour
         return false;
     }
 
-   private void AttackManager()
+    private void AttackManager()
     {
 
 
-            endOfAttack = transform.GetComponentInParent<PlayerAnimEvents>().GetEndOfAttack();
+        endOfAttack = transform.GetComponentInParent<PlayerAnimEvents>().GetEndOfAttack();
 
-            InAttack();
+        InAttack();
 
-            if (sword.activeSelf == true && attacking == false && dodgerollTimerRunning == false && usingHealthFlask == false && moveAllow == true)
+        if (sword.activeSelf == true && attacking == false && dodgerollTimerRunning == false && usingHealthFlask == false && moveAllow == true)
+        {
+            if (inputActions.WindlessLand.Attack.triggered/*Input.GetKeyDown(KeyCode.Mouse0)*/)
             {
-                if (inputActions.WindlessLand.Attack.triggered/*Input.GetKeyDown(KeyCode.Mouse0)*/)
-                {
-                    currentAttack = 1;
+                currentAttack = 1;
 
-                    Attack();
-                }
-                if (inputActions.WindlessLand.HeavyAttack.triggered/*Input.GetKeyDown(KeyCode.Mouse1)*/ && mana >= heavyManaCost)
-                {
-                  
-
-                    HeavyAttack();
-                }
-
+                Attack();
             }
-        
-       
+            if (inputActions.WindlessLand.HeavyAttack.triggered/*Input.GetKeyDown(KeyCode.Mouse1)*/ && mana >= heavyManaCost)
+            {
+
+
+                HeavyAttack();
+            }
+
+        }
+
+
     }
 
-   private void Attack()
+    private void Attack()
     {
 
-        if (inputDelayOn) {
+        if (inputDelayOn)
+        {
             delayTimer = 0;
             allowNextInput = false;
             runTimerOnce = true;
         }
 
         //more anim things
-        //Debug.Log("in player attack");
+
 
         currentAttackTrigger = "Attack" + currentAttack;
         anim.SetTrigger(currentAttackTrigger);
@@ -904,8 +911,8 @@ public class CharacterController : MonoBehaviour
             // Vector3 playerPositionOnPlane2 = plane.ClosestPointOnPlane(transform.position);
             // enemyLookRotation = Quaternion.LookRotation(hitPoint2 - playerPositionOnPlane2);
             // transform.rotation = enemyLookRotation;
-            
-            
+
+
             transform.LookAt(objectToFace);
         }
 
@@ -918,18 +925,19 @@ public class CharacterController : MonoBehaviour
 
         attacking = true;
 
-        if(autoAim == true)
+        if (autoAim == true)
         {
             playerRgb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
             autoAimMidAttack = true;
         }
-   
+
 
 
 
     }
 
-   private void HeavyAttack() {
+    private void HeavyAttack()
+    {
 
         anim.SetTrigger("HeavyAttack");
         playerVFX.PlayHeavyAttackEffect();
@@ -954,14 +962,14 @@ public class CharacterController : MonoBehaviour
             playerRgb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
             autoAimMidAttack = true;
         }
-        
+
 
     }
 
-   
+
     private void InAttack()
     {
-       
+
 
         if (attacking && endPlayerStunned == false && usingHealthFlask == false && dodgerolling == false)
         {
@@ -981,39 +989,40 @@ public class CharacterController : MonoBehaviour
                     queueAttack = false;
                     queueDodge = true;
                 }
-            } else if (inputDelayOn)
+            }
+            else if (inputDelayOn)
             {
 
-                if (runTimerOnce == true) 
-                { 
-                
-              
-                if (InputDelayTimer())
-                {
-                    allowNextInput = true;
-                    runTimerOnce = false;
-
-                }
-                }
-
-                if (allowNextInput == true) 
-                { 
-
-                if (inputActions.WindlessLand.Attack.triggered)//Input.GetKeyDown(KeyCode.Mouse0))
+                if (runTimerOnce == true)
                 {
 
-                    queueAttack = true;
-                    queueDodge = false;
+
+                    if (InputDelayTimer())
+                    {
+                        allowNextInput = true;
+                        runTimerOnce = false;
+
+                    }
                 }
-                if (inputActions.WindlessLand.Dodgeroll.triggered)//Input.GetKeyDown(KeyCode.Space))
+
+                if (allowNextInput == true)
                 {
 
-                    queueAttack = false;
-                    queueDodge = true;
-                }
+                    if (inputActions.WindlessLand.Attack.triggered)//Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+
+                        queueAttack = true;
+                        queueDodge = false;
+                    }
+                    if (inputActions.WindlessLand.Dodgeroll.triggered)//Input.GetKeyDown(KeyCode.Space))
+                    {
+
+                        queueAttack = false;
+                        queueDodge = true;
+                    }
                 }
             }
-        
+
             if (endOfAttack == false)
             {
                 playerRgb.velocity = ((transform.forward).normalized * 2f) + new Vector3(0, playerRgb.velocity.y, 0);
@@ -1024,10 +1033,11 @@ public class CharacterController : MonoBehaviour
             {
                 playerRgb.velocity = new Vector3(0, playerRgb.velocity.y, 0);
 
-                if (AttackWaitTimer(lightSwingCooldown)) {
-                     anim.SetTrigger("StopAttack");
+                if (AttackWaitTimer(lightSwingCooldown))
+                {
+                    anim.SetTrigger("StopAttack");
                     attacking = false;
-                    if(autoAimMidAttack == true)
+                    if (autoAimMidAttack == true)
                     {
                         playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
                         autoAimMidAttack = false;
@@ -1041,7 +1051,8 @@ public class CharacterController : MonoBehaviour
                 {
                     currentAttack++;
                     queueAttack = false;
-                    if (currentAttack <= 3){
+                    if (currentAttack <= 3)
+                    {
 
                         anim.SetTrigger("StopAttack");
                         attacking = false;
@@ -1056,7 +1067,7 @@ public class CharacterController : MonoBehaviour
                         Attack();
                     }
                 }
-             
+
                 if (queueDodge == true)
                 {
                     queueDodge = false;
@@ -1071,39 +1082,40 @@ public class CharacterController : MonoBehaviour
                     transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
                     attackTimer = 0;
                     StartDodgeroll();
-               
+
                 }
 
-              
-                
+
+
 
 
             }
 
-            }
+        }
 
-               
-                }
 
-    void AttackCancel() {
+    }
+
+    private void AttackCancel()
+    {
         if (attacking == true)
         {
             anim.SetTrigger("StopAttack");
         }
 
 
-            attacking = false;
+        attacking = false;
         if (autoAimMidAttack == true)
         {
             playerRgb.constraints &= ~RigidbodyConstraints.FreezePositionY;
             autoAimMidAttack = false;
         }
         attackTimer = 0;
-            transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
-            transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
-            queueDodge = false;
-            queueAttack = false;
-          
+        transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
+        transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
+        queueDodge = false;
+        queueAttack = false;
+
 
 
     }
@@ -1149,7 +1161,7 @@ public class CharacterController : MonoBehaviour
 
     }
 
-        public void StartPlayerStun()
+    public void StartPlayerStun()
     {
 
         AttackCancel();
@@ -1164,7 +1176,7 @@ public class CharacterController : MonoBehaviour
         }
         if (startPlayerStunned == true)
         {
-            
+
         }
         CancelLeverPull();
 
@@ -1174,29 +1186,32 @@ public class CharacterController : MonoBehaviour
 
 
     }
- 
-   
-    public void PullLever() {
-        if (moveAllow == true && attacking == false && usingHealthFlask == false && bowIsActive == false && dodgerollTimerRunning == false) {
+
+
+    public void PullLever()
+    {
+        if (moveAllow == true && attacking == false && usingHealthFlask == false && bowIsActive == false && dodgerollTimerRunning == false)
+        {
             anim.SetBool("PullingLever", true);
             playerRgb.velocity = new Vector3(0, 0, 0);
         }
-      
+
     }
 
-    public void CancelLeverPull() {
-        if(anim.GetBool("PullingLever") == true)
-        anim.SetBool("PullingLever", false);
-       
+    public void CancelLeverPull()
+    {
+        if (anim.GetBool("PullingLever") == true)
+            anim.SetBool("PullingLever", false);
+
         transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
     }
 
-    
+
 
     private bool AttackWaitTimer(float seconds)
     {
 
-       attackTimer += Time.deltaTime;
+        attackTimer += Time.deltaTime;
 
         if (attackTimer >= seconds)
         {
@@ -1226,7 +1241,8 @@ public class CharacterController : MonoBehaviour
         return false;
     }
 
-    public bool GetInvincibility() {
+    public bool GetInvincibility()
+    {
         return invincibility;
     }
 
@@ -1244,10 +1260,10 @@ public class CharacterController : MonoBehaviour
         fadeToBlack.GetComponent<FadeToBlack>().ActivateBlackScreen();
         playerRgb.constraints = RigidbodyConstraints.FreezePosition;
         invincibility = true;
-        
 
-        
-        Debug.Log("Player Dead"); 
+
+
+
         anim.SetBool("Dying", true);
         Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
         Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
@@ -1255,13 +1271,13 @@ public class CharacterController : MonoBehaviour
         Dead.release();
         StartCoroutine(TrueRespawn());
         GetComponent<PlayerHealthScript>().regainHealth(100);
-      
+
 
     }
 
     private IEnumerator TrueRespawn()
     {
-       
+
         yield return new WaitForSeconds(5.0f);
         GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
         playerRgb.constraints = RigidbodyConstraints.None;
@@ -1302,13 +1318,14 @@ public class CharacterController : MonoBehaviour
 
     public void SetRespawnPoint(Vector3 position)
     {
-        //Debug.Log("Respawnpoint Set");
+
         respawnPoint.transform.position = new Vector3(position.x, position.y + 1f, position.z);
     }
 
-   
 
-    public float GetFlaskUses() {
+
+    public float GetFlaskUses()
+    {
 
         return flaskUses;
     }
@@ -1319,7 +1336,7 @@ public class CharacterController : MonoBehaviour
         {
             SetFlaskUses(originalFlaskUsesAmount);
         }
-       
+
     }
 
     public void ResetPotionsToOriginal()
@@ -1351,11 +1368,14 @@ public class CharacterController : MonoBehaviour
         return false;
     }
 
-    public void ChangeInputDelayOn() {
+    public void ChangeInputDelayOn()
+    {
         if (PlayerPrefs.GetInt("inputDelay") == 1)
         {
             PlayerPrefs.SetInt("inputDelay", 0);
-        } else {
+        }
+        else
+        {
             PlayerPrefs.SetInt("inputDelay", 1);
         }
 
@@ -1406,7 +1426,7 @@ public class CharacterController : MonoBehaviour
         return closest;
     }
 
-    public void updateAutoaim()
+    public void UpdateAutoaim()
     {
 
 

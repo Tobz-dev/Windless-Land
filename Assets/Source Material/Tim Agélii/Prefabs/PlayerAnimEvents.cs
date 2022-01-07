@@ -30,7 +30,8 @@ public class PlayerAnimEvents : MonoBehaviour
     private bool leverPulled = false;
 
     private bool doneDrinkingPot = false;
-    public void instantiateLightHitbox1() {
+    public void instantiateLightHitbox1()
+    {
 
         var newHitbox = Instantiate(lightAttackHitbox1, transform.position + (transform.rotation * new Vector3(0, 0.5f, 1.7f)), transform.rotation);
 
@@ -68,10 +69,12 @@ public class PlayerAnimEvents : MonoBehaviour
     }
 
 
-    public void SetPlayerMoveSpeedFactor(float f) {
+    public void SetPlayerMoveSpeedFactor(float f)
+    {
         playerMoveSpeedFactor = f;
     }
-    public float GetPlayerMoveSpeedFactor() {
+    public float GetPlayerMoveSpeedFactor()
+    {
         return playerMoveSpeedFactor;
     }
 
@@ -99,7 +102,8 @@ public class PlayerAnimEvents : MonoBehaviour
         return allowMovement;
     }
 
-    public void SetEndOfAttackTrue() {
+    public void SetEndOfAttackTrue()
+    {
         endOfAttack = true;
     }
 
@@ -108,7 +112,8 @@ public class PlayerAnimEvents : MonoBehaviour
         endOfAttack = false;
     }
 
-    public bool GetEndOfAttack() {
+    public bool GetEndOfAttack()
+    {
         return endOfAttack;
     }
 

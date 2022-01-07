@@ -10,7 +10,8 @@ public class LightAttackEvent : MonoBehaviour
     private float enemySpeed;
 
 
-    public void SetStopAttack(bool b) {
+    public void SetStopAttack(bool b)
+    {
         stopAttack = b;
     }
     public void SetStopAttackTrue()
@@ -24,7 +25,7 @@ public class LightAttackEvent : MonoBehaviour
 
     public void SetEnemySpeed(float f)
     {
-            enemySpeed = f;
+        enemySpeed = f;
     }
 
     public float GetEnemySpeed()

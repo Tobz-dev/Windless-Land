@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+//Main Author: Lukas Kleberg
 public class EventSystemHelper : MonoBehaviour
 {
     [SerializeField]
@@ -19,15 +20,12 @@ public class EventSystemHelper : MonoBehaviour
         currentSelectedGameObject = EventSystem.current.firstSelectedGameObject;
     }
 
-
-    //so something is making the keyboard selection stay unless you first give a keyboard input.
     public void Update()
     {
 
         if (Input.GetAxis("Mouse X") < 0 || Input.GetAxis("Mouse X") > 0)
         {
-            //Code for action on mouse moving left
-            //EventSystem.current.SetSelectedGameObject(null);
+            //Code for action on mouse moving left or right
             //Debug.Log("Mouse moved left");
             if(isKeyBoardActive) 
             {
@@ -56,7 +54,6 @@ public class EventSystemHelper : MonoBehaviour
 
                 SetToStartObject();
 
-                //ApplyCurrentSelectedGameObject();
                 //Debug.Log("key press");
             }
 
@@ -66,7 +63,7 @@ public class EventSystemHelper : MonoBehaviour
 
     public void ChangeFirstSelectedObject(GameObject newFirstSelectedObject) 
     {
-        //Debug.Log("in EventS helper, setting first selected to " + newFirstSelectedObject.name);
+        //Debug.Log("in EventSystemHelper, setting first selected to " + newFirstSelectedObject.name);
 
         currentSelectedGameObject = newFirstSelectedObject;
 

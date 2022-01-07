@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Main Author: Lukas Kleberg
 public class ChangeScreenResolutionList : MonoBehaviour
 {
 
