@@ -346,13 +346,13 @@ public class MoveUI : MonoBehaviour
                             if (i == 0 || i == 2)
                             {
                                 //editableObjects[i].transform.GetChild(1).localScale = new Vector3(originalScales[editableObjects.Length].x * scaleSlider.value, originalScales[editableObjects.Length].y * scaleSlider.value, 1);
-                                Debug.Log(i + editableObjects[i].name);
+                                //Debug.Log(i + editableObjects[i].name);
 
                             }
                             else if (i == 1 || i == 3)
                             {
                                 //editableObjects[i].transform.GetChild(1).localScale = new Vector3(originalScales[editableObjects.Length+1].x, originalScales[editableObjects.Length+1].y, 1);
-                                Debug.Log(i + editableObjects[i].name);
+                                //Debug.Log(i + editableObjects[i].name);
 
                             }
                             //editableObjects[i].transform.GetChild(0).localScale = new Vector3originalScales[i] * new Vector3(scaleSlider.value, scaleSlider.value, 1);
@@ -368,12 +368,16 @@ public class MoveUI : MonoBehaviour
                 previousScaleValue = scaleSlider.value;
             }
             RectTransform rectTransform = scaledObject.GetComponent<RectTransform>();
-            Vector2 anchorPos = rectTransform.anchoredPosition;
-            float ypos = anchorPos.y;
-            float xpos = anchorPos.x;
-            xpos = Mathf.Clamp(xpos, 0, Screen.width - rectTransform.sizeDelta.x);
-            ypos = Mathf.Clamp(ypos, 10, Screen.height - rectTransform.sizeDelta.y);
-            rectTransform.anchoredPosition = new Vector2(xpos, ypos);
+            if (scaledObject == movableObject)
+            {
+                Vector2 anchorPos = rectTransform.anchoredPosition;
+                float ypos = anchorPos.y;
+                float xpos = anchorPos.x;
+                xpos = Mathf.Clamp(xpos, 0, Screen.width - rectTransform.sizeDelta.x);
+                ypos = Mathf.Clamp(ypos, 10, Screen.height - rectTransform.sizeDelta.y);
+                rectTransform.anchoredPosition = new Vector2(xpos, ypos);
+            }
+            
 
         }
         else
