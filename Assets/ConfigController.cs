@@ -128,20 +128,20 @@ public class ConfigController : MonoBehaviour
         if (player != null)
         {
             Debug.Log(player);
-            player.gameObject.GetComponent<CharacterController>().setConfig(ini.ReadValue("Player", "maxMana;", 100), (float)ini.ReadValue("Player", "moveSpeed;", 5.5f));
-            player.gameObject.GetComponent<PlayerHealthScript>().setConfig(ini.ReadValue("Player", "maxhealth;", 5));
+            player.gameObject.GetComponent<CharacterController>().SetConfig(ini.ReadValue("Player", "maxMana;", 100), (float)ini.ReadValue("Player", "moveSpeed;", 5.5f));
+            player.gameObject.GetComponent<PlayerHealthScript>().SetConfig(ini.ReadValue("Player", "maxhealth;", 5));
             hitboxPlayer.gameObject.GetComponent<PlayerAttackHitbox>().SetConfig(ini.ReadValue("Player", "manaPerHit;", 10));
         }
 
         if (fontChanger != null)
         {
             //Font
-            fontChanger.gameObject.GetComponent<FontChange>().setConfig(ini.ReadValue("Font", "fontSize;", 5), ini.ReadValue("Font", "fontIndex;", 0));
+            fontChanger.gameObject.GetComponent<FontChange>().SetConfig(ini.ReadValue("Font", "fontSize;", 5), ini.ReadValue("Font", "fontIndex;", 0));
         }
 
         //Enemy
-        hitboxLight.gameObject.GetComponent<newHitbox>().setConfig(ini.ReadValue("Enemy", "LightDamage;", 1));
-        hitboxHeavy.gameObject.GetComponent<newHitbox>().setConfig(ini.ReadValue("Enemy", "HeavyDamage;", 2));
+        hitboxLight.gameObject.GetComponent<newHitbox>().SetConfig(ini.ReadValue("Enemy", "LightDamage;", 1));
+        hitboxHeavy.gameObject.GetComponent<newHitbox>().SetConfig(ini.ReadValue("Enemy", "HeavyDamage;", 2));
 
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemy in enemies)

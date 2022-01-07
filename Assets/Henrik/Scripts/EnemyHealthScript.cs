@@ -201,7 +201,7 @@ public class EnemyHealthScript : MonoBehaviour
     }
 
 
-    public void setConfig(int newMaxhealth)
+    public void SetConfig(int newMaxhealth)
     {
         Maxhealth = newMaxhealth;
     }

@@ -1,3 +1,4 @@
+//Main Author Miranda Greting
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
