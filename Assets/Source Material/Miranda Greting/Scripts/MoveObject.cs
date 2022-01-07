@@ -1,3 +1,4 @@
+//Main Author: Miranda Greting
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,8 +8,9 @@ using UnityEngine.EventSystems;
 
 public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
 {
+    //script attached to each UI object that can be moved
+
     private bool individualEditMode;
-    private bool edited;
     private GameObject highlightingParticles;
     private GameObject selectedParticles;
     [SerializeField] private Toggle editModeToggle;
@@ -98,19 +100,16 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         {
             if (!gameObject.name.Equals("EditAll")) 
             {
-                edited = true;
                 gameObject.GetComponent<RectTransform>().anchoredPosition += eventData.delta;
                 uiManager.MoveUIElement(gameObject);
             }
             else
             {
-                edited = false;
             }
         }
 
         else if (!editModeToggle.isOn)
         {            
-            edited = true;
             parent.GetComponent<RectTransform>().anchoredPosition += eventData.delta;
             uiManager.MoveUIElement(parent);
             /*
@@ -137,7 +136,6 @@ public class MoveObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         }
         if (individualEditMode)
         {
-            edited = false;
             highlightingParticles.SetActive(false);
         }
 

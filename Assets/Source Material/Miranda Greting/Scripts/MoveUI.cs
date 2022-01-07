@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class MoveUI : MonoBehaviour
 {
     [SerializeField] private RectTransform movableObject; //HUD Gameobject goes here
     [SerializeField] private GameObject UIMenu; //AjustUI/HUD goes here
@@ -16,7 +16,7 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     private GameObject highlightParticles;
     private Vector3 originalScale;
 
-    private Vector2 startPos;
+    private static Vector2 startPos;
     private Vector2[] startPositions;
     private Vector2 currentPos;
     private List <Vector2> previousPositions;
@@ -93,16 +93,51 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
         UIMenu.SetActive(false);
         InactivatePrototype(true);
-
     }
+
+    //Sve function in procress
+    /*
+    private void SaveUIPositions()
+    {
+        RectTransform rect = movableObject.GetComponent<RectTransform>();
+        PlayerPrefs.SetString(movableObject.name + "Position", rect.anchoredPosition.x + "," + rect.anchoredPosition.y);
+        for(int i = 0; i < editableObjects.Length; i++)
+        {
+
+        }
+    }
+    */
+
+    /* Load function in progress
+    private void LoadUIPositions()
+    {
+        Debug.Log(startPos);
+        PlayerPrefs.DeleteKey(movableObject.name + "Position");
+        PlayerPrefs.DeleteKey(movableObject.name);
+        string position = PlayerPrefs.GetString(movableObject.name + "Position");
+        Debug.Log(position);
+
+        if (position.Length == 0)
+        {
+            Debug.Log(position);
+            position = startPos.x + "," + startPos.y;
+            Debug.Log(position);
+
+        }
+
+        movableObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(position[0], position[2]);
+    }
+    */ 
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        /*
+        if (UIMenu.activeSelf && InputManager.inputActions.WindlessLand.Pause.triggered)
         {
-            ResetTransform(false);
+            SaveUIPositions(); //Save function i didn't get done in time
         }
+        */
 
 
         if(UIMenu.activeInHierarchy == false && active)
@@ -289,50 +324,6 @@ public class MoveUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             ? Mathf.Clamp(position.y, canvasLowLeft.y + deltaLowLeft.y + 10, canvasTopRight.y - deltaTopRight.y)
             : Mathf.Clamp(position.y, canvasTopRight.y - deltaTopRight.y, canvasLowLeft.y + deltaLowLeft.y + 10);
         rectTransform.position = position;
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        /*
-        if (!individualEditToggle.isOn)
-        {
-            Debug.Log("detectedDrag");
-            movableObject.anchoredPosition += eventData.delta;
-        }
-        for (int i = 0; i <= editableObjects.Length - 1; i++) {
-            if (eventData.selectedObject == editableObjects[i])
-            {
-                Debug.Log("DetectedObject");
-                editableObjects[i].transform.GetChild(0).gameObject.SetActive(true);
-            }
-        }
-        */
-    }
-
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        /*
-        Debug.Log("detectedDrag");
-
-        for (int i = 0; i <= editableObjects.Length - 1; i++)
-        {
-            if (eventData.selectedObject == editableObjects[i])
-            {
-                Debug.Log("DetectedObject");
-                editableObjects[i].transform.GetChild(0).gameObject.SetActive(true);
-            }
-        }
-        */
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        /*
-        currentPos = movableObject.anchoredPosition;
-        previousPositions.Add(currentPos);
-        Debug.Log("AddedPosCurrent");
-        */
     }
 
     private void ScaleUI()

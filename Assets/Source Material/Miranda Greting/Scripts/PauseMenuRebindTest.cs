@@ -1,3 +1,5 @@
+//Main Author: Lukas Kleberg
+//Secondary Author: Miranda Greting
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -47,6 +49,13 @@ public class PauseMenuRebindTest : MonoBehaviour
 
     private void Start()
     {
+        if (!gameObject.GetComponent<PauseMenu>().enabled)
+        {
+            gameObject.GetComponent<PauseMenu>().enabled = true;
+        }
+        gameObject.GetComponent<PauseMenuRebindTest>().enabled = false;
+
+
         checkIfLog();
         if (logpanel != null)
         {
@@ -80,7 +89,7 @@ public class PauseMenuRebindTest : MonoBehaviour
         //Debug.Log("time scale is " + Time.timeScale);
 
         //TODO this via events so it can be remapped
-        if (/*Input.GetKeyDown(KeyCode.Escape)*/inputActions.WindlessLand.Pause.triggered)
+        if (Input.GetKeyDown(KeyCode.Escape) || inputActions.WindlessLand.Pause.triggered)
         {
             if (gameIsPaused)
             {

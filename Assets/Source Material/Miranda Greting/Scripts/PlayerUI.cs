@@ -1,3 +1,4 @@
+//Main Author: Miranda Greting
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -28,7 +29,6 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private GameObject parent;
     [SerializeField] private GameObject lowHPParticles;
     private List<GameObject> hpSlotList = new List<GameObject>();
-    private GameObject[] damageParticles;
 
     // Start is called before the first frame update
     void Start()
@@ -51,11 +51,11 @@ public class PlayerUI : MonoBehaviour
     {
         if (characterController.enabled)
         {
-            flaskAmount = (int)characterController.GetFlaskUses();
+            flaskAmount = (int)characterController.GetFlaskUses(); //get amount of flasks available
 
-            if (flaskAmount != previousFlaskAmt)
+            if (flaskAmount != previousFlaskAmt) //check if flask amount has been changed
             {
-                flaskAmountText.text = characterController.GetFlaskUses().ToString();
+                flaskAmountText.text = characterController.GetFlaskUses().ToString(); //update flask amount in UI
                 previousFlaskAmt = flaskAmount;
             }
         }
@@ -68,7 +68,7 @@ public class PlayerUI : MonoBehaviour
         health = (int)hpScript.GetHealth();
         if (health != previousHealth)
         {
-            HealthSetup(health, maxHealth);
+            HealthSetup(health, maxHealth); //Update UI 
         }
 
         if (characterController.enabled)
@@ -80,39 +80,11 @@ public class PlayerUI : MonoBehaviour
                 previousMana = mana;
             }
         }
-
-        //testing
-        /*
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            //LoseHP(health, 1);
-            health--;
-            HealthSetup(health, maxHealth);
-        }
-        */
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            mana -= 20;
-        }
-
-        /*
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            if (health < maxHealth)
-            {
-                health++;
-                HealthSetup(health, maxHealth);
-                //FlaskUsage(flaskAmount, health);
-            }
-        }
-        */
-        
     }
 
-    public void FlaskUsage(int flaskAmount, int maxFlasks)
+    public void FlaskUsage(int flaskAmount)
     {
-        //decrease available potion amount & update UI 
+        //change available potion amount & update UI 
         Debug.Log(flaskAmount);
         flaskAmountText.text = flaskAmount.ToString();
     }
@@ -137,13 +109,13 @@ public class PlayerUI : MonoBehaviour
     public void HealthSetup(int health, int maxHealth)
     {
         this.health = health;
-        if (hpSlotList.Count == 0)
+        if (hpSlotList.Count == 0) //checks if HP is isn't instantiated
         {
-            InstantiateHealth(maxHealth);
+            InstantiateHealth(maxHealth); // instantiates healthbar slots depending on what maxhealth is
         }
         if (health >= 1)
         {
-            for (int i = 0; i <= health - 2; i++)
+            for (int i = 0; i <= health - 2; i++) //sets NormalHP gameobject active for all healthslots below current health
             {
                 if(hpSlotList[i].transform.GetChild(0).gameObject == lowHPParticles)
                 {
@@ -153,9 +125,9 @@ public class PlayerUI : MonoBehaviour
                 hpSlotList[i].transform.GetChild(2).gameObject.SetActive(false);
             }
 
-            if (health < previousHealth)
+            if (health < previousHealth) 
             {
-                for (int i = health - 1; i < previousHealth - 1; i++)
+                for (int i = health - 1; i < previousHealth - 1; i++) //sets EmptyHP active for all slots above currentHP
                 {
                     hpSlotList[i + 1].transform.GetChild(1).gameObject.SetActive(false);
                     hpSlotList[i + 1].transform.GetChild(2).gameObject.SetActive(false);
@@ -170,9 +142,9 @@ public class PlayerUI : MonoBehaviour
                 }
             }
 
-            if (previousHealth < health)
+            if (previousHealth < health) 
             {
-                GameObject currentHP = hpSlotList[health - 1].transform.GetChild(2).gameObject;
+                GameObject currentHP = hpSlotList[health - 1].transform.GetChild(2).gameObject; //sets CurrentHP gameobject active for current HP
                 currentHP.SetActive(true);
                 Animator anim = currentHP.transform.GetChild(1).GetComponent<Animator>();
                 anim.SetFloat("direction", -1);
@@ -180,7 +152,7 @@ public class PlayerUI : MonoBehaviour
             }
         }
 
-        if (health == 0)
+        if (health == 0) //activates final hp slot if health == 0
         {
             hpSlotList[health].transform.GetChild(1).gameObject.SetActive(false);
             GameObject activeHP = hpSlotList[health].transform.GetChild(2).gameObject;
@@ -190,20 +162,20 @@ public class PlayerUI : MonoBehaviour
         previousHealth = health;
 
 
-        if(health == 1)
+        if(health == 1) //activates particlesystem to indicate low HP for last HPSlot
         {
             hpSlotList[0].transform.GetChild(2).GetChild(2).gameObject.SetActive(true);
             hpSlotList[1].transform.GetChild(2).GetChild(2).gameObject.SetActive(false);
         }
 
-        if (health == 2)
+        if (health == 2) //activates low HP particlesystem for two last HPSlots
         {
             hpSlotList[1].transform.GetChild(2).GetChild(2).gameObject.SetActive(true);
             hpSlotList[0].transform.GetChild(2).GetChild(2).gameObject.SetActive(false);
         }
     }
 
-    private IEnumerator DeactivateSlot()
+    private IEnumerator DeactivateSlot() //Animations were supposed to run here but didn't get it to work in time, for a while there was a shatter effect
     {
         GameObject activeHP = hpSlotList[maxHealth - 1].transform.GetChild(2).gameObject;
         if (health < maxHealth)
