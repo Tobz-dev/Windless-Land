@@ -28,13 +28,13 @@ public class LightChase : State
 
         if (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) <= AttackDistance)
         {
-            Debug.Log("Entering attack pattern");
+
             StateMachine.ChangeState<LightAttackpattern>();
         }
 
         if (Physics.Linecast(Agent.transform.position, Agent.PlayerPosition, Agent.CollisionLayer))
         {
-            Debug.Log("Entering patrol");
+
             StateMachine.ChangeState<LightPatrol>();
         }
 

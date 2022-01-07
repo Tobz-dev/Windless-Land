@@ -27,7 +27,7 @@ public class PlayerAttackHitbox : MonoBehaviour
     private void Start()
     {
         hitboxCollider = GetComponent<Collider>();
-        Debug.Log(damage);
+
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -42,13 +42,13 @@ public class PlayerAttackHitbox : MonoBehaviour
             other.GetComponent<EnemyHealthScript>().takeDamage(damage);
 
             GetComponentInParent<CharacterController>().ManaIncreased(manaPerHit);
-            Debug.Log("gained " + manaPerHit);
+
 
         }
 
         if (other.gameObject.tag == Barrel)
         {
-            Debug.Log("ASDASD");
+
             other.GetComponent<DestroyBarrels>().destroyBarrel();
         }
 

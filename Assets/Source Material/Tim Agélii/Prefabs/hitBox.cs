@@ -17,7 +17,7 @@ public class hitBox : MonoBehaviour
             if (other.gameObject.GetComponent<CharacterController>().GetInvincibility() == false)
             {
                 other.gameObject.GetComponent<HealthScript>().takeDamage(damage);
-                Debug.Log("Dealt 1 damage");
+
 
                 Destroy(this.gameObject);
             }
