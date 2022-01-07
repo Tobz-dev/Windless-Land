@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+//Main Author: Johan Nydahl
 
 public class VFXPrototype2 : MonoBehaviour
 {

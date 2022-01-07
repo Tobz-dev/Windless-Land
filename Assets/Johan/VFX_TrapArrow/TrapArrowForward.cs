@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//Main Author: Johan Nydahl
 
 public class TrapArrowForward : MonoBehaviour
 {
