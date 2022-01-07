@@ -1,3 +1,7 @@
+
+//author Angel Cardenas Martinez
+//resources used https://www.youtube.com/watch?v=FIP6I1x6lMA&t=8s
+
 void ToonShading_float(in float3 Normal, in float ToonRampSmoothness, in float3 ClipSpacePos, in float3 WorldPos, in float4 ToonRampTinting,
 in float ToonRampOffset, out float3 ToonRampOutput, out float3 Direction)
 {
