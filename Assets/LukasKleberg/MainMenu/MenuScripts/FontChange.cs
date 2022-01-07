@@ -108,7 +108,7 @@ public class FontChange : MonoBehaviour
         }
     }
 
-    public void setConfig(int newfontIndex, int newfontSize)
+    public void SetConfig(int newfontIndex, int newfontSize)
     {
         fontIndex2 = newfontIndex;
         fontSize2 = newfontSize;

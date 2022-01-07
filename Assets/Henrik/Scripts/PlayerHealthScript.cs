@@ -183,7 +183,7 @@ public class PlayerHealthScript : MonoBehaviour
     }
 
 
-    public void setConfig(int newMaxHealth)
+    public void SetConfig(int newMaxHealth)
     {
         Maxhealth = newMaxHealth;
         health = Maxhealth;
