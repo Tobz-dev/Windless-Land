@@ -1386,7 +1386,7 @@ public class CharacterController : MonoBehaviour
 
     // Configs
 
-    public void setConfig(int newMaxMana, float newMoveSpeed)
+    public void SetConfig(int newMaxMana, float newMoveSpeed)
     {
         maxMana = newMaxMana;
         moveSpeed = newMoveSpeed;

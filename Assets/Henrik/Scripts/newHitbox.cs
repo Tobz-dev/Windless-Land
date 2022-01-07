@@ -102,7 +102,7 @@ public class newHitbox : MonoBehaviour
     }
 
 
-    public void setConfig(int newdamage)
+    public void SetConfig(int newdamage)
     {
         damage = newdamage;
     }
