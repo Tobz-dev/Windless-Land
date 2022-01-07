@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Main Author: Lukas Kleberg
+//Secondary Author: William Smith
 public class HealthPotionPickup : MonoBehaviour
 {
     [SerializeField]

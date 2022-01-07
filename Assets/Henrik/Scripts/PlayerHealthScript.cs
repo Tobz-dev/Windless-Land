@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 //Main Author: Tim Agelii
 
-//secondary Author: Henrik Ruden
+//secondary Author: Henrik Ruden, William Smith
 
 public class PlayerHealthScript : MonoBehaviour
 {

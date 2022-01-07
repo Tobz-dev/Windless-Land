@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 //Main Author: Johan Nydahl
+//Secondary Author: William Smith
 
 public class CheckpointVFX : MonoBehaviour
 {

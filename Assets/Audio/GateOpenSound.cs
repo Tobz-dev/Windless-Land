@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-// Main Authour : William Smith
+// Main Author : William Smith
 public class GateOpenSound : MonoBehaviour
 {
 

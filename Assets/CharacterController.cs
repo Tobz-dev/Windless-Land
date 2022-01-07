@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 // Main Authour : Tim Agelii
-//secondary Author: Henrik Ruden, Tobias Martinsson
+//secondary Author: Henrik Ruden, Tobias Martinsson, William Smith
 public class CharacterController : MonoBehaviour
 {
 
