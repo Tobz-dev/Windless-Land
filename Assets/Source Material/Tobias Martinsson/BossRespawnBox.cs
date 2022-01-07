@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//Main Author: Tobias martinsson
 public class BossRespawnBox : MonoBehaviour
 {
     public GameObject fallingPlatform1, fallingPlatform2, fallingPlatform3;

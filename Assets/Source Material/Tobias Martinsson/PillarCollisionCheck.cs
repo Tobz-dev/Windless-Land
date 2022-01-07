@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Main Author: Tobias Martinsson
 public class PillarCollisionCheck : MonoBehaviour
 {
     private void OnTriggerEnter(Collider collision)
