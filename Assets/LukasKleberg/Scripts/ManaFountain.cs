@@ -65,7 +65,6 @@ public class ManaFountain : MonoBehaviour
     private void EmptyFountain()
     {
         fountainFull = false;
-        //change mats of fountain parts here.
         PressE.SetActive(false);
 
         //Inactivates water
@@ -95,7 +94,6 @@ public class ManaFountain : MonoBehaviour
     {
         fountainFull = true;
         Debug.Log("in ManaFountain, RestoreFountain(). fountainFull is now = " + fountainFull);
-        //change mats of fountain parts here.
 
         //Activate water
         Transform fountain = gameObject.transform.GetChild(0);
