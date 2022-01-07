@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Main Author:Xiehui Mao
 public class ShakeAnimation : MonoBehaviour
 {
     //Referens: https://forum.unity.com/threads/how-to-activate-a-child-of-a-parent-object.378133/
