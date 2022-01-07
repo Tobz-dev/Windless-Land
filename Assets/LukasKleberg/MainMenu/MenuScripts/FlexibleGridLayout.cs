@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Main Author: Lukas Kleberg
 public class FlexibleGridLayout : LayoutGroup
 {
     public enum FitType 

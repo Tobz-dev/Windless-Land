@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+//Main Author: Lukas Kleberg
 public class EventSystemHelper : MonoBehaviour
 {
     [SerializeField]
