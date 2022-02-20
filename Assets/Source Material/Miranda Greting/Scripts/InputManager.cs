@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using System;
@@ -13,7 +14,10 @@ public class InputManager : MonoBehaviour
     public static PlayerInputs inputActions;
     public static event Action rebindComplete;
     public static event Action rebindCanceled;
+    public static event Action doSwap;
+    public static event Action cancelSwap;
     public static event Action<InputAction, int> rebindStarted;
+    private bool swap = false;
 
     private static InputManager instance;
 
@@ -77,17 +81,23 @@ public class InputManager : MonoBehaviour
             {
                 //code for binding swap that i didn't get to work in time
                 //InputBinding duplicateBinding = actionToRebind.bindings[bindingIndex];
-                actionToRebind.RemoveBindingOverride(bindingIndex);
-                actionToRebind.ApplyBindingOverride(previousBinding);                               //applies the previously used binding if a duplicate for the new one was found
-                //SwapBindingsPrompt(rebindPanel.transform.GetChild(2).gameObject, previousBinding, duplicateBinding);
+                //actionToRebind.RemoveBindingOverride(bindingIndex);
+                //actionToRebind.ApplyBindingOverride(previousBinding);                               //applies the previously used binding if a duplicate for the new one was found
+                InputBinding duplicateBinding = GetDuplicateBinding(actionToRebind, bindingIndex);
+                InputAction duplicateAction = inputActions.asset.FindAction(duplicateBinding.action);
+                SwapBindingsPrompt(rebindPanel.transform.GetChild(2).gameObject, previousBinding, bindingIndex, duplicateBinding);
                 //CleanUp();
-                ChangeRebind(actionToRebind, bindingIndex, statusText, compositeBinding, excludeMouse, rebindPanel);
+                //ChangeRebind(actionToRebind, bindingIndex, statusText, compositeBinding, excludeMouse, rebindPanel);
+                //actionToRebind.ApplyBindingOverride(bindingIndex, duplicateBinding.path);
+                //duplicateAction.ApplyBindingOverride(bindingIndex, previousBinding.path);
+
                 //rebind.Cancel();
                 return;
             }
 
             if (compositeBinding) //loops through all bindings until each is rebound
             {
+                Debug.Log("Composite?" + compositeBinding);
                 var nextBindingIndex = bindingIndex + 1;
                 if(nextBindingIndex < actionToRebind.bindings.Count && actionToRebind.bindings[nextBindingIndex].isComposite)
                 {
@@ -274,23 +284,37 @@ public class InputManager : MonoBehaviour
     private static bool CheckDuplicateBindings(InputAction actionToRebind, int bindingIndex, bool allCompositeParts, InputBinding previousBinding, InputActionRebindingExtensions.RebindingOperation rebind, GameObject rebindWarning)
     {
         InputBinding newBinding = actionToRebind.bindings[bindingIndex];
+        string actionName = inputActions.asset.FindAction(newBinding.action).name;
+        Debug.Log(actionToRebind.name + " " + actionToRebind.bindings[bindingIndex].effectivePath);
         foreach (InputBinding duplicateBinding in actionToRebind.actionMap.bindings)
         {
+            if (actionName.Contains("Move"))
+            {
+                for(int i = 0; i < inputActions.WindlessLand.Move.bindings.Count; i++) 
+                {
+                    if (newBinding.effectivePath == inputActions.WindlessLand.Move.bindings[i].effectivePath && bindingIndex != i)
+                    {
+                        Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
+                        return true;
+                    }
+                }
+            }
             if (duplicateBinding.action == newBinding.action)
             {
                 continue;
             }
-            if (duplicateBinding.action != newBinding.action && (duplicateBinding.effectivePath == newBinding.effectivePath 
+            if ((duplicateBinding.action != newBinding.action) && (duplicateBinding.effectivePath == newBinding.effectivePath 
                 || (duplicateBinding.effectivePath.Contains("leftTrigger") && newBinding.effectivePath.Contains("leftTrigger"))
                 || (duplicateBinding.effectivePath.Contains("rightTrigger") && newBinding.effectivePath.Contains("rightTrigger"))))
             {
                 //set gameobject active
                 //activate prompt if player wants to switch the bindings
-                rebindWarning.SetActive(true);
-                actionToRebind.RemoveBindingOverride(bindingIndex);
-                actionToRebind.ApplyBindingOverride(previousBinding);
-                SwapBindingsPrompt(rebindWarning, previousBinding, duplicateBinding);
-                instance.StartCoroutine(DelayInactivation(2f, rebindWarning, rebind));
+                //rebindWarning.SetActive(true);
+                //actionToRebind.RemoveBindingOverride(bindingIndex);
+
+                //actionToRebind.ApplyBindingOverride(previousBinding);
+                //SwapBindingsPrompt(rebindWarning, previousBinding, duplicateBinding);
+                //instance.StartCoroutine(DelayInactivation(2f, rebindWarning, rebind));
                 Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
                 return true;
             }
@@ -313,31 +337,105 @@ public class InputManager : MonoBehaviour
         return false;
     }
 
-    private static void SwapBindingsPrompt(GameObject promptWindow, InputBinding bindingToSwap, InputBinding duplicateFound)
+    private static InputBinding GetDuplicateBinding(InputAction actionToRebind, int bindingIndex)
+    {
+        InputBinding newBinding = actionToRebind.bindings[bindingIndex];
+        Debug.Log("AcctionToRebind " + newBinding.effectivePath);
+        InputBinding duplicate = newBinding;
+        foreach (InputBinding duplicateBinding in actionToRebind.actionMap.bindings)
+        {
+            if (actionToRebind.name.Contains("Move"))
+            {
+                for (int i = 0; i < inputActions.WindlessLand.Move.bindings.Count; i++)
+                {
+                    if (newBinding.effectivePath == inputActions.WindlessLand.Move.bindings[i].effectivePath && bindingIndex != i)
+                    {
+                        duplicate = inputActions.WindlessLand.Move.bindings[i];
+                        Debug.Log("Duplicate retrieved:" + inputActions.WindlessLand.Move.bindings[i].effectivePath);
+                        return duplicate;
+                    }
+                }
+            }
+            if (duplicateBinding.action == newBinding.action)
+            {
+                continue;
+            }
+            if (duplicateBinding.action != newBinding.action && (duplicateBinding.effectivePath == newBinding.effectivePath
+                || (duplicateBinding.effectivePath.Contains("leftTrigger") && newBinding.effectivePath.Contains("leftTrigger"))
+                || (duplicateBinding.effectivePath.Contains("rightTrigger") && newBinding.effectivePath.Contains("rightTrigger"))))
+            {
+                duplicate =  duplicateBinding;
+            }
+        }
+        return duplicate;
+    }
+
+    private static void SwapBindingsPrompt(GameObject promptWindow, InputBinding bindingToSwap, int bindingIndex, InputBinding duplicateBinding)
     {
         promptWindow.SetActive(true);
-        InputAction actionToSwap = inputActions.asset.FindAction(bindingToSwap.action);
-        InputAction duplicateAction = inputActions.asset.FindAction(duplicateFound.action);
-
-        Debug.Log("ActionsToSwap: " + actionToSwap.name + " & " + duplicateAction.name);
-        Debug.Log("BindingsToSwap: " + bindingToSwap.name + " & " + duplicateFound.name);
-
-        InputBinding temp = bindingToSwap;
-        //if (swap)
-        //{
-        actionToSwap.ApplyBindingOverride(duplicateFound);
-        duplicateAction.ApplyBindingOverride(bindingToSwap);
-        //}
+        instance.StartCoroutine(SwapBindings(promptWindow, bindingToSwap, bindingIndex, duplicateBinding));
     }
 
-    public static void OnOkay(GameObject promptWindow)
+    private static IEnumerator SwapBindings(GameObject promptWindow, InputBinding bindingToSwap, int bindingIndex, InputBinding duplicateBinding)
     {
+        GameObject selected = EventSystem.current.currentSelectedGameObject;
+        EventSystem.current.SetSelectedGameObject(promptWindow.transform.GetChild(2).gameObject);
+        while (promptWindow.activeInHierarchy)
+        {
+            yield return null;
+        }
+        if(!promptWindow.activeInHierarchy)
+        {
+            EventSystem.current.SetSelectedGameObject(selected);
+            Debug.Log("selectsbuttonagain");
+            promptWindow.transform.parent.gameObject.SetActive(false);
+            if (instance.swap)
+            {
+                Debug.Log("WORKS");
+                InputAction actionToSwap = inputActions.asset.FindAction(bindingToSwap.action);
+                InputAction duplicateAction = inputActions.asset.FindAction(duplicateBinding.action);
+                int duplicateBindingIndex = bindingIndex;
+                if (!actionToSwap.name.Contains("Move") && !duplicateAction.name.Contains("Move"))
+                {
+                    Debug.Log("ActionsToSwap: " + actionToSwap.name + " & " + duplicateAction.name);
+                    Debug.Log("ActionsToSwap: " + bindingToSwap.action + " & " + duplicateBinding.action);
+                    Debug.Log("BindingsToSwap: " + bindingToSwap.effectivePath + " & " + duplicateBinding.effectivePath);
+                    actionToSwap.ApplyBindingOverride(bindingIndex, duplicateBinding.path);
+                    duplicateAction.ApplyBindingOverride(bindingIndex, bindingToSwap.path);
+                    SaveBindingOverride(actionToSwap); //saves keybindings so they can be loaded upon next playsession
+                    SaveBindingOverride(duplicateAction); //saves keybindings so they can be loaded upon next playsession
+                }
+                if(duplicateAction.name.Contains("Move"))
+                {
+                    Debug.Log(bindingToSwap.path + " " + duplicateBinding.path);
+                    for(int i = 0; i < duplicateAction.bindings.Count; i++)
+                    {
+                        if (duplicateAction.bindings[i].path.Equals(duplicateBinding.path))
+                        {
+                            duplicateBindingIndex = i;
+                        }
+                    }
+                    Debug.Log("Move Binding involved!!");
+                    actionToSwap.ApplyBindingOverride(bindingIndex, duplicateBinding.path);
+                    duplicateAction.ApplyBindingOverride(duplicateBindingIndex, bindingToSwap.path);
+                    Debug.Log("BindingsToSwap: " + actionToSwap.name + bindingIndex + actionToSwap.bindings[bindingIndex].effectivePath +  " + " + duplicateAction.name + duplicateBindingIndex + duplicateAction.bindings[duplicateBindingIndex].effectivePath);
+                    SaveBindingOverride(actionToSwap); //saves keybindings so they can be loaded upon next playsession
+                    SaveBindingOverride(duplicateAction); //saves keybindings so they can be loaded upon next playsession
+                }
+            }
+            rebindComplete?.Invoke();
+        }
+    }
+
+    public void OnOkay(GameObject promptWindow)
+    {
+        swap = true;
         promptWindow.SetActive(false);
-        //swap = true;
     }
 
-    public static void OnCancel(GameObject promptWindow)
+    public void OnCancel(GameObject promptWindow)
     {
+        swap = false;
         promptWindow.SetActive(false);
     }
 

@@ -83,14 +83,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Movement"",
-                    ""type"": ""Value"",
-                    ""id"": ""bc669470-5ef2-459b-bfb2-98c964f397e9"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""f39849ee-73ab-4bd0-863b-c7eaeb0f5203"",
@@ -420,138 +412,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""HorizontalMovement"",
-                    ""id"": ""c405ebe3-58ce-4d70-97db-1c5a3f2e46d9"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""c743915f-2788-4224-9533-4e3439251a63"",
-                    ""path"": ""<Keyboard>/A"",
-                    ""interactions"": """",
-                    ""processors"": ""Normalize(max=1)"",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""a5fc0f01-3418-4408-9e7f-baee87d36841"",
-                    ""path"": ""<Keyboard>/D"",
-                    ""interactions"": """",
-                    ""processors"": ""Normalize(max=1)"",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""HorizontalMovementArrows"",
-                    ""id"": ""22c803c9-538c-4c1d-aac6-ef6a0dad6ec8"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""3aaaeef0-53c3-45ba-913c-d4c2fa8ece21"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": ""Normalize(max=1)"",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""cd330350-e321-430c-88a2-545aab89ec63"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": ""Normalize(max=1)"",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""VerticalMovement"",
-                    ""id"": ""62ae73a6-49e9-4809-b98d-78b7e4646447"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""008d1ea8-88f1-4241-851d-03b20575d521"",
-                    ""path"": ""<Keyboard>/S"",
-                    ""interactions"": """",
-                    ""processors"": ""Normalize(max=1)"",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""ef2f3d8b-b473-4fd5-a7a5-4b64c5f960b1"",
-                    ""path"": ""<Keyboard>/W"",
-                    ""interactions"": """",
-                    ""processors"": ""Normalize(max=1)"",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""VerticalMovementArrows"",
-                    ""id"": ""c7cac121-3442-4940-939f-b861f7ded692"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""35e35394-342e-4f8e-b675-76f4acc331e4"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": ""Normalize(max=1)"",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""81d80c1f-65f4-4aa3-980f-a97222e4a6f6"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": ""Normalize(max=1)"",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""b6c0a971-41c6-4b93-b0b1-a878457d9149"",
                     ""path"": ""<Keyboard>/space"",
@@ -644,7 +504,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         m_WindlessLand_Dodgeroll = m_WindlessLand.FindAction("Dodgeroll", throwIfNotFound: true);
         m_WindlessLand_EquipSword = m_WindlessLand.FindAction("Equip Sword", throwIfNotFound: true);
         m_WindlessLand_EquipBow = m_WindlessLand.FindAction("Equip Bow", throwIfNotFound: true);
-        m_WindlessLand_Movement = m_WindlessLand.FindAction("Movement", throwIfNotFound: true);
         m_WindlessLand_Pause = m_WindlessLand.FindAction("Pause", throwIfNotFound: true);
     }
 
@@ -703,7 +562,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_WindlessLand_Dodgeroll;
     private readonly InputAction m_WindlessLand_EquipSword;
     private readonly InputAction m_WindlessLand_EquipBow;
-    private readonly InputAction m_WindlessLand_Movement;
     private readonly InputAction m_WindlessLand_Pause;
     public struct WindlessLandActions
     {
@@ -717,7 +575,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         public InputAction @Dodgeroll => m_Wrapper.m_WindlessLand_Dodgeroll;
         public InputAction @EquipSword => m_Wrapper.m_WindlessLand_EquipSword;
         public InputAction @EquipBow => m_Wrapper.m_WindlessLand_EquipBow;
-        public InputAction @Movement => m_Wrapper.m_WindlessLand_Movement;
         public InputAction @Pause => m_Wrapper.m_WindlessLand_Pause;
         public InputActionMap Get() { return m_Wrapper.m_WindlessLand; }
         public void Enable() { Get().Enable(); }
@@ -752,9 +609,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @EquipBow.started -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnEquipBow;
                 @EquipBow.performed -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnEquipBow;
                 @EquipBow.canceled -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnEquipBow;
-                @Movement.started -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnMovement;
-                @Movement.performed -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnMovement;
-                @Movement.canceled -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnMovement;
                 @Pause.started -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_WindlessLandActionsCallbackInterface.OnPause;
@@ -786,9 +640,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @EquipBow.started += instance.OnEquipBow;
                 @EquipBow.performed += instance.OnEquipBow;
                 @EquipBow.canceled += instance.OnEquipBow;
-                @Movement.started += instance.OnMovement;
-                @Movement.performed += instance.OnMovement;
-                @Movement.canceled += instance.OnMovement;
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
@@ -833,7 +684,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         void OnDodgeroll(InputAction.CallbackContext context);
         void OnEquipSword(InputAction.CallbackContext context);
         void OnEquipBow(InputAction.CallbackContext context);
-        void OnMovement(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
     }
 }

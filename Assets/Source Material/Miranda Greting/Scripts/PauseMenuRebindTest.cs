@@ -44,16 +44,18 @@ public class PauseMenuRebindTest : MonoBehaviour
     private void OnEnable()
     {
         inputActions.WindlessLand.Enable();
-        inputActions.WindlessLand.Pause.canceled += PausePressed;
+        inputActions.WindlessLand.Pause.performed += PausePressed;
     }
 
     private void Start()
     {
+        /*
         if (!gameObject.GetComponent<PauseMenu>().enabled)
         {
             gameObject.GetComponent<PauseMenu>().enabled = true;
         }
         gameObject.GetComponent<PauseMenuRebindTest>().enabled = false;
+        */
 
 
         checkIfLog();
@@ -91,6 +93,7 @@ public class PauseMenuRebindTest : MonoBehaviour
         //TODO this via events so it can be remapped
         if (Input.GetKeyDown(KeyCode.Escape) || inputActions.WindlessLand.Pause.triggered)
         {
+            Debug.Log("Paused");
             if (gameIsPaused)
             {
                 Resume();
