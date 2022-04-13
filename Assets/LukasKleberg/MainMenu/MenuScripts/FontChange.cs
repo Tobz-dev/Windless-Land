@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-//Main Author: Lukas Kleberg
+//Main Authors: Lukas Kleberg, Miranda Greting
 public class FontChange : MonoBehaviour
 {
 
