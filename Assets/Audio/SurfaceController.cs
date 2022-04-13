@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Main Author : William Smith
+
 public class SurfaceController : MonoBehaviour
 {
 
@@ -20,9 +22,6 @@ public class SurfaceController : MonoBehaviour
     //private FMOD.Studio.EventInstance Mana50;
     //private FMOD.Studio.EventInstance Mana100;
 
-    //private bool Mana50Played = false;
-    //private bool Mana100Played = false;
-
     //private CharacterController playerScript;
 
     //private void Start()
@@ -34,35 +33,7 @@ public class SurfaceController : MonoBehaviour
     private void Update()
     {
         DetermineTerrain();
-
-        //if ((playerScript.GetMana() >= 50) && (Mana50Played = false))
-        //{
-        //    PlayMana50();
-        //    Mana50Played = true;
-        //}
-
-        //if ((playerScript.GetMana() >= 100) && (Mana100Played = false))
-        //{
-        //    PlayMana100();
-        //    Mana100Played = true;
-        //}
     }
-
-    //private void PlayMana50()
-    //{
-    //    Mana50 = FMODUnity.RuntimeManager.CreateInstance("event:/Game/ManaFeedback");
-    //    Mana50.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
-    //    Mana50.start();
-    //    Mana50.release();
-    //}
-
-    //private void PlayMana100()
-    //{
-    //    Mana100 = FMODUnity.RuntimeManager.CreateInstance("event:/Game/ManaFeedback100");
-    //    Mana100.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
-    //    Mana100.start();
-    //    Mana100.release();
-    //}
 
     private void DetermineTerrain()
     {

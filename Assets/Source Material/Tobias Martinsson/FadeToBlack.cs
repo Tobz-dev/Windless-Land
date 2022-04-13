@@ -3,25 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+//Main Author: Tobias Martinsson
 public class FadeToBlack : MonoBehaviour
 {
+    [SerializeField]
     Color objectColor;
-    // Start is called before the first frame update
+    [SerializeField]
     float fadeSpeed = 0.35f;
 
+    //Calls coroutine to activate the blackscreen fade-in
     public void ActivateBlackScreen()
     {
         
         StartCoroutine(FadeOut());
     }
-
+    //Calls coroutine to activate the blackscreen fade-out
     public void DisableBlackScreen()
     {
 
         StartCoroutine(FadeIn());
     }
 
+    //Fades out the screen, aka fades in a black-screen. 
     private IEnumerator FadeOut()
     {
     
@@ -39,7 +42,7 @@ public class FadeToBlack : MonoBehaviour
         //StartCoroutine(FadeIn());
 
     }
-
+    //Fades in the normal screen, aka fades out the blackscreen.
     private IEnumerator FadeIn()
     {
 

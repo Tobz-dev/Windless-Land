@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// Main Author : William Smith
 public class GateOpenSound : MonoBehaviour
 {
+
     private FMOD.Studio.EventInstance GateOpen;
 
     public void PlayGateSound()

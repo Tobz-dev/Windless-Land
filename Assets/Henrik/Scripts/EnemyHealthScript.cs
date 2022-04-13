@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+//secondary Author: Henrik Ruden, William Smith
+
 public class EnemyHealthScript : MonoBehaviour
 {
 
@@ -39,6 +41,12 @@ public class EnemyHealthScript : MonoBehaviour
     private void Awake()
     {
         health = Maxhealth;
+
+        if (System.IO.File.Exists(Application.persistentDataPath + "Config.ini"))
+        {
+            UpdateConfig();
+
+        }
     }
 
     private void Start()
@@ -193,12 +201,12 @@ public class EnemyHealthScript : MonoBehaviour
     }
 
 
-    public void setConfig(int newMaxhealth)
+    public void SetConfig(int newMaxhealth)
     {
         Maxhealth = newMaxhealth;
     }
 
-    public void updateConfig()
+    public void UpdateConfig()
     {
         if (type == "Light" || type == "Heavy")
         {
@@ -226,7 +234,7 @@ public class EnemyHealthScript : MonoBehaviour
         }
     }
 
-    public int getMaxhealth()
+    public int GetMaxhealth()
     {
         return Maxhealth;
     }

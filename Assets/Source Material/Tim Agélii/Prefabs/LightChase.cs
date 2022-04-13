@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//Main Author: Tim Agélii
-//kod tagen från AIChase
+//Main Author: Tim Agelii
+//State machine code taken from AIChase script
 [CreateAssetMenu()]
 public class LightChase : State
 {
@@ -28,13 +28,13 @@ public class LightChase : State
 
         if (Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) <= AttackDistance)
         {
-            Debug.Log("Entering attack pattern");
+
             StateMachine.ChangeState<LightAttackpattern>();
         }
 
         if (Physics.Linecast(Agent.transform.position, Agent.PlayerPosition, Agent.CollisionLayer))
         {
-            Debug.Log("Entering patrol");
+
             StateMachine.ChangeState<LightPatrol>();
         }
 

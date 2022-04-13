@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 //Main Author: Tobias Martinsson
+
 [CreateAssetMenu()]
 public class BossIdleScript : State
 {
+    //Variables
     public float initialAggroDistance;
     SomeAgent Agent;
-
-
     private Transform CurrentPatrol;
     private Quaternion originalRotation;
 
@@ -23,6 +23,8 @@ public class BossIdleScript : State
 
     public override void Enter()
     {
+        //Makes sure when the boss enters 'idle', it resets all relevant variables and disables the hitbox, as well as
+        //respawns the platforms at the beginning, as well as destroying any lingering enemies that might be still alive.
         Agent.GetComponent<SphereCollider>().enabled = false;
         GameObject bossCanvas = GameObject.FindGameObjectWithTag("BossHUD");
         bossCanvas.GetComponent<Canvas>().enabled = false;
@@ -42,6 +44,8 @@ public class BossIdleScript : State
         }
 
     }
+
+    //Returns to boss to his idle position, and checks if player comes within aggro distance, to then go into the state where he starts attacking.
     public override void RunUpdate()
     {
         Agent.transform.rotation = originalRotation;

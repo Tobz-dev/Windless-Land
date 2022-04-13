@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Main Author: Tobias Martinsson
+//Un-used.
 public class RotatingArrowTrap : MonoBehaviour
 {
     private float timeLeft = 0.1f;

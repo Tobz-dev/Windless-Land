@@ -18,6 +18,7 @@ public class BossFloorAttackState : State
         originalRotation = Agent.transform.rotation;
     }
 
+    //Spawns one of three attacks, decided at randomly.
     public override void Enter()
     {
         Agent.transform.rotation = originalRotation;

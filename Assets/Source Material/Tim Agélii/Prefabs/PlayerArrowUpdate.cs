@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//Main Author: Tim Agelii
 
 public class PlayerArrowUpdate : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class PlayerArrowUpdate : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      ArrowRgb =  transform.GetComponent<Rigidbody>();
+        ArrowRgb = transform.GetComponent<Rigidbody>();
         ArrowRgb.velocity = transform.forward * speed;
     }
 
@@ -20,6 +21,6 @@ public class PlayerArrowUpdate : MonoBehaviour
         ArrowRgb.velocity = transform.forward * speed;
     }
 
-    // Update is called once per frame
- 
+
+
 }

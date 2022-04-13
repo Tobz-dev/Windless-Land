@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 
 //Main Author: Ilirian Zuta
+//Secondary Author: William Smith
 public class DoorOpenAnim : MonoBehaviour
 {
 

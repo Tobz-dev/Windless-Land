@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Main Author: Henrik Ruden
+
 
 public class HenrikPrototype : MonoBehaviour
 {
@@ -83,7 +85,7 @@ public class HenrikPrototype : MonoBehaviour
 
             if (player != null)
             {
-                player.gameObject.GetComponent<CharacterController>().updateAutoaim();
+                player.gameObject.GetComponent<CharacterController>().UpdateAutoaim();
             }
             
         }
@@ -97,7 +99,7 @@ public class HenrikPrototype : MonoBehaviour
 
             if (player != null)
             {
-                player.gameObject.GetComponent<CharacterController>().updateAutoaim();
+                player.gameObject.GetComponent<CharacterController>().UpdateAutoaim();
             }
         }
 
@@ -150,7 +152,7 @@ public class HenrikPrototype : MonoBehaviour
         ini.Close();
         if (player != null)
         {
-            player.gameObject.GetComponent<CharacterController>().updateAutoaim();
+            player.gameObject.GetComponent<CharacterController>().UpdateAutoaim();
         }
 
         autoAimCheckbox.enabled = false;

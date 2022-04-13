@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 //Main Author: Henrik Rud�n
-//secondary Author: Tim Ag�lii
+//secondary Author: Tim Agelii
 //Minor additions: Ilirian Zuta
 public class newHitbox : MonoBehaviour
 {
@@ -36,9 +36,13 @@ public class newHitbox : MonoBehaviour
             {
                 invincibility = true;
             }
+            if (other.gameObject.GetComponent<CharacterController>().GetInvincibility() == false)
+            {
+                invincibility = false;
+            }
 
 
-        }
+            }
 
         if (other.gameObject.tag == target && invincibility == false)
         {
@@ -55,9 +59,7 @@ public class newHitbox : MonoBehaviour
 
            
         }
-        else if(invincibility == true) {
-            invincibility = false;
-        }
+     
 
         if(other.gameObject.tag == Barrel)
         {
@@ -100,12 +102,12 @@ public class newHitbox : MonoBehaviour
     }
 
 
-    public void setConfig(int newdamage)
+    public void SetConfig(int newdamage)
     {
         damage = newdamage;
     }
 
-    public int getDamage()
+    public int GetDamage()
     {
         return damage;
     }

@@ -9,7 +9,6 @@ public class DestroyBarrels : MonoBehaviour
 
 
     
-    //[SerializeField] private GameObject sword;
 
 
 
@@ -22,7 +21,12 @@ public class DestroyBarrels : MonoBehaviour
         
         Instantiate(destroyedBarrel, transform.position, transform.rotation);
         Destroy(gameObject);
+        StartCoroutine(destroySecondBarrel());
     }
 
-
+    private IEnumerator destroySecondBarrel()
+    {
+        yield return new WaitForSeconds(3f);
+        destroyedBarrel.SetActive(false);
+    }
 }

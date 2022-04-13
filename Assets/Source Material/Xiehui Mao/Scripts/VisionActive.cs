@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Main Author:Xiehui Mao
 public class VisionActive : MonoBehaviour
 {
     public GameObject visionedCamera;
+    public Camera normalcamera;
+    public Camera visionedcamera;
     private bool activ;
     // Start is called before the first frame update
     void Start()
@@ -22,6 +25,8 @@ public class VisionActive : MonoBehaviour
         else
         {
             visionedCamera.SetActive(false);
+            normalcamera.enabled = true;
+            visionedcamera.enabled = false;
             activ = !activ;
         }
     }

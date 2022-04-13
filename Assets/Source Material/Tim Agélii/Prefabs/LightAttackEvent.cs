@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Main Author: Tim Agelii
 public class LightAttackEvent : MonoBehaviour
 {
 
@@ -9,9 +9,9 @@ public class LightAttackEvent : MonoBehaviour
 
     private float enemySpeed;
 
-    private bool flee = false; 
 
-    public void SetStopAttack(bool b) {
+    public void SetStopAttack(bool b)
+    {
         stopAttack = b;
     }
     public void SetStopAttackTrue()
@@ -25,7 +25,7 @@ public class LightAttackEvent : MonoBehaviour
 
     public void SetEnemySpeed(float f)
     {
-            enemySpeed = f;
+        enemySpeed = f;
     }
 
     public float GetEnemySpeed()
@@ -33,16 +33,4 @@ public class LightAttackEvent : MonoBehaviour
         return enemySpeed;
     }
 
-    public void SetFleeTrue()
-    {
-        flee = true;
-    }
-    public void SetFleeFalse()
-    {
-        flee = false;
-    }
-    public bool GetFlee()
-    {
-        return flee;
-    }
 }

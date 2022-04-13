@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-//Main Author: Tim Agélii
-//statemachine kod tagen från aiattack
+//Main Author: Tim Agelii
+
 [CreateAssetMenu()]
 public class LightAttackpattern : State
 {
@@ -34,7 +34,7 @@ public class LightAttackpattern : State
 
     private float moveSpeed = 0;
 
- 
+
 
     Vector3 turnDirection;
 
@@ -43,7 +43,7 @@ public class LightAttackpattern : State
     private bool allowStop = true;
 
 
-  
+
     private bool startAttack = false;
 
 
@@ -51,9 +51,9 @@ public class LightAttackpattern : State
 
     private bool inAttack = false;
 
-   // private bool flee = false;
+    // private bool flee = false;
 
-    
+
 
     //hitbox variables
 
@@ -70,7 +70,7 @@ public class LightAttackpattern : State
     [SerializeField]
     private Animator enemyAnim;
 
-    
+
 
     protected override void Initialize()
     {
@@ -90,58 +90,60 @@ public class LightAttackpattern : State
     }
     public override void RunUpdate()
     {
-      
-           
-         moveSpeed = GetSpeed();
+
+
+        moveSpeed = GetSpeed();
         Agent.NavAgent.speed = moveSpeed;
 
-    
+
         stopAttack = GetStopAttack();
-      
+
 
         playerToEnemyDir = Agent.transform.position - Agent.PlayerPosition;
         playerToEnemyDistance = Vector3.Distance(Agent.transform.position, Agent.PlayerPosition);
 
 
-      
-           //flee = GetFlee();
+
+        //flee = GetFlee();
         /*if (flee == true)
         {
             Agent.NavAgent.isStopped = false;
             Agent.NavAgent.SetDestination(Agent.transform.position + playerToEnemyDir);
         }*/
-         
-            Agent.NavAgent.SetDestination(Agent.PlayerPosition);
-        
-     
 
-        
-            if (Mathf.Abs(playerToEnemyDistance) <= enemyStoppingDistance)
+        Agent.NavAgent.SetDestination(Agent.PlayerPosition);
+
+
+
+
+        if (Mathf.Abs(playerToEnemyDistance) <= enemyStoppingDistance)
         {
             Agent.NavAgent.isStopped = true;
         }
         else
         {
-            
-                Agent.NavAgent.isStopped = false;
-           }
-        
+
+            Agent.NavAgent.isStopped = false;
+        }
+
 
 
         if ((Mathf.Abs(playerToEnemyDistance) <= enemyMeleeDistance) && inAttack == false)
         {
             inMeleeRange = true;
-        } else if ((Mathf.Abs(playerToEnemyDistance) > enemyMeleeDistance)) {
+        }
+        else if ((Mathf.Abs(playerToEnemyDistance) > enemyMeleeDistance))
+        {
             inMeleeRange = false;
         }
 
-       
 
 
 
 
-            AttackPattern();
-        
+
+        AttackPattern();
+
         if ((Vector3.Distance(Agent.transform.position, Agent.PlayerPosition) >= outOfRange) && allowStop)
         {
 
@@ -150,14 +152,16 @@ public class LightAttackpattern : State
         }
     }
 
-    float GetSpeed(){
+    private float GetSpeed()
+    {
         return Agent.transform.GetComponentInParent<LightAttackEvent>().GetEnemySpeed();
     }
 
-    bool GetStopAttack() {
+    private bool GetStopAttack()
+    {
         return Agent.transform.GetComponentInParent<LightAttackEvent>().GetStopAttack();
     }
-   
+
     /*bool GetFlee()
     {
         return Agent.transform.GetComponentInParent<LightAttackEvent>().GetFlee();
@@ -166,33 +170,34 @@ public class LightAttackpattern : State
        Agent.transform.GetComponentInParent<LightAttackEvent>().SetFleeFalse();
     }
     */
-    void SetStopAttackFalse()
+    private void SetStopAttackFalse()
     {
-         Agent.transform.GetComponentInParent<LightAttackEvent>().SetStopAttack(false);
+        Agent.transform.GetComponentInParent<LightAttackEvent>().SetStopAttack(false);
     }
-  
 
 
-    void AttackPattern()
+
+    private void AttackPattern()
     {
         inAttack = true;
 
         LookAtPlayer();
         if (waitToAttack == true)
         {
-      
+
             WaitToAttack();
-           
+
         }
         if (startAttack == true)
         {
-           // SetFleeFalse();
+            // SetFleeFalse();
             Attack();
-         
+
         }
-      
-     
-        if (stopAttack == true) {
+
+
+        if (stopAttack == true)
+        {
             ResetPattern();
             inAttack = false;
         }
@@ -200,47 +205,48 @@ public class LightAttackpattern : State
 
     }
 
-    void WaitToAttack()
+    private void WaitToAttack()
     {
         allowStop = false;
         if (AttackWaitTimer(attackWaitTime))
         {
             waitToAttack = false;
-         
+
             startAttack = true;
-           
+
         }
-     
+
 
     }
 
-    void LookAtPlayer()
+    private void LookAtPlayer()
     {
-       // if (Agent.NavAgent.isStopped == true) {
-            turnDirection = Agent.Player.position - Agent.transform.position;
-            turnDirection.Normalize();
-            Agent.transform.rotation = Quaternion.Slerp(Agent.transform.rotation, Quaternion.LookRotation(turnDirection), turnSpeed * Time.deltaTime);
-   //     }
-        
+        // if (Agent.NavAgent.isStopped == true) {
+        turnDirection = Agent.Player.position - Agent.transform.position;
+        turnDirection.Normalize();
+        Agent.transform.rotation = Quaternion.Slerp(Agent.transform.rotation, Quaternion.LookRotation(turnDirection), turnSpeed * Time.deltaTime);
+        //     }
 
-        
+
+
 
     }
 
-    void Attack()
+    private void Attack()
     {
 
 
         if (startAttack == true)
         {
-           
+
 
             if (inMeleeRange)
             {
                 Agent.animator.SetTrigger("StartAttack2");
             }
-            else {
-              
+            else
+            {
+
 
                 Agent.animator.SetTrigger("StartAttack");
 
@@ -248,24 +254,25 @@ public class LightAttackpattern : State
 
             startAttack = false;
 
-       
+
 
         }
     }
-   
 
-    
 
-    void ResetPattern() {
+
+
+    private void ResetPattern()
+    {
         allowStop = true;
         waitToAttack = true;
-       
+
         SetStopAttackFalse();
         Agent.animator.SetTrigger("StopAttack");
     }
 
-   
-   
+
+
 
 
     private bool AttackWaitTimer(float seconds)

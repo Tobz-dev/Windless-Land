@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//Main Author: Henrik Ruden
+
 public class ConfigController : MonoBehaviour
 {
 
@@ -20,9 +23,8 @@ public class ConfigController : MonoBehaviour
     [SerializeField]
     private GameObject enemyHeavy;
 
-    public bool noData = true;
-
-    public GameObject[] enemies;
+    [SerializeField]
+    private GameObject[] enemies;
 
 
     void Start()
@@ -61,24 +63,24 @@ public class ConfigController : MonoBehaviour
         //Player
         if (player != null)
         {
-            ini.WriteValue("Player", "maxMana;", player.gameObject.GetComponent<CharacterController>().getMaxMana());
-            ini.WriteValue("Player", "moveSpeed;", player.gameObject.GetComponent<CharacterController>().getMoveSpeed());
-            ini.WriteValue("Player", "maxhealth;", player.gameObject.GetComponent<PlayerHealthScript>().getMaxHealth());
-            ini.WriteValue("Player", "manaPerHit;", hitboxPlayer.gameObject.GetComponent<PlayerAttackHitbox>().getManaPerHit());
+            ini.WriteValue("Player", "maxMana;", player.gameObject.GetComponent<CharacterController>().GetMaxMana());
+            ini.WriteValue("Player", "moveSpeed;", player.gameObject.GetComponent<CharacterController>().GetMoveSpeed());
+            ini.WriteValue("Player", "maxhealth;", player.gameObject.GetComponent<PlayerHealthScript>().GetMaxHealth());
+            ini.WriteValue("Player", "manaPerHit;", hitboxPlayer.gameObject.GetComponent<PlayerAttackHitbox>().GetManaPerHit());
         }
 
 
         //Font
         if (fontChanger != null)
         {
-        ini.WriteValue("Font", "fontSize;", fontChanger.gameObject.GetComponent<FontChange>().getFontIndex());
-        ini.WriteValue("Font", "fontIndex;", fontChanger.gameObject.GetComponent<FontChange>().getFontSize());
+        ini.WriteValue("Font", "fontSize;", fontChanger.gameObject.GetComponent<FontChange>().GetFontIndex());
+        ini.WriteValue("Font", "fontIndex;", fontChanger.gameObject.GetComponent<FontChange>().GetFontSize());
         }
         //Enemy
-        ini.WriteValue("Enemy", "LightDamage;", hitboxLight.gameObject.GetComponent<newHitbox>().getDamage());
-        ini.WriteValue("Enemy", "HeavyDamage;", hitboxHeavy.gameObject.GetComponent<newHitbox>().getDamage());
-        ini.WriteValue("Enemy", "LightMaxhealth;", enemyLight.gameObject.GetComponent<EnemyHealthScript>().getMaxhealth());
-        ini.WriteValue("Enemy", "HeavyMaxhealth;", enemyHeavy.gameObject.GetComponent<EnemyHealthScript>().getMaxhealth());
+        ini.WriteValue("Enemy", "LightDamage;", hitboxLight.gameObject.GetComponent<newHitbox>().GetDamage());
+        ini.WriteValue("Enemy", "HeavyDamage;", hitboxHeavy.gameObject.GetComponent<newHitbox>().GetDamage());
+        ini.WriteValue("Enemy", "LightMaxhealth;", enemyLight.gameObject.GetComponent<EnemyHealthScript>().GetMaxhealth());
+        ini.WriteValue("Enemy", "HeavyMaxhealth;", enemyHeavy.gameObject.GetComponent<EnemyHealthScript>().GetMaxhealth());
 
 
         ini.Close();
@@ -126,25 +128,25 @@ public class ConfigController : MonoBehaviour
         if (player != null)
         {
             Debug.Log(player);
-            player.gameObject.GetComponent<CharacterController>().setConfig(ini.ReadValue("Player", "maxMana;", 100), (float)ini.ReadValue("Player", "moveSpeed;", 5.5f));
-            player.gameObject.GetComponent<PlayerHealthScript>().setConfig(ini.ReadValue("Player", "maxhealth;", 5));
-            hitboxPlayer.gameObject.GetComponent<PlayerAttackHitbox>().setConfig(ini.ReadValue("Player", "manaPerHit;", 10));
+            player.gameObject.GetComponent<CharacterController>().SetConfig(ini.ReadValue("Player", "maxMana;", 100), (float)ini.ReadValue("Player", "moveSpeed;", 5.5f));
+            player.gameObject.GetComponent<PlayerHealthScript>().SetConfig(ini.ReadValue("Player", "maxhealth;", 5));
+            hitboxPlayer.gameObject.GetComponent<PlayerAttackHitbox>().SetConfig(ini.ReadValue("Player", "manaPerHit;", 10));
         }
 
         if (fontChanger != null)
         {
             //Font
-            fontChanger.gameObject.GetComponent<FontChange>().setConfig(ini.ReadValue("Font", "fontSize;", 5), ini.ReadValue("Font", "fontIndex;", 0));
+            fontChanger.gameObject.GetComponent<FontChange>().SetConfig(ini.ReadValue("Font", "fontSize;", 5), ini.ReadValue("Font", "fontIndex;", 0));
         }
 
         //Enemy
-        hitboxLight.gameObject.GetComponent<newHitbox>().setConfig(ini.ReadValue("Enemy", "LightDamage;", 1));
-        hitboxHeavy.gameObject.GetComponent<newHitbox>().setConfig(ini.ReadValue("Enemy", "HeavyDamage;", 2));
+        hitboxLight.gameObject.GetComponent<newHitbox>().SetConfig(ini.ReadValue("Enemy", "LightDamage;", 1));
+        hitboxHeavy.gameObject.GetComponent<newHitbox>().SetConfig(ini.ReadValue("Enemy", "HeavyDamage;", 2));
 
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemy in enemies)
         {
-            enemy.gameObject.GetComponent<EnemyHealthScript>().updateConfig();
+            enemy.gameObject.GetComponent<EnemyHealthScript>().UpdateConfig();
         }
 
 
