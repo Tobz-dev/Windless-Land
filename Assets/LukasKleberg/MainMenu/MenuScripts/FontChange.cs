@@ -26,7 +26,7 @@ public class FontChange : MonoBehaviour
     {
         for (int i = 0; i <= objectsToGetTextFromAndSetInactive.Length - 1; i++)
         {
-            //Debug.Log(" FontChange object is " + objectsToGetTextFromAndSetInactive[i].name);
+            Debug.Log(" FontChange object is " + objectsToGetTextFromAndSetInactive[i].name);
             if (objectsToGetTextFromAndSetInactive[i] != null)
             {
                 objectsToGetTextFromAndSetInactive[i].SetActive(true);
