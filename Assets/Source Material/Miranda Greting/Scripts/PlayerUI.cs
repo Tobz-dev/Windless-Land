@@ -61,7 +61,7 @@ public class PlayerUI : MonoBehaviour
         }
         else
         {
-            Debug.Log("Activate CharacterController script!!!");
+            //Debug.Log("Activate CharacterController script!!!");
         }
 
         //check for health value change

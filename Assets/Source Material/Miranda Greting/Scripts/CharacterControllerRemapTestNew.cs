@@ -285,7 +285,7 @@ public class CharacterControllerRemapTestNew : MonoBehaviour
     {
         if (moveAllow && (Mathf.Abs(movementInput.x) + Mathf.Abs(movementInput.y)) != 0)
         {
-            Debug.Log(controlUsed);
+            //Debug.Log(controlUsed);
             Vector3 horizontal = movementInput.x * right;
             Vector3 vertical = movementInput.y * forward;
             if ((inputActions.WindlessLand.Move.bindings[3].effectivePath.Equals("<Keyboard>/a") || inputActions.WindlessLand.Move.bindings[3].effectivePath.Equals("<Keyboard>/leftArrow")) && (inputActions.WindlessLand.Move.bindings[4].effectivePath.Equals("<Keyboard>/d") || inputActions.WindlessLand.Move.bindings[4].effectivePath.Equals("<Keyboard>/rightArrow")) && !controlUsed.Contains("Gamepad")) {

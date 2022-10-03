@@ -93,7 +93,7 @@ public class PauseMenuRebindTest : MonoBehaviour
         //TODO this via events so it can be remapped
         if (Input.GetKeyDown(KeyCode.Escape) || inputActions.WindlessLand.Pause.triggered)
         {
-            Debug.Log("Paused");
+            //Debug.Log("Paused");
             if (gameIsPaused)
             {
                 Resume();

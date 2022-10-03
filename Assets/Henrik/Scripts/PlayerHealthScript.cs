@@ -53,7 +53,7 @@ public class PlayerHealthScript : MonoBehaviour
 
         scene = SceneManager.GetActiveScene();
         chilldrenAmount = transform.childCount;
-        health = Maxhealth;
+        //health = Maxhealth;
         //HealthSetup();
         currentFlaskAmount = startingFlasks;
         
@@ -186,6 +186,6 @@ public class PlayerHealthScript : MonoBehaviour
     public void SetConfig(int newMaxHealth)
     {
         Maxhealth = newMaxHealth;
-        health = Maxhealth;
+        //health = Maxhealth;
     }
 }

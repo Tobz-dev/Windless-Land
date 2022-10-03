@@ -18,13 +18,14 @@ public class DialogueSystem : MonoBehaviour
 
     public void TriggerDialogue()
     {
-        FindObjectOfType<DialogueManager>().StartDialogue(dialogue, spawnPos);
+        //FindObjectOfType<DialogueManager>().StartDialogue(dialogue, spawnPos);
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            //Debug.Log("player entered dialogue");
             if(!interactionPrompt.activeInHierarchy && dialogueManager.GetDialogueEnded())
             {
                 interactionPrompt.SetActive(true);

@@ -80,7 +80,7 @@ public class MoveUI : MonoBehaviour
         SaveParentScale(movableObject.localScale);
         SaveUIScale();
         PlayerPrefs.Save();
-        Debug.Log("SavedScaleOnDisable: " + PlayerPrefs.GetString(movableObject.name + "Scale"));
+        //Debug.Log("SavedScaleOnDisable: " + PlayerPrefs.GetString(movableObject.name + "Scale"));
 
     }
 
@@ -94,7 +94,7 @@ public class MoveUI : MonoBehaviour
 
         if (PlayerPrefs.GetString(movableObject.name + "Scale") != null)
         {
-            Debug.Log("NotNull");
+            //Debug.Log("NotNull");
             scaleSlider.value = 1;
         }
         scaleScript = scaleSlider.GetComponent<ScaleManager>();
@@ -139,10 +139,10 @@ public class MoveUI : MonoBehaviour
         movableObject.GetChild(1).gameObject.SetActive(false); //inactivates 'selected particles'
         inputActions = InputManager.inputActions;
         inputActions.WindlessLand.Move.performed += MovePerformed;
-        Debug.Log(movableObject.anchoredPosition);
+        //Debug.Log(movableObject.anchoredPosition);
         LoadUI();
         individualEditToggle.onValueChanged.AddListener((value) => { SaveToggleStatus(); });
-        Debug.Log("After Save/Load: " + movableObject.anchoredPosition);
+        //Debug.Log("After Save/Load: " + movableObject.anchoredPosition);
 
         UIMenu.SetActive(false);
         InactivatePrototype(true);
@@ -198,8 +198,8 @@ public class MoveUI : MonoBehaviour
     public void SaveParentScale(Vector3 scale)
     {
         PlayerPrefs.SetString(movableObject.name + "Scale", scale.x + "&" + scale.y);
-        Debug.Log(movableObject.name + " Saved Scale = " + scale);
-        Debug.Log("Playerprefs save: " + PlayerPrefs.GetString(movableObject.name + "Scale"));
+        //Debug.Log(movableObject.name + " Saved Scale = " + scale);
+        //Debug.Log("Playerprefs save: " + PlayerPrefs.GetString(movableObject.name + "Scale"));
     }
 
     public void SaveToggleStatus()
@@ -227,7 +227,7 @@ public class MoveUI : MonoBehaviour
         //PlayerPrefs.DeleteKey(movableObject + "Scale");
         LoadPositions(movableObject.gameObject, startPos, "Position");
         LoadPositions(movableObject.gameObject, originalScale, "Scale");
-        Debug.Log(originalScale + " = originalScale");
+        //Debug.Log(originalScale + " = originalScale");
         for (int i = 0; i < editableObjects.Length; i++)
         {
             LoadPositions(editableObjects[i], startPositions[i], "Position");
@@ -241,7 +241,7 @@ public class MoveUI : MonoBehaviour
         string scaleOrPos = PlayerPrefs.GetString(savedObject.name + type);
         if (savedObject == movableObject.gameObject && type.Equals("Scale"))
         {
-            Debug.Log(savedObject.name + "Saved playerprefs scale" + PlayerPrefs.GetString(savedObject.name + type));
+            //Debug.Log(savedObject.name + "Saved playerprefs scale" + PlayerPrefs.GetString(savedObject.name + type));
         }
 
         if (scaleOrPos.IndexOf('&') == -1)
@@ -309,8 +309,8 @@ public class MoveUI : MonoBehaviour
                 scaleOrPosY = scaleOrPosY.Substring(1);
                 yMultiplier = -1;
             }
-            Debug.Log("loaded x value: " + type + scaleOrPosX);
-            Debug.Log("loaded y value: " + type + scaleOrPosY);
+            //Debug.Log("loaded x value: " + type + scaleOrPosX);
+            //Debug.Log("loaded y value: " + type + scaleOrPosY);
             Vector2 savedData = new Vector2(startPos.x, startPos.y);
 
             try
@@ -319,7 +319,7 @@ public class MoveUI : MonoBehaviour
             }
             catch (FormatException e)
             {
-                Debug.Log(e + " pos.x");
+                //Debug.Log(e + " pos.x");
             }
             try
             {
@@ -327,7 +327,7 @@ public class MoveUI : MonoBehaviour
             }
             catch (FormatException e)
             {
-                Debug.Log(e + " pos.y");
+                //Debug.Log(e + " pos.y");
             }
             if (type.Equals("Position"))
             {
@@ -337,7 +337,7 @@ public class MoveUI : MonoBehaviour
             {
                 try
                 {
-                    Debug.Log(savedObject.name + " loaded scale = " + savedData);
+                    //Debug.Log(savedObject.name + " loaded scale = " + savedData);
                     savedObject.GetComponent<RectTransform>().localScale = new Vector3(savedData.x, savedData.y, 1); //sets current scale to save data
                 }
                 catch (Exception)
