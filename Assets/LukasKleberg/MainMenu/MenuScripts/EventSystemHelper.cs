@@ -30,6 +30,7 @@ public class EventSystemHelper : MonoBehaviour
             if(isKeyBoardActive) 
             {
                 Cursor.lockState = CursorLockMode.None;
+                //Cursor.visible = true;
                 DisableSelection();
             }
             
@@ -47,8 +48,11 @@ public class EventSystemHelper : MonoBehaviour
             else 
             {
                 //else it is a keyboard input, then diable the mouse cursor. and enable to eventsystem selection.
+
+                //Hmm. this makes it so the cursor can be on a button in the center. and I do want to avoid that.
                 Cursor.lockState = CursorLockMode.Locked;
                 //Cursor.visible = false;
+
 
                 isKeyBoardActive = true;
 
