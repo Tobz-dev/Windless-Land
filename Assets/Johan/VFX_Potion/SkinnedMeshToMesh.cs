@@ -27,7 +27,7 @@ public class SkinnedMeshToMesh : MonoBehaviour
             newMesh2.vertices = vertices;
 
             VFXGraph.SetMesh("PlayerMesh", newMesh2);
-            Debug.Log("Changed mesh");
+            //Debug.Log("Changed mesh");
         }
     }
     

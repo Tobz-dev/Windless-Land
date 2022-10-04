@@ -36,7 +36,7 @@ public class FadeToBlack : MonoBehaviour
 
             objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
             gameObject.GetComponent<Image>().color = objectColor;
-            Debug.Log("Faded to black");
+            //Debug.Log("Faded to black");
             yield return null;
         }
         //StartCoroutine(FadeIn());
@@ -55,7 +55,7 @@ public class FadeToBlack : MonoBehaviour
 
             objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
             gameObject.GetComponent<Image>().color = objectColor;
-            Debug.Log("Faded to black");
+            //Debug.Log("Faded to transparent");
             yield return null;
         }
         gameObject.SetActive(false);

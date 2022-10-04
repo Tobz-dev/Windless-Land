@@ -56,6 +56,7 @@ public class PlayerHealthScript : MonoBehaviour
         //health = Maxhealth;
         //HealthSetup();
         currentFlaskAmount = startingFlasks;
+        Debug.Log("in PlayerhealthScript. maxhealth is: " + Maxhealth);
         
         //flaskAmountText.text = maxFlasks + "/" + maxFlasks;
     }
@@ -91,20 +92,20 @@ public class PlayerHealthScript : MonoBehaviour
             health -= x;
             GetComponent<PlayerVFX>().PlayBloodEffect();
             
-                //HealthSetup();
-                damageIsOnCooldown = true;
-                startInvincibilityTimer = true;
+            //HealthSetup();
+            damageIsOnCooldown = true;
+            startInvincibilityTimer = true;
 
-                cameraFollow.StartShake();
+            cameraFollow.StartShake();
 
-                PlayerHurt = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Hurt");
-                PlayerHurt.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
-                PlayerHurt.start();
-                PlayerHurt.release();
+            PlayerHurt = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Hurt");
+            PlayerHurt.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+            PlayerHurt.start();
+            PlayerHurt.release();
 
-                FMODUnity.RuntimeManager.StudioSystem.setParameterByName("TakeDamageEffect", 1);
+            FMODUnity.RuntimeManager.StudioSystem.setParameterByName("TakeDamageEffect", 1);
 
-                gameObject.GetComponent<CharacterController>().StartPlayerStun();
+            gameObject.GetComponent<CharacterController>().StartPlayerStun();
 
 
 
@@ -136,7 +137,7 @@ public class PlayerHealthScript : MonoBehaviour
         }
       
         //HealthSetup();
-        Debug.Log("REGAINED" + x + " HEALTH,  MAX IS NOW " + health);
+        //Debug.Log("REGAINED" + x + " HEALTH,  MAX IS NOW " + health);
     }
 
    
@@ -185,7 +186,7 @@ public class PlayerHealthScript : MonoBehaviour
 
     public void SetConfig(int newMaxHealth)
     {
-        Maxhealth = newMaxHealth;
+        //Maxhealth = newMaxHealth;
         //health = Maxhealth;
     }
 }

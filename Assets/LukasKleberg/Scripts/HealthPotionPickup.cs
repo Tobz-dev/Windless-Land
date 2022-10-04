@@ -20,6 +20,8 @@ public class HealthPotionPickup : MonoBehaviour
             //collision.gameObject.GetComponent<PlayerHealthScript>().IncreasePotionAmount(amountOfPotionsGiven);
             int potionAmount = (int)script.GetFlaskUses();
             script.SetFlaskUses(potionAmount + amountOfPotionsGiven);
+            script.IncreaseMaxFlaskUses(amountOfPotionsGiven);
+
             PotionPickUp = FMODUnity.RuntimeManager.CreateInstance("event:/Game/HealthPickup");
             PotionPickUp.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
             PotionPickUp.start();

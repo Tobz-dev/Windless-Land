@@ -72,7 +72,7 @@ public class MoveUI : MonoBehaviour
             movableObject.gameObject.SetActive(true);
             gameObject.SetActive(true);
         }
-        Debug.Log("SavedScaleOnEnable: " + PlayerPrefs.GetString(movableObject.name + "Scale"));
+        //Debug.Log("SavedScaleOnEnable: " + PlayerPrefs.GetString(movableObject.name + "Scale"));
     }
     void OnDisable()
     {

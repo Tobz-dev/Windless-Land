@@ -34,14 +34,18 @@ public class PlayerUI : MonoBehaviour
     void Start()
     {
         hpScript = player.GetComponent<PlayerHealthScript>();
-        maxHealth = (int)hpScript.GetHealth();
+
+        maxHealth = (int)hpScript.GetMaxHealth();
         previousHealth = maxHealth;
         health = maxHealth;
         characterController = player.GetComponent<CharacterController>();
         HealthSetup(health, maxHealth);
+
         maxFlasks = (int)characterController.GetFlaskUses();
         flaskAmount = previousFlaskAmt = maxFlasks;
-        flaskAmountText.text = characterController.GetFlaskUses().ToString();
+        //flaskAmountText.text = characterController.GetFlaskUses().ToString();
+        ChangeFlaskUI(flaskAmount);
+
         maxMana = mana = previousMana = (int)characterController.GetMaxMana();
         manaSlider.value = maxMana;
     }
@@ -55,7 +59,8 @@ public class PlayerUI : MonoBehaviour
 
             if (flaskAmount != previousFlaskAmt) //check if flask amount has been changed
             {
-                flaskAmountText.text = characterController.GetFlaskUses().ToString(); //update flask amount in UI
+                //flaskAmountText.text = characterController.GetFlaskUses().ToString(); //update flask amount in UI
+                ChangeFlaskUI(flaskAmount);
                 previousFlaskAmt = flaskAmount;
             }
         }
@@ -86,7 +91,15 @@ public class PlayerUI : MonoBehaviour
     {
         //change available potion amount & update UI 
         Debug.Log(flaskAmount);
-        flaskAmountText.text = flaskAmount.ToString();
+        //flaskAmountText.text = flaskAmount.ToString();
+        ChangeFlaskUI(flaskAmount);
+    }
+
+    private void ChangeFlaskUI(int flaskAmount) 
+    {
+        //new format to show max. since the player can increase their max.
+        maxFlasks = (int)characterController.GetMaxFlaskUses();
+        flaskAmountText.text = flaskAmount + "/" + maxFlasks;
     }
 
     private void InstantiateHealth(int maxHealth)

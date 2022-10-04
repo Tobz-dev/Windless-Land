@@ -66,6 +66,9 @@ public class CharacterController : MonoBehaviour
 
     private int originalFlaskUsesAmount;
 
+    [SerializeField]
+    private int maxFlaskUses;
+
     private float healthFlaskCooldown = 0.5f;
 
     //attack
@@ -251,8 +254,6 @@ public class CharacterController : MonoBehaviour
     private void Update()
     {
 
-
-
         if (Input.GetKeyDown(KeyCode.U))
         {
             Respawn();
@@ -285,18 +286,11 @@ public class CharacterController : MonoBehaviour
 
             EquipManager();
 
-
-
             UpdateEventVariables();
-
 
             PlayerRotationUpdate();
 
             UpdateMoveInput();
-
-
-
-
 
             //anim stuff here. 
             anim.SetFloat("XSpeed", movementInput.x);//Input.GetAxis("HorizontalKey"));
@@ -337,10 +331,6 @@ public class CharacterController : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(rotation);
         }
 
-
-
-
-
         /*
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
@@ -376,8 +366,6 @@ public class CharacterController : MonoBehaviour
 
         inputDirection = playerMovement.normalized;
 
-
-
         if (playerMovement.magnitude > moveSpeed)
         {
             playerMovement = playerMovement.normalized * moveSpeed;
@@ -396,19 +384,12 @@ public class CharacterController : MonoBehaviour
         {
             playerInputActive = true;
         }
-
-
-
     }
-
 
 
     private void Move()
     {
-
         playerRgb.velocity = playerMovement + new Vector3(0, playerRgb.velocity.y, 0);
-
-
     }
 
     public void ManaIncreased(int i)
@@ -737,7 +718,7 @@ public class CharacterController : MonoBehaviour
     private void HealthFlaskCancel()
     {
         anim.SetBool("DrinkingPot", false);
-        GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeedFactor(1);
+        GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeedFactor(2);
         healthFlaskOfCooldown = true;
         usingHealthFlask = false;
         flaskTimer = 0;
@@ -1247,6 +1228,8 @@ public class CharacterController : MonoBehaviour
     }
 
 
+    //handles the dying animation, sound, and fade to black.
+    //and setting health
     public void Respawn()
     {
 
@@ -1275,6 +1258,7 @@ public class CharacterController : MonoBehaviour
 
     }
 
+    //handles respawning the player, resetting potions and resetting enemies, fountains.
     private IEnumerator TrueRespawn()
     {
 
@@ -1283,7 +1267,8 @@ public class CharacterController : MonoBehaviour
         playerRgb.constraints = RigidbodyConstraints.None;
         playerRgb.constraints = RigidbodyConstraints.FreezeRotation;
         anim.SetBool("Dying", false);
-        ResetPotionsToOriginal();
+        //ResetPotionsToOriginal();
+        ResetPotionsToMax();
         SetMana(0);
         foreach (GameObject go in GameObject.FindGameObjectsWithTag("Enemy"))
         {
@@ -1292,7 +1277,6 @@ public class CharacterController : MonoBehaviour
                 Destroy(go);
             }
         }
-
 
         foreach (GameObject go in GameObject.FindGameObjectsWithTag("Respawner"))
         {
@@ -1344,12 +1328,27 @@ public class CharacterController : MonoBehaviour
         SetFlaskUses(originalFlaskUsesAmount);
     }
 
-
+    public void ResetPotionsToMax()
+    {
+        SetFlaskUses(maxFlaskUses);
+    }
 
 
     public void SetFlaskUses(int x)
     {
         flaskUses = x;
+        //originalFlaskUsesAmount = x + originalFlaskUsesAmount;
+        
+    }
+
+    public void IncreaseMaxFlaskUses(int increaseAmount) 
+    {
+        maxFlaskUses += increaseAmount;
+    }
+
+    public int GetMaxFlaskUses() 
+    {
+        return maxFlaskUses;
     }
 
     public bool InputDelayTimer()
@@ -1383,6 +1382,11 @@ public class CharacterController : MonoBehaviour
 
     }
 
+    public void SetPlayerCanMove(bool newValue) 
+    {
+        Debug.Log("in CC, SetPlayerCanMove. new value is: " + newValue);
+        canMove = newValue;
+    }
 
     // Configs
 

@@ -31,6 +31,8 @@ public class PauseMenu : MonoBehaviour
     //bossHUD isn't present in every scene. so it checks if it exists before interacting with it.
     [SerializeField] private GameObject bossHUD;
 
+    private CharacterController characterController;
+
     private void Start()
     {
         checkIfLog();
@@ -56,6 +58,8 @@ public class PauseMenu : MonoBehaviour
         {
             Time.timeScale = 1f;
         }
+
+        characterController = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -111,6 +115,7 @@ public class PauseMenu : MonoBehaviour
             Time.timeScale = 1f;
         }
         gameIsPaused = false;
+        characterController.SetPlayerCanMove(true);
 
         //Debug.Log("in PauseMenu. resume");
         for (int i = 0; i <= subMenus.Length - 1; i++)
@@ -134,6 +139,8 @@ public class PauseMenu : MonoBehaviour
 
         Time.timeScale = 0.0f;
         gameIsPaused = true;
+
+        characterController.SetPlayerCanMove(false);
     }
 
     public void LoadScene(string sceneToLoad) 

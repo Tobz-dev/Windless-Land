@@ -124,7 +124,7 @@ public class ConfigController : MonoBehaviour
         ini.Open(Application.persistentDataPath + "Config.ini");
 
         //Player
-        Debug.Log(player);
+        //Debug.Log(player);
         if (player != null)
         {
             Debug.Log(player);
