@@ -41,7 +41,7 @@ public class PlayerUI : MonoBehaviour
         characterController = player.GetComponent<CharacterController>();
         HealthSetup(health, maxHealth);
 
-        maxFlasks = (int)characterController.GetFlaskUses();
+        maxFlasks = (int)characterController.GetMaxFlaskUses();
         flaskAmount = previousFlaskAmt = maxFlasks;
         //flaskAmountText.text = characterController.GetFlaskUses().ToString();
         ChangeFlaskUI(flaskAmount);
@@ -99,7 +99,10 @@ public class PlayerUI : MonoBehaviour
     {
         //new format to show max. since the player can increase their max.
         maxFlasks = (int)characterController.GetMaxFlaskUses();
-        flaskAmountText.text = flaskAmount + "/" + maxFlasks;
+        int currentValue = (int)characterController.GetFlaskUses();
+        Debug.Log("in PlayerUI, CFU. maxFlasks is: " + maxFlasks);
+        Debug.Log("in PlayerUI, CFU. testValue is: " + currentValue);
+        flaskAmountText.text = currentValue + "/" + maxFlasks;
     }
 
     private void InstantiateHealth(int maxHealth)

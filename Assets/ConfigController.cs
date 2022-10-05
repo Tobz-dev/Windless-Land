@@ -41,7 +41,7 @@ public class ConfigController : MonoBehaviour
 
 
         //Save();
-        Load();
+        //Load();
         //Save();
 
 

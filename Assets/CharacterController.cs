@@ -243,6 +243,9 @@ public class CharacterController : MonoBehaviour
         moveSpeedDefault = moveSpeed;
         transform.GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeedFactor(1);
 
+        //Set the maxPotions based on player pref. 
+        //Wait how do I manage saving to the player prefs?
+
 
         currentAttackTrigger = "Attack1";
         //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
@@ -773,7 +776,7 @@ public class CharacterController : MonoBehaviour
 
             if (dodgerollTimerRunning == true)
             {
-                Debug.Log("timer of DM. movespeed is: " + moveSpeed);
+                //Debug.Log("timer of DM. movespeed is: " + moveSpeed);
                 if (DodgeWaitTimer(dodgerollDuration))
                 {
 

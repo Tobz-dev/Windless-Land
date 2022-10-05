@@ -12,6 +12,7 @@ public class FallingPlatform : MonoBehaviour
     
     private FMOD.Studio.EventInstance PlatformFalling;
 
+    //I assume this first one is the time before it falls? (after contact with player.)
     public float fallplat;
     public float fallplaton;
     public bool isFalling = false;

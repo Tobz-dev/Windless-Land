@@ -18,6 +18,9 @@ public class PlayerHealthScript : MonoBehaviour
     public int health;
     [SerializeField]
     public int Maxhealth;
+
+    [SerializeField]
+    private bool startOnMaxHealth = true;
     [SerializeField]
     private Material material;
     private Material originalMaterial;
@@ -25,8 +28,8 @@ public class PlayerHealthScript : MonoBehaviour
     //private GameObject[] hpSlots;
     //[SerializeField]
     //private TextMeshProUGUI flaskAmountText;
-    [SerializeField]
-    private int startingFlasks = 2;
+    //[SerializeField]
+    private int startingFlasks = 0;
     [SerializeField]
     private CameraFollow cameraFollow;
 
@@ -53,12 +56,18 @@ public class PlayerHealthScript : MonoBehaviour
 
         scene = SceneManager.GetActiveScene();
         chilldrenAmount = transform.childCount;
-        //health = Maxhealth;
+        if (startOnMaxHealth) 
+        {
+            health = Maxhealth;
+        }
         //HealthSetup();
-        currentFlaskAmount = startingFlasks;
-        Debug.Log("in PlayerhealthScript. maxhealth is: " + Maxhealth);
-        
-        //flaskAmountText.text = maxFlasks + "/" + maxFlasks;
+        currentFlaskAmount =  GetComponent<CharacterController>().GetMaxFlaskUses();
+        startingFlasks = GetComponent<CharacterController>().GetMaxFlaskUses();
+
+        Debug.Log("in PlayerhealthScript. currentFlaskAmount is: " + currentFlaskAmount);
+
+        Debug.Log("in PlayerhealthScript. startingFlasks is: " + startingFlasks);
+
     }
 
     // Update is called once per frame
@@ -178,8 +187,8 @@ public class PlayerHealthScript : MonoBehaviour
 
     public void ResetPotions()
     {
-        currentFlaskAmount = 4;
-        GetComponent<CharacterController>().SetFlaskUses(4);
+        //currentFlaskAmount = 4;
+        //GetComponent<CharacterController>().SetFlaskUses(4);
         //flaskAmountText.text = flaskAmount + "/" + maxFlasks;
     }
 
