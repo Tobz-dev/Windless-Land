@@ -94,7 +94,7 @@ public class PlayerAttackHitbox : MonoBehaviour
 
     public void SetConfig(int newmanaPerHit)
     {
-        manaPerHit = newmanaPerHit;
+        //manaPerHit = newmanaPerHit;
     }
 
     public int GetManaPerHit()
@@ -113,7 +113,7 @@ public class PlayerAttackHitbox : MonoBehaviour
 
         INIParser ini = new INIParser();
         ini.Open(Application.persistentDataPath + "ProtoConfig.ini");
-        damage = ini.ReadValue("Henrik", "moreDamage;", 1);
+        //damage = ini.ReadValue("Henrik", "moreDamage;", 1);
         ini.Close();
 
 

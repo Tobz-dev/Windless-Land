@@ -38,18 +38,18 @@ public class BossShootingState : State
             SpawnLeftEnemy();
             SpawnLeftEnemy();
             SpawnRightEnemy();
-            SpawnRightEnemy();
+            //SpawnRightEnemy();
         }
         else if(currentHealth <= maxHealth * 0.5)
         {
             SpawnLeftEnemy();
             SpawnRightEnemy();
-            SpawnRightEnemy();
+            //SpawnRightEnemy();
         }
         else if (currentHealth <= maxHealth * 0.75)
         {
             SpawnLeftEnemy();
-            SpawnRightEnemy();
+            //SpawnRightEnemy();
         }
         
         totalArrows = arrowAmount;

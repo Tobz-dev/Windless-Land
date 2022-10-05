@@ -16,6 +16,8 @@ public class EnemyHealthScript : MonoBehaviour
     [SerializeField]
     public int Maxhealth;
     [SerializeField]
+    private bool startAtMaxHealth = true;
+    [SerializeField]
     private Material material;
     [SerializeField]
     private Material originalMaterial;
@@ -40,11 +42,11 @@ public class EnemyHealthScript : MonoBehaviour
 
     private void Awake()
     {
-        health = Maxhealth;
+        //health = Maxhealth;
 
         if (System.IO.File.Exists(Application.persistentDataPath + "Config.ini"))
         {
-            UpdateConfig();
+            //UpdateConfig();
 
         }
     }
@@ -62,7 +64,11 @@ public class EnemyHealthScript : MonoBehaviour
 
         scene = SceneManager.GetActiveScene();
         chilldrenAmount = transform.childCount;
-        health = Maxhealth;
+        if (startAtMaxHealth) 
+        {
+            health = Maxhealth;
+        }
+        
 
         
          healthSlider.value = GetHealthPercentage();
@@ -123,6 +129,7 @@ public class EnemyHealthScript : MonoBehaviour
         {
             health += x;
             //decrease available potion amount & update UI 
+            //what is this doing in the enemy health???
         }
         if (Maxhealth - health > 0 && x > Maxhealth - health)
         {
@@ -217,19 +224,19 @@ public class EnemyHealthScript : MonoBehaviour
 
             if (type == "Light")
             {
-                Maxhealth = ini.ReadValue("Enemy", "LightMaxhealth;", 7);
+                //Maxhealth = ini.ReadValue("Enemy", "LightMaxhealth;", 7);
                 //health = Maxhealth;
             }
 
             if (type == "Heavy")
             {
-                Maxhealth = ini.ReadValue("Enemy", "HeavyMaxhealth;", 12);
+                //Maxhealth = ini.ReadValue("Enemy", "HeavyMaxhealth;", 12);
                 //health = Maxhealth;
             }
 
             ini.Close();
 
-            health = Maxhealth;
+            //health = Maxhealth;
 
         }
     }

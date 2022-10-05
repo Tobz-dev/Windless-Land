@@ -343,7 +343,8 @@ public class CharacterController : MonoBehaviour
 
     private void UpdateEventVariables()
     {
-        moveSpeed = moveSpeedDefault * GetComponentInParent<PlayerAnimEvents>().GetPlayerMoveSpeedFactor();
+        //moveSpeed = moveSpeedDefault * GetComponentInParent<PlayerAnimEvents>().GetPlayerMoveSpeedFactor();
+        //Debug.Log("in UEV. movespeed is: " + moveSpeed);
         moveAllow = GetComponentInParent<PlayerAnimEvents>().GetAllowMovement();
         endPlayerStunned = GetComponentInParent<PlayerAnimEvents>().GetEndPlayerStunned();
         doneDrinkingFlask = GetComponentInParent<PlayerAnimEvents>().GetDoneDrinkingPot();
@@ -765,18 +766,22 @@ public class CharacterController : MonoBehaviour
         if (inputActions.WindlessLand.Dodgeroll.triggered/*Input.GetKeyDown(KeyCode.Space)*/ && dodgerollOfCooldown && attacking == false && bowIsActive == false && moveAllow == true)
         {
             StartDodgeroll();
+            Debug.Log("start of DM. movespeed is: " + moveSpeed);
         }
         if (dodgerollStart == true)
         {
 
             if (dodgerollTimerRunning == true)
             {
+                Debug.Log("timer of DM. movespeed is: " + moveSpeed);
                 if (DodgeWaitTimer(dodgerollDuration))
                 {
 
                     transform.GetComponentInParent<PlayerAnimEvents>().SetAllowMovementTrue();
                     dodgerolling = false;
                     dodgerollTimerRunning = false;
+                    moveSpeed = moveSpeedDefault;
+                    Debug.Log("end of DM. movespeed is: " + moveSpeed);
 
                 }
                 else
