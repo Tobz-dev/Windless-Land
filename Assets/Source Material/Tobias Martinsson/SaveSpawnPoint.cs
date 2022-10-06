@@ -70,16 +70,16 @@ public class SaveSpawnPoint : MonoBehaviour
         {
             if (gamepad)
             {
-                bindingText.text = InputManager.GetBindingName("Interact", 1);
+                //bindingText.text = InputManager.GetBindingName("Interact", 1);
             }
             else
             {
-                bindingText.text = InputManager.GetBindingName("Interact", 0);
+                //bindingText.text = InputManager.GetBindingName("Interact", 0);
             }
             //panel.SetActive(true);
             PressE.SetActive(true);
             playerOnCheckpoint = true;
-            pressText.text = "Press " + bindingText.text + " to interact";          
+            //pressText.text = "Press " + bindingText.text + " to interact";          
         }
     }
 

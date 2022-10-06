@@ -21,7 +21,7 @@ public class KeyBindingChanger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        pressE.text = keybinding.text;
+        //pressE.text = keybinding.text;
     }
 
 }
