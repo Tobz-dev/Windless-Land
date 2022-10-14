@@ -202,7 +202,7 @@ public class EnemyHealthScript : MonoBehaviour
         return health;
     }
 
-    float GetHealthPercentage()
+    public float GetHealthPercentage()
     {
         return (float)health / (float)Maxhealth;
     }
