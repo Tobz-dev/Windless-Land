@@ -784,7 +784,7 @@ public class CharacterController : MonoBehaviour
                     dodgerolling = false;
                     dodgerollTimerRunning = false;
                     moveSpeed = moveSpeedDefault;
-                    Debug.Log("end of DM. movespeed is: " + moveSpeed);
+                    //Debug.Log("end of DM. movespeed is: " + moveSpeed);
 
                 }
                 else

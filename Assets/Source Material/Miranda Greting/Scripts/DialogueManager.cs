@@ -60,7 +60,7 @@ public class DialogueManager : MonoBehaviour
         dialogueText.text = sentence;
     }
 
-    void EndDialogue()
+    public void EndDialogue()
     {
         //Debug.Log("DM, end dialogue");
         dialogueBox.SetActive(false);

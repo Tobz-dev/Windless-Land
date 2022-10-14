@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class DialogueSystem : MonoBehaviour
 {
-    public Dialogue dialogue;
+    public Dialogue[] dialogueArray;
+    public int currentdialogueNr;
     public GameObject interactionPrompt;
     public Transform spawnPos;
 
@@ -16,26 +17,41 @@ public class DialogueSystem : MonoBehaviour
         dialogueManager = FindObjectOfType<DialogueManager>();
     }
 
+    private void Update()
+    {
+
+        if (interactionPrompt.activeInHierarchy && Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("in DialogueSystem. input E.");
+            interactionPrompt.SetActive(false);
+            dialogueManager.StartDialogue(dialogueArray[currentdialogueNr]);
+        }
+
+    }
+
     public void TriggerDialogue()
     {
         //FindObjectOfType<DialogueManager>().StartDialogue(dialogue, spawnPos);
     }
 
-    private void OnTriggerStay(Collider other)
+
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            //Debug.Log("player entered dialogue");
-            if(!interactionPrompt.activeInHierarchy && dialogueManager.GetDialogueEnded())
-            {
-                interactionPrompt.SetActive(true);
-            }
+            Debug.Log("in DialogueSystem. Player entered.");
 
-            if (interactionPrompt.activeInHierarchy && Input.GetKeyDown(KeyCode.E))
-            {
-                interactionPrompt.SetActive(false);
-                dialogueManager.StartDialogue(dialogue);
-            }
+            interactionPrompt.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("in DialogueSystem. Player exited.");
+            interactionPrompt.SetActive(false);
+            dialogueManager.EndDialogue();
         }
     }
 }

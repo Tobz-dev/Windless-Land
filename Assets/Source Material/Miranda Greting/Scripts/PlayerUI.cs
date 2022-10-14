@@ -122,6 +122,7 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
+    //if I want to change the Health to use a bar, change it here.
     public void HealthSetup(int health, int maxHealth)
     {
         this.health = health;
