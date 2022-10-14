@@ -23,4 +23,9 @@ public class NextSceneScript : MonoBehaviour
             SceneManager.LoadScene(nameOfLevelToLoad);
         }
     }
+
+    public void ChangeNameOfLevelToLoad(string newLevel) 
+    {
+        nameOfLevelToLoad = newLevel;
+    }
 }

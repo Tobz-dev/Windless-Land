@@ -5,7 +5,7 @@ using UnityEngine;
 public class DialogueSystem : MonoBehaviour
 {
     public Dialogue[] dialogueArray;
-    public int currentdialogueNr;
+    private int currentDialogueNr;
     public GameObject interactionPrompt;
     public Transform spawnPos;
 
@@ -24,7 +24,7 @@ public class DialogueSystem : MonoBehaviour
         {
             Debug.Log("in DialogueSystem. input E.");
             interactionPrompt.SetActive(false);
-            dialogueManager.StartDialogue(dialogueArray[currentdialogueNr]);
+            dialogueManager.StartDialogue(dialogueArray[currentDialogueNr]);
         }
 
     }
@@ -53,5 +53,10 @@ public class DialogueSystem : MonoBehaviour
             interactionPrompt.SetActive(false);
             dialogueManager.EndDialogue();
         }
+    }
+
+    public void ChangeCurrentDialogueNr(int newDialogueNr)
+    {
+        currentDialogueNr = newDialogueNr;
     }
 }
