@@ -35,20 +35,20 @@ public class BossShootingState : State
 
         if(currentHealth <= maxHealth * 0.25)
         {
-            SpawnLeftEnemy();
-            SpawnLeftEnemy();
-            SpawnRightEnemy();
+            //SpawnLeftEnemy();
+            //SpawnLeftEnemy();
+            //SpawnRightEnemy();
             //SpawnRightEnemy();
         }
         else if(currentHealth <= maxHealth * 0.5)
         {
-            SpawnLeftEnemy();
-            SpawnRightEnemy();
+            //SpawnLeftEnemy();
+            //SpawnRightEnemy();
             //SpawnRightEnemy();
         }
         else if (currentHealth <= maxHealth * 0.75)
         {
-            SpawnLeftEnemy();
+            //SpawnLeftEnemy();
             //SpawnRightEnemy();
         }
         
