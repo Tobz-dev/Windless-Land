@@ -25,6 +25,10 @@ public class PlayerUI : MonoBehaviour
     private int previousFlaskAmt;
     private int previousMana;
 
+    [SerializeField]
+    private Slider healthSlider;
+
+
     [SerializeField] private GameObject hpSlot;
     [SerializeField] private GameObject parent;
     [SerializeField] private GameObject lowHPParticles;
@@ -37,9 +41,10 @@ public class PlayerUI : MonoBehaviour
 
         maxHealth = (int)hpScript.GetMaxHealth();
         previousHealth = maxHealth;
-        health = maxHealth;
+        health = (int)hpScript.GetHealth();
         characterController = player.GetComponent<CharacterController>();
-        HealthSetup(health, maxHealth);
+        //HealthSetup(health, maxHealth);
+        HealthbarSetup();
 
         maxFlasks = (int)characterController.GetMaxFlaskUses();
         flaskAmount = previousFlaskAmt = maxFlasks;
@@ -73,7 +78,8 @@ public class PlayerUI : MonoBehaviour
         health = (int)hpScript.GetHealth();
         if (health != previousHealth)
         {
-            HealthSetup(health, maxHealth); //Update UI 
+            //HealthSetup(health, maxHealth); //Update UI 
+            HealthbarSetup();
         }
 
         if (characterController.enabled)
@@ -123,6 +129,14 @@ public class PlayerUI : MonoBehaviour
     }
 
     //if I want to change the Health to use a bar, change it here.
+    public void HealthbarSetup() 
+    {
+        //Debug.Log("in PlayerUI, HealthbarSetUp. health is: " + health);
+        healthSlider.value = health;
+        //Debug.Log("in PlayerUI, HealthbarSetUp. healthSlider.value is: " + healthSlider.value);
+    }
+
+
     public void HealthSetup(int health, int maxHealth)
     {
         this.health = health;

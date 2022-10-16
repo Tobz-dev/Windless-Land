@@ -682,7 +682,7 @@ public class CharacterController : MonoBehaviour
 
         if (doneDrinkingFlask == true)
         {
-            GetComponentInParent<PlayerHealthScript>().regainHealth(2);
+            GetComponentInParent<PlayerHealthScript>().regainHealth(20);
             GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeedFactor(1);
             flaskUses--;
             anim.SetBool("DrinkingPot", false);
