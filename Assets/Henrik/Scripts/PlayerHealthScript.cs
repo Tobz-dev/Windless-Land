@@ -45,6 +45,8 @@ public class PlayerHealthScript : MonoBehaviour
     [SerializeField]
     private float playerInvincibilityTime;
 
+    private PlayerUI playerUI;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -67,6 +69,8 @@ public class PlayerHealthScript : MonoBehaviour
         Debug.Log("in PlayerhealthScript. currentFlaskAmount is: " + currentFlaskAmount);
 
         Debug.Log("in PlayerhealthScript. startingFlasks is: " + startingFlasks);
+
+        playerUI = FindObjectOfType<PlayerUI>();
 
     }
 
@@ -120,7 +124,7 @@ public class PlayerHealthScript : MonoBehaviour
 
         }
 
-
+        playerUI.HealthbarSetup(health);
         //update UI healthbar to current player health
         if (gameObject.tag == "Player")
         {
@@ -144,9 +148,10 @@ public class PlayerHealthScript : MonoBehaviour
             currentFlaskAmount--;
             //flaskAmountText.text = flaskAmount + "/" + maxFlasks;
         }
-      
+
+        playerUI.HealthbarSetup(health);
         //HealthSetup();
-        //Debug.Log("REGAINED" + x + " HEALTH,  MAX IS NOW " + health);
+        //Debug.Log("REGAINED" + x + " HEALTH,  health IS NOW " + health);
     }
 
    

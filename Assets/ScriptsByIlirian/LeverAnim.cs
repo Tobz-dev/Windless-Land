@@ -62,7 +62,7 @@ public class LeverAnim : MonoBehaviour
     public void pullLever()
     {
         canPress = false;
-        Debug.Log("Pressing!!!");
+        //Debug.Log("Pressing!!!");
         anim.SetBool("Open", true);
         leverPulled = true;
         trigger.enabled = false;

@@ -20,6 +20,9 @@ public class NextSceneScript : MonoBehaviour
             PortalEnter.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
             PortalEnter.start();
             PortalEnter.release();
+
+
+            PlayerPrefs.SetString("latestSceneLoaded", SceneManager.GetActiveScene().name);
             SceneManager.LoadScene(nameOfLevelToLoad);
         }
     }

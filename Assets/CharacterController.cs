@@ -682,7 +682,7 @@ public class CharacterController : MonoBehaviour
 
         if (doneDrinkingFlask == true)
         {
-            GetComponentInParent<PlayerHealthScript>().regainHealth(20);
+            GetComponentInParent<PlayerHealthScript>().regainHealth(40);
             GetComponentInParent<PlayerAnimEvents>().SetPlayerMoveSpeedFactor(1);
             flaskUses--;
             anim.SetBool("DrinkingPot", false);
@@ -1261,7 +1261,7 @@ public class CharacterController : MonoBehaviour
         Dead.start();
         Dead.release();
         StartCoroutine(TrueRespawn());
-        GetComponent<PlayerHealthScript>().regainHealth(100);
+        GetComponent<PlayerHealthScript>().regainHealth(1000);
 
 
     }
@@ -1302,7 +1302,7 @@ public class CharacterController : MonoBehaviour
 
         playerRgb.velocity = new Vector3(0, 0, 0);
         fadeToBlack.GetComponent<FadeToBlack>().DisableBlackScreen();
-        GetComponent<PlayerHealthScript>().regainHealth(100);
+        GetComponent<PlayerHealthScript>().regainHealth(1000);
         transform.position = respawnPoint.transform.position;
         invincibility = false;
 

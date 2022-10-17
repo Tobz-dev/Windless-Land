@@ -94,7 +94,7 @@ public class ManaFountain : MonoBehaviour
     public void RestoreFountain() 
     {
         fountainFull = true;
-        Debug.Log("in ManaFountain, RestoreFountain(). fountainFull is now = " + fountainFull);
+        //Debug.Log("in ManaFountain, RestoreFountain(). fountainFull is now = " + fountainFull);
 
         //Activate water
         Transform fountain = gameObject.transform.GetChild(0);

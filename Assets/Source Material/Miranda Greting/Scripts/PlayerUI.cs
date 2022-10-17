@@ -44,7 +44,7 @@ public class PlayerUI : MonoBehaviour
         health = (int)hpScript.GetHealth();
         characterController = player.GetComponent<CharacterController>();
         //HealthSetup(health, maxHealth);
-        HealthbarSetup();
+        HealthbarSetup(health);
 
         maxFlasks = (int)characterController.GetMaxFlaskUses();
         flaskAmount = previousFlaskAmt = maxFlasks;
@@ -79,7 +79,6 @@ public class PlayerUI : MonoBehaviour
         if (health != previousHealth)
         {
             //HealthSetup(health, maxHealth); //Update UI 
-            HealthbarSetup();
         }
 
         if (characterController.enabled)
@@ -106,8 +105,8 @@ public class PlayerUI : MonoBehaviour
         //new format to show max. since the player can increase their max.
         maxFlasks = (int)characterController.GetMaxFlaskUses();
         int currentValue = (int)characterController.GetFlaskUses();
-        Debug.Log("in PlayerUI, CFU. maxFlasks is: " + maxFlasks);
-        Debug.Log("in PlayerUI, CFU. testValue is: " + currentValue);
+        //Debug.Log("in PlayerUI, CFU. maxFlasks is: " + maxFlasks);
+        //Debug.Log("in PlayerUI, CFU. testValue is: " + currentValue);
         flaskAmountText.text = currentValue + "/" + maxFlasks;
     }
 
@@ -128,12 +127,12 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
-    //if I want to change the Health to use a bar, change it here.
-    public void HealthbarSetup() 
+    //Using a healthbar instead. easier to change value of it.
+    public void HealthbarSetup(int healthbarValue) 
     {
-        //Debug.Log("in PlayerUI, HealthbarSetUp. health is: " + health);
-        healthSlider.value = health;
-        //Debug.Log("in PlayerUI, HealthbarSetUp. healthSlider.value is: " + healthSlider.value);
+        Debug.Log("in PlayerUI, HealthbarSetUp. health is: " + healthbarValue);
+        healthSlider.value = healthbarValue;
+        Debug.Log("in PlayerUI, HealthbarSetUp. healthSlider.value is: " + healthSlider.value);
     }
 
 

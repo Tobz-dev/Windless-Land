@@ -46,7 +46,7 @@ public class newHitbox : MonoBehaviour
 
         if (other.gameObject.tag == target && invincibility == false)
         {
-            Debug.Log("Hit " + target);
+            //Debug.Log("Hit " + target);
             if (other.gameObject.tag == "Player")
             {
                 other.GetComponent<PlayerHealthScript>().takeDamage(damage);
@@ -55,7 +55,7 @@ public class newHitbox : MonoBehaviour
             {
                 other.GetComponent<EnemyHealthScript>().takeDamage(damage);
             }
-            Debug.Log("Dealt " + damage + " damage");
+            //Debug.Log("Dealt " + damage + " damage");
 
            
         }

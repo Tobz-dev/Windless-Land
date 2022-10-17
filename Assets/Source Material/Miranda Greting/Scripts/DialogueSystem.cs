@@ -39,7 +39,7 @@ public class DialogueSystem : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("in DialogueSystem. Player entered.");
+            //Debug.Log("in DialogueSystem. Player entered.");
 
             interactionPrompt.SetActive(true);
         }
@@ -49,7 +49,7 @@ public class DialogueSystem : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("in DialogueSystem. Player exited.");
+            //Debug.Log("in DialogueSystem. Player exited.");
             interactionPrompt.SetActive(false);
             dialogueManager.EndDialogue();
         }
