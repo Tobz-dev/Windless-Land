@@ -22,7 +22,7 @@ public class NextSceneScript : MonoBehaviour
             PortalEnter.release();
 
 
-            PlayerPrefs.SetString("latestSceneLoaded", SceneManager.GetActiveScene().name);
+            PlayerPrefs.SetString("LatestSceneLoadedPref", SceneManager.GetActiveScene().name);
             SceneManager.LoadScene(nameOfLevelToLoad);
         }
     }

@@ -7,10 +7,10 @@ public class PillarCollisionCheck : MonoBehaviour
 {
     private void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("memes2");
+        //Debug.Log("memes2");
         if (collision.gameObject.tag == "BossPillar")
         {
-            Debug.Log("memes");
+            //Debug.Log("memes");
             collision.gameObject.GetComponent<MeshRenderer>().enabled = false;
             collision.gameObject.GetComponent<BoxCollider>().enabled = false;
             Destroy(gameObject);

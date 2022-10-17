@@ -6,7 +6,7 @@ using UnityEngine;
 public class ChoicePortalTrigger : MonoBehaviour
 {
     [SerializeField]
-    private string triggerName;
+    private string triggerNamePref;
     //a reference to the non-adjecent portal.
     [SerializeField]
     private GameObject nonadjecentPortal;
@@ -27,9 +27,9 @@ public class ChoicePortalTrigger : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        if (PlayerPrefs.GetString(triggerName).Equals("activated"))
+        if (PlayerPrefs.GetString(triggerNamePref).Equals("activated"))
         {
-            Debug.Log("in portal trigger. " + triggerName + "was active");
+            Debug.Log("in portal trigger. " + triggerNamePref + "was active");
             ActiavteNewSoul();
             ChangeLevelOfPortal();
         }
@@ -39,7 +39,7 @@ public class ChoicePortalTrigger : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.O))
         {
-            PlayerPrefs.SetString(triggerName, "NotActivated");
+            PlayerPrefs.SetString(triggerNamePref, "NotActivated");
             Debug.Log("in portal trigger. pressed O");
         }
     }
@@ -52,7 +52,7 @@ public class ChoicePortalTrigger : MonoBehaviour
             ChangeLevelOfPortal();
 
             //save which portal was activated.
-            PlayerPrefs.SetString(triggerName, "activated");
+            PlayerPrefs.SetString(triggerNamePref, "activated");
         }
     }
 

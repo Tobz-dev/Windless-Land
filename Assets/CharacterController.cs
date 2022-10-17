@@ -69,6 +69,9 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private int maxFlaskUses;
 
+    [SerializeField]
+    private bool usePotionAmountPref;
+
     private float healthFlaskCooldown = 0.5f;
 
     //attack
@@ -225,6 +228,13 @@ public class CharacterController : MonoBehaviour
             PlayerPrefs.SetInt("inputDelay", 0);
         }
 
+        //set flaskUses to a value from a pref so it saves between scenes.
+        if (usePotionAmountPref) 
+        {
+            flaskUses = PlayerPrefs.GetInt("PotionAmountPref");
+            maxFlaskUses = PlayerPrefs.GetInt("PotionAmountPref");
+        }
+        
 
         originalFlaskUsesAmount = (int)flaskUses;
         playerRgb = transform.GetComponent<Rigidbody>();
@@ -769,7 +779,7 @@ public class CharacterController : MonoBehaviour
         if (inputActions.WindlessLand.Dodgeroll.triggered/*Input.GetKeyDown(KeyCode.Space)*/ && dodgerollOfCooldown && attacking == false && bowIsActive == false && moveAllow == true)
         {
             StartDodgeroll();
-            Debug.Log("start of DM. movespeed is: " + moveSpeed);
+            //Debug.Log("start of DM. movespeed is: " + moveSpeed);
         }
         if (dodgerollStart == true)
         {
@@ -1309,11 +1319,6 @@ public class CharacterController : MonoBehaviour
     }
 
     public void SetRespawnPoint(Vector3 position)
-    {
-        respawnPoint.transform.position = new Vector3(position.x, position.y + 1f, position.z);
-    }
-
-    public void MovePlayerTo(Vector3 position)
     {
         respawnPoint.transform.position = new Vector3(position.x, position.y + 1f, position.z);
     }

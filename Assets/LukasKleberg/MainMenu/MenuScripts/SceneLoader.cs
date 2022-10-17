@@ -8,6 +8,8 @@ public class SceneLoader : MonoBehaviour
     [SerializeField]
     private PlayerPrefReseter playerPrefReseter;
 
+    //This script is only used on the mainmenu.
+    //So prefs are only reset from the mainmenu.
     public void LoadNewScene(string nameOfNewScene) 
     {
         playerPrefReseter.ResetPlayerPrefs();

@@ -10,7 +10,7 @@ public class ChoiceDialogueTrigger : MonoBehaviour
     private int dialogueNr;
 
     [SerializeField]
-    private GameObject dialogueTriggerB;
+    private GameObject dialogueTriggerToDeactivate;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +29,7 @@ public class ChoiceDialogueTrigger : MonoBehaviour
                 dialogueSystem.ChangeCurrentDialogueNr(dialogueNr);
             }
             //ugly, easy way to turn of the BTrigger
-            dialogueTriggerB.SetActive(false);
+            dialogueTriggerToDeactivate.SetActive(false);
         }
     }
 }

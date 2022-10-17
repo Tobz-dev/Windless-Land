@@ -130,9 +130,9 @@ public class PlayerUI : MonoBehaviour
     //Using a healthbar instead. easier to change value of it.
     public void HealthbarSetup(int healthbarValue) 
     {
-        Debug.Log("in PlayerUI, HealthbarSetUp. health is: " + healthbarValue);
+        //Debug.Log("in PlayerUI, HealthbarSetUp. health is: " + healthbarValue);
         healthSlider.value = healthbarValue;
-        Debug.Log("in PlayerUI, HealthbarSetUp. healthSlider.value is: " + healthSlider.value);
+        //Debug.Log("in PlayerUI, HealthbarSetUp. healthSlider.value is: " + healthSlider.value);
     }
 
 

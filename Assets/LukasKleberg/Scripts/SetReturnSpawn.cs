@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SetReturnSpawn : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject player;
 
     [SerializeField]
     private CharacterController characterController;
@@ -14,10 +16,15 @@ public class SetReturnSpawn : MonoBehaviour
     void Start()
     {
         //checks for the specific latest scene. moves player and sets respawn point.
-        if (checkLatestSceneLoaded.Equals(PlayerPrefs.GetString("latestSceneLoaded")))  
+        if (checkLatestSceneLoaded.Equals(PlayerPrefs.GetString("LatestSceneLoadedPref")))  
         {
-            characterController.MovePlayerTo(gameObject.transform.position);
-            characterController.respawnPoint = gameObject.transform;
+            Debug.Log("in SetReturnSpawn. moving player");
+            //Debug.Log(checkLatestSceneLoaded);
+            //Debug.Log(PlayerPrefs.GetString("LatestSceneLoadedPref"));
+            player.transform.position = transform.position;
+            //characterController.MovePlayerTo(gameObject.transform.position);
+            //characterController.respawnPoint = gameObject.transform;
+            characterController.SetRespawnPoint(transform.position);
         }
     }
 

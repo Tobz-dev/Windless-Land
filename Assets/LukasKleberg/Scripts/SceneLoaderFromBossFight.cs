@@ -19,7 +19,7 @@ public class SceneLoaderFromBossFight : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        latestSceneLoaded = PlayerPrefs.GetString("latestSceneLoaded");
+        latestSceneLoaded = PlayerPrefs.GetString("LatestSceneLoadedPref");
     }
 
     // Update is called once per frame
@@ -27,8 +27,9 @@ public class SceneLoaderFromBossFight : MonoBehaviour
     {
         if (playerHealthScript.health < 1) 
         {
-
-            LoadSceneBasedOnProgress();
+            //gives a delay so the player controller can fade the screen to black.
+            StartCoroutine(SceneLoadDelay());
+                
         }
 
         if (!GameObject.Find("Boss")) 
@@ -37,19 +38,28 @@ public class SceneLoaderFromBossFight : MonoBehaviour
         }
     }
 
-    private void LoadSceneBasedOnProgress() 
+    private IEnumerator SceneLoadDelay() 
+    {
+        yield return new WaitForSeconds(4.0f);
+        LoadSceneBasedOnLatestScene();
+    }
+
+    private void LoadSceneBasedOnLatestScene() 
     {
         switch (latestSceneLoaded)
         {
             case "Level1_V2.0":
-                PlayerPrefs.SetString("latestSceneLoaded", SceneManager.GetActiveScene().name);
+                Debug.Log("in SceneFromBoss: switch. was Lv1");
+                PlayerPrefs.SetString("LatestSceneLoadedPref", SceneManager.GetActiveScene().name);
                 SceneManager.LoadScene("Level1_V2.0");
                 break;
             case "Level3_V2.0":
-                PlayerPrefs.SetString("latestSceneLoaded", SceneManager.GetActiveScene().name);
+                Debug.Log("in SceneFromBoss: switch. was Lv2");
+                PlayerPrefs.SetString("LatestSceneLoadedPref", SceneManager.GetActiveScene().name);
                 SceneManager.LoadScene("Level3_V2.0");
                 break;
             default:
+                Debug.Log("in SceneFromBoss: switch. was default");
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                 break;
         }

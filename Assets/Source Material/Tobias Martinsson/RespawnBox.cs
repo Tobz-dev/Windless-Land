@@ -11,7 +11,8 @@ public class RespawnBox : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<CharacterController>().Respawn();
+            collision.gameObject.GetComponent<PlayerHealthScript>().takeDamage(1000);
+            //collision.gameObject.GetComponent<CharacterController>().Respawn();
         }
     }
 }
