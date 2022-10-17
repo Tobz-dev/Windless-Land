@@ -1310,11 +1310,13 @@ public class CharacterController : MonoBehaviour
 
     public void SetRespawnPoint(Vector3 position)
     {
-
         respawnPoint.transform.position = new Vector3(position.x, position.y + 1f, position.z);
     }
 
-
+    public void MovePlayerTo(Vector3 position)
+    {
+        respawnPoint.transform.position = new Vector3(position.x, position.y + 1f, position.z);
+    }
 
     public float GetFlaskUses()
     {

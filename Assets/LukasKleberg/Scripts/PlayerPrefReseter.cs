@@ -14,6 +14,8 @@ public class PlayerPrefReseter : MonoBehaviour
 
         //health potions gathered
 
+        //something for dialogue?
+
         //latest scene loaded
         PlayerPrefs.SetString("latestSceneLoaded", "blank");
     }

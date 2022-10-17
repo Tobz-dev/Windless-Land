@@ -18025,7 +18025,7 @@ PrefabInstance:
     - target: {fileID: 8862556882965517749, guid: 1f88305a75ed323418139c8cb7b7a108, type: 3}
       propertyPath: moreDamageCheckbox
       value: 
-      objectReference: {fileID: 5227837947850657077}
+      objectReference: {fileID: 0}
     - target: {fileID: 8862556882965517749, guid: 1f88305a75ed323418139c8cb7b7a108, type: 3}
       propertyPath: cooldownIdikatorCheckbox
       value: 
@@ -18912,6 +18912,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1156178579}
+  - component: {fileID: 1156178580}
   m_Layer: 0
   m_Name: ReturnSpawnPoint
   m_TagString: Untagged
@@ -18933,6 +18934,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1156178580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156178578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c802fb11f7fdcd4ead68396a544b450, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterController: {fileID: 1427691671107500955}
+  checkLatestSceneLoaded: Boss1_V2.0
 --- !u!1001 &1163660040
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33052,6 +33067,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5361848200085171322, guid: a280d324106f2a64e9a093630c2a3983, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6526234293140532430, guid: a280d324106f2a64e9a093630c2a3983, type: 3}
       propertyPath: player
       value: 
@@ -33259,17 +33278,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d0f243702b88d34d878f41edff489e0, type: 3}
---- !u!114 &5227837947850657077 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8172924655322777621, guid: a280d324106f2a64e9a093630c2a3983, type: 3}
-  m_PrefabInstance: {fileID: 4170629325705037088}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &6609460309350601673
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33303,7 +33311,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5217889800413489231, guid: fe24641dde0ad1f4995e291898d10a1a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 37.29
+      value: 142.04
       objectReference: {fileID: 0}
     - target: {fileID: 5217889800413489231, guid: fe24641dde0ad1f4995e291898d10a1a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -33311,7 +33319,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5217889800413489231, guid: fe24641dde0ad1f4995e291898d10a1a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 96.93
+      value: 144.69
       objectReference: {fileID: 0}
     - target: {fileID: 5217889800413489231, guid: fe24641dde0ad1f4995e291898d10a1a, type: 3}
       propertyPath: m_LocalRotation.w
