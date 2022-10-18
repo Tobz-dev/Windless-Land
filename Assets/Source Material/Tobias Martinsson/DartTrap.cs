@@ -8,10 +8,15 @@ public class DartTrap : MonoBehaviour
     [SerializeField]
     private float shootCooldown = 1;
     private float originalTime;
+
+    [SerializeField]
+    private float firstShotDelay;
+
     // Start is called before the first frame update
     void Start()
     {
         originalTime = shootCooldown;
+        shootCooldown += firstShotDelay;
     }
 
     // Update is called once per frame
