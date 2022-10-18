@@ -3858,7 +3858,7 @@ Transform:
   m_LocalScale: {x: 8, y: 8, z: 4.89904}
   m_Children: []
   m_Father: {fileID: 1880154897}
-  m_RootOrder: 24
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: -85.801, y: -380.434, z: 79.708}
 --- !u!1001 &236672792
 PrefabInstance:
@@ -4878,7 +4878,7 @@ Transform:
   m_LocalScale: {x: 9.4264, y: 9.4264, z: 7.08394}
   m_Children: []
   m_Father: {fileID: 1880154897}
-  m_RootOrder: 25
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: -85.801, y: -476.223, z: 79.708}
 --- !u!65 &341230015
 BoxCollider:
@@ -10500,7 +10500,7 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 1880154897}
-  m_RootOrder: 23
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 47.647, y: -254.638, z: -96.626}
 --- !u!1001 &582338409
 PrefabInstance:
@@ -24523,6 +24523,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootCooldown: 3
+  firstShotDelay: 0
 --- !u!114 &1567720669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28941,18 +28942,22 @@ Transform:
   m_Children:
   - {fileID: 274095654}
   - {fileID: 1742948673}
-  - {fileID: 1518690808}
   - {fileID: 714228039}
+  - {fileID: 1518690808}
+  - {fileID: 575294062}
   - {fileID: 1999389000}
+  - {fileID: 233686873}
   - {fileID: 1526040669}
   - {fileID: 474876231}
   - {fileID: 463893929}
   - {fileID: 1654559120}
   - {fileID: 570381541}
   - {fileID: 1977733295}
+  - {fileID: 341230014}
   - {fileID: 1396224191}
   - {fileID: 2088613733}
   - {fileID: 1795014437}
+  - {fileID: 1990422551}
   - {fileID: 8203945}
   - {fileID: 942942248}
   - {fileID: 356400078}
@@ -28960,13 +28965,9 @@ Transform:
   - {fileID: 1701925853}
   - {fileID: 1772144136}
   - {fileID: 360219055}
+  - {fileID: 1116857184}
   - {fileID: 956426330}
   - {fileID: 1481087076}
-  - {fileID: 575294062}
-  - {fileID: 233686873}
-  - {fileID: 341230014}
-  - {fileID: 1990422551}
-  - {fileID: 1116857184}
   - {fileID: 609690978}
   m_Father: {fileID: 0}
   m_RootOrder: 20
@@ -29833,7 +29834,7 @@ Transform:
   m_LocalScale: {x: 10, y: 2.517131, z: 10}
   m_Children: []
   m_Father: {fileID: 1880154897}
-  m_RootOrder: 26
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: -0.044, y: -18.395, z: 4.261}
 --- !u!64 &1990422552
 MeshCollider:
@@ -33515,7 +33516,7 @@ PrefabInstance:
       objectReference: {fileID: 1742058658}
     - target: {fileID: 5217889800413489234, guid: fe24641dde0ad1f4995e291898d10a1a, type: 3}
       propertyPath: usePotionAmountPref
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5217889800413489236, guid: fe24641dde0ad1f4995e291898d10a1a, type: 3}
       propertyPath: m_Name
