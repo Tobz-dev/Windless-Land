@@ -8,6 +8,9 @@ public class ShatterFallingPlatfom : MonoBehaviour
     private Rigidbody rbd;
     private MeshCollider meshcollider;
 
+    [SerializeField]
+    private float fallDelayTime;
+
     private FMOD.Studio.EventInstance PlatformFalling;
 
     public float fallplat;
@@ -20,7 +23,8 @@ public class ShatterFallingPlatfom : MonoBehaviour
     {
         if (collidedWithThis.gameObject.tag == "Player")
         {
-            Invoke("Fall", fallplat);
+            StartCoroutine("Fall");
+            //Invoke("Fall", fallplat);
             PlatformFalling = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/FallingPlatform");
             PlatformFalling.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
             PlatformFalling.start();
@@ -41,8 +45,10 @@ public class ShatterFallingPlatfom : MonoBehaviour
         initialposition = transform.position;
     }
 
-    void Fall()
+    private IEnumerator Fall()
     {
+        yield return new WaitForSeconds(fallDelayTime);
+
         rbd.isKinematic = false;
         meshcollider.convex = true;
         meshcollider.isTrigger = true;
