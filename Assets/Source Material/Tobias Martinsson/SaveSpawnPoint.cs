@@ -49,7 +49,7 @@ public class SaveSpawnPoint : MonoBehaviour
 
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             player.GetComponent<PlayerHealthScript>().regainHealth(100);
-            player.GetComponent<CharacterController>().ResetPotions();
+            player.GetComponent<CharacterController>().ResetPotionsToMax();
             player.GetComponent<CharacterController>().SetRespawnPoint(transform.position);
         }
     }

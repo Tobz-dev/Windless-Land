@@ -53,11 +53,17 @@ public class SceneLoaderFromBossFight : MonoBehaviour
                 PlayerPrefs.SetString("LatestSceneLoadedPref", SceneManager.GetActiveScene().name);
                 SceneManager.LoadScene("Level1_V2.0");
                 break;
-            case "Level3_V2.0":
+            case "Level2_V2.0":
+                Debug.Log("in SceneFromBoss: switch. was Lv1");
+                PlayerPrefs.SetString("LatestSceneLoadedPref", SceneManager.GetActiveScene().name);
+                SceneManager.LoadScene("Level2_V2.0");
+                break;
+            /*case "Level3_V2.0":
                 Debug.Log("in SceneFromBoss: switch. was Lv2");
                 PlayerPrefs.SetString("LatestSceneLoadedPref", SceneManager.GetActiveScene().name);
                 SceneManager.LoadScene("Level3_V2.0");
                 break;
+            */
             default:
                 Debug.Log("in SceneFromBoss: switch. was default");
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
