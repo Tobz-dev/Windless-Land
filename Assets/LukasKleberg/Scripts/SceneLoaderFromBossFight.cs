@@ -74,6 +74,6 @@ public class SceneLoaderFromBossFight : MonoBehaviour
     private void LoadCreditsScene() 
     {
         //loads menu as credits scene doesn't exist yet.
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("MainMenu_V2.0");
     }
 }
