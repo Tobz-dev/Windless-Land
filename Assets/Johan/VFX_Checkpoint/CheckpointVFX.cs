@@ -12,6 +12,9 @@ public class CheckpointVFX : MonoBehaviour
     [SerializeField]
     private GameObject shinePlanes;
     [SerializeField]
+    private GameObject shockwaveQuads;
+
+    [SerializeField]
     private Material shockwaveShaderMaterial;
     [SerializeField]
     private Material shineShaderMaterial;
@@ -38,6 +41,7 @@ public class CheckpointVFX : MonoBehaviour
         shockwaveShaderMaterial.SetFloat("Timer_", 0);
         shineShaderMaterial.SetFloat("DisolveStrength_", 5);
         shineShaderMaterial.SetFloat("MaskPower_", 7);
+        shockwaveQuads.SetActive(true);
     }
 
     // Update is called once per frame
