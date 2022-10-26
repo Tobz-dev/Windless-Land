@@ -23,6 +23,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private int heavyManaCost;
 
+    private PlayerUI playerUI;
 
     float moveSpeedDefault;
 
@@ -413,6 +414,7 @@ public class CharacterController : MonoBehaviour
         {
             mana = maxMana;
         }
+        playerUI.ManabarSetup(mana);
         //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
     }
     public void ManaDecreased(int i)
@@ -422,6 +424,7 @@ public class CharacterController : MonoBehaviour
         {
             mana = 0;
         }
+        playerUI.ManabarSetup(mana);
 
     }
 
@@ -433,11 +436,18 @@ public class CharacterController : MonoBehaviour
     public void SetMana(int x)
     {
         mana = x;
+        //call PlayerUI and Update.
+        playerUI.ManabarSetup(mana);
     }
 
     public int GetMana()
     {
         return mana;
+    }
+
+    public void SetPlayerUI(PlayerUI playerUIReceived) 
+    {
+        playerUI = playerUIReceived;
     }
 
 

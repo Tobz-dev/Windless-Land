@@ -51,8 +51,9 @@ public class PlayerUI : MonoBehaviour
         //flaskAmountText.text = characterController.GetFlaskUses().ToString();
         ChangeFlaskUI(flaskAmount);
 
-        maxMana = mana = previousMana = (int)characterController.GetMaxMana();
-        manaSlider.value = maxMana;
+
+        characterController.SetPlayerUI(this);
+        ManabarSetup(characterController.GetMana());
     }
 
 
@@ -74,21 +75,10 @@ public class PlayerUI : MonoBehaviour
             //Debug.Log("Activate CharacterController script!!!");
         }
 
-        //check for health value change
-        health = (int)hpScript.GetHealth();
-        if (health != previousHealth)
-        {
-            //HealthSetup(health, maxHealth); //Update UI 
-        }
-
         if (characterController.enabled)
         {
             mana = characterController.GetMana();
-            if (mana != previousMana && mana >= 0)
-            {
-                manaSlider.value = mana;
-                previousMana = mana;
-            }
+
         }
     }
 
@@ -133,6 +123,13 @@ public class PlayerUI : MonoBehaviour
         //Debug.Log("in PlayerUI, HealthbarSetUp. health is: " + healthbarValue);
         healthSlider.value = healthbarValue;
         //Debug.Log("in PlayerUI, HealthbarSetUp. healthSlider.value is: " + healthSlider.value);
+    }
+
+    public void ManabarSetup(int manabarValue) 
+    {
+       
+       manaSlider.value = manabarValue;
+       Debug.Log("in PlayerUI, ManabarSetup. manabarValue is: " + manabarValue);
     }
 
 

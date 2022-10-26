@@ -20,7 +20,7 @@ public class DialogueSystem : MonoBehaviour
     private void Update()
     {
 
-        if (interactionPrompt.activeInHierarchy && Input.GetKeyDown(KeyCode.E))
+        if (interactionPrompt.activeInHierarchy && (Input.GetKeyDown(KeyCode.E)))
         {
             Debug.Log("in DialogueSystem. input E.");
             interactionPrompt.SetActive(false);
