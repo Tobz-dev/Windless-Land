@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 
 //Main Author: Tim Agelii
@@ -40,8 +39,6 @@ public class PlayerHealthScript : MonoBehaviour
 
     private FMOD.Studio.EventInstance PlayerHurt;
 
-    Scene scene;
-
     [SerializeField]
     private float playerInvincibilityTime;
 
@@ -56,7 +53,6 @@ public class PlayerHealthScript : MonoBehaviour
             originalMaterial = gameObject.GetComponent<MeshRenderer>().material;
         }
 
-        scene = SceneManager.GetActiveScene();
         chilldrenAmount = transform.childCount;
         if (startOnMaxHealth) 
         {
@@ -81,7 +77,6 @@ public class PlayerHealthScript : MonoBehaviour
         if (health <= 0)
         {
             //death animation and delay
-            //SceneManager.LoadScene(scene.name);
             gameObject.GetComponent<CharacterController>().Respawn();
             //Debug.Log("Player Dead");
         }

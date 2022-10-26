@@ -40,7 +40,9 @@ public class PlayerUI : MonoBehaviour
         hpScript = player.GetComponent<PlayerHealthScript>();
 
         maxHealth = (int)hpScript.GetMaxHealth();
-        previousHealth = maxHealth;
+
+        healthSlider.maxValue = maxHealth;
+
         health = (int)hpScript.GetHealth();
         characterController = player.GetComponent<CharacterController>();
         //HealthSetup(health, maxHealth);
@@ -53,6 +55,8 @@ public class PlayerUI : MonoBehaviour
 
 
         characterController.SetPlayerUI(this);
+        manaSlider.maxValue = characterController.GetMaxMana();
+
         ManabarSetup(characterController.GetMana());
     }
 
