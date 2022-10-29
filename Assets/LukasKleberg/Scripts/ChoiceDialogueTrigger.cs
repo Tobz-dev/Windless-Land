@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ChoiceDialogueTrigger : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class ChoiceDialogueTrigger : MonoBehaviour
     private int dialogueNr;
 
     [SerializeField]
-    private GameObject dialogueTriggerToDeactivate;
+    private UnityEvent TriggerEvent;
 
     [SerializeField]
     private SoulDialogueChanger soulDialogueChanger;
@@ -27,6 +28,8 @@ public class ChoiceDialogueTrigger : MonoBehaviour
             Debug.Log("in dialogue trigger. Player entered. setting dialogue Nr to " + dialogueNr);
 
             soulDialogueChanger.SetDialogueTo(dialogueNr);
+
+            TriggerEvent.Invoke();
         }
     }
 }
