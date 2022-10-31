@@ -35,10 +35,17 @@ public class EnemyHealthScript : MonoBehaviour
 
     public string type;
 
-    Scene scene;
+    //cene scene;
 
     [SerializeField]
-    private float playerInvincibilityTime;
+    private float enemyInvincibilityTime;
+
+    [SerializeField]
+    private float deathDelayTime;
+
+    private Animator enemyAnim;
+    private bool hasDeathStarted = false;
+    private CapsuleCollider capsuleCollider;
 
     private void Awake()
     {
@@ -62,17 +69,22 @@ public class EnemyHealthScript : MonoBehaviour
             originalMaterial = GetComponentInChildren<SkinnedMeshRenderer>().material;
         }
 
-        scene = SceneManager.GetActiveScene();
+        //scene = SceneManager.GetActiveScene();
         chilldrenAmount = transform.childCount;
         if (startAtMaxHealth) 
         {
             health = Maxhealth;
         }
-        
 
+        enemyAnim = GetComponentInParent<Animator>();
         
-         healthSlider.value = GetHealthPercentage();
-        
+        healthSlider.value = GetHealthPercentage();
+
+        hasDeathStarted = false;
+
+        capsuleCollider = GetComponent<CapsuleCollider>();
+        capsuleCollider.enabled = true;
+
     }
 
     // Update is called once per frame
@@ -86,17 +98,14 @@ public class EnemyHealthScript : MonoBehaviour
 
         if (health <= 0)
         {
-            //death animation and delay
-            EnemyDead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Small Enemy/SmallEnemyDead");
-            EnemyDead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
-            EnemyDead.start();
-            EnemyDead.release();
-            Destroy(gameObject);
+
+            StartCoroutine(EnemyDeath());
+            
         }
 
         if (startInvincibilityTimer == true)
         {
-            if (DamageCooldown(playerInvincibilityTime))
+            if (DamageCooldown(enemyInvincibilityTime))
             {
                 damageIsOnCooldown = false;
                 startInvincibilityTimer = false;
@@ -194,6 +203,30 @@ public class EnemyHealthScript : MonoBehaviour
         }
         
 
+    }
+
+    private IEnumerator EnemyDeath() 
+    {
+        //play death sound and animation only once
+        if (!hasDeathStarted) 
+        {
+            Debug.Log("in EnemyDeath");
+            hasDeathStarted = true;
+
+            EnemyDead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Small Enemy/SmallEnemyDead");
+            EnemyDead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+            EnemyDead.start();
+            EnemyDead.release();
+
+            //death animation and delay
+            
+            enemyAnim.SetTrigger("EnemyDeath");
+            capsuleCollider.enabled = false;
+            this.tag = "Untagged"; 
+            
+            yield return new WaitForSeconds(deathDelayTime);
+            Destroy(gameObject);
+        }
     }
 
     public float GetHealth()

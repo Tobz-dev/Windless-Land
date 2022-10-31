@@ -6323,7 +6323,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueNr: 0
-  dialogueTriggerToDeactivate: {fileID: 0}
+  TriggerEvent:
+    m_PersistentCalls:
+      m_Calls: []
   soulDialogueChanger: {fileID: 297951155}
 --- !u!65 &218490651
 BoxCollider:
@@ -16277,6 +16279,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1534905327}
+    - target: {fileID: 4170629324495736994, guid: a280d324106f2a64e9a093630c2a3983, type: 3}
+      propertyPath: m_Name
+      value: F
+      objectReference: {fileID: 0}
     - target: {fileID: 4170629325373301308, guid: a280d324106f2a64e9a093630c2a3983, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -48844,7 +48850,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueNr: 1
-  dialogueTriggerToDeactivate: {fileID: 1850277226}
+  TriggerEvent:
+    m_PersistentCalls:
+      m_Calls: []
   soulDialogueChanger: {fileID: 297951155}
 --- !u!65 &1850277229
 BoxCollider:

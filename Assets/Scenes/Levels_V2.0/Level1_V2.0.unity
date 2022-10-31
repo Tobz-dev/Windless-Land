@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.07
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.11213312, g: 0.12818348, b: 0.15058902, a: 0.07}
+  m_IndirectSpecularColor: {r: 0.11213302, g: 0.12818336, b: 0.15058884, a: 0.07}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4125,7 +4125,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueNr: 0
-  dialogueTriggerToDeactivate: {fileID: 561212973}
+  TriggerEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 561212976}
+        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   soulDialogueChanger: {fileID: 146300924}
 --- !u!65 &189860695
 BoxCollider:
@@ -6067,7 +6081,7 @@ PrefabInstance:
       objectReference: {fileID: 473811123}
     - target: {fileID: 1499331889424146643, guid: 775cfd7984cf2424d9f0e4f626087beb, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1499331889424146643, guid: 775cfd7984cf2424d9f0e4f626087beb, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -6083,11 +6097,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7591639714235720564, guid: 775cfd7984cf2424d9f0e4f626087beb, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7591639714235720564, guid: 775cfd7984cf2424d9f0e4f626087beb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 775cfd7984cf2424d9f0e4f626087beb, type: 3}
@@ -13470,7 +13484,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueNr: 1
-  dialogueTriggerToDeactivate: {fileID: 561212973}
+  TriggerEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 561212976}
+        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   soulDialogueChanger: {fileID: 146300924}
 --- !u!65 &561212976
 BoxCollider:
@@ -22005,7 +22033,7 @@ PrefabInstance:
       objectReference: {fileID: 184761613}
     - target: {fileID: 1499331889424146643, guid: 775cfd7984cf2424d9f0e4f626087beb, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1499331889424146643, guid: 775cfd7984cf2424d9f0e4f626087beb, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -22021,11 +22049,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7591639714235720564, guid: 775cfd7984cf2424d9f0e4f626087beb, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7591639714235720564, guid: 775cfd7984cf2424d9f0e4f626087beb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 775cfd7984cf2424d9f0e4f626087beb, type: 3}
@@ -35892,15 +35920,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 126908973045354008, guid: c3ab9683747119c4fbc8cf66ebeea7ce, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 126908973045354008, guid: c3ab9683747119c4fbc8cf66ebeea7ce, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 126908973045354008, guid: c3ab9683747119c4fbc8cf66ebeea7ce, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 937377317438059396, guid: c3ab9683747119c4fbc8cf66ebeea7ce, type: 3}
       propertyPath: m_LocalPosition.x
@@ -35916,7 +35944,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1962314397150537572, guid: c3ab9683747119c4fbc8cf66ebeea7ce, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1962314397150537572, guid: c3ab9683747119c4fbc8cf66ebeea7ce, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -44935,7 +44963,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2106992110
 Transform:
   m_ObjectHideFlags: 0
@@ -45788,7 +45816,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1914293267168533463, guid: ee2156c6e0861bc4cb5723c510028421, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1914293267168533463, guid: ee2156c6e0861bc4cb5723c510028421, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -45888,11 +45916,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7423253680130791536, guid: ee2156c6e0861bc4cb5723c510028421, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7423253680130791536, guid: ee2156c6e0861bc4cb5723c510028421, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7738636834698128679, guid: ee2156c6e0861bc4cb5723c510028421, type: 3}
       propertyPath: health
@@ -45941,7 +45969,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035368307530854830}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 24.36, y: 4.82, z: 81.58}
+  m_LocalPosition: {x: 24.36, y: 4.82, z: 91.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1588551214}
@@ -46461,7 +46489,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5217889800413489231, guid: fe24641dde0ad1f4995e291898d10a1a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 44.33
+      value: 21.62
       objectReference: {fileID: 0}
     - target: {fileID: 5217889800413489231, guid: fe24641dde0ad1f4995e291898d10a1a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -46469,7 +46497,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5217889800413489231, guid: fe24641dde0ad1f4995e291898d10a1a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 94.36
+      value: 71.23
       objectReference: {fileID: 0}
     - target: {fileID: 5217889800413489231, guid: fe24641dde0ad1f4995e291898d10a1a, type: 3}
       propertyPath: m_LocalRotation.w
