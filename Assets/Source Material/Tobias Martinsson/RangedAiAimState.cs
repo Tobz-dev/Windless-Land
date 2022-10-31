@@ -47,9 +47,9 @@ public class RangedAiAimState : State
             {
                 Debug.Log("Entered RunUpdate, firing");
                 Agent.animator.SetTrigger("BowRecoil");
-                Agent.GetComponent<ArrowScript>().shootArrow();
+                //Agent.GetComponent<ArrowScript>().shootArrow();
                 shootCooldown = originalTime;
-                Agent.animator.SetTrigger("StartIdle");
+                Agent.animator.SetTrigger("BowStop");
             }
 
         }
