@@ -28,6 +28,9 @@ public class BossMechanicsScript : MonoBehaviour
     [SerializeField]
     private GameObject circleHitBox;
     [SerializeField]
+    private GameObject circleVFX;
+
+    [SerializeField]
     private Vector3 playPosAtAttack;
 
     private void Start()
@@ -77,6 +80,14 @@ public class BossMechanicsScript : MonoBehaviour
         else if(floor.name == "BossDangerFloorCircle")
         {
             GameObject memes = Instantiate(circleHitBox, playPosAtAttack, Quaternion.Euler(0,0,0));
+
+
+
+            float tempZPosition = playPosAtAttack.z - 4;
+            //tempPositionHolder.transform.position.z = 
+            Vector3 tempVFXPosition = new Vector3(playPosAtAttack.x, playPosAtAttack.y, tempZPosition);
+
+            Instantiate(circleVFX, tempVFXPosition, Quaternion.Euler(0, 0, 0));
 
         }
         //Starts a coroutine to fadeout the attack after it has fully been faded in.
