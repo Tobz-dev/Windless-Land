@@ -289,7 +289,7 @@ public class CharacterController : MonoBehaviour
                 AttackManager();
 
 
-                BowManager();
+                //BowManager();
 
 
                 DodgerollManager();
@@ -298,7 +298,7 @@ public class CharacterController : MonoBehaviour
 
             }
 
-            EquipManager();
+            //EquipManager();
 
             UpdateEventVariables();
 
