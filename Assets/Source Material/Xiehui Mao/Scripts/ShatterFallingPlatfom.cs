@@ -18,17 +18,24 @@ public class ShatterFallingPlatfom : MonoBehaviour
     public bool isFalling = false;
     public Vector3 initialposition;
 
+    private bool playFallSoundStarted = false;
 
     void OnCollisionEnter(Collision collidedWithThis)
     {
         if (collidedWithThis.gameObject.tag == "Player")
         {
-            StartCoroutine("Fall");
-            //Invoke("Fall", fallplat);
-            PlatformFalling = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/FallingPlatform");
-            PlatformFalling.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
-            PlatformFalling.start();
-            PlatformFalling.release();
+            if (!playFallSoundStarted)  
+            {
+                StartCoroutine("Fall");
+                //Invoke("Fall", fallplat);
+                PlatformFalling = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/FallingPlatform");
+                PlatformFalling.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+                PlatformFalling.start();
+                PlatformFalling.release();
+
+                playFallSoundStarted = true;
+            }
+
 
         }
     }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -218,12 +219,21 @@ public class EnemyHealthScript : MonoBehaviour
             EnemyDead.start();
             EnemyDead.release();
 
-            //death animation and delay
-            
+            //trigger death animation.
             enemyAnim.SetTrigger("EnemyDeath");
+
+            //disable the collider so the player can't hit the enemy (and get more ma.
             capsuleCollider.enabled = false;
-            this.tag = "Untagged"; 
-            
+
+            //to prevent the player from targeting this enemy with autoaim.
+            this.tag = "Untagged";
+
+            //to prevent the enemy from moving after dying.
+            //use the first one to avoid errors in Editor or if built in dev mode.
+            //otherwise use the second one as it also prevents rotation.
+            this.GetComponent<NavMeshAgent>().areaMask = 0;
+            //this.GetComponent<NavMeshAgent>().enabled = false;
+
             yield return new WaitForSeconds(deathDelayTime);
             Destroy(gameObject);
         }
