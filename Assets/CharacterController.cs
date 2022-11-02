@@ -965,6 +965,8 @@ public class CharacterController : MonoBehaviour
         {
             transform.rotation = lookRotation;
         }
+
+        invincibility = true;
         attacking = true;
 
         if (autoAim == true)
@@ -1043,6 +1045,8 @@ public class CharacterController : MonoBehaviour
             {
                 playerRgb.velocity = new Vector3(0, playerRgb.velocity.y, 0);
 
+                invincibility = false;
+
                 if (AttackWaitTimer(lightSwingCooldown))
                 {
                     anim.SetTrigger("StopAttack");
@@ -1094,16 +1098,8 @@ public class CharacterController : MonoBehaviour
                     StartDodgeroll();
 
                 }
-
-
-
-
-
             }
-
         }
-
-
     }
 
     private void AttackCancel()
@@ -1125,8 +1121,6 @@ public class CharacterController : MonoBehaviour
         transform.GetComponentInParent<PlayerAnimEvents>().SetEndOfAttackFalse();
         queueDodge = false;
         queueAttack = false;
-
-
 
     }
 
@@ -1274,8 +1268,6 @@ public class CharacterController : MonoBehaviour
         invincibility = true;
 
 
-
-
         anim.SetBool("Dying", true);
         Dead = FMODUnity.RuntimeManager.CreateInstance("event:/Character/Player/Dead");
         Dead.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
@@ -1283,7 +1275,6 @@ public class CharacterController : MonoBehaviour
         Dead.release();
         StartCoroutine(TrueRespawn());
         GetComponent<PlayerHealthScript>().regainHealth(1000);
-
 
     }
 
@@ -1453,8 +1444,6 @@ public class CharacterController : MonoBehaviour
 
     public void UpdateAutoaim()
     {
-
-
         INIParser ini = new INIParser();
         ini.Open(Application.persistentDataPath + "ProtoConfig.ini");
         autoAim = ini.ReadValue("Henrik", "autoAim;", true);
@@ -1463,5 +1452,3 @@ public class CharacterController : MonoBehaviour
 
 
 }
-
-
