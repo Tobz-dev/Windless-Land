@@ -53,15 +53,16 @@ public class SceneLoaderFromBossFight : MonoBehaviour
                 PlayerPrefs.SetString("LatestSceneLoadedPref", SceneManager.GetActiveScene().name);
                 SceneManager.LoadScene("Level1_V2.0");
                 break;
-            case "Level2_V2.0":
+            /*case "Level2_V3.0":
                 Debug.Log("in SceneFromBoss: switch. was Lv1");
                 PlayerPrefs.SetString("LatestSceneLoadedPref", SceneManager.GetActiveScene().name);
-                SceneManager.LoadScene("Level2_V2.0");
+                SceneManager.LoadScene("Level2_V3.0");
                 break;
-            /*case "Level3_V2.0":
+                */
+            /*case "Level3_V3.0":
                 Debug.Log("in SceneFromBoss: switch. was Lv2");
                 PlayerPrefs.SetString("LatestSceneLoadedPref", SceneManager.GetActiveScene().name);
-                SceneManager.LoadScene("Level3_V2.0");
+                SceneManager.LoadScene("Level3_V3.0");
                 break;
             */
             default:
@@ -73,7 +74,6 @@ public class SceneLoaderFromBossFight : MonoBehaviour
 
     private void LoadCreditsScene() 
     {
-        //loads menu as credits scene doesn't exist yet.
-        SceneManager.LoadScene("MainMenu_V2.0");
+        SceneManager.LoadScene("CreditsScene_V1.0");
     }
 }

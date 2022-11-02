@@ -181,9 +181,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   Maxhealth: 3
+  startAtMaxHealth: 1
   material: {fileID: 2100000, guid: c103ed8a6e675b5479be69ce128d0892, type: 2}
+  originalMaterial: {fileID: 0}
   healthSlider: {fileID: 1523668060629209191}
-  playerInvincibilityTime: 0
+  type: 
+  enemyInvincibilityTime: 0
+  deathDelayTime: 2
 --- !u!114 &2637796967044828284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,6 +200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2fd680a93a5c9a47b5a96bf2f87d5fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bigArrowPrefab: {fileID: 0}
   arrowPrefab: {fileID: 4306732365073514678, guid: bc431a83e440ad24695725aac3ad75e3, type: 3}
   arrowSpawnPosition: {fileID: 665277204061849476}
   shootForce: 20
