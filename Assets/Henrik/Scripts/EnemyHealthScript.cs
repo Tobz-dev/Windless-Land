@@ -231,8 +231,8 @@ public class EnemyHealthScript : MonoBehaviour
             //to prevent the enemy from moving after dying.
             //use the first one to avoid errors in Editor or if built in dev mode.
             //otherwise use the second one as it also prevents rotation.
-            this.GetComponent<NavMeshAgent>().areaMask = 0;
-            //this.GetComponent<NavMeshAgent>().enabled = false;
+            //this.GetComponent<NavMeshAgent>().areaMask = 0;
+            this.GetComponent<NavMeshAgent>().enabled = false;
 
             yield return new WaitForSeconds(deathDelayTime);
             Destroy(gameObject);
