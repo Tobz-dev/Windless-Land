@@ -42,6 +42,7 @@ public class PauseMenu : MonoBehaviour
         }
 
         gameIsPaused = false;
+        Cursor.lockState = CursorLockMode.None;
 
         eventSystemHelper.SetActive(false);
         pauseMenuBackground.SetActive(false);
@@ -98,6 +99,7 @@ public class PauseMenu : MonoBehaviour
         eventSystemHelper.SetActive(false);
 
         playerHUD.SetActive(true);
+        Cursor.lockState = CursorLockMode.Locked;
 
         if (bossHUD != null)
         {
@@ -131,6 +133,7 @@ public class PauseMenu : MonoBehaviour
         eventSystemHelper.SetActive(true);
 
         playerHUD.SetActive(false);
+        Cursor.lockState = CursorLockMode.None;
 
         if (bossHUD != null)
         {
@@ -146,6 +149,7 @@ public class PauseMenu : MonoBehaviour
     public void LoadScene(string sceneToLoad) 
     {
         Debug.Log("in PauseMenu, LoadScene with" + sceneToLoad);
+        Cursor.lockState = CursorLockMode.Locked;
         SceneManager.LoadScene(sceneToLoad);
     }
 
