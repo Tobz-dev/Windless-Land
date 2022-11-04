@@ -1401,7 +1401,7 @@ public class CharacterController : MonoBehaviour
 
     public void SetPlayerCanMove(bool newValue) 
     {
-        Debug.Log("in CC, SetPlayerCanMove. new value is: " + newValue);
+        //Debug.Log("in CC, SetPlayerCanMove. new value is: " + newValue);
         canMove = newValue;
     }
 

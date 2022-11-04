@@ -22,12 +22,12 @@ public class ManabarParticles : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (playerScript.GetMana() >=30)
+        if (playerScript.GetMana() >=50)
         {
             manaHadleParticles.SetActive(true);
             lowManaParticles.SetActive(false);
         }
-        else if (playerScript.GetMana() < 30)
+        else if (playerScript.GetMana() < 50)
         {
             manaHadleParticles.SetActive(false);
             lowManaParticles.SetActive(true);

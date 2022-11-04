@@ -44,6 +44,9 @@ public class EnemyHealthScript : MonoBehaviour
     [SerializeField]
     private float deathDelayTime;
 
+    [SerializeField]
+    private Rigidbody collisonBody;
+
     private Animator enemyAnim;
     private bool hasDeathStarted = false;
     private CapsuleCollider capsuleCollider;
@@ -86,16 +89,14 @@ public class EnemyHealthScript : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider>();
         capsuleCollider.enabled = true;
 
+        collisonBody = GetComponentInChildren<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-
-        
-            healthSlider.value = GetHealthPercentage();
-        
+        healthSlider.value = GetHealthPercentage();       
 
         if (health <= 0)
         {
@@ -227,12 +228,13 @@ public class EnemyHealthScript : MonoBehaviour
 
             //to prevent the player from targeting this enemy with autoaim.
             this.tag = "Untagged";
+            collisonBody.detectCollisions = false;
 
             //to prevent the enemy from moving after dying.
-            //use the first one to avoid errors in Editor or if built in dev mode.
-            //otherwise use the second one as it also prevents rotation.
-            //this.GetComponent<NavMeshAgent>().areaMask = 0;
-            this.GetComponent<NavMeshAgent>().enabled = false;
+            //but it does still rotate
+
+            this.GetComponent<NavMeshAgent>().areaMask = 0;
+
 
             yield return new WaitForSeconds(deathDelayTime);
             Destroy(gameObject);
