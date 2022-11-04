@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerPrefReseter : MonoBehaviour
+public class PlayerPrefManager : MonoBehaviour
 {
 
     //resets all PlayerPrefs
@@ -22,13 +22,14 @@ public class PlayerPrefReseter : MonoBehaviour
         PlayerPrefs.SetString("PotionNr4Pref", "notPickedUp");
         PlayerPrefs.SetString("PotionNr5Pref", "notPickedUp");
 
-
-        //amount of potions PlayerPref =0.
-        PlayerPrefs.SetInt("PotionAmountPref", 0);
-
         //something for dialogue?
 
         //latest scene loaded
         PlayerPrefs.SetString("LatestSceneLoadedPref", "blank");
+    }
+
+    public void SetPotionAmount(int amount) 
+    {
+        PlayerPrefs.SetInt("PotionAmountPref", amount);
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : MonoBehaviour
 {
     [SerializeField]
-    private PlayerPrefReseter playerPrefReseter;
+    private PlayerPrefManager playerPrefReseter;
 
     //This script is only used on the mainmenu.
     //So prefs are only reset from the mainmenu.
