@@ -8,20 +8,27 @@ using UnityEngine.UI;
 public class EventSystemHelper : MonoBehaviour
 {
     [SerializeField]
-    private GameObject currentSelectedGameObject;
+    private GameObject currentFirstSelectedGameObject;
     [SerializeField]
     private bool isKeyBoardActive = true;
     [SerializeField]
     private bool shouldSetToStartObject = false;
-     
+
+    [SerializeField]
+    private GraphicRaycaster raycaster;
+
+    private PointerEventData m_PointerEventData;
 
     public void Start()
     {
-        currentSelectedGameObject = EventSystem.current.firstSelectedGameObject;
+        currentFirstSelectedGameObject = EventSystem.current.firstSelectedGameObject;
+
     }
 
     public void Update()
     {
+
+
 
         if (Input.GetAxis("Mouse X") < 0 || Input.GetAxis("Mouse X") > 0)
         {
@@ -29,9 +36,12 @@ public class EventSystemHelper : MonoBehaviour
             //Debug.Log("Mouse moved left");
             if(isKeyBoardActive) 
             {
+
                 Cursor.lockState = CursorLockMode.None;
+
                 //Cursor.visible = true;
                 DisableSelection();
+
             }
             
         }
@@ -45,22 +55,49 @@ public class EventSystemHelper : MonoBehaviour
                 return;
             }
 
-            else 
+            //else it is a keyboard input, then diable the mouse cursor. and enable to eventsystem selection.
+            else
             {
-                //else it is a keyboard input, then diable the mouse cursor. and enable to eventsystem selection.
+                Debug.Log("key press");
 
-                //Hmm. this makes it so the cursor can be on a button in the center. and I do want to avoid that.
+                //raycast. and check for button.
+                //set its anim to normal.
+
+                m_PointerEventData = new PointerEventData(EventSystem.current);
+                //Set the Pointer Event Position to that of the mouse position
+                m_PointerEventData.position = Input.mousePosition;
+
+                //Create a list of Raycast Results
+                List<RaycastResult> results = new List<RaycastResult>();
+
+                //Raycast using the Graphics Raycaster and mouse click position
+                raycaster.Raycast(m_PointerEventData, results);
+
+                //For every result returned, output the name of the GameObject on the Canvas hit by the Ray
+                foreach (RaycastResult result in results)
+                {
+                    Debug.Log("Hit " + result.gameObject.name);
+                    if (TryGetComponent(out RectTransform buttonAnimator))
+                    {
+                        Debug.Log(result.gameObject.name + " had a RectTransform");
+                        //buttonAnimator.SetTrigger("Normal");
+                    }
+                    else 
+                    {
+                        Debug.Log(result.gameObject.name + " did not have a RectTransform");
+                    }                    
+                }
+
+
+                //currentGameObject.GetComponent<Animator>().SetTrigger("Normal");
+
                 Cursor.lockState = CursorLockMode.Locked;
-                //Cursor.visible = false;
 
 
                 isKeyBoardActive = true;
 
                 SetToStartObject();
-
-                //Debug.Log("key press");
             }
-
         }
     }
 
@@ -69,7 +106,7 @@ public class EventSystemHelper : MonoBehaviour
     {
         //Debug.Log("in EventSystemHelper, setting first selected to " + newFirstSelectedObject.name);
 
-        currentSelectedGameObject = newFirstSelectedObject;
+        currentFirstSelectedGameObject = newFirstSelectedObject;
 
         EventSystem.current.firstSelectedGameObject = newFirstSelectedObject;
 
@@ -77,12 +114,11 @@ public class EventSystemHelper : MonoBehaviour
         {
             ApplyCurrentSelectedGameObject();
         }
-
         //Debug.Log("now it is " + EventSystem.current.ToString());
 
     }
 
-    public void SetToStartObject()
+    private void SetToStartObject()
     {
         if (shouldSetToStartObject) 
         {
@@ -92,18 +128,18 @@ public class EventSystemHelper : MonoBehaviour
     }
 
 
-    public void ApplyCurrentSelectedGameObject() 
+    private void ApplyCurrentSelectedGameObject() 
     {
         EventSystem.current.SetSelectedGameObject(null);
 
-        EventSystem.current.SetSelectedGameObject(currentSelectedGameObject);
+        EventSystem.current.SetSelectedGameObject(currentFirstSelectedGameObject);
     }
 
-    public void DisableSelection() 
+    private void DisableSelection() 
     {
-        currentSelectedGameObject = EventSystem.current.firstSelectedGameObject;
+        currentFirstSelectedGameObject = EventSystem.current.firstSelectedGameObject;
 
-        //Debug.Log("in disable selection, set null");
+        Debug.Log("in disable selection, set null");
         EventSystem.current.SetSelectedGameObject(null); 
 
         isKeyBoardActive = false;
