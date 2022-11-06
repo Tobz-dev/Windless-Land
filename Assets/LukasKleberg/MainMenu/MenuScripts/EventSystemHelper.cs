@@ -62,7 +62,8 @@ public class EventSystemHelper : MonoBehaviour
             {
                 Debug.Log("key press");
 
-                //firstKeyInputAfterMouse
+                //on the first keyboard input it disables the animation made by the mouse. (if any).
+                //
                 if (!firstKeyInputAfterMouseInput) 
                 {
                     //raycast. and check for button.
@@ -81,19 +82,19 @@ public class EventSystemHelper : MonoBehaviour
                     //For every result returned, output the name of the GameObject on the Canvas hit by the Ray
                     foreach (RaycastResult result in results)
                     {
-                        Debug.Log("Hit " + result.gameObject.name);
+                        //Debug.Log("Hit " + result.gameObject.name);
 
                         //result.gameObject.GetComponent<Animator>().SetTrigger("Normal");
 
                         if (result.gameObject.TryGetComponent(out Animator buttonAnimator))
                         {
-                            Debug.Log(result.gameObject.name + " had a Animator");
+                            //Debug.Log(result.gameObject.name + " had a Animator");
                             buttonAnimator.SetTrigger("Normal");
                             //hit.transform.gameObject.GetComponent(script)
                         }
                         else
                         {
-                            Debug.Log(result.gameObject.name + " did not have a Animator");
+                            //Debug.Log(result.gameObject.name + " did not have a Animator");
                         }
 
                     }
