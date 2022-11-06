@@ -19,6 +19,8 @@ public class EventSystemHelper : MonoBehaviour
 
     private PointerEventData m_PointerEventData;
 
+    private bool firstKeyInputAfterMouseInput;
+
     public void Start()
     {
         currentFirstSelectedGameObject = EventSystem.current.firstSelectedGameObject;
@@ -41,7 +43,7 @@ public class EventSystemHelper : MonoBehaviour
 
                 //Cursor.visible = true;
                 DisableSelection();
-
+                firstKeyInputAfterMouseInput = false;
             }
             
         }
@@ -60,39 +62,44 @@ public class EventSystemHelper : MonoBehaviour
             {
                 Debug.Log("key press");
 
-                //raycast. and check for button.
-                //set its anim to normal.
-
-                m_PointerEventData = new PointerEventData(EventSystem.current);
-                //Set the Pointer Event Position to that of the mouse position
-                m_PointerEventData.position = Input.mousePosition;
-
-                //Create a list of Raycast Results
-                List<RaycastResult> results = new List<RaycastResult>();
-
-                //Raycast using the Graphics Raycaster and mouse click position
-                raycaster.Raycast(m_PointerEventData, results);
-
-                //For every result returned, output the name of the GameObject on the Canvas hit by the Ray
-                foreach (RaycastResult result in results)
+                //firstKeyInputAfterMouse
+                if (!firstKeyInputAfterMouseInput) 
                 {
-                    Debug.Log("Hit " + result.gameObject.name);
+                    //raycast. and check for button.
+                    //set its anim to normal.
 
-                    //result.gameObject.GetComponent<Animator>().SetTrigger("Normal");
-                    
-                    if (result.gameObject.TryGetComponent(out Animator buttonAnimator))
+                    m_PointerEventData = new PointerEventData(EventSystem.current);
+                    //Set the Pointer Event Position to that of the mouse position
+                    m_PointerEventData.position = Input.mousePosition;
+
+                    //Create a list of Raycast Results
+                    List<RaycastResult> results = new List<RaycastResult>();
+
+                    //Raycast using the Graphics Raycaster and mouse click position
+                    raycaster.Raycast(m_PointerEventData, results);
+
+                    //For every result returned, output the name of the GameObject on the Canvas hit by the Ray
+                    foreach (RaycastResult result in results)
                     {
-                        Debug.Log(result.gameObject.name + " had a Animator");
-                        buttonAnimator.SetTrigger("Normal");
-                        //hit.transform.gameObject.GetComponent(script)
+                        Debug.Log("Hit " + result.gameObject.name);
+
+                        //result.gameObject.GetComponent<Animator>().SetTrigger("Normal");
+
+                        if (result.gameObject.TryGetComponent(out Animator buttonAnimator))
+                        {
+                            Debug.Log(result.gameObject.name + " had a Animator");
+                            buttonAnimator.SetTrigger("Normal");
+                            //hit.transform.gameObject.GetComponent(script)
+                        }
+                        else
+                        {
+                            Debug.Log(result.gameObject.name + " did not have a Animator");
+                        }
+
                     }
-                    else 
-                    {
-                        Debug.Log(result.gameObject.name + " did not have a Animator");
-                    }        
-                    
-                }
 
+                    firstKeyInputAfterMouseInput = true;
+                }
 
                 //currentGameObject.GetComponent<Animator>().SetTrigger("Normal");
 
