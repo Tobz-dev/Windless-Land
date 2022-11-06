@@ -31,6 +31,6 @@ public class EnemyDeath : State
     }
     public override void RunUpdate()
     {
-        //Lol lmao.
+        //Do nothing.
     }
 }

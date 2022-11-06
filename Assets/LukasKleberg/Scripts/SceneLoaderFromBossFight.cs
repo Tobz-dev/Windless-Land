@@ -34,6 +34,7 @@ public class SceneLoaderFromBossFight : MonoBehaviour
 
         if (!GameObject.Find("Boss")) 
         {
+            //can be an enumerator to give the boss a death animation.
             LoadCreditsScene();
         }
     }
