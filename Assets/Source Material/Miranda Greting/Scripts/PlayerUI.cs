@@ -133,7 +133,7 @@ public class PlayerUI : MonoBehaviour
     {
        
        manaSlider.value = manabarValue;
-       Debug.Log("in PlayerUI, ManabarSetup. manabarValue is: " + manabarValue);
+       //Debug.Log("in PlayerUI, ManabarSetup. manabarValue is: " + manabarValue);
     }
 
 

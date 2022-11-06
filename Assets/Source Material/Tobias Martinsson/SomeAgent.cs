@@ -22,6 +22,8 @@ public class SomeAgent : MonoBehaviour
 
     public Vector3 PlayerPosition => Player.position;
 
+    private bool isDead;
+
     private void Awake()
     {
         //Sets patrolpoints
@@ -42,11 +44,22 @@ public class SomeAgent : MonoBehaviour
         StateMachine = new StateMachine(this, States);
 
         Player = GameObject.FindGameObjectWithTag("Player").transform;
+        Debug.Log("in agent.");
     }
 
     private void Update()
     {
-        StateMachine.RunUpdate();
+        if (!isDead)
+        {
+            StateMachine.RunUpdate();
+        }
+        else 
+        {
+            StateMachine.ChangeState<EnemyDeath>();
+            //hmm. this makes it enter the state in update. not ideal.
+            //but the enemy stops moving. and doesnt rotate. I call that a success.
+            //and death state doesn't have any logic in it so all enemies can share a state.
+        }
     }
 
     public Transform GetPatrolPoint()
@@ -65,6 +78,10 @@ public class SomeAgent : MonoBehaviour
         PatrolPoints = pPoints;
     }
 
-
+    public void SetIsDead(bool b) 
+    {
+        //Debug.Log("in SA. SetIsDead: " + b);
+        isDead = b;
+    }
 
 }

@@ -57,7 +57,7 @@ public class EnemyHealthScript : MonoBehaviour
 
         if (System.IO.File.Exists(Application.persistentDataPath + "Config.ini"))
         {
-            //UpdateConfig();
+            UpdateConfig();
 
         }
     }
@@ -233,9 +233,11 @@ public class EnemyHealthScript : MonoBehaviour
             //to prevent the enemy from moving after dying.
             //but it does still rotate
 
-            this.GetComponent<NavMeshAgent>().areaMask = 0;
+            //this.GetComponent<NavMeshAgent>().areaMask = 0;
 
-
+            //enter death state.    
+            //StateMachine.ChangeState<AiChasePlayer>();
+            this.GetComponent<SomeAgent>().SetIsDead(true);
             yield return new WaitForSeconds(deathDelayTime);
             Destroy(gameObject);
         }
