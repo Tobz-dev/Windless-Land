@@ -77,15 +77,20 @@ public class EventSystemHelper : MonoBehaviour
                 foreach (RaycastResult result in results)
                 {
                     Debug.Log("Hit " + result.gameObject.name);
-                    if (TryGetComponent(out RectTransform buttonAnimator))
+
+                    //result.gameObject.GetComponent<Animator>().SetTrigger("Normal");
+                    
+                    if (result.gameObject.TryGetComponent(out Animator buttonAnimator))
                     {
-                        Debug.Log(result.gameObject.name + " had a RectTransform");
-                        //buttonAnimator.SetTrigger("Normal");
+                        Debug.Log(result.gameObject.name + " had a Animator");
+                        buttonAnimator.SetTrigger("Normal");
+                        //hit.transform.gameObject.GetComponent(script)
                     }
                     else 
                     {
-                        Debug.Log(result.gameObject.name + " did not have a RectTransform");
-                    }                    
+                        Debug.Log(result.gameObject.name + " did not have a Animator");
+                    }        
+                    
                 }
 
 
