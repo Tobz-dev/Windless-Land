@@ -11,16 +11,20 @@ public class DialogueSystem : MonoBehaviour
 
     private DialogueManager dialogueManager;
 
+    private PlayerInputs inputActions;
+
     private void Start()
     {
         interactionPrompt.SetActive(false);
         dialogueManager = FindObjectOfType<DialogueManager>();
+
+        inputActions = InputManager.inputActions;
     }
 
     private void Update()
     {
 
-        if (interactionPrompt.activeInHierarchy && (Input.GetKeyDown(KeyCode.E)))
+        if (interactionPrompt.activeInHierarchy && ((Input.GetKeyDown(KeyCode.E) || inputActions.WindlessLand.Interact.triggered)))
         {
             Debug.Log("in DialogueSystem. input E.");
             interactionPrompt.SetActive(false);

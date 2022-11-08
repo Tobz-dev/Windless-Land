@@ -786,7 +786,7 @@ public class CharacterController : MonoBehaviour
 
     private void DodgerollManager()
     {
-        if ((inputActions.WindlessLand.Dodgeroll.triggered || Input.GetKeyDown(KeyCode.LeftShift)/*Input.GetKeyDown(KeyCode.Space)*/ )  
+        if ((inputActions.WindlessLand.Dodgeroll.triggered/*Input.GetKeyDown(KeyCode.Space)*/ )  
             && dodgerollOfCooldown && attacking == false && bowIsActive == false && moveAllow == true)
         {
             StartDodgeroll();

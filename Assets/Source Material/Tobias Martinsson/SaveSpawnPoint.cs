@@ -41,18 +41,23 @@ public class SaveSpawnPoint : MonoBehaviour
         //&& usedCheckpoint == false
         if ((Input.GetKeyDown(KeyCode.E) || inputActions.WindlessLand.Interact.triggered) && playerOnCheckpoint )
         {
-            //usedCheckpoint = true;
-            //panel.SetActive(false);
-            PressE.SetActive(false);
-
-            RespawnEnemies();
-            GetComponent<CheckpointVFX>().StartEffect();
-
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            player.GetComponent<PlayerHealthScript>().regainHealth(100);
-            player.GetComponent<CharacterController>().ResetPotionsToMax();
-            player.GetComponent<CharacterController>().SetRespawnPoint(transform.position);
+            ActivateCheckpoint();
         }
+    }
+
+    public void ActivateCheckpoint() 
+    {
+        //usedCheckpoint = true;
+        //panel.SetActive(false);
+        PressE.SetActive(false);
+
+        RespawnEnemies();
+        GetComponent<CheckpointVFX>().StartEffect();
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<PlayerHealthScript>().regainHealth(100);
+        player.GetComponent<CharacterController>().ResetPotionsToMax();
+        player.GetComponent<CharacterController>().SetRespawnPoint(transform.position);
     }
 
     private void OnTriggerExit(Collider collision)

@@ -11,6 +11,10 @@ public class SetReturnSpawn : MonoBehaviour
     private CharacterController characterController;
 
     [SerializeField]
+    private SaveSpawnPoint saveSpawnPoint;
+
+
+    [SerializeField]
     private string checkLatestSceneLoaded;
 
     void Start()
@@ -22,9 +26,9 @@ public class SetReturnSpawn : MonoBehaviour
             //Debug.Log(checkLatestSceneLoaded);
             //Debug.Log(PlayerPrefs.GetString("LatestSceneLoadedPref"));
             player.transform.position = transform.position;
-            //characterController.MovePlayerTo(gameObject.transform.position);
-            //characterController.respawnPoint = gameObject.transform;
-            characterController.SetRespawnPoint(transform.position);
+
+            saveSpawnPoint.ActivateCheckpoint();
+            //characterController.SetRespawnPoint(transform.position);
         }
     }
 
