@@ -29,6 +29,7 @@ public class EventSystemHelper : MonoBehaviour
     public void Start()
     {
         currentFirstSelectedGameObject = EventSystem.current.firstSelectedGameObject;
+        //isKeyBoardActive = true;
         //SetToStartObject();
     }
 
@@ -73,7 +74,7 @@ public class EventSystemHelper : MonoBehaviour
                 if (!firstKeyInputAfterMouseInput) 
                 {
 
-
+                    //Debug.Log("in ESC, raycasting.");
                     m_PointerEventData = new PointerEventData(EventSystem.current);
                     //Set the Pointer Event Position to that of the mouse position
                     m_PointerEventData.position = Input.mousePosition;
@@ -106,6 +107,8 @@ public class EventSystemHelper : MonoBehaviour
                     firstKeyInputAfterMouseInput = true;
                 }
                 
+
+
                 InputState.Change(Mouse.current.position, 0, 0);
                 Cursor.lockState = CursorLockMode.Locked;
 

@@ -81,11 +81,12 @@ public class PauseMenu : MonoBehaviour
         
         pauseMenuBackground.SetActive(false);
         pauseMenuUI.SetActive(false);
+
         eventSystemHelper.GetComponent<EventSystemHelper>().UnlockMouseCursor();
         eventSystemHelper.SetActive(false);
 
         playerHUD.SetActive(true);
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
 
         if (bossHUD != null)
         {
