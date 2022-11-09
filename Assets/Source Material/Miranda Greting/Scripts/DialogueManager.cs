@@ -12,16 +12,22 @@ public class DialogueManager : MonoBehaviour
     private Queue<string> sentences;
     private bool dialogueEnded;
 
+    private bool dialogueActiveBeforePause;
+
+    private PlayerInputs inputActions;
+
     void Start()
     {
         sentences = new Queue<string>();
         dialogueBox.SetActive(false);
         dialogueEnded = true;
+
+        inputActions = InputManager.inputActions;
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.E) && !dialogueEnded)
+        if ((inputActions.WindlessLand.Interact.triggered) && !dialogueEnded)
         {
             DisplayNextSentence();
         }
@@ -33,6 +39,8 @@ public class DialogueManager : MonoBehaviour
     {
         //Debug.Log("DM, start dialogue 1");
         dialogueEnded = false;
+
+
         dialogueBox.SetActive(true);
         nameText.text = dialogue.name;
 
@@ -62,9 +70,30 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
+
         //Debug.Log("DM, end dialogue");
         dialogueBox.SetActive(false);
         dialogueEnded = true;
+    }
+
+    public void EndDialogueBeforePause()
+    {
+        if (!dialogueEnded) 
+        {
+            dialogueActiveBeforePause = true;
+        }
+        EndDialogue();
+    }
+
+    public void SetBoxActiveAfterPause() 
+    {
+        if (dialogueActiveBeforePause) 
+        {
+            dialogueBox.SetActive(true);
+            dialogueEnded = false;
+            dialogueActiveBeforePause = false;
+        }
+        
     }
 
     public bool GetDialogueEnded()
@@ -72,23 +101,5 @@ public class DialogueManager : MonoBehaviour
         return dialogueEnded;
     }
 
-    /*
-public void StartDialogue(Dialogue dialogue, Transform spawnPos)
-{
-    dialogueEnded = false;
-    dialogueBox.transform.position = new Vector3(spawnPos.position.x, spawnPos.position.y, spawnPos.position.z);
-    dialogueBox.SetActive(true);
-    nameText.text = dialogue.name;
 
-    sentences.Clear();
-
-    foreach (string sentence in dialogue.sentences)
-    {
-        sentences.Enqueue(sentence);
-    }
-
-    DisplayNextSentence();
-
-}
-*/
 }

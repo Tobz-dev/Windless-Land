@@ -24,9 +24,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField]
     private GameObject prototypeController;
 
-    [SerializeField] private GameObject logpanel;
-    //what does this bool do? or, what is it supposed to do?
-    private bool logIsUp;
+    [SerializeField] private DialogueManager dialogueManager;
 
     //bossHUD isn't present in every scene. so it checks if it exists before interacting with it.
     [SerializeField] private GameObject bossHUD;
@@ -35,11 +33,7 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
-        checkIfLog();
-        if (logpanel != null)
-        {
-            logpanel.SetActive(false);
-        }
+
 
         gameIsPaused = false;
         Cursor.lockState = CursorLockMode.None;
@@ -78,15 +72,7 @@ public class PauseMenu : MonoBehaviour
                 Pause();
             }
 
-
-
         }
-
-        if(logpanel == isActiveAndEnabled && Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            logpanel.SetActive(false);
-        }
-
 
     }
 
@@ -116,6 +102,9 @@ public class PauseMenu : MonoBehaviour
         {
             Time.timeScale = 1f;
         }
+
+        dialogueManager.SetBoxActiveAfterPause();
+
         gameIsPaused = false;
         characterController.SetPlayerCanMove(true);
 
@@ -143,6 +132,10 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0.0f;
         gameIsPaused = true;
 
+        //TODO disable dialogue box.
+        //TODO end dialogue in DialogueSystem.
+        dialogueManager.EndDialogueBeforePause();
+
         characterController.SetPlayerCanMove(false);
     }
 
@@ -153,17 +146,6 @@ public class PauseMenu : MonoBehaviour
         SceneManager.LoadScene(sceneToLoad);
     }
 
-    public void checkIfLog()
-    {
-        if(logpanel == isActiveAndEnabled)
-        {
-            logIsUp = true;
-        }
-        else
-        {
-            logIsUp = false;
-        }
-    }
 
 
 

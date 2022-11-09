@@ -22,7 +22,7 @@ public class FontChange : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         for (int i = 0; i <= objectsToGetTextFromAndSetInactive.Length - 1; i++)
         {
