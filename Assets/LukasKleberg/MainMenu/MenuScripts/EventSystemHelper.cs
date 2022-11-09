@@ -29,7 +29,7 @@ public class EventSystemHelper : MonoBehaviour
     public void Start()
     {
         currentFirstSelectedGameObject = EventSystem.current.firstSelectedGameObject;
-
+        //SetToStartObject();
     }
 
     public void Update()
@@ -58,21 +58,21 @@ public class EventSystemHelper : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Mouse1))
             {
                 //if it is a mouse press do nothing.
-                //Debug.Log("left mouse click");
+                //Debug.Log("mouse click");
                 return;
             }
 
             //else it is a keyboard input, then diable the mouse cursor. and enable to eventsystem selection.
             else
             {
-                Debug.Log("key press");
+                //Debug.Log("key press");
 
                 //on the first keyboard input it disables the animation made by the mouse. (if any).
-                
+                //By raycasting from the mouse, getting eventual button and setting it's anim to normal.
+                //This is mostly for if the player tabs out of the game. neat.
                 if (!firstKeyInputAfterMouseInput) 
                 {
-                    //raycast. and check for button.
-                    //set its anim to normal.
+
 
                     m_PointerEventData = new PointerEventData(EventSystem.current);
                     //Set the Pointer Event Position to that of the mouse position
@@ -155,7 +155,7 @@ public class EventSystemHelper : MonoBehaviour
     {
         currentFirstSelectedGameObject = EventSystem.current.firstSelectedGameObject;
 
-        Debug.Log("in disable selection, set null");
+        //Debug.Log("in disable selection, set null");
         EventSystem.current.SetSelectedGameObject(null); 
 
         isKeyBoardActive = false;
