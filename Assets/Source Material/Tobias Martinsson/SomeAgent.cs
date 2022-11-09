@@ -44,7 +44,7 @@ public class SomeAgent : MonoBehaviour
         StateMachine = new StateMachine(this, States);
 
         Player = GameObject.FindGameObjectWithTag("Player").transform;
-        Debug.Log("in agent.");
+        //Debug.Log("in agent.");
     }
 
     private void Update()
