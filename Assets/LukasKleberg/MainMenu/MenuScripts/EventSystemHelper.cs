@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.UI;
 
 //Main Author: Lukas Kleberg
@@ -20,6 +22,9 @@ public class EventSystemHelper : MonoBehaviour
     private PointerEventData m_PointerEventData;
 
     private bool firstKeyInputAfterMouseInput;
+
+    //[DllImport("user32.dll")]
+    //public static extern bool SetCursorPos(int X, int Y);
 
     public void Start()
     {
@@ -63,7 +68,7 @@ public class EventSystemHelper : MonoBehaviour
                 Debug.Log("key press");
 
                 //on the first keyboard input it disables the animation made by the mouse. (if any).
-                //
+                
                 if (!firstKeyInputAfterMouseInput) 
                 {
                     //raycast. and check for button.
@@ -84,13 +89,12 @@ public class EventSystemHelper : MonoBehaviour
                     {
                         //Debug.Log("Hit " + result.gameObject.name);
 
-                        //result.gameObject.GetComponent<Animator>().SetTrigger("Normal");
 
                         if (result.gameObject.TryGetComponent(out Animator buttonAnimator))
                         {
                             //Debug.Log(result.gameObject.name + " had a Animator");
                             buttonAnimator.SetTrigger("Normal");
-                            //hit.transform.gameObject.GetComponent(script)
+                            buttonAnimator.SetTrigger("Highlighted");
                         }
                         else
                         {
@@ -98,12 +102,11 @@ public class EventSystemHelper : MonoBehaviour
                         }
 
                     }
-
+                   
                     firstKeyInputAfterMouseInput = true;
                 }
-
-                //currentGameObject.GetComponent<Animator>().SetTrigger("Normal");
-
+                
+                InputState.Change(Mouse.current.position, 0, 0);
                 Cursor.lockState = CursorLockMode.Locked;
 
 
