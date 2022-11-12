@@ -16,6 +16,8 @@ public class DialogueManager : MonoBehaviour
 
     private PlayerInputs inputActions;
 
+    private DialogueSystem dialogueSystem;
+
     void Start()
     {
         sentences = new Queue<string>();
@@ -23,6 +25,7 @@ public class DialogueManager : MonoBehaviour
         dialogueEnded = true;
 
         inputActions = InputManager.inputActions;
+        dialogueSystem = FindObjectOfType<DialogueSystem>();
     }
 
     private void Update()
@@ -71,9 +74,11 @@ public class DialogueManager : MonoBehaviour
     public void EndDialogue()
     {
 
-        //Debug.Log("DM, end dialogue");
+        Debug.Log("DM, end dialogue");
         dialogueBox.SetActive(false);
         dialogueEnded = true;
+
+        dialogueSystem.DialogueHasEnded();
     }
 
     public void EndDialogueBeforePause()
