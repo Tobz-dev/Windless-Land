@@ -82,7 +82,7 @@ public class EnemyHealthScript : MonoBehaviour
 
         enemyAnim = GetComponentInParent<Animator>();
         
-        healthSlider.value = GetHealthPercentage();
+        healthSlider.value = GetHealthPercentage() * 100;
 
         hasDeathStarted = false;
 
@@ -96,7 +96,7 @@ public class EnemyHealthScript : MonoBehaviour
     void Update()
     {
 
-        healthSlider.value = GetHealthPercentage();       
+        healthSlider.value = GetHealthPercentage() * 100;       
 
         if (health <= 0)
         {

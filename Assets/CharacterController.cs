@@ -916,11 +916,7 @@ public class CharacterController : MonoBehaviour
             closestEnemy = FindClosestEnemy();
             objectToFace = closestEnemy.transform;
 
-
-            // Vector3 hitPoint2 = closestEnemy.transform.position;
-            // Vector3 playerPositionOnPlane2 = plane.ClosestPointOnPlane(transform.position);
-            // enemyLookRotation = Quaternion.LookRotation(hitPoint2 - playerPositionOnPlane2);
-            // transform.rotation = enemyLookRotation;
+            //also check rangre
 
 
             transform.LookAt(objectToFace);
@@ -948,6 +944,7 @@ public class CharacterController : MonoBehaviour
 
     private void HeavyAttack()
     {
+        mana = mana - heavyManaCost;
 
         anim.SetTrigger("HeavyAttack");
         playerVFX.PlayHeavyAttackEffect();
@@ -958,6 +955,9 @@ public class CharacterController : MonoBehaviour
             closestEnemy = FindClosestEnemy();
             objectToFace = closestEnemy.transform;
             transform.LookAt(objectToFace);
+            //also check rangre
+            //hey look repeat code.
+
         }
 
 

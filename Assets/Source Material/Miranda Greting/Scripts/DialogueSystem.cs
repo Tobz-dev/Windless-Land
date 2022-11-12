@@ -13,8 +13,6 @@ public class DialogueSystem : MonoBehaviour
 
     private PlayerInputs inputActions;
 
-    private bool playerInRange;
-
     private void Start()
     {
         interactionPrompt.SetActive(false);
@@ -26,11 +24,10 @@ public class DialogueSystem : MonoBehaviour
     private void Update()
     {
 
-        if (playerInRange && ((Input.GetKeyDown(KeyCode.E) || inputActions.WindlessLand.Interact.triggered)))
+        if (interactionPrompt.activeInHierarchy && ((Input.GetKeyDown(KeyCode.E) || inputActions.WindlessLand.Interact.triggered)))
         {
             Debug.Log("in DialogueSystem. input E.");
-            //interactionPrompt.SetActive(false);
-            playerInRange = false;
+            interactionPrompt.SetActive(false);
             dialogueManager.StartDialogue(dialogueArray[currentDialogueNr]);
         }
 
@@ -47,7 +44,6 @@ public class DialogueSystem : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("in DialogueSystem. Player entered.");
-            playerInRange = true;
             interactionPrompt.SetActive(true);
         }
     }
@@ -56,21 +52,12 @@ public class DialogueSystem : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            playerInRange = false;
             //Debug.Log("in DialogueSystem. Player exited.");
             interactionPrompt.SetActive(false);
             dialogueManager.EndDialogue();
         }
     }
 
-    public void DialogueHasEnded() 
-    {
-
-        playerInRange = false;
-        Debug.Log("in DialogueSystem. dialogue has ended.");
-        interactionPrompt.SetActive(false);
-        Debug.Log(interactionPrompt.activeInHierarchy);
-    }
 
     public void ChangeCurrentDialogueNr(int newDialogueNr)
     {
