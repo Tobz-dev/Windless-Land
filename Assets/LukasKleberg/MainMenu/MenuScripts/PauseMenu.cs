@@ -55,6 +55,7 @@ public class PauseMenu : MonoBehaviour
         }
 
         characterController = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>();
+        dialogueManager = FindObjectOfType<DialogueManager>();
     }
 
     // Update is called once per frame
