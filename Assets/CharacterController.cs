@@ -417,7 +417,7 @@ public class CharacterController : MonoBehaviour
         playerUI.ManabarSetup(mana);
         //  gameObject.GetComponent<ArrowUI>().UpdateAmmo(mana, maxMana);
     }
-    public void ManaDecreased(int i)
+    public void DecreaseMana(int i)
     {
         mana = mana - i;
         if (mana < 0)
@@ -916,8 +916,6 @@ public class CharacterController : MonoBehaviour
             closestEnemy = FindClosestEnemy();
             objectToFace = closestEnemy.transform;
 
-            //also check rangre
-
 
             transform.LookAt(objectToFace);
         }
@@ -944,7 +942,7 @@ public class CharacterController : MonoBehaviour
 
     private void HeavyAttack()
     {
-        mana = mana - heavyManaCost;
+        DecreaseMana(heavyManaCost);
 
         anim.SetTrigger("HeavyAttack");
         playerVFX.PlayHeavyAttackEffect();
@@ -955,8 +953,6 @@ public class CharacterController : MonoBehaviour
             closestEnemy = FindClosestEnemy();
             objectToFace = closestEnemy.transform;
             transform.LookAt(objectToFace);
-            //also check rangre
-            //hey look repeat code.
 
         }
 
@@ -1438,7 +1434,15 @@ public class CharacterController : MonoBehaviour
                 closest = go;
                 distance = curDistance;
             }
+
+            //Debug.Log("in CC. distance is: " + distance);
+            //if the nearest enemy is far away, then dont autoaim.
+            if (distance > 100.0f) 
+            {
+                closest = null;
+            }
         }
+
         return closest;
     }
 

@@ -38,7 +38,7 @@ public class StateMachine
             CurrentState?.Exit();
             CurrentState = Instance;
             CurrentState.Enter();
-            Debug.Log("in SM. State is: " + Instance.name);
+            //Debug.Log("in SM. State is: " + Instance.name);
         }
     }
 }

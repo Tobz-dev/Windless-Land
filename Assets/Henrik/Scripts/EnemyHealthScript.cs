@@ -96,7 +96,7 @@ public class EnemyHealthScript : MonoBehaviour
     void Update()
     {
 
-        healthSlider.value = GetHealthPercentage() * 100;       
+        healthSlider.value = GetHealthPercentage();       
 
         if (health <= 0)
         {
