@@ -11,6 +11,7 @@ public class DialogueManager : MonoBehaviour
     public GameObject dialogueBox;
     private Queue<string> sentences;
     private bool dialogueEnded;
+    private bool dialogueStarted;
 
     private bool dialogueActiveBeforePause;
 
@@ -37,7 +38,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue)
     {
-        //Debug.Log("DM, start dialogue 1");
+        Debug.Log("DM, start dialogue 1");
         dialogueEnded = false;
 
 
@@ -51,27 +52,35 @@ public class DialogueManager : MonoBehaviour
             sentences.Enqueue(sentence);
         }
 
-        DisplayNextSentence();
+        //dialogueText.text = sentences.Dequeue();
 
+        if (dialogueText.text == "...") 
+        {
+            DisplayNextSentence();
+        }
+        
     }
 
     public void DisplayNextSentence ()
     {
         if (sentences.Count == 0)
         {
+            Debug.Log("DM, sent count 0.");
             EndDialogue();
             return;
         }
+        Debug.Log("DM, sentence amount:" + sentences.Count);
 
-        //Debug.Log("DM, next sentence");
         string sentence = sentences.Dequeue();
+        //Debug.Log("DM, next sentence:" + sentence);
         dialogueText.text = sentence;
     }
 
     public void EndDialogue()
     {
+        dialogueText.text = "...";
 
-        Debug.Log("DM, end dialogue");
+        Debug.Log("DM, end dialogue.");
         dialogueBox.SetActive(false);
         dialogueEnded = true;
 

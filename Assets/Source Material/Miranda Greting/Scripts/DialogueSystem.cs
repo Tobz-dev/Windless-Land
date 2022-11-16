@@ -24,7 +24,7 @@ public class DialogueSystem : MonoBehaviour
     private void Update()
     {
 
-        if (interactionPrompt.activeInHierarchy && ((Input.GetKeyDown(KeyCode.E) || inputActions.WindlessLand.Interact.triggered)))
+        if (interactionPrompt.activeInHierarchy && (inputActions.WindlessLand.Interact.triggered))
         {
             Debug.Log("in DialogueSystem. input E.");
             interactionPrompt.SetActive(false);
