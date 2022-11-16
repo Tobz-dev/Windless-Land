@@ -30,6 +30,7 @@ public class DialogueManager : MonoBehaviour
     {
         if ((inputActions.WindlessLand.Interact.triggered) && !dialogueEnded)
         {
+            Debug.LogWarning("DM, update show next dialogue.");
             DisplayNextSentence();
         }
     }
@@ -54,22 +55,25 @@ public class DialogueManager : MonoBehaviour
 
         //dialogueText.text = sentences.Dequeue();
 
-        if (dialogueText.text == "...") 
+        if (dialogueText.text == "Placeholder line. Skip") 
         {
-            DisplayNextSentence();
+            //DisplayNextSentence();
+
+            
         }
-        
+
+        PlayerPrefs.SetString("FirstDialogueHasBeenActivated", "True");
     }
 
     public void DisplayNextSentence ()
     {
         if (sentences.Count == 0)
         {
-            Debug.Log("DM, sent count 0.");
+            Debug.LogWarning("DM, sent count 0.");
             EndDialogue();
             return;
         }
-        Debug.Log("DM, sentence amount:" + sentences.Count);
+        Debug.LogWarning("DM, sentence amount:" + sentences.Count);
 
         string sentence = sentences.Dequeue();
         //Debug.Log("DM, next sentence:" + sentence);
@@ -78,9 +82,9 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
-        dialogueText.text = "...";
+        //dialogueText.text = "Placeholder line. Skip";
 
-        Debug.Log("DM, end dialogue.");
+        Debug.LogWarning("DM, end dialogue.");
         dialogueBox.SetActive(false);
         dialogueEnded = true;
 
