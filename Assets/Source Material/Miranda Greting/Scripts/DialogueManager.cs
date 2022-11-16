@@ -55,14 +55,15 @@ public class DialogueManager : MonoBehaviour
 
         //dialogueText.text = sentences.Dequeue();
 
-        if (dialogueText.text == "Placeholder line. Skip") 
+        if (PlayerPrefs.GetString("FirstDialogueHasBeenActivated") == "True")
         {
-            //DisplayNextSentence();
-
-            
+            DisplayNextSentence();
+        }
+        else 
+        {
+            PlayerPrefs.SetString("FirstDialogueHasBeenActivated", "True");
         }
 
-        PlayerPrefs.SetString("FirstDialogueHasBeenActivated", "True");
     }
 
     public void DisplayNextSentence ()
@@ -82,8 +83,6 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
-        //dialogueText.text = "Placeholder line. Skip";
-
         Debug.LogWarning("DM, end dialogue.");
         dialogueBox.SetActive(false);
         dialogueEnded = true;

@@ -23,6 +23,7 @@ public class PlayerPrefManager : MonoBehaviour
         PlayerPrefs.SetString("PotionNr5Pref", "notPickedUp");
 
         //something for dialogue?
+        PlayerPrefs.SetString("FirstDialogueHasBeenActivated", "False");
 
         //latest scene loaded
         PlayerPrefs.SetString("LatestSceneLoadedPref", "blank");
