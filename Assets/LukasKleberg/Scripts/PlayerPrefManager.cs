@@ -5,6 +5,13 @@ using UnityEngine;
 public class PlayerPrefManager : MonoBehaviour
 {
 
+    public void OnApplicationQuit()
+    {
+        //something for dialogue.
+        //this is per play-session.
+        PlayerPrefs.SetString("FirstDialogueHasBeenActivated", "False");
+    }
+
     //resets all PlayerPrefs
     public void ResetPlayerPrefs() 
     {
@@ -22,8 +29,12 @@ public class PlayerPrefManager : MonoBehaviour
         PlayerPrefs.SetString("PotionNr4Pref", "notPickedUp");
         PlayerPrefs.SetString("PotionNr5Pref", "notPickedUp");
 
-        //something for dialogue?
-        PlayerPrefs.SetString("FirstDialogueHasBeenActivated", "False");
+        //something for dialogue.
+        //for when the game is launched the first time. so the PlayerPref should not exist.
+        if (!PlayerPrefs.HasKey("FirstDialogueHasBeenActivated")) 
+        {
+            PlayerPrefs.SetString("FirstDialogueHasBeenActivated", "False");
+        }
 
         //latest scene loaded
         PlayerPrefs.SetString("LatestSceneLoadedPref", "blank");

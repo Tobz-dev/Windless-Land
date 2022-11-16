@@ -19,6 +19,7 @@ public class DialogueSystem : MonoBehaviour
         dialogueManager = FindObjectOfType<DialogueManager>();
 
         inputActions = InputManager.inputActions;
+
     }
 
     private void Update()

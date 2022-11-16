@@ -24,6 +24,7 @@ public class DialogueManager : MonoBehaviour
         dialogueEnded = true;
 
         inputActions = InputManager.inputActions;
+
     }
 
     private void Update()
@@ -74,7 +75,7 @@ public class DialogueManager : MonoBehaviour
             EndDialogue();
             return;
         }
-        Debug.LogWarning("DM, sentence amount:" + sentences.Count);
+        //Debug.LogWarning("DM, sentence amount:" + sentences.Count);
 
         string sentence = sentences.Dequeue();
         //Debug.Log("DM, next sentence:" + sentence);
